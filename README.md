@@ -1,4 +1,4 @@
-# [Your Full Name]'s Personal Portfolio
+# Okata Miracle's Personal Portfolio
 
 ## 🚀 Overview
 
@@ -30,7 +30,7 @@ This project is built with the following technologies:
 | **Framework** | Next.js (React) |
 | **Language** | TypeScript / JavaScript |
 | **Styling** | [e.g., Tailwind CSS, Styled-Components] |
-| **Deployment** | [e.g., Vercel, Netlify] |
+| **Deployment** | [e.g., Vercel, Netlify, Pxxl.app] |
 | **[Optional] Data** | [e.g., Sanity, GraphQL, Local JSON] |
 
 ---
