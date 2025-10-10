@@ -28,3 +28,21 @@ export const projectsSliderData = [
     link: "https://emptyproject.com/"
   },
 ];
+
+export const PhotoCollageData = [
+  {
+    id:1,
+    image: "/images/1.jpg",
+    label:"Miracle"
+  },
+  {
+    id:2,
+    image: "/images/2.jpg",
+    label:"Miracle"
+  },
+  {
+    id:3,
+    image: "/images/3.jpg",
+    label:"Miracle"
+  }  
+];

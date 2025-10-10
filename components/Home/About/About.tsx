@@ -1,11 +1,12 @@
 import SectionHeading from '@/components/Helper/SectionHeading'
 import React from 'react'
+import PhotoCollage from './PhotoCollage'
 
 const About = () => {
   return (
-    <div id='about' className='absolute top-[220vh] md:top-[200vh] left-4 md:left-auto translate-y-[-50%] lg:w-[40%]'>
+    <div id='about' className='absolute top-[215vh] md:top-[180vh] lg:top-[190vh] left-4 md:left-auto translate-y-[-50%] lg:w-[40%]'>
         <SectionHeading heading='About mimi' />
-        <div className='mt-4 md:mt-6 space-y-4 md:space-y-6 '>
+        <div className='mt-4 mr-1 md:mr-15 lg:mr-0 md:mt-6 space-y-4 md:space-y-6 z-[1000]'>
             <p className='text-base font-medium text-gray-600'>I craft intuitive, creative, and responsive user-friendly experiences that deliver measurable business results.</p>
             <p className='text-base font-normal text-gray-500'>I&apos;m a <span className='text-gray-600 font-medium'>Front-End Developer</span> with over 8 months of intensive experience building modern, performance-driven web applications. My core expertise lies in responsive design and implementing simple back-end integrations, allowing me to own a project from the design concept through to deployment.</p>
             <p className='text-base font-normal text-gray-500'>My technical stack is robust and modern, centered on: <span className='text-gray-600 font-medium'>React, Next.js, JavaScript, TypeScript, and Tailwind CSS.</span></p>
@@ -26,6 +27,8 @@ const About = () => {
             <p className='text-base font-normal text-gray-500'>Looking ahead, I am eager to focus on <span className='text-gray-600 font-medium'>AI integration, mobile-first application development, and advanced web development</span> to continue building the innovative products of tomorrow.</p>
             
         </div>
+        {/* PhotoCollage */}
+        <PhotoCollage />
     </div>
   )
 }
