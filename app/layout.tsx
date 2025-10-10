@@ -25,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${grav.className} ${popp.className} antialiased bg-[#d9d9ddb5]`}>
+      <body className={`${grav.className} ${popp.className} antialiased bg-[#d9d9ddb5] md:flex md:flex-col md:items-center`}>
         <Nav />
         {children}
       </body>
