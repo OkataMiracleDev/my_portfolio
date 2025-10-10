@@ -7,8 +7,7 @@ const PhotoCollage = () => {
     <>
       {PhotoCollageData.map((data) => {
         return (
-            // eslint-disable-next-line react/jsx-key
-            <div className='absolute rotate-12 z-auto '>
+            <div key={data.id} className='absolute rotate-12 z-auto '>
                 <div className='bg-white rounded-sm md:rounded-md flex flex-col items-center justify-center gap-2 w-[80px] md:w-[190px] h-[300px] md:h-[600px] py-6 px-2'>
 
                     <div key={data.id} className='grid grid-rows-3 gap-2 md:gap-4 justify-center items-center h-full'>
