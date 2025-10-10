@@ -23,7 +23,7 @@ const Nav = () => {
             <div className='flex items-center space-x-4 md:space-x-16 h-full'>
               {navLinks.map((link)=>{
                 return <Link href={link.url} key={link.id}>
-                  <p className='font-[poppins] text-lg md:text-xl text-white hover:text-gray-600 font-medium md:font-normal hover:font-medium w-fit hover:px-4 hover:py-2 hover:bg-blue-200 shadow-2xl hover:drop-shadow-md shadow-amber-200 drop-shadow-white rounded-2xl flex items-center justify-center transition-all duration-400 ease-in-out'>{link.label}</p>
+                  <p className='grav text-lg md:text-xl text-white hover:text-gray-600 font-medium md:font-normal hover:font-medium w-fit hover:px-4 hover:py-2 hover:bg-blue-200 shadow-2xl hover:drop-shadow-md shadow-amber-200 drop-shadow-white rounded-2xl flex items-center justify-center transition-all duration-400 ease-in-out'>{link.label}</p>
                 </Link>
               })}
               {/* Blog btn */}

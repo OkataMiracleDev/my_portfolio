@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Gravitas_One, Poppins } from "next/font/google";
+import { DM_Sans, Poppins } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Home/Navbar/Nav";
 
@@ -8,8 +8,8 @@ const popp = Poppins({
   subsets: ["latin"],
 });
 
-const grav = Gravitas_One({
-  weight: ['400'],
+const grav = DM_Sans({
+  weight: ['400', '500', '700'],
   subsets: ["latin"],
 });
 

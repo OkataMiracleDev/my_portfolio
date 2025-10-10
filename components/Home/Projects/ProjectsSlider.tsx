@@ -32,7 +32,7 @@ const ProjectsSlider = () => {
             return(
                 <div key={data.id} className='m-5 hover:m-3 block'>
                     <a href={data.link} target="_blank" rel="noopener noreferrer" className='block w-full h-full'>
-                        <div className='flex flex-col items-center  bg-gray-300 py-4 md:px-4 md:py-4 rounded-lg shadow-md shadow-gray-300'>
+                        <div className='flex flex-col items-center  bg-gray-300 py-4 md:px-4 md:py-4 rounded-lg shadow-md shadow-gray-400'>
 
                             <div className='md:flex hidden flex-row gap-1 absolute top-[9%] left-[90%] translate-x-[-50%]'>
                                 <div className='w-[8px] h-[8px] bg-blue-400 border border-gray-200 rounded-full'></div>
@@ -49,9 +49,9 @@ const ProjectsSlider = () => {
 
                             <div className='flex flex-col items-center justify-center'>
                                 <div className='w-[270px] h-[250px] md:w-[320px] md:h-[180px]'>
-                                    <Image src={data.image} alt={data.name} width={4000} height={4000} className='h-full w-full object-center object-cover rounded-2xl' />
+                                    <Image src={data.image} alt={data.name} width={4000} height={4000} className='h-full w-full object-center object-cover rounded-2xl drop-shadow-md drop-shadow-gray-400 ' />
                                 </div>
-                                <h1 className='font-[poppins] font-bold mt-4 text-center'>{data.name}</h1>
+                                <h1 className='grav font-bold mt-4 text-center'>{data.name}</h1>
                             </div>
 
                         </div>
