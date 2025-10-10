@@ -30,7 +30,7 @@ const ProjectsSlider = () => {
     <Carousel responsive={responsive} infinite={true} autoPlay={true} autoPlaySpeed={1000} keyBoardControl={true}>
         {projectsSliderData.map((data)=>{
             return(
-                <div key={data.id} className='m-5 hover:m-3 block'>
+                <div key={data.id} className='m-5 hover:m-3 block transition-all duration-300'>
                     <a href={data.link} target="_blank" rel="noopener noreferrer" className='block w-full h-full'>
                         <div className='flex flex-col items-center  bg-gray-300 py-4 md:px-4 md:py-4 rounded-lg shadow-md shadow-gray-400'>
 
