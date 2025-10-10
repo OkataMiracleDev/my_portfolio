@@ -15,14 +15,14 @@ export const projectsSliderData = [
   },
   {
     id: 3,
-    image: "/images/empty-project.png",
+    image: "/images/null-project.png",
     name: "Empty Project",
     description: "Unknown",
     link: "https://emptyproject.com/"
   },
   {
     id: 4,
-    image: "/images/empty-project.png",
+    image: "/images/null-project.png",
     name: "Empty Project",
     description: "Unknown",
     link: "https://emptyproject.com/"
