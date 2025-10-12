@@ -14,7 +14,7 @@ projects: {
 const ProjectsCard = ({projects}: Props) => {
   return (
     <div className='md:block flex flex-col items-center'>
-        <div className='flex flex-col lg:mx-10 w-full lg:w-[400px] h-[400px] px-8 py-8 rounded-2xl border border-gray-300 shadow-md'>
+        <div className='flex flex-col lg:mx-10 w-full lg:w-[400px] h-[360px] md:h-[400px] px-8 py-8 rounded-2xl border border-gray-300 shadow-md'>
             <div className='w-full h-[50%] rounded-2xl overflow-hidden shadow-md shadow-gray-500'>
                 <Image src={projects.image} alt={projects.name} width={600} height={400} className='h-full w-full object-center object-cover rounded-2xl transition-all duration-300 ease-in-out hover:scale-115' />
             </div>
