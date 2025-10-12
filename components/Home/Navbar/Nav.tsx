@@ -18,7 +18,7 @@ const Nav = () => {
 
   return (
     <div className='fixed flex items-center justify-center w-full h-[16vh] md:h-[12vh] z-[10000]'>
-        <div className={`${navBg?'liquid-glass shadow-2xs shadow-gray-300':'fixed bg-black'} transition-all duration-300flex flex-col items-center justify-between w-fit px-4 md:px-6 py-3 md:py-2 rounded-full md:rounded-3xl`}>
+        <div className={`${navBg?'backdrop-blur-sm bg-[#6c628f33] shadow-md shadow-gray-400' :  ' bg-black'} transition-all duration-300flex flex-col items-center justify-between w-fit px-4 md:px-6 py-3 md:py-2 rounded-full md:rounded-3xl`}>
             {/* NavLinks */}
             <div className='flex items-center space-x-4 md:space-x-16 h-full'>
               {navLinks.map((link)=>{
