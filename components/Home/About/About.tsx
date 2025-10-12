@@ -4,7 +4,7 @@ import PhotoCollage from './PhotoCollage'
 
 const About = () => {
   return (
-    <div id='about' className='absolute top-[200vh] md:top-[160vh] lg:top-[140vh] xl:top-[200vh] left-4 md:left-auto translate-y-[-50%] lg:w-[40%]'>
+    <div id='about' className='absolute lg:ml-[10%] top-[200vh] md:top-[160vh] lg:top-[140vh] xl:top-[200vh] left-4 md:left-auto translate-y-[-50%] lg:w-[40%]'>
         <div className='relative z-50'>
             <SectionHeading heading='About mimi' />
             <div className='mt-4 mr-1 md:mr-15 lg:mr-0 md:mt-6 space-y-4 md:space-y-6'>

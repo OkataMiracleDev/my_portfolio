@@ -6,7 +6,7 @@ import HomeProjects from './HomeProjects/HomeProjects'
 
 const Home = () => {
   return (
-    <div className='overflow-hidden flex flex-col lg:px-32 h-[600vh] lg:border-l-1 lg:border-r-1 border-gray-300'>
+    <div className='overflow-hidden flex flex-col h-[600vh] lg:border-l-1 lg:border-r-1 border-gray-300'>
       <Hero />
       <Projects />
       <About />

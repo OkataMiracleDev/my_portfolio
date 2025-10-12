@@ -29,7 +29,7 @@ export const projectsSliderData = [
   },
 ];
 
-export const ProjectsData = [
+export const projectsData = [
   {
     id: 1,
     image: "/images/nkechi-evangelical-ministry.jpg",
