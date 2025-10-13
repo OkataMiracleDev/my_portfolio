@@ -7,7 +7,7 @@ module.exports = {
       md: '768px',
       lg: '1024px',
       xl: '1280px',
-      'x': '375px',
+      'x': '380px',
       '2xl': '1680px', // 👈 customized to match your desired width
     },
   },
