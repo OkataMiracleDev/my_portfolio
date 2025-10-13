@@ -59,4 +59,4 @@ export const testimonialData = [
     name: "Favour Nkechi",
     review: "This developer is a miracle-worker and an exceptional problem-solver. They didn't just meet expectations; they exceeded them by engineering a seamless, integrated live-streaming system directly on our site. This is a profound technical achievement that instantly provided a direct line of connection to our global congregation. We wholeheartedly recommend this resourceful and dedicated talent.",
   },
-  ]
+  ];
