@@ -7,7 +7,7 @@ type Props = {
 const SectionHeading = ({heading}: Props) => {
   return (
     <div className='w-full'>
-        <h1 className='text-3xl font-bold'>{heading}</h1>
+        <h1 className='text-3xl font-semibold font-[poppins]'>{heading}</h1>
     </div>
   )
 }
