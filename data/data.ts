@@ -51,12 +51,12 @@ export const testimonialData = [
     id: 1,
     image: "/testimonials/zion.jpg",
     name: "Zion Nwebedu",
-    review: "mimi is a resourceful developer who consistently goes above and beyond to deliver solutions. Even when faced with challenges, he puts in his best effort—often exceeding expectations. He’s also an excellent team player.",
+    review: "Mimi is a resourceful developer who consistently goes above and beyond to deliver solutions. Even when faced with challenges, he puts in his best effort—often exceeding expectations. He’s also an excellent team player.",
   },
   {
     id: 2,
     image: "/testimonials/favour.jpg",
     name: "Favour Nkechi",
-    review: "This developer is a miracle-worker and an exceptional problem-solver. They didn't just meet expectations; they exceeded them by engineering a seamless, integrated live-streaming system directly on our site. This is a profound technical achievement that instantly provided a direct line of connection to our global congregation. We wholeheartedly recommend this resourceful and dedicated talent.",
+    review: "An exceptional problem-solver who built a seamless live-streaming system connecting us to a global audience. Highly skilled, resourceful, and dedicated—strongly recommended.",
   },
   ];
