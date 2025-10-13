@@ -21,7 +21,7 @@ const ProjectsCard = ({projects}: Props) => {
             alt={projects.name}
             width={600}
             height={400}
-            className="h-full w-full object-center object-cover rounded-2xl transition-all duration-300 ease-in-out hover:scale-110"
+            className="h-full w-full object-center object-cover rounded-2xl transition-all duration-300 ease-in-out lg:hover:scale-110"
             />
         </div>
 
