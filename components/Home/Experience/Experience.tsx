@@ -9,7 +9,7 @@ const Experience = () => {
             <SectionHeading heading='Work Experience' />
         </div>
         <div style={{gridTemplateColumns: '0.5fr 1fr'}} className='w-full grid items-center'>
-            <div className='flex flex-col gap-9 p-2 bg-purple-100 md:bg-none rounded-md w-fit md:gap-4'>
+            <div className='flex flex-col gap-9 md:bg-none rounded-md w-fit md:gap-4'>
                 <p className='font-semibold text-gray-500 text-sm md:text-base'>Aug 2025 - Present</p>
                 <p className='font-semibold text-gray-500 text-sm md:text-base'>Sept 2025 - Present</p>
             </div>
