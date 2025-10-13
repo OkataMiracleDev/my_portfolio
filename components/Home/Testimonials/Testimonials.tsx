@@ -8,7 +8,7 @@ const Testimonials = () => {
             {/* Text Content */}
             <div>
                 <div className='text-gray-200 text-center'>
-                    <SectionHeading heading='Testimonials ' />
+                    <SectionHeading heading='Testimonials' />
                 </div>
             </div>
         </div>
