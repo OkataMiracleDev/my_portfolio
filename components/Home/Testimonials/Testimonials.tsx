@@ -1,5 +1,6 @@
 import SectionHeading from '@/components/Helper/SectionHeading'
 import React from 'react'
+import TestimonialSlider from './TestimonialSlider'
 
 const Testimonials = () => {
   return (
@@ -9,6 +10,10 @@ const Testimonials = () => {
             <div>
                 <div className='text-gray-200 text-center'>
                     <SectionHeading heading='Testimonials' />
+                </div>
+                {/* Slider */}
+                <div className='overflow-hidden'>
+                    <TestimonialSlider />
                 </div>
             </div>
         </div>

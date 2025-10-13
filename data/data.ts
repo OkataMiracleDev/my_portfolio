@@ -44,4 +44,19 @@ export const projectsData = [
     description: "For the Synapse Academy platform—designed to educate users on blockchain, reward them with $SYN tokens, and build a global learning community—I took the lead on the frontend development. I crafted a modern, engaging user interface, implementing complex animations and transitions using a combination of modern CSS and JavaScript to enhance user experience and engagement. Furthermore, I integrated the backend waitlist system, ensuring smooth user registration and data capture, and conducted thorough Search Engine Optimization (SEO) efforts to significantly improve the platform's visibility and organic traffic acquisition.",
     link:"#"
   }
-]
+];
+
+export const testimonialData = [
+  {
+    id: 1,
+    image: "/testimonials/zion.jpg",
+    name: "Zion Nwebedu",
+    review: "mimi is a resourceful developer who consistently goes above and beyond to deliver solutions. Even when faced with challenges, he puts in his best effort—often exceeding expectations. He’s also an excellent team player.",
+  },
+  {
+    id: 2,
+    image: "/testimonials/favour.jpg",
+    name: "Favour Nkechi",
+    review: "This developer is a miracle-worker and an exceptional problem-solver. They didn't just meet expectations; they exceeded them by engineering a seamless, integrated live-streaming system directly on our site. This is a profound technical achievement that instantly provided a direct line of connection to our global congregation. We wholeheartedly recommend this resourceful and dedicated talent.",
+  },
+  ]
