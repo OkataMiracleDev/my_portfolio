@@ -1,5 +1,7 @@
 import { FaXTwitter } from "react-icons/fa6";
 import { FaGithub } from "react-icons/fa";
+import { RiHome9Line } from "react-icons/ri";
+import { CgProfile } from "react-icons/cg";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { ReactNode } from "react";
 
@@ -14,12 +16,12 @@ export type NavLink = {
 export const navLinks: NavLink[] = [
   {
     id: 1,
-    label: "Home",
+    label: <RiHome9Line className="text-2xl" />,
     url: "#",
   },
   {
     id: 2,
-    label: "About",
+    label: <CgProfile className="text-2xl" />,
     url: "#about",
   },
   {
