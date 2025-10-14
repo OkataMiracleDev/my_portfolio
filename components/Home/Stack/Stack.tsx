@@ -27,7 +27,7 @@ const Stack = () => {
   ];
 
   return (
-    <div className='relative w-full mt-[120rem] md:mt-[109rem] lg:mt-[133rem] 2xl:mt-[109rem] flex flex-col justify-center items-center'>
+    <div className='relative w-full mt-[7rem] md:mt-[9rem] lg:mt-[10rem] 2xl:mt-[9rem] flex flex-col justify-center items-center'>
       {/* background text */}
       <p className='absolute z-0 font-[Bungee_Inline] text-center text-8xl md:text-9xl opacity-20 select-none'>
         My <br /> stack

@@ -5,7 +5,7 @@ import ProjectsCard from './ProjectsCard'
 
 const HomeProjects = () => {
   return (
-    <div className='relative top-[210vh] md:top-[160vh] lg:top-[180vh] xl:top-[224vh] w-full flex flex-col justify-center items-center text-center'>
+    <div className='relative w-full mt-[105rem] md:mt-[100rem] lg:mt-[123rem] 2xl:mt-[109rem] flex flex-col justify-center items-center text-center'>
       <SectionHeading heading='Here&apos;s A Bit of What I&apos;ve Worked On!' />
       <div className='mx-auto mt-6 w-[90%] lg:w-[100%] grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-1'>
         {/* Projects Card */}
