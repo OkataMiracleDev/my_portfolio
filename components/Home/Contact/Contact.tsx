@@ -1,6 +1,5 @@
 import React from 'react'
 
-// FIX: Stubs the missing SectionHeading component to resolve the import error.
 const SectionHeading = ({ heading }: { heading: string }) => {
     return (
         <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
@@ -10,8 +9,6 @@ const SectionHeading = ({ heading }: { heading: string }) => {
 };
 
 const Contact = () => {
-    // NOTE: In a real application, you would add useState and handleSubmit logic here
-    // as demonstrated in the previous, full code block. For now, this is static HTML.
 
     return (
         <div className='ml-[4%] md:ml-[4%] lg:ml-[14%] w-full mt-[7rem] md:mt-[9rem] lg:mt-[10rem] 2xl:mt-[9rem] transition-all duration-400'>
