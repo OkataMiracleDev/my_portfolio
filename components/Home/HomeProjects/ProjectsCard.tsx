@@ -13,7 +13,7 @@ projects: {
 
 const ProjectsCard = ({projects}: Props) => {
   return (
-    <div className="flex flex-col lg:mx-10 w-full lg:w-[400px] min-h-[390px] md:min-h-[400px] px-8 py-8 rounded-2xl border border-gray-300 shadow-md">
+    <div className="flex flex-col lg:mx-10 w-full lg:w-[400px] min-h-[390px] md:min-h-[400px] px-8 py-8 rounded-2xl bg-gray-100 border border-gray-300 shadow-md">
         {/* Image */}
         <div className="w-full h-[160px] rounded-2xl overflow-hidden shadow-md shadow-gray-500">
             <Image

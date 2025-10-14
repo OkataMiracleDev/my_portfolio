@@ -30,10 +30,34 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${popp.className} ${bun.className} ${grav.className} antialiased bg-[#d9d9ddb5] md:flex md:flex-col md:items-center`}>
+      <body     style={{
+      backgroundImage: `
+        radial-gradient(circle at 1px 1px, rgba(0,0,0,0.08) 1px, transparent 0),
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px)
+      `,
+      backgroundSize: "8px 8px, 32px 32px, 32px 32px",
+    }}
+      className={`${popp.className} ${bun.className} ${grav.className} antialiased d9d9ddb5 md:flex md:flex-col md:items-center`}>
         <Nav />
         {children}
       </body>
     </html>
   );
 }
+
+<div className="min-h-screen w-full bg-[#faf9f6] relative">
+  {/* Paper Texture */}
+  <div
+    className="absolute inset-0 z-0"
+    style={{
+      backgroundImage: `
+        radial-gradient(circle at 1px 1px, rgba(0,0,0,0.08) 1px, transparent 0),
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px)
+      `,
+      backgroundSize: "8px 8px, 32px 32px, 32px 32px",
+    }}
+  />
+     {/* Your Content/Components */}
+</div>
