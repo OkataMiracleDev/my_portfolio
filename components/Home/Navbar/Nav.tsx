@@ -1,9 +1,11 @@
 "use client";
 import { navLinks } from '@/constant/constant';
+import { useRouter } from "next/navigation";
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 const Nav = () => {
+  const router = useRouter();
   const [navBg, setNavBg] = useState(false);
 
   useEffect(() => {
@@ -48,11 +50,11 @@ const Nav = () => {
           })}
 
           {/* Blog btn */}
-          <a href="#">
-            <button className='flex font-[poppins] font-medium md:font-normal text-base md:text-lg liquid-glass-2 text-white px-4 py-3 md:py-2 rounded-2xl items-center hover:px-8 justify-center transition-all duration-400 ease-in-out'>
+
+            <button onClick={() => router.push("/blog")} className='flex font-[poppins] font-medium md:font-normal text-base md:text-lg liquid-glass-2 text-white px-4 py-3 md:py-2 rounded-2xl items-center hover:px-8 justify-center transition-all duration-400 ease-in-out'>
               Blog
             </button>
-          </a>
+
         </div>
       </div>
     </div>
