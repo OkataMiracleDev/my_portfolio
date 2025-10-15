@@ -49,12 +49,12 @@ const Contact = () => {
   };
 
   return (
-    <div className="ml-[4%] md:ml-[4%] lg:ml-[14%] w-full mt-[7rem] md:mt-[9rem] lg:mt-[10rem] 2xl:mt-[9rem] transition-all duration-400">
+    <div data-aos="fade-up"  className="ml-[4%] md:ml-[4%] lg:ml-[14%] w-full mt-[7rem] md:mt-[9rem] lg:mt-[10rem] 2xl:mt-[9rem] transition-all duration-400">
       <div className="flex flex-col flex-wrap justify-center">
         {/* Introduction Text */}
-        <div className="text-left max-w-[600px]">
+        <div data-aos="fade-up"  className="text-left max-w-[600px]">
           <SectionHeading heading="Get in touch" />
-          <p className="text-gray-700 leading-relaxed mt-4">
+          <p data-aos="fade-up"  className="text-gray-700 leading-relaxed mt-4">
             Ready to build the future? I&apos;m keen to connect with product
             teams and like-minded innovators to discuss challenging projects. If
             you&apos;re looking for a developer who delivers record-time results
@@ -64,7 +64,7 @@ const Contact = () => {
         </div>
 
         {/* Contact Form */}
-        <form onSubmit={handleSubmit} className="mt-8 w-full gap-[2rem] flex flex-col">
+        <form data-aos="fade-right"  onSubmit={handleSubmit} className="mt-8 w-full gap-[2rem] flex flex-col">
           {/* Name and Email Fields */}
           <div className="flex flex-col md:flex-row gap-[2rem] w-full">
             {/* Full Name */}

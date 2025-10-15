@@ -7,11 +7,11 @@ const Testimonials = () => {
     <div className='mt-20 md:mt-25 flex flex-col items-center justify-center w-full rounded-3xl'>
         <div className=' w-[90%] lg:w-[70%] md:mx-auto grid items-center justify-center grid-cols-1 gap-8 '>
             {/* Text Content */}
-                <div className=''>
+                <div data-aos="fade-up" className=''>
                     <SectionHeading heading='Testimonials' />
                 </div>
                 {/* Slider */}
-                <div  style={{
+                <div data-aos="fade-right" style={{
       background: `
         radial-gradient(ellipse 80% 60% at 70% 20%, rgba(175, 109, 255, 0.45), transparent 68%),
         radial-gradient(ellipse 70% 60% at 20% 80%, rgba(255, 100, 180, 0.25), transparent 68%),

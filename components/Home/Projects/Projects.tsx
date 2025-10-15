@@ -3,7 +3,7 @@ import ProjectsSlider from './ProjectsSlider'
 
 const projects = () => {
   return (
-    <div className=' absolute top-[80%] left-[50%] translate-x-[-50%] w-[100%]'>
+    <div data-aos="fade-left" className=' absolute top-[80%] left-[50%] translate-x-[-50%] w-[100%]'>
       {/* Slider */}
       <ProjectsSlider />
     </div>

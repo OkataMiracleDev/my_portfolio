@@ -4,8 +4,8 @@ import PhotoCollage from './PhotoCollage'
 
 const About = () => {
   return (
-    <div id='about' className='absolute md:ml-4 lg:ml-[10%] top-[208vh] xs:top-[1000vh] md:top-[180vh] lg:top-[140vh] xl:top-[216vh] left-4 md:left-auto translate-y-[-50%] lg:w-[40%]'>
-        <div className='relative z-50'>
+    <div id='about' data-aos="fade-up" className='absolute md:ml-4 lg:ml-[10%] top-[200vh] md:top-[165vh] xl:top-[190vh] 2xl:top-[208vh] left-4 md:left-auto translate-y-[-50%] lg:w-[40%] pt-50'>
+        <div  className='relative z-50'>
             <SectionHeading heading='About mimi' />
             <div className='mt-4 mr-1 md:mr-15 lg:mr-0 md:mt-6 space-y-4 md:space-y-6'>
                 <p className='text-base font-medium text-gray-600'>I&apos;m a <span className='text-gray-600 font-medium'>Front-End Developer</span> specializing in creating <span className='text-gray-600 font-medium'>intuitive, creative, and responsive user-friendly experiences.</span> With over <span className='text-gray-600 font-medium'>8 months of intensive experience</span>, my focus is on full project ownership, from concept through simple back-end integration and deployment. My technical stack is <span className='text-gray-600 font-medium'>React, Next.js, JavaScript, TypeScript, and Tailwind CSS.</span></p>
@@ -27,7 +27,7 @@ const About = () => {
             </div>
         </div>
         {/* PhotoCollage */}
-        <PhotoCollage />
+        <PhotoCollage data-aos="fade-down-right" />
     </div>
   )
 }

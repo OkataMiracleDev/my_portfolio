@@ -23,7 +23,7 @@ export const navLinks: NavLink[] = [
   {
     id: 1,
     label: <RiHome9Line className="text-2xl" />,
-    url: "#",
+    url: "/",
   },
   {
     id: 2,
