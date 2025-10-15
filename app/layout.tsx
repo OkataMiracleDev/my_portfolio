@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body       style={{
-      background: "radial-gradient(125% 125% at 50% 90%, #fff 40%, #9c9de741 100%)",
+      background: "radial-gradient(125% 125% at 50% 90%, #fff 40%, #9c9de300 100%)",
     }}
       className={`${popp.className} ${bun.className} ${grav.className} antialiased md:flex md:flex-col md:items-center`}>
         <Nav />
