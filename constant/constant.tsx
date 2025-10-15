@@ -28,7 +28,7 @@ export const navLinks: NavLink[] = [
   {
     id: 2,
     label: <CgProfile className="text-2xl" />,
-    url: "#about",
+    url: "/#about",
   },
   {
     id: 3,

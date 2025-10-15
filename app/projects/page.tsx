@@ -12,7 +12,7 @@ export function generateStaticParams() {
 
 const ProjectsPage = () => {
   return (
-    <div className="relative w-full mt-[6rem] flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-10">
+    <div className="relative w-full pt-[8rem] flex flex-col justify-center items-center text-center">
       {/* Section Heading */}
       <SectionHeading heading="All My Projects" />
 
