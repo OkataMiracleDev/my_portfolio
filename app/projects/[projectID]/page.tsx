@@ -6,23 +6,25 @@ import React from 'react'
 import { IoLinkOutline } from "react-icons/io5";
 
 type Props = {
-  params: {
+  params: Promise<{
     projectID: string
-  }
+  }>
 }
 
-const ProjectDisplayPage = ({ params }: Props) => {
+const ProjectDisplayPage = async ({ params }: Props) => {
+  const resolvedParams = await params; // ✅ await the params
   const project = projectsData.find(
-    (p) => p.projectID === params.projectID
-  )
+    (p) => p.projectID === resolvedParams.projectID
+  );
 
   if (!project) {
     return (
       <div className="pt-[8rem] text-center">
         <h1 className="text-2xl font-bold text-gray-700">Project not found</h1>
       </div>
-    )
+    );
   }
+
 
   return (
     <div className='overflow-hidden pt-[8rem] pb-10 px-[1.5rem] md:px-[3rem] w-full lg:w-[68%] lg:border-l-1 lg:border-r-1 border-gray-300'>
