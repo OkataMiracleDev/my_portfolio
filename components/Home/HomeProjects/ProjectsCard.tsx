@@ -1,6 +1,7 @@
-"use client"
-import Image from 'next/image';
-import React from 'react';
+"use client";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 type Props = {
   projects: {
@@ -13,6 +14,8 @@ type Props = {
 };
 
 const ProjectsCard = ({ projects }: Props) => {
+  const router = useRouter();
+
   return (
     <div className="flex flex-col lg:mx-10 w-full lg:w-[400px] min-h-[390px] md:min-h-[400px] px-8 py-8 rounded-2xl bg-gray-100 border border-gray-300 shadow-md">
       {/* Image */}
@@ -35,10 +38,12 @@ const ProjectsCard = ({ projects }: Props) => {
           </p>
         </div>
 
+        {/* View Project Button */}
         <button
-        className="transition-all duration-400 ease-in-out text-gray-900 hover:text-gray-300 font-bold text-base bg-gray-300 hover:bg-gray-900 py-3 px-4 rounded-2xl shadow-md shadow-gray-400 hover:shadow-blue-200 text-center"
+          onClick={() => router.push(`${projects.projectID}`)}
+          className="transition-all duration-400 ease-in-out text-gray-900 hover:text-gray-300 font-bold text-base bg-gray-300 hover:bg-gray-900 py-3 px-4 rounded-2xl shadow-md shadow-gray-400 hover:shadow-blue-200 text-center"
         >
-        View Project &rarr;
+          View Project &rarr;
         </button>
       </div>
     </div>
