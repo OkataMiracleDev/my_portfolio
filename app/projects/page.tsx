@@ -12,7 +12,7 @@ export function generateStaticParams() {
 
 const ProjectsPage = () => {
   return (
-    <div className="relative w-full pt-[8rem] flex flex-col justify-center items-center text-center">
+    <div className="relative w-full pt-[8rem] pb-10 flex flex-col justify-center items-center text-center">
       {/* Section Heading */}
       <SectionHeading heading="All My Projects" />
 
@@ -39,11 +39,8 @@ const ProjectsPage = () => {
       </div>
 
       {/* Back Home Button */}
-      <Link
-        href="/"
-        className="mt-14 inline-block transition-all duration-500 text-gray-900 hover:text-gray-300 font-bold text-base bg-gray-300 hover:bg-gray-900 py-3 px-8 rounded-2xl shadow-md shadow-gray-400 hover:shadow-blue-200"
-      >
-        ← Back to Home
+      <Link href="/" className="mt-14 inline-block transition-all duration-500 text-gray-900 hover:text-gray-300 font-bold text-base bg-gray-300 hover:bg-gray-900 py-3 px-8 rounded-2xl shadow-md shadow-gray-400 hover:shadow-blue-200"> 
+        <p>&larr; Back to Home </p>
       </Link>
     </div>
   );
