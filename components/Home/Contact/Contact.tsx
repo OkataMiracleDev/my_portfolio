@@ -49,7 +49,7 @@ const Contact = () => {
   };
 
   return (
-    <div data-aos="fade-up"  className="ml-[4%] md:ml-[4%] lg:ml-[14%] w-full mt-[7rem] md:mt-[9rem] lg:mt-[10rem] 2xl:mt-[9rem] transition-all duration-400">
+    <div id="contact" data-aos="fade-up"  className="ml-[4%] md:ml-[4%] lg:ml-[14%] w-full mt-[7rem] md:mt-[9rem] lg:mt-[10rem] 2xl:mt-[9rem] transition-all duration-400">
       <div className="flex flex-col flex-wrap justify-center">
         {/* Introduction Text */}
         <div data-aos="fade-up"  className="text-left max-w-[600px]">

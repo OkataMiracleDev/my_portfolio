@@ -46,7 +46,7 @@ export const navLinks: NavLink[] = [
     id: 5,
     // JSX is valid here because the file is .tsx
     label: <IoDocumentTextOutline className="text-xl" />,
-    url: "#", // Pro tip: link to your resume file!
+    url: "/public/resume/resume.docx", // Pro tip: link to your resume file!
   },
 ];
 

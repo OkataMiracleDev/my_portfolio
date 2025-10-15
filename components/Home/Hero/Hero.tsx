@@ -11,7 +11,7 @@ const Hero = () => {
         <h1 data-aos="fade-up">FrontEnd Developer</h1>
       </div>
 
-      <a className='flex absolute top-[28%] md:top-[26%] md:left-[62%] left-[64%] lg:left-[60%] xl:left-[57%] translate-x-[-50%]' href="">
+      <a href='#contact' className='flex absolute top-[28%] md:top-[26%] md:left-[62%] left-[64%] lg:left-[60%] xl:left-[57%] translate-x-[-50%]'>
         <button className='hire-me-btn font-[poppins] font-medium text-white liquid-glass-2 shadow-sm shadow-gray-700 px-4 py-2 rounded-xl cursor-pointer transition-all duration-300'>Hire Me!</button>
       </a>
       

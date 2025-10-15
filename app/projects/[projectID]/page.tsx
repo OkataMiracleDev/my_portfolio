@@ -27,7 +27,7 @@ const ProjectDisplayPage = async ({ params }: Props) => {
 
 
   return (
-    <div className='overflow-hidden pt-[8rem] pb-10 px-[1.5rem] md:px-[3rem] w-full lg:w-[68%] lg:border-l-1 lg:border-r-1 border-gray-300'>
+    <div data-aos="fade-up" className='overflow-hidden pt-[8rem] pb-10 px-[1.5rem] md:px-[3rem] w-full lg:w-[68%] lg:border-l-1 lg:border-r-1 border-gray-300'>
       <div className='flex flex-col gap-4'>
         <div className='flex flex-col gap-3'>
           <h1 className='text-left text-lg md:text-3xl font-semibold font-[poppins] text-gray-800'>{project.name}</h1>

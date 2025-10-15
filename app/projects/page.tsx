@@ -12,7 +12,7 @@ export function generateStaticParams() {
 
 const ProjectsPage = () => {
   return (
-    <div className="relative w-full pt-[8rem] pb-10 flex flex-col justify-center items-center text-center">
+    <div data-aos="fade-up" className="relative w-full pt-[8rem] pb-10 flex flex-col justify-center items-center text-center">
       {/* Section Heading */}
       <SectionHeading heading="All My Projects" />
 
@@ -31,7 +31,7 @@ const ProjectsPage = () => {
           <Link
             key={project.id}
             href={`/projects/${project.projectID}`}
-            className="w-full max-w-[380px] sm:max-w-[350px] lg:max-w-[400px]"
+            className="w-[90%] md:w-full max-w-[380px] sm:max-w-[350px] lg:max-w-[400px]"
           >
             <ProjectsCard projects={project} />
           </Link>
