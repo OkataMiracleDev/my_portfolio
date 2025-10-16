@@ -8,12 +8,12 @@
   "description": "Portfolio of Okata Miracle, a Software Engineer and Front-End Developer.",
   "icons": [
     {
-      "src": "/favicon.ico",
+      "src": "/images/Miracle_Okata.jpg",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/favicon.ico",
+      "src": "/images/Miracle_Okata.jpg",
       "sizes": "512x512",
       "type": "image/png"
     }
