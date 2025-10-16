@@ -1,4 +1,4 @@
 module.exports = {
-  siteUrl: 'https://okatamiracle.dev',
+  siteUrl: 'https://okata-miracle-portfolio.vercel.app/',
   generateRobotsTxt: true,
 };
