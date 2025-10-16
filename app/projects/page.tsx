@@ -3,6 +3,13 @@ import { projectsData } from "@/data/data";
 import ProjectsCard from "@/components/Home/HomeProjects/ProjectsCard";
 import SectionHeading from "@/components/Helper/SectionHeading";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Projects | Okata Miracle - Front-End Developer",
+  description: "Explore Okata Miracle’s latest projects built with Next.js, React, and TailwindCSS.",
+};
+
 
 export function generateStaticParams() {
   return projectsData.map((project) => ({

@@ -1,9 +1,16 @@
 import Footer from '@/components/Home/Footer/Footer';
 import { projectsData } from '@/data/data'
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link'
 import React from 'react'
 import { IoLinkOutline } from "react-icons/io5";
+
+export const metadata: Metadata = {
+  title: "Projects | Okata Miracle - Front-End Developer",
+  description: "Explore Okata Miracle’s latest projects built with Next.js, React, and TailwindCSS.",
+};
+
 
 type Props = {
   params: Promise<{

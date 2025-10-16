@@ -21,9 +21,71 @@ const grav = DM_Sans({
   subsets: ["latin"],
 });
 export const metadata: Metadata = {
-  title: "Okata Miracle - Software Engineer | Front-End Developer",
-  description: "Creative Software Engineer with 1 year of hands-on experience in web development, web app development, motion graphics, and project management. Focused on crafting visually engaging and high-performing digital products that bring ideas to life.",
+  title: "Okata Miracle | Software Engineer & Front-End Developer",
+  description:
+    "Okata Miracle — a creative software engineer and front-end developer crafting interactive, high-performance web experiences using modern JavaScript frameworks and technologies.",
+  keywords: [
+    "Okata Miracle",
+    "Frontend Developer",
+    "Software Engineer",
+    "Web Developer",
+    "Next.js Developer",
+    "React Developer",
+    "Portfolio",
+  ],
+  authors: [{ name: "Okata Miracle" }],
+  creator: "Okata Miracle",
+  publisher: "Okata Miracle",
+  metadataBase: new URL("https://okata-miracle-portfolio.vercel.app"), // replace with your domain
+  alternates: {
+    canonical: "https://okata-miracle-portfolio.vercel.app",
+  },
+  openGraph: {
+    title: "Okata Miracle | Software Engineer & Front-End Developer",
+    description:
+      "Creative software engineer focused on building fast, modern, and visually engaging digital experiences.",
+    url: "ata-miracle-portfolio.vercel.app",
+    siteName: "Okata Miracle Portfolio",
+    images: [
+      {
+        url: "https://okata-miracle-portfolio.vercel.app/og-image.png", // replace with your OG image path
+        width: 1200,
+        height: 630,
+        alt: "Okata Miracle - Portfolio Preview",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Okata Miracle | Software Engineer & Front-End Developer",
+    description:
+      "Crafting interactive web experiences with Next.js, React, and TailwindCSS.",
+    creator: "mimi_codes", // if you have a Twitter/X handle
+    images: ["https://okata-miracle-portfolio.vercel.app/og-image.png"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "Okata Miracle",
+      jobTitle: "Software Engineer",
+      url: "https://okata-miracle-portfolio.vercel.app",
+      sameAs: [
+        "https://github.com/OkataMiracleDev",
+        "https://twitter.com/mimi_codes",
+      ],
+    }),
+  }}
+/>
+
 
 export default function RootLayout({
   children,

@@ -10,7 +10,8 @@ import Testimonials from './Testimonials/Testimonials'
 import Contact from './Contact/Contact'
 import Footer from './Footer/Footer'
 import AOS from 'aos';
-import 'aos/dist/aos.css'; // You can also use <link> for styles
+import 'aos/dist/aos.css'; 
+
 
 const Home = () => {
 
