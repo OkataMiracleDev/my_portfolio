@@ -1,7 +1,14 @@
+"use client";
+import Modal from '@/components/Helper/Modal';
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
+import Contact from '../Contact/Contact';
 
 const Hero = () => {
+
+  const [openModal, setOpenModal] = useState(false);
+
+
   return (
     <div id='home' >
       <div className='relative w-full h-[90vh] text-[#22025a] font-[poppins] font-bold text-3xl md:text-6xl gap-4 md:gap-7 flex flex-col justify-center items-center'>
@@ -12,13 +19,14 @@ const Hero = () => {
       </div>
 
       <button 
-       onClick={() => {
-        const section = document.getElementById('contact');
-        if (section) section.scrollIntoView({ behavior: 'smooth' });
-      }}
-      className='hire-me-btn font-[poppins] font-medium text-white liquid-glass-2 shadow-sm shadow-gray-700 px-4 py-2 rounded-xl cursor-pointer transition-all duration-300 flex md:hidden absolute top-[28%] md:top-[26%] md:left-[62%] left-[64%] lg:left-[60%] xl:left-[57%] translate-x-[-50%]'>Hire Me!</button>
+       onClick={() => setOpenModal(true)}
+      className='hire-me-btn font-[poppins] font-medium text-white backdrop-blur-sm bg-[#5a3b5e4b] shadow-md shadow-gray-500 px-4 py-2 rounded-xl cursor-pointer transition-all duration-300 flex absolute top-[28%] md:top-[26%] md:left-[62%] left-[64%] lg:left-[60%] xl:left-[57%] translate-x-[-50%]'>Hire Me!</button>
 
-      
+      {/* Modal Section */}
+      <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
+        <Contact />
+      </Modal>
+
      </div>
   )
 }
