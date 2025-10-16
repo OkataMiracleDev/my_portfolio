@@ -13,7 +13,7 @@ const Experience = () => {
                 <p className='font-semibold text-gray-500 text-sm md:text-base'>Aug 2025 - Present</p>
                 <p className='font-semibold text-gray-500 text-sm md:text-base'>Sept 2025 - Present</p>
             </div>
-            <div className=' md:w-[80%] lg:w-[60%] flex flex-col gap-5 md:gap-1'>
+            <div className=' md:w-[80%] lg:pr-6 flex flex-col gap-5 md:gap-1'>
                 <div className='flex flex-col md:flex-row items-center gap-2 justify-end'>
                     <p className='font-semibold text-gray-700 text-sm md:text-base'>Snr. Front End Developer</p>
                     <button className='px-1 md:px-2 py-0.5 md:py-1 bg-purple-100 font-medium text-sm md:text-base text-purple-400 rounded-md'> <FaRegPlayCircle className='inline-block mr-1 text-sm' /> Synapse Academy</button>

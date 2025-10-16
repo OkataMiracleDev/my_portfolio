@@ -17,7 +17,7 @@ const ProjectsCard = ({ projects }: Props) => {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col lg:mx-10 w-full lg:w-[400px] min-h-[390px] md:min-h-[400px] px-8 py-8 rounded-2xl bg-gray-100 border border-gray-300 shadow-md">
+    <div className="flex flex-col lg:px-10 w-full lg:w-[400px] min-h-[390px] md:min-h-[400px] px-8 py-8 rounded-2xl bg-gray-100 border border-gray-300 shadow-md">
       {/* Image */}
       <div className="w-full h-[160px] rounded-2xl overflow-hidden shadow-md shadow-gray-500">
         <Image
@@ -41,7 +41,7 @@ const ProjectsCard = ({ projects }: Props) => {
         {/* View Project Button */}
         <button
           onClick={() => router.push(`${projects.projectID}`)}
-          className="transition-all duration-400 ease-in-out text-gray-900 hover:text-gray-300 font-bold text-base bg-gray-300 hover:bg-gray-900 py-3 px-4 rounded-2xl shadow-md shadow-gray-400 hover:shadow-blue-200 text-center"
+          className="transition-all duration-400 ease-in-out text-gray-300 hover:text-gray-900 font-bold text-base bg-gray-900 hover:bg-gray-300 py-3 px-4 rounded-2xl shadow-md shadow-gray-400 hover:shadow-blue-200 text-center"
         >
           View Project &rarr;
         </button>
