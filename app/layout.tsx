@@ -94,27 +94,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        {/* <!-- Hotjar Tracking Code for https://okata-miracle-portfolio.vercel.app/ --> */}
-        <script>
-            (function(h,o,t,j,a,r){
-                h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-                h._hjSettings={hjid:6551167,hjsv:6};
-                a=o.getElementsByTagName('head')[0];
-                r=o.createElement('script');r.async=1;
-                r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-                a.appendChild(r);
-            })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-        </script>
-        <body       style={{
-        background: "radial-gradient(125% 125% at 50% 90%, #fff 40%, #9c9de300 100%)",
-      }}
-        className={`${popp.className} ${bun.className} ${grav.className} antialiased md:flex md:flex-col md:items-center`}>
-          <Nav />
-          {children}
-          <Toaster position="top-center" reverseOrder={false} />
-        </body>
-      </head>
+      <body       style={{
+      background: "radial-gradient(125% 125% at 50% 90%, #fff 40%, #9c9de300 100%)",
+    }}
+      className={`${popp.className} ${bun.className} ${grav.className} antialiased md:flex md:flex-col md:items-center`}>
+        <Nav />
+        {children}
+        <Toaster position="top-center" reverseOrder={false} />
+      </body>
     </html>
   );
 }
