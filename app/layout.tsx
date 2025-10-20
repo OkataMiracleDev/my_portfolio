@@ -95,7 +95,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <!-- Hotjar Tracking Code for https://okata-miracle-portfolio.vercel.app/ -->
+        {/* <!-- Hotjar Tracking Code for https://okata-miracle-portfolio.vercel.app/ --> */}
         <script>
             (function(h,o,t,j,a,r){
                 h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
