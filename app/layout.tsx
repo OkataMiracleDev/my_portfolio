@@ -36,19 +36,19 @@ export const metadata: Metadata = {
   authors: [{ name: "Okata Miracle" }],
   creator: "Okata Miracle",
   publisher: "Okata Miracle",
-  metadataBase: new URL("https://okata-miracle-portfolio.vercel.app"), // replace with your domain
+  metadataBase: new URL("https://www.okata-miracle.site"), // replace with your domain
   alternates: {
-    canonical: "https://okata-miracle-portfolio.vercel.app",
+    canonical: "https://www.okata-miracle.site",
   },
   openGraph: {
     title: "Okata Miracle | Software Engineer & Front-End Developer",
     description:
       "Creative software engineer focused on building fast, modern, and visually engaging digital experiences.",
-    url: "ata-miracle-portfolio.vercel.app",
+    url: "https://www.okata-miracle.site",
     siteName: "Okata Miracle Portfolio",
     images: [
       {
-        url: "https://okata-miracle-portfolio.vercel.app/og-image.png", // replace with your OG image path
+        url: "https://www.okata-miracle.site", // replace with your OG image path
         width: 1200,
         height: 630,
         alt: "Okata Miracle - Portfolio Preview",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     description:
       "Crafting interactive web experiences with Next.js, React, and TailwindCSS.",
     creator: "mimi_codes", // if you have a Twitter/X handle
-    images: ["https://okata-miracle-portfolio.vercel.app/og-image.png"],
+    images: ["https://www.okata-miracle.site"],
   },
   icons: {
     icon: "/favicon.ico",
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
       "@type": "Person",
       name: "Okata Miracle",
       jobTitle: "Software Engineer",
-      url: "https://okata-miracle-portfolio.vercel.app",
+      url: "https://www.okata-miracle.site",
       sameAs: [
         "https://github.com/OkataMiracleDev",
         "https://twitter.com/mimi_codes",
