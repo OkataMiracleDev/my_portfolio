@@ -48,7 +48,7 @@ const ProjectsSlider = () => {
 
 
                             <div className='flex flex-col items-center justify-center'>
-                                <div className='w-[330px] h-[250px] md:w-[370px] md:h-[180px]'>
+                                <div className='w-[300px] h-[250px] md:w-[370px] md:h-[180px]'>
                                     <Image src={data.image} alt={data.name} width={1500} height={1500} className='h-full w-full object-center object-cover rounded-lg drop-shadow-md drop-shadow-gray-400 ' />
                                 </div>
                                 <h1 className='grav font-bold mt-4 text-center'>{data.name}</h1>
