@@ -47,7 +47,7 @@ const ProjectDisplayPage = async ({ params }: Props) => {
           </div>
           <div className='flex flex-col gap-2'>
             <h2 className='text-left text-base md:text-lg font-semibold font-[poppins] text-gray-800'>Technologies</h2>
-            <div className="flex flex-wrap gap-2 mt-[1rem]">
+            <div className="flex flex-wrap gap-2 mt-[0.5rem]">
               {project.technology.map((tech, index) => (
                 <span key={index} className="px-4 py-2 bg-gray-300 text-black font-medium text-sm rounded-2xl shadow-sm hover:bg-gray-700 hover:text-white transition-all duration-300">
                   {tech}
