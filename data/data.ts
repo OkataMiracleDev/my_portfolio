@@ -9,7 +9,6 @@ export const projectsSliderData = [
   },
   {
     id: 2,
-
     image: "/images/synapse-ochain.jpg",
     name: "Synapse Academy Waitlist",
     description:
@@ -18,10 +17,11 @@ export const projectsSliderData = [
   },
   {
     id: 3,
-    image: "/images/null-project.jpg",
-    name: "Empty Project",
-    description: "Unknown",
-    link: "https://emptyproject.com/",
+    image: "/images/style-by-eti.jpg",
+    name: "Style by Eti — Hairstylist Portfolio",
+    description:
+      "I designed and developed a sleek, responsive hairstylist portfolio for Eti, showcasing her creative artistry and professional services. Built with Next.js and Tailwind CSS, the site features a refined layout with smooth transitions, a service booking flow, and an image-rich gallery that highlights her styling expertise. I also implemented SEO best practices, responsive optimization, and performance enhancements to ensure a polished, high-performing portfolio that elevates her personal brand and client experience.",
+    link: "https://style-by-eti.vercel.app/",
   },
   {
     id: 4,
