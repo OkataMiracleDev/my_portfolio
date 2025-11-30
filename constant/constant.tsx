@@ -17,7 +17,6 @@ export type FootLink = {
   url: string;
 };
 
-
 // Explicitly type the constant as NavLink[]
 export const navLinks: NavLink[] = [
   {
@@ -33,7 +32,7 @@ export const navLinks: NavLink[] = [
   {
     id: 3,
     // JSX is valid here because the file is .tsx
-    label: <FaXTwitter className="text-xl" />, 
+    label: <FaXTwitter className="text-xl" />,
     url: "https://x.com/mimi_codes", // Pro tip: use the actual URL here!
   },
   {
@@ -46,7 +45,7 @@ export const navLinks: NavLink[] = [
     id: 5,
     // JSX is valid here because the file is .tsx
     label: <IoDocumentTextOutline className="text-xl" />,
-    url: "/resume/resume.docx", // Pro tip: link to your resume file!
+    url: "/resume/okata-miracle-resume.docx", // Pro tip: link to your resume file!
   },
 ];
 
@@ -54,7 +53,7 @@ export const footLinks: FootLink[] = [
   {
     id: 1,
     // JSX is valid here because the file is .tsx
-    label: <FaXTwitter className="text-xl" />, 
+    label: <FaXTwitter className="text-xl" />,
     url: "https://x.com/mimi_codes", // Pro tip: use the actual URL here!
   },
   {
