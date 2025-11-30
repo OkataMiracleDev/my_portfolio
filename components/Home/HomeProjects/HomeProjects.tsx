@@ -8,7 +8,7 @@ const HomeProjects = () => {
   return (
     <div
       data-aos="zoom-in-up"
-      className="relative w-full mt-[105rem] md:mt-[100rem] lg:mt-[123rem] 2xl:mt-[109rem] flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-10"
+      className="relative w-full mt-[120rem] md:mt-[100rem] lg:mt-[123rem] 2xl:mt-[109rem] flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-10"
     >
       <SectionHeading heading="Here&apos;s A Bit of What I&apos;ve Worked On!" />
 
