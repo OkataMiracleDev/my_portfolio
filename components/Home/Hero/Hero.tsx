@@ -98,7 +98,7 @@ const Hero = () => {
             onClick={() => setOpenModal(true)}
             className="btn-primary group inline-flex items-center gap-3 relative z-10 hire-me-btn"
           >
-            <span>Let's Work Together</span>
+            <span>Let&apos;s Work Together</span>
             <span className="group-hover:translate-x-1 transition-transform">→</span>
           </button>
         </div>

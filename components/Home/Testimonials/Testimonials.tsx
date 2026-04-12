@@ -47,7 +47,7 @@ const Testimonials = () => {
         <div ref={headingRef} className='text-center mb-16'>
           <SectionHeading heading='What Clients Say' />
           <p className="body mt-4">
-            Feedback from people I've worked with
+            Feedback from people I&apos;ve worked with
           </p>
         </div>
         

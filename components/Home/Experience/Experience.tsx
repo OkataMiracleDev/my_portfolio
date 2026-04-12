@@ -68,7 +68,7 @@ const Experience = () => {
           pin: true,
           scrub: 1, // Smooth scrubbing
           invalidateOnRefresh: true, // Recalculates x values on window resize
-          onUpdate: (self) => {
+          onUpdate: () => {
             // Only apply opacity effect on mobile
             if (isMobile()) {
               const viewportCenter = window.innerWidth / 2;

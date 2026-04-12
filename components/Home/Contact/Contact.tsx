@@ -72,10 +72,10 @@ const Contact = () => {
           {/* Heading */}
           <div className="mb-10 text-center">
             <h2 className="heading-2 mb-4">
-              Let's Work Together
+              Let&apos;s Work Together
             </h2>
             <p className="body-large max-w-2xl mx-auto">
-              Have a project in mind? I'm always open to discussing new opportunities and creative collaborations.
+              Have a project in mind? I&apos;m always open to discussing new opportunities and creative collaborations.
             </p>
           </div>
 
