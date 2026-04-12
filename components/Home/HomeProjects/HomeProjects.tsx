@@ -1,35 +1,79 @@
+"use client";
 import SectionHeading from "@/components/Helper/SectionHeading";
 import { homeprojectsData } from "@/data/data";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import ProjectsCard from "./ProjectsCard";
 import Link from "next/link";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const HomeProjects = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(headingRef.current, {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 70%",
+        },
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        ease: "power4.out",
+      });
+
+      gsap.from(cardsRef.current?.children || [], {
+        scrollTrigger: {
+          trigger: cardsRef.current,
+          start: "top 80%",
+        },
+        y: 80,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: "power4.out",
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div
-      data-aos="zoom-in-up"
-      className="relative w-full mt-[140rem] md:mt-[100rem] lg:mt-[123rem] 2xl:mt-[109rem] flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-10"
-    >
-      <SectionHeading heading="Here&apos;s A Bit of What I&apos;ve Worked On!" />
+    <section ref={sectionRef} className="section px-6">
+      <div className="max-w-7xl mx-auto">
+        <div ref={headingRef} className="text-center mb-16">
+          <SectionHeading heading="Here's A Bit of What I've Worked On" />
+          <p className="body mt-4">
+            Selected projects showcasing my approach to design and development
+          </p>
+        </div>
 
-      {/* Projects Grid */}
-      <div className="mx-auto mt-6 w-full grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 justify-items-center">
-        {homeprojectsData.map((data) => (
-          <div key={data.id} className="w-full max-w-[400px]">
-            <ProjectsCard projects={data} />
-          </div>
-        ))}
+        {/* Projects Grid */}
+        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          {homeprojectsData.map((data, index) => (
+            <div key={data.id}>
+              <ProjectsCard projects={data} index={index} />
+            </div>
+          ))}
+        </div>
+
+        {/* View All Button */}
+        <div className="flex justify-center">
+          <Link
+            href="/projects"
+            className="btn-secondary group inline-flex items-center gap-3"
+          >
+            <span>View All Projects</span>
+            <span className="group-hover:translate-x-1 transition-transform">→</span>
+          </Link>
+        </div>
       </div>
-
-      {/* View All Button */}
-      <Link
-        href="/projects"
-        className="mt-[4rem] transition-all duration-500 ease-in-out text-gray-300 hover:text-gray-900 font-bold text-base flex flex-row justify-center gap-1 hover:gap-3 bg-gray-900 hover:bg-gray-300 py-3 px-4 md:px-8 lg:px-4 rounded-2xl shadow-md shadow-gray-400 hover:shadow-blue-200"
-      >
-        <p>View All</p>
-        <p>&rarr;</p>
-      </Link>
-    </div>
+    </section>
   );
 };
 

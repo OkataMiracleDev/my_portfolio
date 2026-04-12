@@ -1,17 +1,34 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const SectionHeading = ({ heading }: { heading: string }) => {
-  return (
-    <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-      {heading}
-    </h2>
-  );
-};
+gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
   const [loading, setLoading] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (!sectionRef.current || !formRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(formRef.current, {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 70%",
+        },
+        y: 80,
+        opacity: 0,
+        duration: 1,
+        ease: "power4.out",
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,101 +66,112 @@ const Contact = () => {
   };
 
   return (
-    <div id="contact" data-aos="fade-up"  className="ml-[4%] md:ml-[4%] lg:ml-[14%] w-full mt-[7rem] md:mt-[9rem] lg:mt-[10rem] 2xl:mt-[9rem] transition-all duration-400">
-      <div className="flex flex-col flex-wrap justify-center">
-        {/* Introduction Text */}
-        <div data-aos="fade-up"  className="text-left max-w-[340px] md:max-w-[600px]">
-          <SectionHeading heading="Get in touch" />
-          <p data-aos="fade-up"  className="text-gray-700 leading-relaxed mt-4">
-            Ready to build the future? I&apos;m keen to connect with product
-            teams and like-minded innovators to discuss challenging projects. If
-            you&apos;re looking for a developer who delivers record-time results
-            and drives measurable impact, feel free to book a discovery call or
-            send an email to discuss your vision.
-          </p>
-        </div>
+    <section id="contact" ref={sectionRef} className="section px-6">
+      <div className="max-w-4xl mx-auto">
+        <div className="card p-8 md:p-12">
+          {/* Heading */}
+          <div className="mb-10 text-center">
+            <h2 className="heading-2 mb-4">
+              Let's Work Together
+            </h2>
+            <p className="body-large max-w-2xl mx-auto">
+              Have a project in mind? I'm always open to discussing new opportunities and creative collaborations.
+            </p>
+          </div>
 
-        {/* Contact Form */}
-        <form data-aos="fade-right"  onSubmit={handleSubmit} className="mt-8 w-full gap-[2rem] flex flex-col">
-          {/* Name and Email Fields */}
-          <div className="flex flex-col md:flex-row gap-[2rem] w-full">
-            {/* Full Name */}
-            <div className="w-1/2 md:w-1/3">
-              <label
-                htmlFor="fullName"
-                className="block text-sm md:text-lg font-medium text-gray-500"
-              >
-                Full Name
-              </label>
-              <div className="mt-1">
+          {/* Contact Form */}
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+            {/* Name and Email Fields */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Full Name */}
+              <div>
+                <label
+                  htmlFor="fullName"
+                  className="block text-sm font-medium mb-2"
+                  style={{ color: 'var(--color-text-secondary)' }}
+                >
+                  Full Name
+                </label>
                 <input
                   type="text"
                   name="fullName"
                   id="fullName"
                   autoComplete="name"
-                  placeholder="e.g., Jane Doe"
-                  className="block w-full rounded-md border-2 border-gray-300 shadow-md focus:border-indigo-500 focus:ring-indigo-500 md:text-lg sm:text-sm p-2"
+                  placeholder="Jane Doe"
+                  className="w-full px-4 py-3 rounded-xl transition-all focus:outline-none focus:ring-2"
+                  style={{
+                    background: 'oklch(0.25 0.04 285 / 0.5)',
+                    border: '1px solid oklch(0.35 0.05 285 / 0.3)',
+                    color: 'var(--color-text-primary)',
+                  }}
                 />
               </div>
-            </div>
 
-            {/* Email Address */}
-            <div className="w-2/3 md:w-3/6 lg:w-2/5">
-              <label
-                htmlFor="email"
-                className="block text-sm md:text-lg font-medium text-gray-500"
-              >
-                Email Address
-              </label>
-              <div className="mt-1">
+              {/* Email Address */}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium mb-2"
+                  style={{ color: 'var(--color-text-secondary)' }}
+                >
+                  Email Address
+                </label>
                 <input
                   type="email"
                   name="email"
                   id="email"
                   autoComplete="email"
-                  placeholder="e.g., test@gmail.com"
-                  className="block w-full rounded-md border-2 border-gray-300 shadow-md focus:border-indigo-500 focus:ring-indigo-500 md:text-lg sm:text-sm p-2"
+                  placeholder="jane@example.com"
+                  className="w-full px-4 py-3 rounded-xl transition-all focus:outline-none focus:ring-2"
+                  style={{
+                    background: 'oklch(0.25 0.04 285 / 0.5)',
+                    border: '1px solid oklch(0.35 0.05 285 / 0.3)',
+                    color: 'var(--color-text-primary)',
+                  }}
                 />
               </div>
             </div>
-          </div>
 
-          {/* Message Area */}
-          <div className="w-[90%] md:w-[87%] lg:w-[77%]">
-            <label
-              htmlFor="message"
-              className="block text-sm md:text-lg font-medium text-gray-500"
-            >
-              Write Your Message
-            </label>
-            <div className="mt-1">
+            {/* Message Area */}
+            <div>
+              <label
+                htmlFor="message"
+                className="block text-sm font-medium mb-2"
+                style={{ color: 'var(--color-text-secondary)' }}
+              >
+                Your Message
+              </label>
               <textarea
                 name="message"
                 id="message"
-                rows={4}
-                placeholder="Let me know how I can help you with your project..."
-                className="block w-full rounded-md border-2 border-gray-300 shadow-md focus:border-indigo-500 focus:ring-indigo-500 md:text-lg sm:text-sm p-2"
+                rows={6}
+                placeholder="Tell me about your project..."
+                className="w-full px-4 py-3 rounded-xl transition-all focus:outline-none focus:ring-2 resize-none"
+                style={{
+                  background: 'oklch(0.25 0.04 285 / 0.5)',
+                  border: '1px solid oklch(0.35 0.05 285 / 0.3)',
+                  color: 'var(--color-text-primary)',
+                }}
               />
             </div>
-          </div>
 
-          {/* Submit Button */}
-          <div className="mt-4 w-full">
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
-              className={`w-[90%] md:w-[87%] lg:w-[77%] font-bold py-3 px-6 rounded-md shadow-lg transition-all duration-300 ease-in-out ${
-                loading
-                  ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-                  : "bg-black text-white hover:bg-blue-200 hover:text-gray-700"
+              className={`btn-primary w-full ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
-              {loading ? "Sending..." : "Send Message"}
+              <span className="flex items-center justify-center gap-2">
+                {loading ? "Sending..." : "Send Message"}
+                {!loading && <span>→</span>}
+              </span>
             </button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

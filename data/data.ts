@@ -25,10 +25,10 @@ export const projectsSliderData = [
   },
   {
     id: 4,
-    image: "/images/null-project.jpg",
-    name: "Empty Project",
-    description: "Unknown",
-    link: "https://emptyproject.com/",
+    image: "/images/try-unihub.jpg",
+    name: "UniHub - Discover & Create University Eventst",
+    description: "UniHub is the ultimate platform for university students to discover, create, and manage campus events. Join communities, buy tickets, and never miss out on what's happening on campus.",
+    link: "https://try-unihub.click/",
   },
 ];
 
@@ -45,13 +45,13 @@ export const homeprojectsData = [
   },
   {
     id: 2,
-    projectID: "/projects/synapseonchain",
-    image: "/images/synapse-ochain.jpg",
-    image2: "/images/synapse-ochain2.jpg",
-    image3: "/images/synapse-ochain3.jpg",
-    name: "Synapse Academy Waitlist",
+    projectID: "/projects/try-unihub",
+    image: "/images/try-unihub.jpg",
+    image2: "/images/try-unihub2.jpg",
+    image3: "/images/try-unihub3.jpg",
+    name: "Unihub Web-Application",
     description:
-      "For the Synapse Academy platform—designed to educate users on blockchain, reward them with $SYN tokens, and build a global learning community—I took the lead on the frontend development. I crafted a modern, engaging user interface, implementing complex animations and transitions using a combination of modern CSS and JavaScript to enhance user experience and engagement. Furthermore, I integrated the backend waitlist system, ensuring smooth user registration and data capture, and conducted thorough Search Engine Optimization (SEO) efforts to significantly improve the platform's visibility and organic traffic acquisition.",
+      "I built UniHub. UniHub is the ultimate platform for university students to discover, create, and manage campus events. Join communities, buy tickets, and never miss out on what's happening on campus.",
   },
 ];
 export const projectsData = [
@@ -105,6 +105,23 @@ export const projectsData = [
     type: "Portfolio Website",
     client: "Eti — Professional Hairstylist",
     link: "https://style-by-eti.vercel.app/",
+  },
+  {
+      id: 4,
+    projectID: "try-unihub",
+    image: "/images/try-unihub.jpg",
+    image2: "/images/try-unihub2.jpg",
+    image3: "/images/try-unihub3.jpg",
+    name: "UniHub - Discover & Create University Events",
+    description:
+      "I built UniHub. UniHub is the ultimate platform for university students to discover, create, and manage campus events. Join communities, buy tickets, and never miss out on what's happening on campus.",
+    subhead:
+      "UniHub is the ultimate platform for university students to discover, create, and manage campus events. Join communities, buy tickets, and never miss out on what's happening on campus.",
+    technology: ["Next.js", "Tailwind CSS", "TypeScript", "Node.js", "Express", "MongoDB", "Redis", "Paystack", "Pxxl"],
+    date: "2026",
+    type: "Web-Application",
+    client: "Unihub Events and Ticketing llc.",
+    link: "https://try-unihub.click/",
   },
 ];
 

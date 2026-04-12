@@ -11,39 +11,59 @@ type Props = {
     description: string;
     projectID: string;
   };
+  index: number;
 };
 
-const ProjectsCard = ({ projects }: Props) => {
+const ProjectsCard = ({ projects, index }: Props) => {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col lg:px-10 w-full lg:w-[400px] min-h-[390px] md:min-h-[400px] px-8 py-8 rounded-2xl bg-gray-100 border border-gray-300 shadow-md">
+    <div className="card h-full flex flex-col overflow-hidden group cursor-pointer hover:scale-[1.02] transition-transform duration-500">
+      {/* Card number badge */}
+      <div 
+        className="absolute top-6 left-6 z-10 px-4 py-2 rounded-full font-mono text-sm font-bold"
+        style={{
+          background: 'oklch(0.65 0.25 285 / 0.9)',
+          color: 'oklch(1 0 0)',
+        }}
+      >
+        {String(index + 1).padStart(2, '0')}
+      </div>
+
       {/* Image */}
-      <div className="w-full h-[160px] rounded-2xl overflow-hidden shadow-md shadow-gray-500">
+      <div className="relative h-48 md:h-72 overflow-hidden">
         <Image
           src={projects.image}
           alt={projects.name}
-          width={600}
-          height={400}
-          className="h-full w-full object-center object-cover rounded-2xl transition-all duration-300 ease-in-out lg:hover:scale-110"
+          fill
+          className="object-cover group-hover:scale-110 transition-transform duration-700"
+        />
+        <div 
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{
+            background: 'linear-gradient(to top, oklch(0.18 0.04 285) 0%, transparent 50%)',
+          }}
         />
       </div>
 
-      {/* Text Section */}
-      <div className="flex flex-col justify-between flex-grow text-left pt-4 gap-3">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-lg font-bold text-gray-700">{projects.name}</h1>
-          <p className="text-sm md:text-base text-gray-500 max-w-full break-words line-clamp-2">
-            {projects.description}
-          </p>
-        </div>
+      {/* Content */}
+      <div className="p-4 md:p-8 flex flex-col flex-1">
+        <h3 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4">
+          {projects.name}
+        </h3>
+        <p className="body text-xs md:text-sm line-clamp-2 md:line-clamp-3 flex-1 mb-4 md:mb-6">
+          {projects.description}
+        </p>
 
         {/* View Project Button */}
         <button
           onClick={() => router.push(`${projects.projectID}`)}
-          className="transition-all duration-400 ease-in-out text-gray-300 hover:text-gray-900 font-bold text-base bg-gray-900 hover:bg-gray-300 py-3 px-4 rounded-2xl shadow-md shadow-gray-400 hover:shadow-blue-200 text-center"
+          className="btn-secondary w-full group/btn"
         >
-          View Project &rarr;
+          <span className="flex items-center justify-center gap-2">
+            <span>View Project</span>
+            <span className="group-hover/btn:translate-x-1 transition-transform">→</span>
+          </span>
         </button>
       </div>
     </div>

@@ -7,10 +7,9 @@ import React from 'react'
 import { IoLinkOutline } from "react-icons/io5";
 
 export const metadata: Metadata = {
-  title: "Projects | Okata Miracle - Front-End Developer",
-  description: "Explore Okata Miracle’s latest projects built with Next.js, React, and TailwindCSS.",
+  title: "Projects | Okata Miracle - Frontend Developer",
+  description: "Explore Okata Miracle's latest projects built with Next.js, React, and TailwindCSS.",
 };
-
 
 type Props = {
   params: Promise<{
@@ -19,103 +18,124 @@ type Props = {
 }
 
 const ProjectDisplayPage = async ({ params }: Props) => {
-  const resolvedParams = await params; // ✅ await the params
+  const resolvedParams = await params;
   const project = projectsData.find(
     (p) => p.projectID === resolvedParams.projectID
   );
 
   if (!project) {
     return (
-      <div className="pt-[8rem] text-center">
-        <h1 className="text-2xl font-bold text-gray-700">Project not found</h1>
+      <div className="min-h-screen pt-32 text-center">
+        <h1 className="heading-2" style={{ color: 'var(--color-text-primary)' }}>
+          Project not found
+        </h1>
       </div>
     );
   }
 
-
   return (
-    <div data-aos="fade-up" className='overflow-hidden pt-[8rem] pb-10 px-[1.5rem] md:px-[3rem] w-full lg:w-[68%] lg:border-l-1 lg:border-r-1 border-gray-300'>
-      <div className='flex flex-col gap-4'>
-        <div className='flex flex-col gap-3'>
-          <h1 className='text-left text-lg md:text-3xl font-semibold font-[poppins] text-gray-800'>{project.name}</h1>
-          <p className='text-sm md:text-base text-medium text-gray-600'>{project.subhead}</p>
-        </div>
-        <div className='flex flex-col gap-3 bg-gray-200 border border-gray-300 p-5 rounded-2xl'>
-          <div className='flex flex-col gap-2'>
-            <h2 className='text-left text-base md:text-lg font-semibold font-[poppins] text-gray-800'>Description</h2>
-            <p className='text-sm md:text-base' >{project.description}</p>
+    <div className='min-h-screen pt-32 pb-20 px-6'>
+      <div className='max-w-5xl mx-auto'>
+        {/* Header */}
+        <div className='card p-8 md:p-12 mb-12'>
+          <h1 className='heading-1 mb-6' style={{ color: 'var(--color-text-primary)' }}>
+            {project.name}
+          </h1>
+          <p className='body-large mb-8'>
+            {project.subhead}
+          </p>
+
+          {/* Meta Info Grid */}
+          <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mb-8'>
+            <div>
+              <p className='text-sm font-mono mb-2' style={{ color: 'var(--color-accent-bright)' }}>
+                Date
+              </p>
+              <p className='font-semibold' style={{ color: 'var(--color-text-primary)' }}>
+                {project.date}
+              </p>
+            </div>
+            <div>
+              <p className='text-sm font-mono mb-2' style={{ color: 'var(--color-accent-bright)' }}>
+                Type
+              </p>
+              <p className='font-semibold' style={{ color: 'var(--color-text-primary)' }}>
+                {project.type}
+              </p>
+            </div>
+            <div className='col-span-2'>
+              <p className='text-sm font-mono mb-2' style={{ color: 'var(--color-accent-bright)' }}>
+                Client
+              </p>
+              <p className='font-semibold' style={{ color: 'var(--color-text-primary)' }}>
+                {project.client}
+              </p>
+            </div>
           </div>
-          <div className='flex flex-col gap-2'>
-            <h2 className='text-left text-base md:text-lg font-semibold font-[poppins] text-gray-800'>Technologies</h2>
+
+          {/* Technologies */}
+          <div className='mb-8'>
+            <p className='text-sm font-mono mb-3' style={{ color: 'var(--color-accent-bright)' }}>
+              Technologies
+            </p>
             <div className="flex flex-wrap gap-2">
               {project.technology.map((tech, index) => (
-                <span key={index} className="px-4 py-2 bg-gray-300 text-black font-medium text-sm rounded-2xl shadow-sm hover:bg-gray-700 hover:text-white transition-all duration-300">
+                <span 
+                  key={index} 
+                  className="px-4 py-2 rounded-full text-sm font-mono font-medium"
+                  style={{
+                    background: 'oklch(0.65 0.25 285 / 0.2)',
+                    color: 'var(--color-accent-bright)',
+                  }}
+                >
                   {tech}
                 </span>
               ))}
             </div>
           </div>
-          <div className='flex flex-col gap-2'>
-            <h2 className='text-left text-base md:text-lg font-semibold font-[poppins] text-gray-800'>Date</h2>
-            <span className='text-black text-sm md:text-base'>{project.date}</span>
+
+          {/* Description */}
+          <div className='mb-8'>
+            <p className='text-sm font-mono mb-3' style={{ color: 'var(--color-accent-bright)' }}>
+              Description
+            </p>
+            <p className='body leading-relaxed'>{project.description}</p>
           </div>
-          <div className='flex flex-col gap-2'>
-            <h2 className='text-left text-base md:text-lg font-semibold font-[poppins] text-gray-800'>Type</h2>
-            <span className='text-black text-sm md:text-base'>{project.type}</span>
+
+          {/* Action Buttons */}
+          <div className='flex flex-wrap gap-4'>
+            <Link
+              href={project.link}
+              className="btn-primary inline-flex items-center gap-2"
+              target="_blank"
+            >
+              <span>Visit Project</span>
+              <IoLinkOutline className='text-xl' />
+            </Link>
+            <Link href="/projects" className="btn-secondary inline-flex items-center gap-2">
+              <span>←</span>
+              <span>Back to Projects</span>
+            </Link>
           </div>
-          <div className='flex flex-col gap-2'>
-            <h2 className='text-left text-base md:text-lg font-semibold font-[poppins] text-gray-800'>Client</h2>
-            <span className='text-black text-sm md:text-base'>{project.client}</span>
-          </div>          
-        </div>
-        <div className='flex flex-col justify-center items-center'>
-          <Link
-            href={project.link} className="mt-[2rem] flex items-center gap-[1rem] w-fit transition-all duration-500 text-gray-300 hover:text-gray-800 font-bold text-base bg-gray-800 hover:bg-gray-300 py-3 px-8 rounded-2xl shadow-md shadow-gray-400 hover:shadow-blue-200">
-            <p>Visit Project</p>
-            <IoLinkOutline className='text-xl md:text-2xl' />      
-          </Link>    
-          <Link href="/projects" className="mt-[1.5rem] w-fit transition-all duration-500 text-gray-900 font-bold text-base bg-gray-300 hover:bg-gray-400 py-3 px-8 rounded-2xl shadow-md shadow-gray-400 hover:shadow-blue-200"> 
-            <p>&larr; Back </p>
-          </Link>   
         </div>
 
-        <div className="mt-[2rem] flex flex-col justify-center items-center px-8 py-8 rounded-2xl bg-gray-100 border border-gray-300 shadow-md">
-          {/* Image */}
-          <div className="w-full h-[200px] md:h-[400px] rounded-2xl overflow-hidden shadow-md shadow-gray-500">
-            <Image
-              src={project.image}
-              alt={project.name}
-              width={600}
-              height={400}
-              className="h-full w-full object-center object-cover rounded-2xl transition-all duration-300 ease-in-out lg:hover:scale-110"
-            />
-          </div>  
-        </div>
-        <div className="mt-[2rem] flex flex-col justify-center items-center px-8 py-8 rounded-2xl bg-gray-100 border border-gray-300 shadow-md">
-          {/* Image */}
-          <div className="w-full h-[200px] md:h-[400px] rounded-2xl overflow-hidden shadow-md shadow-gray-500">
-            <Image
-              src={project.image2}
-              alt={project.name}
-              width={600}
-              height={400}
-              className="h-full w-full object-center object-cover rounded-2xl transition-all duration-300 ease-in-out lg:hover:scale-110"
-            />
-          </div>  
-        </div>
-        <div className="mt-[2rem] flex flex-col justify-center items-center px-8 py-8 rounded-2xl bg-gray-100 border border-gray-300 shadow-md">
-          {/* Image */}
-          <div className="w-full h-[200px] md:h-[400px] rounded-2xl overflow-hidden shadow-md shadow-gray-500">
-            <Image
-              src={project.image3}
-              alt={project.name}
-              width={600}
-              height={400}
-              className="h-full w-full object-center object-cover rounded-2xl transition-all duration-300 ease-in-out lg:hover:scale-110"
-            />
-          </div>  
+        {/* Project Images */}
+        <div className="space-y-8">
+          {[project.image, project.image2, project.image3].map((img, index) => (
+            <div key={index} className="card p-6 overflow-hidden">
+              <div className="relative h-64 md:h-96 rounded-2xl overflow-hidden">
+                <Image
+                  src={img}
+                  alt={`${project.name} screenshot ${index + 1}`}
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
+      
       <Footer />
     </div>
   )

@@ -44,7 +44,7 @@ export const navLinks: NavLink[] = [
   {
     id: 5,
     // JSX is valid here because the file is .tsx
-    label: <IoDocumentTextOutline className="text-xl" />,
+    label: <IoDocumentTextOutline className="text-2xl text-violet-600" />,
     url: "/resume/okata-miracle-resume.docx", // Pro tip: link to your resume file!
   },
 ];

@@ -6,10 +6,9 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Projects | Okata Miracle - Front-End Developer",
-  description: "Explore Okata Miracle’s latest projects built with Next.js, React, and TailwindCSS.",
+  title: "Projects | Okata Miracle - Frontend Developer",
+  description: "Explore Okata Miracle's latest projects built with Next.js, React, and TailwindCSS.",
 };
-
 
 export function generateStaticParams() {
   return projectsData.map((project) => ({
@@ -19,36 +18,35 @@ export function generateStaticParams() {
 
 const ProjectsPage = () => {
   return (
-    <div data-aos="fade-up" className="relative w-full pt-[8rem] pb-10 flex flex-col justify-center items-center text-center">
-      {/* Section Heading */}
-      <SectionHeading heading="All My Projects" />
+    <div className="min-h-screen pt-32 pb-20 px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-16">
+          <SectionHeading heading="All Projects" />
+          <p className="body-large mt-4">
+            A collection of my recent work and client projects
+          </p>
+        </div>
 
-      {/* Projects Grid */}
-      <div
-        className="
-          mx-auto mt-10 w-full
-          grid grid-cols-1 
-          sm:grid-cols-2 
-          lg:grid-cols-3 
-          gap-6 sm:gap-8 lg:gap-10 
-          justify-items-center
-        "
-      >
-        {projectsData.map((project) => (
-          <Link
-            key={project.id}
-            href={`/projects/${project.projectID}`}
-            className="w-[90%] md:w-full max-w-[380px] sm:max-w-[350px] lg:max-w-[400px]"
-          >
-            <ProjectsCard projects={project} />
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {projectsData.map((project, index) => (
+            <Link
+              key={project.id}
+              href={`/projects/${project.projectID}`}
+            >
+              <ProjectsCard projects={project} index={index} />
+            </Link>
+          ))}
+        </div>
+
+        {/* Back Home Button */}
+        <div className="flex justify-center">
+          <Link href="/" className="btn-secondary group inline-flex items-center gap-3">
+            <span>←</span>
+            <span>Back to Home</span>
           </Link>
-        ))}
+        </div>
       </div>
-
-      {/* Back Home Button */}
-      <Link href="/" className="mt-14 inline-block transition-all duration-500 text-gray-900 hover:text-gray-300 font-bold text-base bg-gray-300 hover:bg-gray-900 py-3 px-8 rounded-2xl shadow-md shadow-gray-400 hover:shadow-blue-200"> 
-        <p>&larr; Back to Home </p>
-      </Link>
     </div>
   );
 };

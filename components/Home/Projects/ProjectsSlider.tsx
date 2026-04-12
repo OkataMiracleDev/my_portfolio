@@ -7,9 +7,8 @@ import "react-multi-carousel/lib/styles.css";
 
 const responsive = {
   superLargeDesktop: {
-    // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 3000 },
-    items: 5,
+    items: 3,
   },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
@@ -17,7 +16,7 @@ const responsive = {
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
-    items: 1.5,
+    items: 2,
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
@@ -31,51 +30,63 @@ const ProjectsSlider = () => {
       responsive={responsive}
       infinite={true}
       autoPlay={true}
-      autoPlaySpeed={1500}
+      autoPlaySpeed={4000}
       keyBoardControl={true}
+      containerClass="pb-12"
+      itemClass="px-4"
     >
-      {projectsSliderData.map((data) => {
+      {projectsSliderData.map((data, index) => {
         return (
-          <div
+          <a
             key={data.id}
-            className="m-5 hover:m-3 block transition-all duration-300"
+            href={data.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block h-full group"
           >
-            <a
-              href={data.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full h-full"
-            >
-              <div className="flex flex-col items-center  bg-gray-300 py-7 md:px-4 md:py-8 rounded-2xl shadow-md shadow-gray-400">
-                <div className="md:flex hidden flex-row gap-1 absolute top-[9%] left-[90%] translate-x-[-50%]">
-                  <div className="w-[8px] h-[8px] bg-blue-400 border border-gray-200 rounded-full"></div>
-                  <div className="w-[8px] h-[8px] bg-purple-400 border border-gray-200 rounded-full"></div>
-                  <div className="w-[8px] h-[8px] bg-red-400 border border-gray-200 rounded-full"></div>
-                </div>
+            <div className="card h-full flex flex-col overflow-hidden group-hover:scale-[1.02] transition-transform duration-500">
+              {/* Card number badge */}
+              <div 
+                className="absolute top-6 left-6 z-10 px-4 py-2 rounded-full font-mono text-sm font-bold"
+                style={{
+                  background: 'oklch(0.65 0.25 285 / 0.9)',
+                  color: 'oklch(1 0 0)',
+                }}
+              >
+                {String(index + 1).padStart(2, '0')}
+              </div>
 
-                <div className="flex md:hidden flex-row gap-1 absolute w-full h-full translate-x-[-50%]">
-                  <div className="w-[12px] h-[12px] bg-blue-400 border-2 border-gray-200 rounded-full absolute -top-[2%] -left-[42%]"></div>
-                  <div className="w-[12px] h-[12px] bg-purple-400 border-2 border-gray-200 rounded-full absolute top-[79%] -left-[42%]"></div>
-                  <div className="w-[12px] h-[12px] bg-red-400 border-2 border-gray-200 rounded-full absolute -top-[2%] left-[39%]"></div>
-                </div>
+              {/* Project image */}
+              <div className="relative h-72 overflow-hidden">
+                <Image
+                  src={data.image}
+                  alt={data.name}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div 
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{
+                    background: 'linear-gradient(to top, oklch(0.18 0.04 285) 0%, transparent 50%)',
+                  }}
+                />
+              </div>
 
-                <div className="flex flex-col items-center justify-center">
-                  <div className="w-[295px] h-[250px] md:w-[370px] md:h-[180px]">
-                    <Image
-                      src={data.image}
-                      alt={data.name}
-                      width={1500}
-                      height={1500}
-                      className="h-full w-full object-center object-cover rounded-lg drop-shadow-md drop-shadow-gray-400 "
-                    />
-                  </div>
-                  <h1 className="grav font-bold mt-4 text-center">
-                    {data.name}
-                  </h1>
+              {/* Project info */}
+              <div className="p-8 flex-1 flex flex-col">
+                <h3 className="heading-3 mb-4">
+                  {data.name}
+                </h3>
+                <p className="body text-sm line-clamp-3 flex-1 mb-6">
+                  {data.description}
+                </p>
+                <div className="flex items-center gap-2 font-mono text-sm" style={{ color: 'var(--color-accent-bright)' }}>
+                  <span>View Project</span>
+                  <span className="group-hover:translate-x-2 transition-transform">→</span>
                 </div>
               </div>
-            </a>
-          </div>
+            </div>
+          </a>
         );
       })}
     </Carousel>
