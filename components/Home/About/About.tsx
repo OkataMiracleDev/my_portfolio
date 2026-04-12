@@ -93,7 +93,7 @@ const About = () => {
                         Full Stack Development
                       </h4>
                       <p className='body text-sm'>
-                        I built <span style={{ color: 'var(--color-accent-bright)', fontWeight: 600 }}>UniHub</span>. UniHub is the ultimate platform for university students to discover, create, and manage campus events. Join communities, buy tickets, and never miss out on what's happening on campus.                      </p>
+                        I built <span style={{ color: 'var(--color-accent-bright)', fontWeight: 600 }}>UniHub</span>. UniHub is the ultimate platform for university students to discover, create, and manage campus events. Join communities, buy tickets, and never miss out on what&apos;s happening on campus.                      </p>
                     </div>
                   </div>
                 </div>
