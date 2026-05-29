@@ -75,7 +75,7 @@ const About = () => {
                     </div>
                   </div>
 
-                  <div className='flex items-start gap-4'>
+                  <div className='flex flex-col md:flex-row items-start gap-4'>
                     <div 
                       className='w-2 h-2 rounded-full mt-2 flex-shrink-0'
                       style={{ background: 'var(--color-accent)' }}
