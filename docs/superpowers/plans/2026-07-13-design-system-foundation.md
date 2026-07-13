@@ -23,8 +23,8 @@
 | `hooks/usePrefersReducedMotion.ts` | Create | Reactive `prefers-reduced-motion` hook, used by Lenis setup and later by all decorative animation |
 | `hooks/__tests__/usePrefersReducedMotion.test.ts` | Create | Tests for the hook |
 | `app/globals.css` | Modify | Add new `@theme` token block (colors, radii) alongside existing tokens |
-| `public/fonts/CabinetGrotesk-Variable.woff2` | Create (binary asset) | Display font file |
-| `public/fonts/GeneralSans-Variable.woff2` | Create (binary asset) | Body font file |
+| `public/fonts/CabinetGrotesk-Bold.woff2` | Create (binary asset) | Display font file (700 only — the only weight used) |
+| `public/fonts/GeneralSans-{Regular,Medium,Semibold}.woff2` | Create (binary assets) | Body font files (400/500/600 — the only weights used) |
 | `lib/fonts.ts` | Create | `next/font/local` definitions for Cabinet Grotesk + General Sans |
 | `app/layout.tsx` | Modify | Load new fonts as CSS variables (additive); mount `SmoothScroll` |
 | `components/SmoothScroll.tsx` | Create | Lenis smooth-scroll provider, respects reduced motion |
@@ -327,19 +327,40 @@ git commit -m "feat: add light-minimal design tokens alongside existing theme"
 Adds the two new brand fonts as CSS variables via `next/font/local`, following the font-selection decision in spec §6 (neither font is on the AI-reflex-reject list; `Space_Grotesk`, already in this codebase, is on that list and gets replaced when the Landing/Build plans redesign the pages that use it — not in this plan, to keep this plan non-destructive to the live site).
 
 **Files:**
-- Create: `public/fonts/CabinetGrotesk-Variable.woff2` (manual download, see Step 1)
-- Create: `public/fonts/GeneralSans-Variable.woff2` (manual download, see Step 1)
+- Create: `public/fonts/CabinetGrotesk-Bold.woff2` (downloaded, see Step 1)
+- Create: `public/fonts/GeneralSans-Regular.woff2`, `GeneralSans-Medium.woff2`, `GeneralSans-Semibold.woff2` (downloaded, see Step 1)
 - Create: `lib/fonts.ts`
 - Modify: `app/layout.tsx`
 
-- [ ] **Step 1: Download the font files (manual step)**
+Fontshare's free public CSS API (`api.fontshare.com/v2/css`) only serves discrete static weights, not a single variable-weight file — confirmed by fetching it directly. Every component written in the Landing/Build/Animate plans only ever uses Cabinet Grotesk at weight 700 (`font-bold`) and General Sans at 400 (default/body), 500 (`font-medium`), and 600 (`font-semibold`) — so those are the only four static weight files needed, not the full family.
 
-These are free fonts from Fontshare, not distributed via npm, so this step is a manual download rather than a command:
+- [ ] **Step 1: Download the font files via Fontshare's CSS API**
 
-1. Visit `https://www.fontshare.com/fonts/cabinet-grotesk`, use "Get fonts" to download the family ZIP, extract it, and locate the **variable** `.woff2` file inside (Fontshare ships these under a `Fonts/Variable/` or `WEB/fonts/variable/` folder depending on the current package layout — check the extracted folder for the one `.woff2` file whose name contains "Variable"). Copy/rename it to `public/fonts/CabinetGrotesk-Variable.woff2`.
-2. Repeat for `https://www.fontshare.com/fonts/general-sans`, saving the variable `.woff2` file to `public/fonts/GeneralSans-Variable.woff2`.
+For each weight, fetch the API's generated CSS, extract the `.woff2` URL from its `@font-face` rule, and download that file. Run:
 
-Expected: both files exist on disk at those exact paths.
+```bash
+mkdir -p public/fonts
+
+curl -s "https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700&display=swap" -o /tmp/cg700.css
+URL=$(grep -oE "cdn\.fontshare\.com/[^)'\"]+\.woff2" /tmp/cg700.css | head -1)
+curl -sL "https://$URL" -o public/fonts/CabinetGrotesk-Bold.woff2
+
+curl -s "https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" -o /tmp/gs.css
+URL400=$(grep -oE "cdn\.fontshare\.com/[^)'\"]+\.woff2" /tmp/gs.css | sed -n '1p')
+URL500=$(grep -oE "cdn\.fontshare\.com/[^)'\"]+\.woff2" /tmp/gs.css | sed -n '2p')
+URL600=$(grep -oE "cdn\.fontshare\.com/[^)'\"]+\.woff2" /tmp/gs.css | sed -n '3p')
+curl -sL "https://$URL400" -o public/fonts/GeneralSans-Regular.woff2
+curl -sL "https://$URL500" -o public/fonts/GeneralSans-Medium.woff2
+curl -sL "https://$URL600" -o public/fonts/GeneralSans-Semibold.woff2
+```
+
+Expected: all four files exist under `public/fonts/`. Verify none of them are suspiciously small (a failed fetch typically returns a tiny HTML/JSON error body, not a real font):
+
+```bash
+ls -la public/fonts/*.woff2
+```
+
+Every file should be at least 10KB. If any file is smaller than that, `cat` it — if it looks like HTML or JSON rather than binary, the extraction failed (check that the `grep` pattern actually matched something in the corresponding `/tmp/*.css` file, and that the CSS API request itself returned a 200, not an error). Do not proceed with a corrupt/empty font file — stop and report BLOCKED with what the API actually returned.
 
 - [ ] **Step 2: Define the font loaders**
 
@@ -349,17 +370,37 @@ Create `lib/fonts.ts`:
 import localFont from "next/font/local";
 
 export const cabinetGrotesk = localFont({
-  src: "../public/fonts/CabinetGrotesk-Variable.woff2",
+  src: [
+    {
+      path: "../public/fonts/CabinetGrotesk-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
   variable: "--font-cabinet-grotesk",
   display: "swap",
-  weight: "400 900",
 });
 
 export const generalSans = localFont({
-  src: "../public/fonts/GeneralSans-Variable.woff2",
+  src: [
+    {
+      path: "../public/fonts/GeneralSans-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/GeneralSans-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/GeneralSans-Semibold.woff2",
+      weight: "600",
+      style: "normal",
+    },
+  ],
   variable: "--font-general-sans",
   display: "swap",
-  weight: "400 700",
 });
 ```
 
@@ -400,7 +441,7 @@ Expected: a non-empty string (the generated local font-family name), not empty/`
 - [ ] **Step 6: Commit**
 
 ```bash
-git add public/fonts/CabinetGrotesk-Variable.woff2 public/fonts/GeneralSans-Variable.woff2 lib/fonts.ts app/layout.tsx
+git add public/fonts/CabinetGrotesk-Bold.woff2 public/fonts/GeneralSans-Regular.woff2 public/fonts/GeneralSans-Medium.woff2 public/fonts/GeneralSans-Semibold.woff2 lib/fonts.ts app/layout.tsx
 git commit -m "feat: self-host Cabinet Grotesk and General Sans"
 ```
 
