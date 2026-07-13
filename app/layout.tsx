@@ -4,6 +4,7 @@ import { cabinetGrotesk, generalSans } from "@/lib/fonts";
 import "./globals.css";
 import Nav from "@/components/Home/Navbar/Nav";
 import ThemeToggle from "@/components/ThemeToggle";
+import SmoothScroll from "@/components/SmoothScroll";
 import { Toaster } from "react-hot-toast";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
@@ -99,6 +100,7 @@ export default function RootLayout({
         />
       </head>
       <body style={{ fontFamily: "var(--font-space-grotesk)" }}>
+        <SmoothScroll />
         <ThemeToggle />
         <Nav />
         {children}
