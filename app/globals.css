@@ -1,5 +1,27 @@
 @import "tailwindcss";
 
+@theme {
+  /* New light-minimal identity tokens (spec §6). Existing dark-purple
+     :root tokens below are still in active use by the current homepage
+     and are removed when that page is redesigned in a later plan. */
+  --color-ink: oklch(21% 0.015 55);
+  --color-base: oklch(97% 0.01 55);
+  --color-base-raised: oklch(99% 0.006 55);
+  --color-accent-build: oklch(64% 0.19 45);
+  --color-accent-animate: oklch(58% 0.24 300);
+  --color-band-dark: oklch(16% 0.02 300);
+
+  --radius-card: 1.25rem;
+  --radius-pill: 999px;
+
+  /* Motion tokens (spec §7). These override Tailwind's built-in, weaker
+     ease-out/ease-in-out utilities with the stronger custom curves; every
+     `ease-out`/`ease-in-out` class site-wide now uses these automatically. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
 :root {
   /* Color System - Dark Purple Theme */
   --color-bg-dark: oklch(0.18 0.04 285);
