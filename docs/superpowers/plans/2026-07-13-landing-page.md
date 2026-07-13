@@ -24,6 +24,7 @@
 | `app/build/projects/[projectID]/page.tsx` | Create (moved) | Relocated from `app/projects/[projectID]/page.tsx`, internal links fixed |
 | `app/layout.tsx` | Modify | Shrink to shared shell only: fonts, `SmoothScroll`, `Toaster`, `SpeedInsights`; remove `Nav`/`ThemeToggle`/Person JSON-LD (all move to route-specific homes) |
 | `components/Home/HomeProjects/HomeProjects.tsx` | Modify | Fix `/projects` link → `/build/projects` |
+| `data/data.ts` | Modify | Fix `homeprojectsData` full-path `projectID` values → `/build/projects/*` |
 | `components/Home/Navbar/Nav.tsx` | Modify | Fix `/blog` navigation → `/build/blog` |
 | `constant/constant.tsx` | Modify | Fix nav-link URLs (`/` → `/build`, `/#about` → `/build#about`) |
 | `data/landing.ts` | Create | Fun-fact cards + the two route-choice descriptions |
@@ -96,7 +97,7 @@ to:
             <Link href="/build/projects" className="btn-secondary inline-flex items-center gap-2">
 ```
 
-- [ ] **Step 4: Fix the "View All Projects" link on the dev homepage**
+- [ ] **Step 4: Fix the dev homepage's project links**
 
 In `components/Home/HomeProjects/HomeProjects.tsx`, change:
 
@@ -107,6 +108,28 @@ to:
 ```tsx
             href="/build/projects"
 ```
+
+Also fix `data/data.ts`: `homeprojectsData` stores each project's link target in its own `projectID` field as a full path (not a bare slug like `projectsData` uses) — e.g. `projectID: "/projects/NEM"`. `components/Home/HomeProjects/ProjectsCard.tsx` navigates with `router.push(`${projects.projectID}`)`, using that value directly. Left as `/projects/NEM` it would 404 once `/projects` moves to `/build/projects`. In `data/data.ts`, in the `homeprojectsData` array, change:
+
+```ts
+    projectID: "/projects/NEM",
+```
+to:
+```ts
+    projectID: "/build/projects/NEM",
+```
+
+and change:
+
+```ts
+    projectID: "/projects/try-unihub",
+```
+to:
+```ts
+    projectID: "/build/projects/try-unihub",
+```
+
+(`projectsData`, the separate array used by `/build/projects` and `/build/projects/[projectID]`, stores bare slugs like `"NEM"` rather than full paths — that array needs no change here.)
 
 - [ ] **Step 5: Fix the nav's Blog button**
 
@@ -254,12 +277,12 @@ Expected: Build succeeds. `/build`, `/build/blog`, `/build/projects`, and `/buil
 
 - [ ] **Step 10: Verify manually in the browser**
 
-Run: `npm run dev`. Visit `http://localhost:3000/build` — the full dev homepage should render exactly as it did before this task (same content, same nav, same theme toggle, same dark-purple styling). Click through: the nav's home icon and Blog button, the About profile icon (should scroll to the About section), "View All Projects" on the homepage, and a project card through to its detail page and back. Every link should resolve under `/build/*` with no 404s. Then visit `http://localhost:3000/` — at this point in the plan it will 404 or show a blank/broken page, since the new landing page doesn't exist until Task 4. That's expected mid-plan.
+Run: `npm run dev`. Visit `http://localhost:3000/build` — the full dev homepage should render exactly as it did before this task (same content, same nav, same theme toggle, same dark-purple styling). Click through: the nav's home icon and Blog button, the About profile icon (should scroll to the About section), a project card **on the homepage itself** (the `homeprojectsData`-driven preview — this is the one that depends on the `data/data.ts` fix in Step 4; clicking it is the actual regression test for that fix), "View All Projects" through to `/build/projects`, then a project card there through to its detail page and back. Every link should resolve under `/build/*` with no 404s. Then visit `http://localhost:3000/` — at this point in the plan it will 404 or show a blank/broken page, since the new landing page doesn't exist until Task 4. That's expected mid-plan.
 
 - [ ] **Step 11: Commit**
 
 ```bash
-git add app/build app/layout.tsx components/Home/HomeProjects/HomeProjects.tsx components/Home/Navbar/Nav.tsx constant/constant.tsx
+git add app/build app/layout.tsx components/Home/HomeProjects/HomeProjects.tsx components/Home/Navbar/Nav.tsx constant/constant.tsx data/data.ts
 git status
 ```
 
