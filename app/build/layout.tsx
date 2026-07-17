@@ -1,5 +1,4 @@
 import Nav from "@/components/Home/Navbar/Nav";
-import ThemeToggle from "@/components/ThemeToggle";
 
 export default function BuildLayout({
   children,
@@ -7,10 +6,9 @@ export default function BuildLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <ThemeToggle />
+    <div className="min-h-screen bg-base font-[family-name:var(--font-general-sans)] text-ink">
       <Nav />
       {children}
-    </>
+    </div>
   );
 }
