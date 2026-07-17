@@ -1,0 +1,98 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { motionProjectsData } from "@/data/motion-projects";
+
+type Props = {
+  params: Promise<{ slug: string }>;
+};
+
+export function generateStaticParams() {
+  return motionProjectsData.map((project) => ({ slug: project.slug }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const project = motionProjectsData.find((p) => p.slug === slug);
+
+  if (!project) {
+    return { title: "Project not found | Okata Miracle" };
+  }
+
+  return {
+    title: `${project.title} | Okata Miracle`,
+    description: project.description,
+  };
+}
+
+const AnimateProjectPage = async ({ params }: Props) => {
+  const { slug } = await params;
+  const project = motionProjectsData.find((p) => p.slug === slug);
+
+  if (!project) {
+    return (
+      <div className="min-h-screen pt-32 text-center">
+        <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold text-ink">
+          Project not found
+        </h1>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen px-6 pb-20 pt-32">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="mb-4 font-[family-name:var(--font-cabinet-grotesk)] text-4xl md:text-5xl font-bold text-ink">
+          {project.title}
+        </h1>
+        <p className="mb-8 text-lg text-ink/70">{project.description}</p>
+
+        <div className="mb-8 flex aspect-video items-center justify-center rounded-card bg-band-dark">
+          {project.videoEmbedUrl ? (
+            <iframe
+              src={project.videoEmbedUrl}
+              title={project.title}
+              className="h-full w-full rounded-card"
+              allow="autoplay; fullscreen"
+              allowFullScreen
+            />
+          ) : (
+            <p className="font-[family-name:var(--font-jetbrains-mono)] text-sm text-base/60">
+              Reel coming soon
+            </p>
+          )}
+        </div>
+
+        <div className="mb-8 rounded-card bg-base-raised p-8">
+          <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate">
+            Process
+          </p>
+          <p className="mb-6 text-ink/70">{project.process}</p>
+
+          <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate">
+            Tools
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {project.tools.map((tool) => (
+              <span
+                key={tool}
+                className="rounded-pill bg-accent-animate/15 px-4 py-2 text-sm font-[family-name:var(--font-jetbrains-mono)] font-medium text-accent-animate"
+              >
+                {tool}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <Link
+          href="/animate/projects"
+          className="inline-flex items-center gap-2 rounded-pill border border-ink/15 px-6 py-3 font-medium text-ink transition-colors duration-200 ease-out hover:bg-ink/5"
+        >
+          <span>←</span>
+          <span>Back to Projects</span>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default AnimateProjectPage;
