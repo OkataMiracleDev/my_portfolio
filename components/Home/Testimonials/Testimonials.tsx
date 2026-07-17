@@ -15,26 +15,13 @@ const Testimonials = () => {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(headingRef.current, {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 70%",
-        },
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        ease: "power4.out",
+        scrollTrigger: { trigger: sectionRef.current, start: "top 70%" },
+        y: 50, opacity: 0, duration: 1, ease: "power4.out",
       });
 
       gsap.from(sliderRef.current, {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 60%",
-        },
-        y: 80,
-        opacity: 0,
-        duration: 1,
-        delay: 0.3,
-        ease: "power4.out",
+        scrollTrigger: { trigger: sectionRef.current, start: "top 60%" },
+        y: 80, opacity: 0, duration: 1, delay: 0.3, ease: "power4.out",
       });
     }, sectionRef);
 
@@ -46,11 +33,11 @@ const Testimonials = () => {
       <div className='max-w-7xl mx-auto'>
         <div ref={headingRef} className='text-center mb-16'>
           <SectionHeading heading='What Clients Say' />
-          <p className="body mt-4">
+          <p className="mt-4 text-ink/70">
             Feedback from people I&apos;ve worked with
           </p>
         </div>
-        
+
         <div ref={sliderRef} className='flex justify-center'>
           <TestimonialSlider />
         </div>
