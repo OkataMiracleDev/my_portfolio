@@ -13,14 +13,8 @@ const Projects = () => {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(headingRef.current, {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        },
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        ease: "power4.out",
+        scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
+        y: 50, opacity: 0, duration: 1, ease: "power4.out",
       });
     }, sectionRef);
 
@@ -30,9 +24,9 @@ const Projects = () => {
   return (
     <section ref={sectionRef} className='section px-6'>
       <div className='max-w-7xl mx-auto'>
-        <h2 
+        <h2
           ref={headingRef}
-          className="heading-2 text-center mb-16"
+          className="font-[family-name:var(--font-cabinet-grotesk)] text-3xl md:text-5xl font-bold text-ink text-center mb-16"
         >
           Featured Work
         </h2>

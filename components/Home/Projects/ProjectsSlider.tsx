@@ -6,22 +6,10 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
 const responsive = {
-  superLargeDesktop: {
-    breakpoint: { max: 4000, min: 3000 },
-    items: 3,
-  },
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 3,
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 2,
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
-  },
+  superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 3 },
+  desktop: { breakpoint: { max: 3000, min: 1024 }, items: 3 },
+  tablet: { breakpoint: { max: 1024, min: 464 }, items: 2 },
+  mobile: { breakpoint: { max: 464, min: 0 }, items: 1 },
 };
 
 const ProjectsSlider = () => {
@@ -44,45 +32,30 @@ const ProjectsSlider = () => {
             rel="noopener noreferrer"
             className="block h-full group"
           >
-            <div className="card h-full flex flex-col overflow-hidden group-hover:scale-[1.02] transition-transform duration-500">
-              {/* Card number badge */}
-              <div 
-                className="absolute top-6 left-6 z-10 px-4 py-2 rounded-full font-mono text-sm font-bold"
-                style={{
-                  background: 'oklch(0.65 0.25 285 / 0.9)',
-                  color: 'oklch(1 0 0)',
-                }}
-              >
+            <div className="relative flex h-full flex-col overflow-hidden rounded-card bg-base-raised transition-transform duration-500 ease-out group-hover:scale-[1.02]">
+              <div className="absolute top-6 left-6 z-10 rounded-pill bg-accent-build px-4 py-2 font-[family-name:var(--font-jetbrains-mono)] text-sm font-bold text-ink">
                 {String(index + 1).padStart(2, '0')}
               </div>
 
-              {/* Project image */}
               <div className="relative h-72 overflow-hidden">
                 <Image
                   src={data.image}
                   alt={data.name}
                   fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <div 
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{
-                    background: 'linear-gradient(to top, oklch(0.18 0.04 285) 0%, transparent 50%)',
-                  }}
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 />
               </div>
 
-              {/* Project info */}
-              <div className="p-8 flex-1 flex flex-col">
-                <h3 className="heading-3 mb-4">
+              <div className="flex flex-1 flex-col p-8">
+                <h3 className="mb-4 font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold text-ink">
                   {data.name}
                 </h3>
-                <p className="body text-sm line-clamp-3 flex-1 mb-6">
+                <p className="mb-6 flex-1 text-sm text-ink/70 line-clamp-3">
                   {data.description}
                 </p>
-                <div className="flex items-center gap-2 font-mono text-sm" style={{ color: 'var(--color-accent-bright)' }}>
+                <div className="flex items-center gap-2 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-build">
                   <span>View Project</span>
-                  <span className="group-hover:translate-x-2 transition-transform">→</span>
+                  <span className="transition-transform duration-200 ease-out group-hover:translate-x-2">→</span>
                 </div>
               </div>
             </div>
