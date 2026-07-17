@@ -1,6 +1,6 @@
 # Design System Foundation Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Stand up the shared infrastructure — dependency cleanup, test harness, design tokens, fonts, smooth scroll, shared content types, and a shared `ProjectCard` component — that the Landing Page, `/build`, and `/animate` plans will all build on top of.
 
@@ -42,7 +42,7 @@ AOS (`aos` package) is redundant with GSAP ScrollTrigger, which the codebase alr
 - Modify: `components/Home/Home.tsx`
 - Modify: `package.json`
 
-- [ ] **Step 1: Remove the AOS import and init effect from Home.tsx**
+- [x] **Step 1: Remove the AOS import and init effect from Home.tsx**
 
 Replace the full contents of `components/Home/Home.tsx` with:
 
@@ -81,22 +81,22 @@ const Home = () => {
 export default Home
 ```
 
-- [ ] **Step 2: Verify the app still builds with AOS still installed but unused**
+- [x] **Step 2: Verify the app still builds with AOS still installed but unused**
 
 Run: `npm run build`
 Expected: Build succeeds with no errors (confirms `Home.tsx` no longer depends on `aos` before we remove the package).
 
-- [ ] **Step 3: Uninstall the AOS package**
+- [x] **Step 3: Uninstall the AOS package**
 
 Run: `npm uninstall aos @types/aos`
 Expected: `package.json` and `package-lock.json` no longer list `aos` or `@types/aos`.
 
-- [ ] **Step 4: Verify the app builds with the package removed**
+- [x] **Step 4: Verify the app builds with the package removed**
 
 Run: `npm run build`
 Expected: Build succeeds with no errors (confirms no other file in the codebase still imports `aos`).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add components/Home/Home.tsx package.json package-lock.json
@@ -116,12 +116,12 @@ Introduces Vitest/jsdom/React Testing Library, and immediately proves the harnes
 - Create: `hooks/usePrefersReducedMotion.ts`
 - Test: `hooks/__tests__/usePrefersReducedMotion.test.ts`
 
-- [ ] **Step 1: Install test dependencies**
+- [x] **Step 1: Install test dependencies**
 
 Run: `npm install -D vitest jsdom @vitejs/plugin-react @testing-library/react @testing-library/jest-dom`
 Expected: packages added to `devDependencies` in `package.json`.
 
-- [ ] **Step 2: Add test scripts to package.json**
+- [x] **Step 2: Add test scripts to package.json**
 
 In `package.json`, inside `"scripts"`, add:
 
@@ -130,7 +130,7 @@ In `package.json`, inside `"scripts"`, add:
 "test:watch": "vitest"
 ```
 
-- [ ] **Step 3: Create the Vitest config**
+- [x] **Step 3: Create the Vitest config**
 
 Create `vitest.config.ts`:
 
@@ -154,7 +154,7 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 4: Create the Vitest setup file**
+- [x] **Step 4: Create the Vitest setup file**
 
 Create `vitest.setup.ts`:
 
@@ -162,7 +162,7 @@ Create `vitest.setup.ts`:
 import "@testing-library/jest-dom/vitest";
 ```
 
-- [ ] **Step 5: Write the failing test for the hook**
+- [x] **Step 5: Write the failing test for the hook**
 
 Create `hooks/__tests__/usePrefersReducedMotion.test.ts`:
 
@@ -225,12 +225,12 @@ describe("usePrefersReducedMotion", () => {
 });
 ```
 
-- [ ] **Step 6: Run the test and verify it fails**
+- [x] **Step 6: Run the test and verify it fails**
 
 Run: `npx vitest run hooks/__tests__/usePrefersReducedMotion.test.ts`
 Expected: FAIL — `Cannot find module '../usePrefersReducedMotion'` (this also proves the Vitest harness itself is wired up correctly, since it gets far enough to report a real module-resolution error).
 
-- [ ] **Step 7: Implement the hook**
+- [x] **Step 7: Implement the hook**
 
 Create `hooks/usePrefersReducedMotion.ts`:
 
@@ -259,12 +259,12 @@ export function usePrefersReducedMotion(): boolean {
 }
 ```
 
-- [ ] **Step 8: Run the test and verify it passes**
+- [x] **Step 8: Run the test and verify it passes**
 
 Run: `npx vitest run hooks/__tests__/usePrefersReducedMotion.test.ts`
 Expected: PASS — 3 tests passed.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add package.json package-lock.json vitest.config.ts vitest.setup.ts hooks/usePrefersReducedMotion.ts hooks/__tests__/usePrefersReducedMotion.test.ts
@@ -280,7 +280,7 @@ Adds the new color and radius tokens from the design spec (§6) as a Tailwind v4
 **Files:**
 - Modify: `app/globals.css`
 
-- [ ] **Step 1: Add the new `@theme` block**
+- [x] **Step 1: Add the new `@theme` block**
 
 In `app/globals.css`, insert the following block immediately after the `@import "tailwindcss";` line (line 1) and before the existing `:root { ... }` block:
 
@@ -308,12 +308,12 @@ In `app/globals.css`, insert the following block immediately after the `@import 
 }
 ```
 
-- [ ] **Step 2: Verify the build succeeds**
+- [x] **Step 2: Verify the build succeeds**
 
 Run: `npm run build`
 Expected: Build succeeds with no errors. (This is a pure token-definition change with no consumers yet — there is no behavior to unit test here; the next plan that actually applies e.g. `bg-accent-build` in markup is where these tokens get exercised for the first time.)
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add app/globals.css
@@ -334,7 +334,7 @@ Adds the two new brand fonts as CSS variables via `next/font/local`, following t
 
 Fontshare's free public CSS API (`api.fontshare.com/v2/css`) only serves discrete static weights, not a single variable-weight file — confirmed by fetching it directly. Every component written in the Landing/Build/Animate plans only ever uses Cabinet Grotesk at weight 700 (`font-bold`) and General Sans at 400 (default/body), 500 (`font-medium`), and 600 (`font-semibold`) — so those are the only four static weight files needed, not the full family.
 
-- [ ] **Step 1: Download the font files via Fontshare's CSS API**
+- [x] **Step 1: Download the font files via Fontshare's CSS API**
 
 For each weight, fetch the API's generated CSS, extract the `.woff2` URL from its `@font-face` rule, and download that file. Run:
 
@@ -362,7 +362,7 @@ ls -la public/fonts/*.woff2
 
 Every file should be at least 10KB. If any file is smaller than that, `cat` it — if it looks like HTML or JSON rather than binary, the extraction failed (check that the `grep` pattern actually matched something in the corresponding `/tmp/*.css` file, and that the CSS API request itself returned a 200, not an error). Do not proceed with a corrupt/empty font file — stop and report BLOCKED with what the API actually returned.
 
-- [ ] **Step 2: Define the font loaders**
+- [x] **Step 2: Define the font loaders**
 
 Create `lib/fonts.ts`:
 
@@ -404,7 +404,7 @@ export const generalSans = localFont({
 });
 ```
 
-- [ ] **Step 3: Load the fonts in the root layout (additive — do not change the active body font yet)**
+- [x] **Step 3: Load the fonts in the root layout (additive — do not change the active body font yet)**
 
 In `app/layout.tsx`, add the import below the existing `next/font/google` import:
 
@@ -423,12 +423,12 @@ Then update the `<html>` element's `className` (currently `` `${spaceGrotesk.var
 
 Leave the `<body style={{ fontFamily: "var(--font-space-grotesk)" }}>` line unchanged — the current homepage keeps rendering in its existing font until it's redesigned in the Build-route plan. This step only makes the two new font variables available site-wide.
 
-- [ ] **Step 4: Verify the build succeeds**
+- [x] **Step 4: Verify the build succeeds**
 
 Run: `npm run build`
 Expected: Build succeeds with no errors (confirms both font files were found at the paths referenced in `lib/fonts.ts`).
 
-- [ ] **Step 5: Verify the fonts are loaded in the browser**
+- [x] **Step 5: Verify the fonts are loaded in the browser**
 
 Run: `npm run dev`, open `http://localhost:3000`, open the browser devtools console, and run:
 
@@ -438,7 +438,7 @@ getComputedStyle(document.documentElement).getPropertyValue('--font-cabinet-grot
 
 Expected: a non-empty string (the generated local font-family name), not empty/`undefined`. Repeat for `--font-general-sans`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add public/fonts/CabinetGrotesk-Bold.woff2 public/fonts/GeneralSans-Regular.woff2 public/fonts/GeneralSans-Medium.woff2 public/fonts/GeneralSans-Semibold.woff2 lib/fonts.ts app/layout.tsx
@@ -456,12 +456,12 @@ Adds momentum-based smooth scrolling site-wide (pairs with the existing GSAP Scr
 - Create: `components/SmoothScroll.tsx`
 - Modify: `app/layout.tsx`
 
-- [ ] **Step 1: Install Lenis**
+- [x] **Step 1: Install Lenis**
 
 Run: `npm install lenis`
 Expected: `lenis` added to `dependencies` in `package.json`.
 
-- [ ] **Step 2: Create the SmoothScroll component**
+- [x] **Step 2: Create the SmoothScroll component**
 
 Create `components/SmoothScroll.tsx`:
 
@@ -500,7 +500,7 @@ export default function SmoothScroll() {
 }
 ```
 
-- [ ] **Step 3: Mount it in the root layout**
+- [x] **Step 3: Mount it in the root layout**
 
 In `app/layout.tsx`, add the import:
 
@@ -519,12 +519,12 @@ And mount it as the first child of `<body>`, before `<ThemeToggle />`:
   ...
 ```
 
-- [ ] **Step 4: Verify the build succeeds**
+- [x] **Step 4: Verify the build succeeds**
 
 Run: `npm run build`
 Expected: Build succeeds with no errors.
 
-- [ ] **Step 5: Verify smooth scroll manually**
+- [x] **Step 5: Verify smooth scroll manually**
 
 Run: `npm run dev`, open `http://localhost:3000`, and scroll with the mouse wheel. Expected: scrolling has a momentum/easing feel rather than snapping instantly (a visible, qualitative difference from default browser scroll).
 
@@ -532,7 +532,7 @@ Then, in Chrome DevTools, open the Rendering tab (Cmd/Ctrl+Shift+P → "Show Ren
 
 There is no automated test for this task: Lenis's behavior is a `requestAnimationFrame` loop wrapping a third-party library's internal physics, which is not meaningfully assertable in jsdom (no real frame timing or scroll rendering exists there). The reduced-motion branch is exercised by the manual DevTools check above; the underlying hook it depends on already has full unit coverage from Task 2.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add package.json package-lock.json components/SmoothScroll.tsx app/layout.tsx
@@ -548,7 +548,7 @@ Defines the `ProjectContent`, `ResourceContent`, and `TestimonialContent` types 
 **Files:**
 - Create: `types/content.ts`
 
-- [ ] **Step 1: Define the types**
+- [x] **Step 1: Define the types**
 
 Create `types/content.ts`:
 
@@ -584,12 +584,12 @@ export interface TestimonialContent {
 }
 ```
 
-- [ ] **Step 2: Verify the project type-checks**
+- [x] **Step 2: Verify the project type-checks**
 
 Run: `npm run build`
 Expected: Build succeeds with no type errors. (A pure type-declaration file has no runtime behavior to unit test; the type contract is exercised — and would fail to compile if violated — by `ProjectCard` in Task 7.)
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add types/content.ts
@@ -606,7 +606,7 @@ The one project-card component used by the Landing preview, `/build/projects`, t
 - Create: `components/Shared/ProjectCard.tsx`
 - Test: `components/Shared/__tests__/ProjectCard.test.tsx`
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Create `components/Shared/__tests__/ProjectCard.test.tsx`:
 
@@ -671,12 +671,12 @@ describe("ProjectCard", () => {
 });
 ```
 
-- [ ] **Step 2: Run the tests and verify they fail**
+- [x] **Step 2: Run the tests and verify they fail**
 
 Run: `npx vitest run components/Shared/__tests__/ProjectCard.test.tsx`
 Expected: FAIL — `Cannot find module '../ProjectCard'`.
 
-- [ ] **Step 3: Implement the component**
+- [x] **Step 3: Implement the component**
 
 Create `components/Shared/ProjectCard.tsx`:
 
@@ -732,12 +732,12 @@ export default function ProjectCard({ project, accent }: ProjectCardProps) {
 }
 ```
 
-- [ ] **Step 4: Run the tests and verify they pass**
+- [x] **Step 4: Run the tests and verify they pass**
 
 Run: `npx vitest run components/Shared/__tests__/ProjectCard.test.tsx`
 Expected: PASS — 6 tests passed.
 
-- [ ] **Step 5: Run the full test suite and the build**
+- [x] **Step 5: Run the full test suite and the build**
 
 Run: `npm run test`
 Expected: PASS — all test files (the hook from Task 2 and this component) pass.
@@ -745,7 +745,7 @@ Expected: PASS — all test files (the hook from Task 2 and this component) pass
 Run: `npm run build`
 Expected: Build succeeds with no errors.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add components/Shared/ProjectCard.tsx components/Shared/__tests__/ProjectCard.test.tsx
@@ -756,11 +756,11 @@ git commit -m "feat: add shared ProjectCard component"
 
 ## Definition of Done
 
-- [ ] `npm run build` succeeds.
-- [ ] `npm run test` passes (hook + `ProjectCard` suites).
-- [ ] The currently-live homepage at `/` still renders and behaves exactly as before this plan (visually unchanged — this plan added infrastructure, it did not redesign any page).
-- [ ] Smooth scroll is felt on `/` and is disabled when `prefers-reduced-motion: reduce` is emulated.
-- [ ] `--font-cabinet-grotesk` and `--font-general-sans` custom properties resolve to non-empty values in the browser.
-- [ ] `bg-ink`, `text-ink`, `bg-base`, `bg-base-raised`, `bg-accent-build`, `bg-accent-animate`, `bg-band-dark`, `rounded-card`, `rounded-pill` are available Tailwind utilities (no build errors if referenced).
-- [ ] `ease-out`, `ease-in-out`, `ease-drawer` are available Tailwind utilities using the spec's custom cubic-bezier curves (overriding Tailwind's weaker built-in `ease-out`/`ease-in-out`).
-- [ ] `ProjectCard` renders correctly for both `accent="build"` and `accent="animate"` in its test suite.
+- [x] `npm run build` succeeds.
+- [x] `npm run test` passes (hook + `ProjectCard` suites).
+- [x] The currently-live homepage at `/` still renders and behaves exactly as before this plan (visually unchanged — this plan added infrastructure, it did not redesign any page).
+- [x] Smooth scroll is felt on `/` and is disabled when `prefers-reduced-motion: reduce` is emulated.
+- [x] `--font-cabinet-grotesk` and `--font-general-sans` custom properties resolve to non-empty values in the browser.
+- [x] `bg-ink`, `text-ink`, `bg-base`, `bg-base-raised`, `bg-accent-build`, `bg-accent-animate`, `bg-band-dark`, `rounded-card`, `rounded-pill` are available Tailwind utilities (no build errors if referenced).
+- [x] `ease-out`, `ease-in-out`, `ease-drawer` are available Tailwind utilities using the spec's custom cubic-bezier curves (overriding Tailwind's weaker built-in `ease-out`/`ease-in-out`).
+- [x] `ProjectCard` renders correctly for both `accent="build"` and `accent="animate"` in its test suite.
