@@ -6,15 +6,24 @@ import Link from 'next/link'
 import React from 'react'
 import { IoLinkOutline } from "react-icons/io5";
 
-export const metadata: Metadata = {
-  title: "Projects | Okata Miracle - Frontend Developer",
-  description: "Explore Okata Miracle's latest projects built with Next.js, React, and TailwindCSS.",
-};
-
 type Props = {
   params: Promise<{
     projectID: string
   }>
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const resolvedParams = await params;
+  const project = projectsData.find((p) => p.projectID === resolvedParams.projectID);
+
+  if (!project) {
+    return { title: "Project not found | Okata Miracle" };
+  }
+
+  return {
+    title: `${project.name} | Okata Miracle`,
+    description: project.subhead,
+  };
 }
 
 const ProjectDisplayPage = async ({ params }: Props) => {
@@ -26,7 +35,7 @@ const ProjectDisplayPage = async ({ params }: Props) => {
   if (!project) {
     return (
       <div className="min-h-screen pt-32 text-center">
-        <h1 className="heading-2" style={{ color: 'var(--color-text-primary)' }}>
+        <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold text-ink">
           Project not found
         </h1>
       </div>
@@ -36,57 +45,44 @@ const ProjectDisplayPage = async ({ params }: Props) => {
   return (
     <div className='min-h-screen pt-32 pb-20 px-6'>
       <div className='max-w-5xl mx-auto'>
-        {/* Header */}
-        <div className='card p-8 md:p-12 mb-12'>
-          <h1 className='heading-1 mb-6' style={{ color: 'var(--color-text-primary)' }}>
+        <div className='rounded-card bg-base-raised p-8 md:p-12 mb-12'>
+          <h1 className='mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-4xl md:text-5xl font-bold text-ink'>
             {project.name}
           </h1>
-          <p className='body-large mb-8'>
+          <p className='mb-8 text-lg text-ink/70'>
             {project.subhead}
           </p>
 
-          {/* Meta Info Grid */}
           <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mb-8'>
             <div>
-              <p className='text-sm font-mono mb-2' style={{ color: 'var(--color-accent-bright)' }}>
+              <p className='mb-2 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-build'>
                 Date
               </p>
-              <p className='font-semibold' style={{ color: 'var(--color-text-primary)' }}>
-                {project.date}
-              </p>
+              <p className='font-semibold text-ink'>{project.date}</p>
             </div>
             <div>
-              <p className='text-sm font-mono mb-2' style={{ color: 'var(--color-accent-bright)' }}>
+              <p className='mb-2 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-build'>
                 Type
               </p>
-              <p className='font-semibold' style={{ color: 'var(--color-text-primary)' }}>
-                {project.type}
-              </p>
+              <p className='font-semibold text-ink'>{project.type}</p>
             </div>
             <div className='col-span-2'>
-              <p className='text-sm font-mono mb-2' style={{ color: 'var(--color-accent-bright)' }}>
+              <p className='mb-2 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-build'>
                 Client
               </p>
-              <p className='font-semibold' style={{ color: 'var(--color-text-primary)' }}>
-                {project.client}
-              </p>
+              <p className='font-semibold text-ink'>{project.client}</p>
             </div>
           </div>
 
-          {/* Technologies */}
           <div className='mb-8'>
-            <p className='text-sm font-mono mb-3' style={{ color: 'var(--color-accent-bright)' }}>
+            <p className='mb-3 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-build'>
               Technologies
             </p>
             <div className="flex flex-wrap gap-2">
               {project.technology.map((tech, index) => (
-                <span 
-                  key={index} 
-                  className="px-4 py-2 rounded-full text-sm font-mono font-medium"
-                  style={{
-                    background: 'oklch(0.65 0.25 285 / 0.2)',
-                    color: 'var(--color-accent-bright)',
-                  }}
+                <span
+                  key={index}
+                  className="rounded-pill bg-accent-build/15 px-4 py-2 text-sm font-[family-name:var(--font-jetbrains-mono)] font-medium text-accent-build"
                 >
                   {tech}
                 </span>
@@ -94,48 +90,48 @@ const ProjectDisplayPage = async ({ params }: Props) => {
             </div>
           </div>
 
-          {/* Description */}
           <div className='mb-8'>
-            <p className='text-sm font-mono mb-3' style={{ color: 'var(--color-accent-bright)' }}>
+            <p className='mb-3 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-build'>
               Description
             </p>
-            <p className='body leading-relaxed'>{project.description}</p>
+            <p className='leading-relaxed text-ink/70'>{project.description}</p>
           </div>
 
-          {/* Action Buttons */}
           <div className='flex flex-wrap gap-4'>
             <Link
               href={project.link}
-              className="btn-primary inline-flex items-center gap-2"
+              className="inline-flex items-center gap-2 rounded-pill bg-accent-build px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97]"
               target="_blank"
             >
               <span>Visit Project</span>
               <IoLinkOutline className='text-xl' />
             </Link>
-            <Link href="/build/projects" className="btn-secondary inline-flex items-center gap-2">
+            <Link
+              href="/build/projects"
+              className="inline-flex items-center gap-2 rounded-pill border border-ink/15 px-6 py-3 font-medium text-ink transition-colors duration-200 ease-out hover:bg-ink/5"
+            >
               <span>←</span>
               <span>Back to Projects</span>
             </Link>
           </div>
         </div>
 
-        {/* Project Images */}
         <div className="space-y-8">
           {[project.image, project.image2, project.image3].map((img, index) => (
-            <div key={index} className="card p-6 overflow-hidden">
-              <div className="relative h-64 md:h-96 rounded-2xl overflow-hidden">
+            <div key={index} className="overflow-hidden rounded-card bg-base-raised p-6">
+              <div className="relative h-64 md:h-96 overflow-hidden rounded-card">
                 <Image
                   src={img}
                   alt={`${project.name} screenshot ${index + 1}`}
                   fill
-                  className="object-cover hover:scale-105 transition-transform duration-700"
+                  className="object-cover transition-transform duration-700 ease-out hover:scale-105"
                 />
               </div>
             </div>
           ))}
         </div>
       </div>
-      
+
       <Footer />
     </div>
   )
