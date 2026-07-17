@@ -4,9 +4,9 @@ Where this stands and exactly how to pick it back up, on this machine or another
 
 ## Branch
 
-`worktree-portfolio-redesign-foundation`. **⚠️ NOT pushed to `origin`** — as of this writing the branch is 44 commits ahead of `origin/worktree-portfolio-redesign-foundation` and only exists locally on this machine. Attempting to push earlier this session failed with a 403: the local git credentials are authenticated as a different GitHub account (`Work-Better-Life`) than this repo's owner (`OkataMiracleDev`). **Fix the credentials (`gh auth login` as the right account, or update the stored Git credential) and push before switching devices, or this work is only accessible from this machine.**
+`worktree-portfolio-redesign-foundation`, pushed to `origin` and up to date (credentials issue from earlier in this session — wrong GitHub account authenticated — has been resolved).
 
-On another device, once the branch is actually pushed:
+On another device:
 
 ```bash
 git fetch origin
