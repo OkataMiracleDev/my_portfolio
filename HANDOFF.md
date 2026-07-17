@@ -19,8 +19,8 @@ npm install
 - Spec: `docs/superpowers/specs/2026-07-10-portfolio-redesign-design.md`
 - Plan 1 (Foundation): `docs/superpowers/plans/2026-07-13-design-system-foundation.md` — ✅ complete, reviewed clean
 - Plan 2 (Landing): `docs/superpowers/plans/2026-07-13-landing-page.md` — ✅ complete, reviewed clean
-- Plan 3 (`/build` redesign): `docs/superpowers/plans/2026-07-13-build-route-redesign.md` — written, not started — **currently next**
-- Plan 4 (`/animate`): `docs/superpowers/plans/2026-07-13-animate-route.md` — written, not started
+- Plan 3 (`/build` redesign): `docs/superpowers/plans/2026-07-13-build-route-redesign.md` — ✅ complete, reviewed clean
+- Plan 4 (`/animate`): `docs/superpowers/plans/2026-07-13-animate-route.md` — written, not started — **currently next**
 
 ## Plan 1 progress (7 tasks total) — ✅ COMPLETE
 
@@ -52,13 +52,23 @@ npm install
 
 `/animate` correctly 404s for now — that route doesn't ship until Plan 4. This is expected, not a bug.
 
-## Plan 2 is done — next up is Plan 3 (`/build` route redesign)
+## Plan 3 progress (16 tasks total) — ✅ COMPLETE
 
-This is the first plan that actually redesigns the dev portfolio's own look (the user's own notes on what this should cover are in `redesign.md` at the repo root of this worktree — alignment/spacing pass, ProjectsSlider restyle, card format consistency across the site, projects + project-detail page redesign, nav redesign keeping the same links, MyStack section restyle keeping the existing button UX, a GSAP horizontal card-deck treatment for Work Experience pulling from a data file, keeping the testimonial card-deck animation but restyling the section, and a Contact section + "Hire me" modal revamp).
+Every task from `docs/superpowers/plans/2026-07-13-build-route-redesign.md` is implemented and committed (one commit per task, `a155475`..`ec8291b`). Every `/build/*` component is reskinned to the light-minimal design system; all GSAP animations, form logic, and content/copy are preserved byte-for-byte. The final whole-implementation review (independent re-check of every file against the pre-Plan-3 diff) came back clean — highlights:
 
-**Important open item carried from Plan 1, to resolve during this plan:** Plan 3's Experience section task is exactly where the Lenis↔ScrollTrigger wiring (fixed in Plan 1, commit `8e87c0e`) gets its real test — verify the redesigned card-deck scroll-hijack still feels in sync with smoothed scroll once the section is rebuilt.
+- **Experience.tsx's scroll-hijack math (the highest-risk task) was diffed line-by-line against its pre-Plan-3 version and confirmed logically identical** — only classNames changed, plus the intentional fix of the dead `var(--color-bg-primary)` reference to a real `bg-base` background.
+- `ProjectsCard.tsx` (bespoke) was fully retired in favor of the shared `ProjectCard` from Plan 1, in both `HomeProjects.tsx` and the `/build/projects` listing page — confirmed each passes the correct `href` shape for its own data source (`homeprojectsData.projectID` is already a full path; `projectsData.projectID` is a bare slug needing `/build/projects/` prefixed).
+- `/build/projects/[projectID]` now has its own `generateMetadata` (previously had none, silently used the wrong generic title) — verified via a temporary local prod server that both projects render correct, distinct `<title>` tags.
+- `globals.css`'s old dark-purple theme, `.card`/`.btn-*`/`.heading-*`/`.body*`/`.nav-icon`/`.hire-me-btn`/`.fade-in-up` were deleted — grepped for dangling references to removed classes and removed CSS custom properties (`--color-text-primary`, `--color-accent-bright`, etc.) across `app` and `components`: none found.
+- `npm run build` and `npm run test` (13/13) both pass.
 
-Pick up Plan 3 with the subagent-driven-development skill, same pattern as Plans 1-2: dispatch an implementer per task using the exact task text from `docs/superpowers/plans/2026-07-13-build-route-redesign.md`, then a spec-compliance reviewer, then a code-quality reviewer per task, then a final whole-implementation review before moving to Plan 4.
+**Non-blocking note:** while testing locally, a Turbopack dev-mode error appeared once (`Can't resolve '@vercel/turbopack-next/internal/font/google/font'`), traced to Turbopack misdetecting the workspace root because of a stray `package-lock.json` in `C:\Users\okata\` (home directory) — visible in the build's own "Detected additional lockfiles" warning. It resolved itself/didn't recur, but if it comes back, the fix is setting `turbopack.root` explicitly in `next.config.ts` rather than relying on auto-detection.
+
+## Plan 3 is done — next up is Plan 4 (`/animate` route)
+
+This is the final plan in the sequence — it builds a whole new `/animate` route (motion-design portfolio) sharing the design system but with its own accent color, nav, and motion language, per the spec. It's the plan that finally makes the landing page's "Animate" route-choice card resolve instead of 404ing.
+
+Pick up Plan 4 with the subagent-driven-development skill, same pattern as Plans 1-3: dispatch an implementer per task using the exact task text from `docs/superpowers/plans/2026-07-13-animate-route.md`, then a spec-compliance reviewer, then a code-quality reviewer per task, then a final whole-implementation review. This is the last plan — once it's reviewed clean, the whole 4-phase redesign is complete.
 
 ## A few things learned the hard way this session, worth knowing before continuing
 

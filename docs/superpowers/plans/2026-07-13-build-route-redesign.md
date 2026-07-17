@@ -1,6 +1,6 @@
 # /build Route Redesign Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Reskin every component under `/build/*` to the new light-minimal design system from Plan 1, without changing any content, copy, data, or interaction logic (spec §10, "keep content, redesign shell"). Every GSAP animation, form handler, and piece of business logic in this plan is preserved byte-for-byte from the current implementation — only class names, inline styles, and a handful of dead CSS rules change.
 
@@ -46,7 +46,7 @@
 
 Removes the dark/light theme toggle (dark mode is a non-goal per spec §3, and there's no dark variant of the new tokens for it to toggle to) and establishes the new base background/font for everything under `/build/*`.
 
-- [ ] **Step 1:** Replace `app/build/layout.tsx`:
+- [x] **Step 1:** Replace `app/build/layout.tsx`:
 
 ```tsx
 import Nav from "@/components/Home/Navbar/Nav";
@@ -65,11 +65,11 @@ export default function BuildLayout({
 }
 ```
 
-- [ ] **Step 2:** Delete `components/ThemeToggle.tsx` (`git rm components/ThemeToggle.tsx`) — nothing else imports it after Step 1.
+- [x] **Step 2:** Delete `components/ThemeToggle.tsx` (`git rm components/ThemeToggle.tsx`) — nothing else imports it after Step 1.
 
-- [ ] **Step 3:** Run `npm run build` — expect success (grep the repo for `ThemeToggle` first if it fails, to confirm no other import was missed).
+- [x] **Step 3:** Run `npm run build` — expect success (grep the repo for `ThemeToggle` first if it fails, to confirm no other import was missed).
 
-- [ ] **Step 4:** Commit: `git add app/build/layout.tsx && git rm components/ThemeToggle.tsx --cached 2>/dev/null; git add -A && git commit -m "refactor: drop theme toggle, establish /build base shell"`
+- [x] **Step 4:** Commit: `git add app/build/layout.tsx && git rm components/ThemeToggle.tsx --cached 2>/dev/null; git add -A && git commit -m "refactor: drop theme toggle, establish /build base shell"`
 
 ---
 
@@ -77,7 +77,7 @@ export default function BuildLayout({
 
 `SectionHeading` and `Modal` are used by multiple sections redesigned in later tasks, so they go first.
 
-- [ ] **Step 1:** Replace `components/Helper/SectionHeading.tsx`:
+- [x] **Step 1:** Replace `components/Helper/SectionHeading.tsx`:
 
 ```tsx
 import React from 'react'
@@ -97,7 +97,7 @@ const SectionHeading = ({heading}: Props) => {
 export default SectionHeading
 ```
 
-- [ ] **Step 2:** Replace `components/Helper/Modal.tsx`:
+- [x] **Step 2:** Replace `components/Helper/Modal.tsx`:
 
 ```tsx
 "use client";
@@ -148,9 +148,9 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
 export default Modal;
 ```
 
-- [ ] **Step 3:** Run `npm run build` — expect success (existing usages of `.heading-2`/old `.card` inside these two files' consumers will still work fine since consumers aren't touched until their own tasks).
+- [x] **Step 3:** Run `npm run build` — expect success (existing usages of `.heading-2`/old `.card` inside these two files' consumers will still work fine since consumers aren't touched until their own tasks).
 
-- [ ] **Step 4:** Commit: `git add components/Helper && git commit -m "refactor: reskin SectionHeading and Modal"`
+- [x] **Step 4:** Commit: `git add components/Helper && git commit -m "refactor: reskin SectionHeading and Modal"`
 
 ---
 
@@ -158,7 +158,7 @@ export default Modal;
 
 Preserves the scroll-based background toggle, the GSAP entrance animation, and every link exactly — only the classes change.
 
-- [ ] **Step 1:** Replace `components/Home/Navbar/Nav.tsx`:
+- [x] **Step 1:** Replace `components/Home/Navbar/Nav.tsx`:
 
 ```tsx
 "use client";
@@ -253,11 +253,11 @@ const Nav = () => {
 export default Nav;
 ```
 
-- [ ] **Step 2:** Run `npm run build` — expect success.
+- [x] **Step 2:** Run `npm run build` — expect success.
 
-- [ ] **Step 3:** Manual check: `npm run dev`, visit `/build`, confirm the nav fades/slides in on load, the background turns solid after scrolling past ~70px, every icon link and the Blog button still work.
+- [x] **Step 3:** Manual check: `npm run dev`, visit `/build`, confirm the nav fades/slides in on load, the background turns solid after scrolling past ~70px, every icon link and the Blog button still work.
 
-- [ ] **Step 4:** Commit: `git add components/Home/Navbar/Nav.tsx && git commit -m "refactor: reskin Nav"`
+- [x] **Step 4:** Commit: `git add components/Home/Navbar/Nav.tsx && git commit -m "refactor: reskin Nav"`
 
 ---
 
@@ -265,7 +265,7 @@ export default Nav;
 
 Same session-storage-gated, GSAP-timed reveal — only the colors/fonts change.
 
-- [ ] **Step 1:** Replace `components/SplashScreen.tsx`:
+- [x] **Step 1:** Replace `components/SplashScreen.tsx`:
 
 ```tsx
 "use client";
@@ -328,11 +328,11 @@ export default function SplashScreen() {
 }
 ```
 
-- [ ] **Step 2:** Run `npm run build` — expect success.
+- [x] **Step 2:** Run `npm run build` — expect success.
 
-- [ ] **Step 3:** Manual check: clear session storage (DevTools → Application → Session Storage → delete `hasSeenSplash`), reload `/build`, confirm the splash shows the new light background and Cabinet Grotesk wordmark, then fades into the page. Reload again without clearing storage — splash should not reappear (unchanged `sessionStorage` gating).
+- [x] **Step 3:** Manual check: clear session storage (DevTools → Application → Session Storage → delete `hasSeenSplash`), reload `/build`, confirm the splash shows the new light background and Cabinet Grotesk wordmark, then fades into the page. Reload again without clearing storage — splash should not reappear (unchanged `sessionStorage` gating).
 
-- [ ] **Step 4:** Commit: `git add components/SplashScreen.tsx && git commit -m "refactor: reskin SplashScreen"`
+- [x] **Step 4:** Commit: `git add components/SplashScreen.tsx && git commit -m "refactor: reskin SplashScreen"`
 
 ---
 
@@ -340,7 +340,7 @@ export default function SplashScreen() {
 
 All refs and the entire GSAP timeline are unchanged — only classes/inline styles change. The CTA still opens the same `Modal`+`Contact` combination as before (changing that interaction is outside this plan's "redesign shell, not flow" scope).
 
-- [ ] **Step 1:** Replace `components/Home/Hero/Hero.tsx`:
+- [x] **Step 1:** Replace `components/Home/Hero/Hero.tsx`:
 
 ```tsx
 "use client";
@@ -453,11 +453,11 @@ const Hero = () => {
 export default Hero;
 ```
 
-- [ ] **Step 2:** Run `npm run build` — expect success.
+- [x] **Step 2:** Run `npm run build` — expect success.
 
-- [ ] **Step 3:** Manual check: `/build` hero entrance animation still staggers in the same order (subtitle → name → description → CTA → image → decorative blobs); clicking "Let's Work Together" still opens the modal with the contact form.
+- [x] **Step 3:** Manual check: `/build` hero entrance animation still staggers in the same order (subtitle → name → description → CTA → image → decorative blobs); clicking "Let's Work Together" still opens the modal with the contact form.
 
-- [ ] **Step 4:** Commit: `git add components/Home/Hero/Hero.tsx && git commit -m "refactor: reskin Hero"`
+- [x] **Step 4:** Commit: `git add components/Home/Hero/Hero.tsx && git commit -m "refactor: reskin Hero"`
 
 ---
 
@@ -465,7 +465,7 @@ export default Hero;
 
 All content and GSAP scroll-reveal logic unchanged.
 
-- [ ] **Step 1:** Replace `components/Home/About/About.tsx`:
+- [x] **Step 1:** Replace `components/Home/About/About.tsx`:
 
 ```tsx
 "use client";
@@ -566,7 +566,7 @@ const About = () => {
 export default About;
 ```
 
-- [ ] **Step 2:** Replace `components/Home/About/PhotoCollage.tsx`:
+- [x] **Step 2:** Replace `components/Home/About/PhotoCollage.tsx`:
 
 ```tsx
 import Image from 'next/image'
@@ -598,11 +598,11 @@ const PhotoCollage = () => {
 export default PhotoCollage
 ```
 
-- [ ] **Step 3:** Run `npm run build` — expect success.
+- [x] **Step 3:** Run `npm run build` — expect success.
 
-- [ ] **Step 4:** Manual check: `/build#about` scroll-reveals text from the left and the photo collage from the right; hovering the photo collage un-rotates it.
+- [x] **Step 4:** Manual check: `/build#about` scroll-reveals text from the left and the photo collage from the right; hovering the photo collage un-rotates it.
 
-- [ ] **Step 5:** Commit: `git add components/Home/About && git commit -m "refactor: reskin About and PhotoCollage"`
+- [x] **Step 5:** Commit: `git add components/Home/About && git commit -m "refactor: reskin About and PhotoCollage"`
 
 ---
 
@@ -610,7 +610,7 @@ export default PhotoCollage
 
 The `react-multi-carousel` autoplay/responsive config and the external-link behavior are unchanged.
 
-- [ ] **Step 1:** Replace `components/Home/Projects/Projects.tsx`:
+- [x] **Step 1:** Replace `components/Home/Projects/Projects.tsx`:
 
 ```tsx
 "use client";
@@ -654,7 +654,7 @@ const Projects = () => {
 export default Projects;
 ```
 
-- [ ] **Step 2:** Replace `components/Home/Projects/ProjectsSlider.tsx`:
+- [x] **Step 2:** Replace `components/Home/Projects/ProjectsSlider.tsx`:
 
 ```tsx
 "use client";
@@ -728,11 +728,11 @@ const ProjectsSlider = () => {
 export default ProjectsSlider;
 ```
 
-- [ ] **Step 3:** Run `npm run build` — expect success.
+- [x] **Step 3:** Run `npm run build` — expect success.
 
-- [ ] **Step 4:** Manual check: the "Featured Work" carousel still autoplays, is draggable, and each slide opens its external `link` in a new tab.
+- [x] **Step 4:** Manual check: the "Featured Work" carousel still autoplays, is draggable, and each slide opens its external `link` in a new tab.
 
-- [ ] **Step 5:** Commit: `git add components/Home/Projects && git commit -m "refactor: reskin Projects slider"`
+- [x] **Step 5:** Commit: `git add components/Home/Projects && git commit -m "refactor: reskin Projects slider"`
 
 ---
 
@@ -740,7 +740,7 @@ export default ProjectsSlider;
 
 All GSAP scroll-triggered reveals and the click-to-reveal-label interaction are unchanged. Per-icon brand hex colors are dropped in favor of the new restrained accent system (icons are still identified by shape and label) — a deliberate simplification, not an oversight.
 
-- [ ] **Step 1:** Replace `components/Home/Stack/Stack.tsx`:
+- [x] **Step 1:** Replace `components/Home/Stack/Stack.tsx`:
 
 ```tsx
 "use client";
@@ -854,11 +854,11 @@ const Stack = () => {
 export default Stack;
 ```
 
-- [ ] **Step 2:** Run `npm run build` — expect success.
+- [x] **Step 2:** Run `npm run build` — expect success.
 
-- [ ] **Step 3:** Manual check: icons pop in staggered on scroll; clicking an icon shows its label and highlights it in the accent color; only one icon highlighted at a time.
+- [x] **Step 3:** Manual check: icons pop in staggered on scroll; clicking an icon shows its label and highlights it in the accent color; only one icon highlighted at a time.
 
-- [ ] **Step 4:** Commit: `git add components/Home/Stack/Stack.tsx && git commit -m "refactor: reskin Stack"`
+- [x] **Step 4:** Commit: `git add components/Home/Stack/Stack.tsx && git commit -m "refactor: reskin Stack"`
 
 ---
 
@@ -866,7 +866,7 @@ export default Stack;
 
 **The GSAP scroll-hijack math (card-deck positions, pin, scrub, per-card stagger) must not change in any way** — copy it verbatim. Only the JSX class names/inline styles change. This also fixes a latent bug: the original section used `style={{ backgroundColor: "var(--color-bg-primary)" }}`, referencing a CSS variable that was never defined anywhere in `globals.css` — it silently did nothing. It now gets a real, intentional background.
 
-- [ ] **Step 1:** Replace `components/Home/Experience/Experience.tsx`:
+- [x] **Step 1:** Replace `components/Home/Experience/Experience.tsx`:
 
 ```tsx
 "use client";
@@ -1002,11 +1002,11 @@ const Experience = () => {
 export default Experience;
 ```
 
-- [ ] **Step 2:** Run `npm run build` — expect success.
+- [x] **Step 2:** Run `npm run build` — expect success.
 
-- [ ] **Step 3:** Manual check — this is the highest-risk task in the plan, since the scroll math is intricate: on `/build`, scroll to the Work Experience section. Scroll should "hijack" (pin) while the cards peel off the right-hand deck one by one and spread out until the last card reaches center, at which point normal page scroll resumes. Resize the browser window and confirm the deck still lays out correctly (the math recalculates via `invalidateOnRefresh`). Test on a narrow/mobile-width viewport too — cards should fade based on distance from center while scrolling (the `isMobile()` opacity branch).
+- [x] **Step 3:** Manual check — this is the highest-risk task in the plan, since the scroll math is intricate: on `/build`, scroll to the Work Experience section. Scroll should "hijack" (pin) while the cards peel off the right-hand deck one by one and spread out until the last card reaches center, at which point normal page scroll resumes. Resize the browser window and confirm the deck still lays out correctly (the math recalculates via `invalidateOnRefresh`). Test on a narrow/mobile-width viewport too — cards should fade based on distance from center while scrolling (the `isMobile()` opacity branch).
 
-- [ ] **Step 4:** Commit: `git add components/Home/Experience/Experience.tsx && git commit -m "refactor: reskin Experience, fix undefined --color-bg-primary reference"`
+- [x] **Step 4:** Commit: `git add components/Home/Experience/Experience.tsx && git commit -m "refactor: reskin Experience, fix undefined --color-bg-primary reference"`
 
 ---
 
@@ -1014,7 +1014,7 @@ export default Experience;
 
 Retires the bespoke `ProjectsCard` in favor of Plan 1's shared `ProjectCard`, themed `accent="build"`. `homeprojectsData` has no `tags` field, so tags render as an empty list (handled gracefully by `ProjectCard`).
 
-- [ ] **Step 1:** Replace `components/Home/HomeProjects/HomeProjects.tsx`:
+- [x] **Step 1:** Replace `components/Home/HomeProjects/HomeProjects.tsx`:
 
 ```tsx
 "use client";
@@ -1094,13 +1094,13 @@ const HomeProjects = () => {
 export default HomeProjects;
 ```
 
-- [ ] **Step 2:** Delete `components/Home/HomeProjects/ProjectsCard.tsx` (`git rm components/Home/HomeProjects/ProjectsCard.tsx`) — no longer imported by anything.
+- [x] **Step 2:** Delete `components/Home/HomeProjects/ProjectsCard.tsx` (`git rm components/Home/HomeProjects/ProjectsCard.tsx`) — no longer imported by anything.
 
-- [ ] **Step 3:** Run `npm run build` — expect success.
+- [x] **Step 3:** Run `npm run build` — expect success.
 
-- [ ] **Step 4:** Manual check: the two home-page project cards render with image, title, description; clicking one navigates to its `/build/projects/...` detail page (this exercises the `data/data.ts` fix from Plan 2's Task 1 — if that fix is missing, this click 404s); "View All Projects" goes to `/build/projects`.
+- [x] **Step 4:** Manual check: the two home-page project cards render with image, title, description; clicking one navigates to its `/build/projects/...` detail page (this exercises the `data/data.ts` fix from Plan 2's Task 1 — if that fix is missing, this click 404s); "View All Projects" goes to `/build/projects`.
 
-- [ ] **Step 5:** Commit: `git add components/Home/HomeProjects && git commit -m "refactor: adopt shared ProjectCard in HomeProjects"`
+- [x] **Step 5:** Commit: `git add components/Home/HomeProjects && git commit -m "refactor: adopt shared ProjectCard in HomeProjects"`
 
 ---
 
@@ -1108,7 +1108,7 @@ export default HomeProjects;
 
 The Swiper card-stack effect and all client review data are unchanged.
 
-- [ ] **Step 1:** Replace `components/Home/Testimonials/Testimonials.tsx`:
+- [x] **Step 1:** Replace `components/Home/Testimonials/Testimonials.tsx`:
 
 ```tsx
 "use client";
@@ -1162,7 +1162,7 @@ const Testimonials = () => {
 export default Testimonials;
 ```
 
-- [ ] **Step 2:** Replace `components/Home/Testimonials/TestimonialSlider.tsx`:
+- [x] **Step 2:** Replace `components/Home/Testimonials/TestimonialSlider.tsx`:
 
 ```tsx
 "use client"
@@ -1227,11 +1227,11 @@ export default TestimonialSlider
 
 (Added `relative` to the slide's inner wrapper div — the card-number badge is `absolute`-positioned and needs a positioned ancestor; the old `.card` class supplied `position: relative` implicitly through other rules, so this makes that dependency explicit now that `.card` is gone.)
 
-- [ ] **Step 3:** Run `npm run build` — expect success.
+- [x] **Step 3:** Run `npm run build` — expect success.
 
-- [ ] **Step 4:** Manual check: testimonial cards still stack/swipe with Swiper's card effect; each card shows client photo, name, quote, and its number badge in the corner.
+- [x] **Step 4:** Manual check: testimonial cards still stack/swipe with Swiper's card effect; each card shows client photo, name, quote, and its number badge in the corner.
 
-- [ ] **Step 5:** Commit: `git add components/Home/Testimonials && git commit -m "refactor: reskin Testimonials"`
+- [x] **Step 5:** Commit: `git add components/Home/Testimonials && git commit -m "refactor: reskin Testimonials"`
 
 ---
 
@@ -1239,7 +1239,7 @@ export default TestimonialSlider
 
 Form validation, the `fetch("/api/contact")` call, toast notifications, and the GSAP reveal are all unchanged.
 
-- [ ] **Step 1:** Replace `components/Home/Contact/Contact.tsx`:
+- [x] **Step 1:** Replace `components/Home/Contact/Contact.tsx`:
 
 ```tsx
 "use client";
@@ -1382,17 +1382,17 @@ const Contact = () => {
 export default Contact;
 ```
 
-- [ ] **Step 2:** Run `npm run build` — expect success.
+- [x] **Step 2:** Run `npm run build` — expect success.
 
-- [ ] **Step 3:** Manual check: submitting the form with empty fields shows the validation toast; a real submission still POSTs to `/api/contact` and shows a success/error toast (check the Network tab if you don't have working `EMAIL_USER`/`EMAIL_PASS` env vars locally — the important thing is the request fires correctly, not that the email actually sends in dev).
+- [x] **Step 3:** Manual check: submitting the form with empty fields shows the validation toast; a real submission still POSTs to `/api/contact` and shows a success/error toast (check the Network tab if you don't have working `EMAIL_USER`/`EMAIL_PASS` env vars locally — the important thing is the request fires correctly, not that the email actually sends in dev).
 
-- [ ] **Step 4:** Commit: `git add components/Home/Contact/Contact.tsx && git commit -m "refactor: reskin Contact"`
+- [x] **Step 4:** Commit: `git add components/Home/Contact/Contact.tsx && git commit -m "refactor: reskin Contact"`
 
 ---
 
 ### Task 13: Redesign Footer
 
-- [ ] **Step 1:** Replace `components/Home/Footer/Footer.tsx`:
+- [x] **Step 1:** Replace `components/Home/Footer/Footer.tsx`:
 
 ```tsx
 import { footLinks } from '@/constant/constant'
@@ -1430,9 +1430,9 @@ const Footer = () => {
 export default Footer
 ```
 
-- [ ] **Step 2:** Run `npm run build` — expect success.
+- [x] **Step 2:** Run `npm run build` — expect success.
 
-- [ ] **Step 3:** Commit: `git add components/Home/Footer/Footer.tsx && git commit -m "refactor: reskin Footer"`
+- [x] **Step 3:** Commit: `git add components/Home/Footer/Footer.tsx && git commit -m "refactor: reskin Footer"`
 
 ---
 
@@ -1440,7 +1440,7 @@ export default Footer
 
 The listing page adopts the shared `ProjectCard` (and gets real tags, since `projectsData` — unlike `homeprojectsData` — has a `technology` array). The detail page also gains its own `generateMetadata` — it previously had none and silently fell back to the root layout's generic metadata, and its old static `metadata` export actually had the wrong, listing-page title copy-pasted onto the detail page. Since this file is already being fully rewritten, fixing that is in scope.
 
-- [ ] **Step 1:** Replace `app/build/projects/page.tsx`:
+- [x] **Step 1:** Replace `app/build/projects/page.tsx`:
 
 ```tsx
 import React from "react";
@@ -1507,7 +1507,7 @@ const ProjectsPage = () => {
 export default ProjectsPage;
 ```
 
-- [ ] **Step 2:** Replace `app/build/projects/[projectID]/page.tsx`:
+- [x] **Step 2:** Replace `app/build/projects/[projectID]/page.tsx`:
 
 ```tsx
 import Footer from '@/components/Home/Footer/Footer';
@@ -1652,11 +1652,11 @@ const ProjectDisplayPage = async ({ params }: Props) => {
 export default ProjectDisplayPage
 ```
 
-- [ ] **Step 3:** Run `npm run build` — expect success. Confirm each generated project detail page's `<title>` (visible in the build output's page list or by inspecting `<head>` in the browser) is the project's own name, not the generic listing-page title.
+- [x] **Step 3:** Run `npm run build` — expect success. Confirm each generated project detail page's `<title>` (visible in the build output's page list or by inspecting `<head>` in the browser) is the project's own name, not the generic listing-page title.
 
-- [ ] **Step 4:** Manual check: `/build/projects` shows all projects with tag chips; each card opens its detail page with correct meta info, image gallery, and both action buttons working.
+- [x] **Step 4:** Manual check: `/build/projects` shows all projects with tag chips; each card opens its detail page with correct meta info, image gallery, and both action buttons working.
 
-- [ ] **Step 5:** Commit: `git add app/build/projects && git commit -m "refactor: reskin projects pages, add per-project metadata"`
+- [x] **Step 5:** Commit: `git add app/build/projects && git commit -m "refactor: reskin projects pages, add per-project metadata"`
 
 ---
 
@@ -1664,7 +1664,7 @@ export default ProjectDisplayPage
 
 Also fixes a pre-existing typo (`md"text-lg` — missing colon) encountered while touching this line.
 
-- [ ] **Step 1:** Replace `app/build/blog/page.tsx`:
+- [x] **Step 1:** Replace `app/build/blog/page.tsx`:
 
 ```tsx
 import Footer from '@/components/Home/Footer/Footer'
@@ -1689,9 +1689,9 @@ const BlogPage = () => {
 export default BlogPage
 ```
 
-- [ ] **Step 2:** Run `npm run build` — expect success.
+- [x] **Step 2:** Run `npm run build` — expect success.
 
-- [ ] **Step 3:** Commit: `git add app/build/blog/page.tsx && git commit -m "refactor: reskin blog page"`
+- [x] **Step 3:** Commit: `git add app/build/blog/page.tsx && git commit -m "refactor: reskin blog page"`
 
 ---
 
@@ -1699,13 +1699,13 @@ export default BlogPage
 
 Safe now — every component that used to reference the old dark-purple tokens/classes has been migrated in Tasks 1–15. Before deleting, grep to make sure.
 
-- [ ] **Step 1:** Confirm nothing still references the classes about to be deleted:
+- [x] **Step 1:** Confirm nothing still references the classes about to be deleted:
 
 Run: `grep -rn "className=.*\b\(card\|btn-primary\|btn-secondary\|hire-me-btn\|heading-display\|heading-1\|heading-2\|heading-3\|body-large\|nav-icon\|fade-in-up\)\b" --include="*.tsx" app components`
 
 Expected: no matches (every file that used these was rewritten in Tasks 1–15). If anything matches, stop and fix that file first — do not delete its CSS out from under it.
 
-- [ ] **Step 2:** Replace the full contents of `app/globals.css` with:
+- [x] **Step 2:** Replace the full contents of `app/globals.css` with:
 
 ```css
 @import "tailwindcss";
@@ -1837,19 +1837,19 @@ body {
 
 This removes: the old dark-purple `:root` color variables and `--text-*` scale, the noise-gradient `body::before`/`body::after`, `body.light-mode` and its variants, `.card`, `.btn-primary`, `.hire-me-btn`, `.btn-secondary`, `.heading-display`/`.heading-1`/`.heading-2`/`.heading-3`, `.body-large`/`.body`, `.nav-icon`, and the unused `.fade-in-up`/`@keyframes fadeInUp`. It keeps: the new `@theme` tokens, the spacing scale, `.section`, `.stack-btn` (still a live GSAP selector target), and the generic focus/selection/scrollbar/reduced-motion/mobile rules (recolored to the new tokens where they referenced the old ones).
 
-- [ ] **Step 3:** Run `npm run build` — expect success.
+- [x] **Step 3:** Run `npm run build` — expect success.
 
-- [ ] **Step 4:** Manual full pass: click through every section of `/build` one more time (nav, hero, about, featured work slider, home projects, stack, experience, testimonials, contact, footer) plus `/build/projects`, a project detail page, and `/build/blog`. Everything should look consistent — light background, ink text, amber accent, Cabinet Grotesk headings — with no leftover dark-purple flashes or unstyled elements.
+- [x] **Step 4:** Manual full pass: click through every section of `/build` one more time (nav, hero, about, featured work slider, home projects, stack, experience, testimonials, contact, footer) plus `/build/projects`, a project detail page, and `/build/blog`. Everything should look consistent — light background, ink text, amber accent, Cabinet Grotesk headings — with no leftover dark-purple flashes or unstyled elements.
 
-- [ ] **Step 5:** Commit: `git add app/globals.css && git commit -m "chore: remove dead old-theme CSS, /build redesign complete"`
+- [x] **Step 5:** Commit: `git add app/globals.css && git commit -m "chore: remove dead old-theme CSS, /build redesign complete"`
 
 ---
 
 ## Definition of Done
 
-- [ ] `npm run build` and `npm run test` both succeed.
-- [ ] Every section of `/build` renders in the new light-minimal identity — no old dark-purple styling remains anywhere.
-- [ ] Every GSAP animation (Nav entrance, Hero stagger, About/Stack/Testimonials/Contact/HomeProjects scroll reveals, the Experience card-deck scroll-hijack, SplashScreen) behaves identically to before this plan — same triggers, same timing, same math.
-- [ ] The contact form, project navigation (including the home-page preview cards), and the Blog nav button all still work end to end.
-- [ ] `grep` for the old class names (`card`, `btn-primary`, `btn-secondary`, `hire-me-btn`, `heading-*`, `body-large`, `nav-icon`, `fade-in-up`) across `app` and `components` returns nothing.
-- [ ] `/build/projects/[projectID]` pages each have their own accurate `<title>`.
+- [x] `npm run build` and `npm run test` both succeed.
+- [x] Every section of `/build` renders in the new light-minimal identity — no old dark-purple styling remains anywhere.
+- [x] Every GSAP animation (Nav entrance, Hero stagger, About/Stack/Testimonials/Contact/HomeProjects scroll reveals, the Experience card-deck scroll-hijack, SplashScreen) behaves identically to before this plan — same triggers, same timing, same math.
+- [x] The contact form, project navigation (including the home-page preview cards), and the Blog nav button all still work end to end.
+- [x] `grep` for the old class names (`card`, `btn-primary`, `btn-secondary`, `hire-me-btn`, `heading-*`, `body-large`, `nav-icon`, `fade-in-up`) across `app` and `components` returns nothing.
+- [x] `/build/projects/[projectID]` pages each have their own accurate `<title>`.
