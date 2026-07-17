@@ -1,6 +1,6 @@
 # Landing Page Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Make `/` the new mode-select landing page, relocate the existing (unredesigned) dev portfolio to `/build` with zero content or visual changes, and build the landing page itself — header, hero, fun-stuff strip, the two route-choice cards, footer — per spec §9.
 
@@ -45,7 +45,7 @@ Pure relocation — no visual or content changes. Every existing page keeps work
 
 **Files:** see table above (all the "moved" and link-fix rows).
 
-- [ ] **Step 1: Move the page files, preserving git history**
+- [x] **Step 1: Move the page files, preserving git history**
 
 ```bash
 mkdir -p app/build
@@ -64,7 +64,7 @@ rmdir "app/projects/[projectID]"
 rmdir app/projects
 ```
 
-- [ ] **Step 2: Fix internal links in the moved projects listing page**
+- [x] **Step 2: Fix internal links in the moved projects listing page**
 
 In `app/build/projects/page.tsx`, change:
 
@@ -85,7 +85,7 @@ to:
           <Link href="/build" className="btn-secondary group inline-flex items-center gap-3">
 ```
 
-- [ ] **Step 3: Fix internal link in the moved project detail page**
+- [x] **Step 3: Fix internal link in the moved project detail page**
 
 In `app/build/projects/[projectID]/page.tsx`, change:
 
@@ -97,7 +97,7 @@ to:
             <Link href="/build/projects" className="btn-secondary inline-flex items-center gap-2">
 ```
 
-- [ ] **Step 4: Fix the dev homepage's project links**
+- [x] **Step 4: Fix the dev homepage's project links**
 
 In `components/Home/HomeProjects/HomeProjects.tsx`, change:
 
@@ -131,7 +131,7 @@ to:
 
 (`projectsData`, the separate array used by `/build/projects` and `/build/projects/[projectID]`, stores bare slugs like `"NEM"` rather than full paths — that array needs no change here.)
 
-- [ ] **Step 5: Fix the nav's Blog button**
+- [x] **Step 5: Fix the nav's Blog button**
 
 In `components/Home/Navbar/Nav.tsx`, change:
 
@@ -143,7 +143,7 @@ to:
           onClick={() => router.push("/build/blog")}
 ```
 
-- [ ] **Step 6: Fix the nav-link URLs**
+- [x] **Step 6: Fix the nav-link URLs**
 
 In `constant/constant.tsx`, change the first two `navLinks` entries:
 
@@ -175,7 +175,7 @@ to:
 
 (No change needed elsewhere — `components/Home/About/About.tsx` already has `id='about'` on its root `<section>`, so `/build#about` resolves correctly.)
 
-- [ ] **Step 7: Create the `/build` layout carrying the existing Nav + ThemeToggle**
+- [x] **Step 7: Create the `/build` layout carrying the existing Nav + ThemeToggle**
 
 Create `app/build/layout.tsx`:
 
@@ -198,7 +198,7 @@ export default function BuildLayout({
 }
 ```
 
-- [ ] **Step 8: Shrink the root layout to the shared shell only**
+- [x] **Step 8: Shrink the root layout to the shared shell only**
 
 Replace the full contents of `app/layout.tsx` with:
 
@@ -270,16 +270,16 @@ export default function RootLayout({
 
 Note: the page-level `metadata` export already in `app/build/page.tsx` ("Portfolio | Okata Miracle - Front-End Developer") overrides this root fallback for `/build`, so the dev homepage's SEO title is unaffected. `app/build/projects/[projectID]/page.tsx` has no metadata export of its own and will fall back to this generic root metadata for now — that per-page SEO gap is tracked for the `/build` redesign plan, not fixed here, since fixing it well means writing per-project titles/descriptions, which is a content task, not a routing task.
 
-- [ ] **Step 9: Verify the build succeeds**
+- [x] **Step 9: Verify the build succeeds**
 
 Run: `npm run build`
 Expected: Build succeeds. `/build`, `/build/blog`, `/build/projects`, and `/build/projects/[projectID]` all appear in the route list; `/`, `/blog`, `/projects` (old paths) do not.
 
-- [ ] **Step 10: Verify manually in the browser**
+- [x] **Step 10: Verify manually in the browser**
 
 Run: `npm run dev`. Visit `http://localhost:3000/build` — the full dev homepage should render exactly as it did before this task (same content, same nav, same theme toggle, same dark-purple styling). Click through: the nav's home icon and Blog button, the About profile icon (should scroll to the About section), a project card **on the homepage itself** (the `homeprojectsData`-driven preview — this is the one that depends on the `data/data.ts` fix in Step 4; clicking it is the actual regression test for that fix), "View All Projects" through to `/build/projects`, then a project card there through to its detail page and back. Every link should resolve under `/build/*` with no 404s. Then visit `http://localhost:3000/` — at this point in the plan it will 404 or show a blank/broken page, since the new landing page doesn't exist until Task 4. That's expected mid-plan.
 
-- [ ] **Step 11: Commit**
+- [x] **Step 11: Commit**
 
 ```bash
 git add app/build app/layout.tsx components/Home/HomeProjects/HomeProjects.tsx components/Home/Navbar/Nav.tsx constant/constant.tsx data/data.ts
@@ -299,7 +299,7 @@ git commit -m "refactor: relocate dev site to /build, ahead of new landing page"
 **Files:**
 - Create: `data/landing.ts`
 
-- [ ] **Step 1: Create the data file**
+- [x] **Step 1: Create the data file**
 
 Create `data/landing.ts`:
 
@@ -349,12 +349,12 @@ export const routeChoices: RouteChoice[] = [
 
 Note: the `/animate` href is a forward reference — that route doesn't exist until Plan 4. Following it before then will 404. This is expected mid-sequence between plans; Plan 4 makes it resolve.
 
-- [ ] **Step 2: Verify the project type-checks**
+- [x] **Step 2: Verify the project type-checks**
 
 Run: `npm run build`
 Expected: succeeds with no type errors. No runtime test needed — this is a pure data/type file with no logic to assert against (the same reasoning as Plan 1's content-types task).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add data/landing.ts
@@ -371,7 +371,7 @@ The single highest-value click on the entire site (spec §9), so it's the one la
 - Create: `components/Landing/RouteChoiceCard.tsx`
 - Test: `components/Landing/__tests__/RouteChoiceCard.test.tsx`
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Create `components/Landing/__tests__/RouteChoiceCard.test.tsx`:
 
@@ -429,12 +429,12 @@ describe("RouteChoiceCard", () => {
 });
 ```
 
-- [ ] **Step 2: Run the tests and verify they fail**
+- [x] **Step 2: Run the tests and verify they fail**
 
 Run: `npx vitest run components/Landing/__tests__/RouteChoiceCard.test.tsx`
 Expected: FAIL — `Cannot find module '../RouteChoiceCard'`.
 
-- [ ] **Step 3: Implement the component**
+- [x] **Step 3: Implement the component**
 
 Create `components/Landing/RouteChoiceCard.tsx`:
 
@@ -478,12 +478,12 @@ export default function RouteChoiceCard({ choice }: RouteChoiceCardProps) {
 }
 ```
 
-- [ ] **Step 4: Run the tests and verify they pass**
+- [x] **Step 4: Run the tests and verify they pass**
 
 Run: `npx vitest run components/Landing/__tests__/RouteChoiceCard.test.tsx`
 Expected: PASS — 4 tests passed.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add components/Landing/RouteChoiceCard.tsx components/Landing/__tests__/RouteChoiceCard.test.tsx
@@ -505,7 +505,7 @@ Builds the remaining presentational pieces (header, hero, fun-stuff grid, route-
 - Create: `components/Landing/Landing.tsx`
 - Modify: `app/page.tsx`
 
-- [ ] **Step 1: Create the header**
+- [x] **Step 1: Create the header**
 
 Create `components/Landing/LandingHeader.tsx`:
 
@@ -534,7 +534,7 @@ export default function LandingHeader() {
 
 (`/build#contact` resolves correctly — `components/Home/Contact/Contact.tsx` already has `id="contact"` on its root `<section>`.)
 
-- [ ] **Step 2: Create the hero**
+- [x] **Step 2: Create the hero**
 
 Create `components/Landing/LandingHero.tsx`:
 
@@ -561,7 +561,7 @@ export default function LandingHero() {
 }
 ```
 
-- [ ] **Step 3: Create the fun-stuff grid**
+- [x] **Step 3: Create the fun-stuff grid**
 
 Create `components/Landing/FunStuffGrid.tsx`:
 
@@ -595,7 +595,7 @@ export default function FunStuffGrid({ facts }: FunStuffGridProps) {
 }
 ```
 
-- [ ] **Step 4: Create the route-choice section**
+- [x] **Step 4: Create the route-choice section**
 
 Create `components/Landing/RouteChoiceSection.tsx`:
 
@@ -616,7 +616,7 @@ export default function RouteChoiceSection() {
 }
 ```
 
-- [ ] **Step 5: Create the footer**
+- [x] **Step 5: Create the footer**
 
 Create `components/Landing/LandingFooter.tsx`:
 
@@ -644,7 +644,7 @@ export default function LandingFooter() {
 }
 ```
 
-- [ ] **Step 6: Compose the landing page**
+- [x] **Step 6: Compose the landing page**
 
 Create `components/Landing/Landing.tsx`:
 
@@ -669,7 +669,7 @@ export default function Landing() {
 }
 ```
 
-- [ ] **Step 7: Wire it into `app/page.tsx` with metadata and the Person JSON-LD**
+- [x] **Step 7: Wire it into `app/page.tsx` with metadata and the Person JSON-LD**
 
 Replace the full contents of `app/page.tsx` with:
 
@@ -735,7 +735,7 @@ export default function LandingPage() {
 }
 ```
 
-- [ ] **Step 8: Run the full test suite and the build**
+- [x] **Step 8: Run the full test suite and the build**
 
 Run: `npm run test`
 Expected: PASS — all suites from Plan 1 and Task 3 of this plan pass.
@@ -743,7 +743,7 @@ Expected: PASS — all suites from Plan 1 and Task 3 of this plan pass.
 Run: `npm run build`
 Expected: Build succeeds. Route list includes `/` (landing) and `/build/*`.
 
-- [ ] **Step 9: Verify manually in the browser**
+- [x] **Step 9: Verify manually in the browser**
 
 Run: `npm run dev`.
 
@@ -751,7 +751,7 @@ Visit `http://localhost:3000/` — the new landing page renders: header with nam
 
 Tab through the page with the keyboard: the header link, "Say hello" link, both route-choice cards, and footer links should all be reachable and show a visible focus outline (the route-choice cards should show the outline in their own accent color — amber for Build, violet for Animate).
 
-- [ ] **Step 10: Commit**
+- [x] **Step 10: Commit**
 
 ```bash
 git add components/Landing app/page.tsx
@@ -762,10 +762,10 @@ git commit -m "feat: build the landing page"
 
 ## Definition of Done
 
-- [ ] `npm run build` succeeds.
-- [ ] `npm run test` passes (Plan 1's suites + `RouteChoiceCard`'s suite).
-- [ ] `/` renders the new landing page; `/build` renders the untouched dev homepage.
-- [ ] Every link that used to point at `/`, `/blog`, `/projects`, or `/projects/[id]` now correctly points at the `/build/*` equivalent, and none of them 404.
-- [ ] The landing page's two route-choice cards are real `<a>` elements, keyboard-focusable, with visible per-route-accent focus states.
-- [ ] The `Person` JSON-LD on `/` reflects both `jobTitle`s.
-- [ ] Visiting `/animate` 404s (expected — that route ships in Plan 4).
+- [x] `npm run build` succeeds.
+- [x] `npm run test` passes (Plan 1's suites + `RouteChoiceCard`'s suite).
+- [x] `/` renders the new landing page; `/build` renders the untouched dev homepage.
+- [x] Every link that used to point at `/`, `/blog`, `/projects`, or `/projects/[id]` now correctly points at the `/build/*` equivalent, and none of them 404.
+- [x] The landing page's two route-choice cards are real `<a>` elements, keyboard-focusable, with visible per-route-accent focus states.
+- [x] The `Person` JSON-LD on `/` reflects both `jobTitle`s.
+- [x] Visiting `/animate` 404s (expected — that route ships in Plan 4).

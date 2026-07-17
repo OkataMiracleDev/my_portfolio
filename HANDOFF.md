@@ -17,9 +17,9 @@ npm install
 ## Documents
 
 - Spec: `docs/superpowers/specs/2026-07-10-portfolio-redesign-design.md`
-- Plan 1 (Foundation): `docs/superpowers/plans/2026-07-13-design-system-foundation.md` — **currently executing**
-- Plan 2 (Landing): `docs/superpowers/plans/2026-07-13-landing-page.md` — written, not started
-- Plan 3 (`/build` redesign): `docs/superpowers/plans/2026-07-13-build-route-redesign.md` — written, not started
+- Plan 1 (Foundation): `docs/superpowers/plans/2026-07-13-design-system-foundation.md` — ✅ complete, reviewed clean
+- Plan 2 (Landing): `docs/superpowers/plans/2026-07-13-landing-page.md` — ✅ complete, reviewed clean
+- Plan 3 (`/build` redesign): `docs/superpowers/plans/2026-07-13-build-route-redesign.md` — written, not started — **currently next**
 - Plan 4 (`/animate`): `docs/superpowers/plans/2026-07-13-animate-route.md` — written, not started
 
 ## Plan 1 progress (7 tasks total) — ✅ COMPLETE
@@ -40,11 +40,25 @@ npm install
 **Non-blocking notes carried into Plan 2+:**
 - Pre-existing `html { scroll-behavior: smooth }` in `globals.css` can double-smooth with Lenis on anchor-hash navigation. Currently harmless (no `href="#..."` links exist yet) — revisit if Plan 2+ adds in-page anchor links.
 
-## Plan 1 is done — next up is Plan 2 (Landing Page)
+## Plan 2 progress (4 tasks total) — ✅ COMPLETE
 
-**Plan 2 is the first plan that changes what the site looks like** — it turns `/` into the new landing page and relocates the current homepage to `/build`. Until Plan 2 runs, `npm run dev` looks identical to the live site today (Plan 1 was deliberately invisible infrastructure).
+| Task | Status |
+|---|---|
+| 1. Relocate dev site to `/build` | ✅ Done — all internal links fixed, `git mv` preserved history, verified via build route list + repo-wide grep for stale `/projects`/`/blog` references (zero hits) |
+| 2. Landing page content data (`data/landing.ts`) | ✅ Done |
+| 3. `RouteChoiceCard` component | ✅ Done (TDD, 4/4 tests) |
+| 4. Assemble the landing page | ✅ Done — `/` renders the new landing page, `/build` renders the untouched dev homepage |
+| Final Plan 2 code review (whole implementation) | ✅ Done — clean, no issues. Definition of Done fully satisfied. |
 
-Pick up Plan 2 with the subagent-driven-development skill, same pattern as Plan 1: dispatch an implementer per task using the exact task text from `docs/superpowers/plans/2026-07-13-landing-page.md`, then a spec-compliance reviewer, then a code-quality reviewer per task, then a final whole-implementation review before moving to Plan 3.
+`/animate` correctly 404s for now — that route doesn't ship until Plan 4. This is expected, not a bug.
+
+## Plan 2 is done — next up is Plan 3 (`/build` route redesign)
+
+This is the first plan that actually redesigns the dev portfolio's own look (the user's own notes on what this should cover are in `redesign.md` at the repo root of this worktree — alignment/spacing pass, ProjectsSlider restyle, card format consistency across the site, projects + project-detail page redesign, nav redesign keeping the same links, MyStack section restyle keeping the existing button UX, a GSAP horizontal card-deck treatment for Work Experience pulling from a data file, keeping the testimonial card-deck animation but restyling the section, and a Contact section + "Hire me" modal revamp).
+
+**Important open item carried from Plan 1, to resolve during this plan:** Plan 3's Experience section task is exactly where the Lenis↔ScrollTrigger wiring (fixed in Plan 1, commit `8e87c0e`) gets its real test — verify the redesigned card-deck scroll-hijack still feels in sync with smoothed scroll once the section is rebuilt.
+
+Pick up Plan 3 with the subagent-driven-development skill, same pattern as Plans 1-2: dispatch an implementer per task using the exact task text from `docs/superpowers/plans/2026-07-13-build-route-redesign.md`, then a spec-compliance reviewer, then a code-quality reviewer per task, then a final whole-implementation review before moving to Plan 4.
 
 ## A few things learned the hard way this session, worth knowing before continuing
 
