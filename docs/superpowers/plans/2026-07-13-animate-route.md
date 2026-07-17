@@ -1,6 +1,6 @@
 # /animate Route Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Build the entirely-new motion design route — home page (hero, interactive playground, capabilities, featured work, testimonials, resources teaser, hire CTA), project case studies, and the public resources hub — per spec §11, launching with clearly-labeled placeholder content per spec §12 (real motion work isn't ready yet).
 
@@ -49,7 +49,7 @@
 
 ### Task 1: Extend content types + placeholder data files
 
-- [ ] **Step 1:** Append to `types/content.ts` (keep everything already in the file, just add this at the end):
+- [x] **Step 1:** Append to `types/content.ts` (keep everything already in the file, just add this at the end):
 
 ```ts
 
@@ -60,7 +60,7 @@ export interface MotionProjectContent extends ProjectContent {
 }
 ```
 
-- [ ] **Step 2:** Create `data/motion-projects.ts`:
+- [x] **Step 2:** Create `data/motion-projects.ts`:
 
 ```ts
 import type { MotionProjectContent } from "@/types/content";
@@ -107,7 +107,7 @@ export const motionProjectsData: MotionProjectContent[] = [
 ];
 ```
 
-- [ ] **Step 3:** Create `data/resources.ts`:
+- [x] **Step 3:** Create `data/resources.ts`:
 
 ```ts
 import type { ResourceContent } from "@/types/content";
@@ -148,7 +148,7 @@ export const resourcesData: ResourceContent[] = [
 ];
 ```
 
-- [ ] **Step 4:** Create `data/motion-testimonials.ts`:
+- [x] **Step 4:** Create `data/motion-testimonials.ts`:
 
 ```ts
 import type { TestimonialContent } from "@/types/content";
@@ -173,9 +173,9 @@ export const motionTestimonialsData: TestimonialContent[] = [
 ];
 ```
 
-- [ ] **Step 5:** Run `npm run build` — expect success (pure data/type files, no runtime logic to test).
+- [x] **Step 5:** Run `npm run build` — expect success (pure data/type files, no runtime logic to test).
 
-- [ ] **Step 6:** Commit: `git add types/content.ts data/motion-projects.ts data/resources.ts data/motion-testimonials.ts && git commit -m "feat: add /animate placeholder content data"`
+- [x] **Step 6:** Commit: `git add types/content.ts data/motion-projects.ts data/resources.ts data/motion-testimonials.ts && git commit -m "feat: add /animate placeholder content data"`
 
 ---
 
@@ -183,7 +183,7 @@ export const motionTestimonialsData: TestimonialContent[] = [
 
 Mirrors `/build`'s shell pattern (Plan 3, Task 1): its own layout establishing base tokens/font, its own nav. Themed in the violet `accent-animate`, with a playful per-icon hover wiggle instead of a plain color change, and persistent links back to `/` and across to `/build` (spec §4's cross-linking requirement).
 
-- [ ] **Step 1:** Create `components/Animate/AnimateNav.tsx`:
+- [x] **Step 1:** Create `components/Animate/AnimateNav.tsx`:
 
 ```tsx
 "use client";
@@ -224,7 +224,7 @@ export default AnimateNav;
 
 ("Switch mode" → `/` covers the landing-page cross-link; the `/build` cross-link lives in the footer, added in Task 9, since it's a less frequent action than "go back to the mode chooser.")
 
-- [ ] **Step 2:** Create `app/animate/layout.tsx`:
+- [x] **Step 2:** Create `app/animate/layout.tsx`:
 
 ```tsx
 import AnimateNav from "@/components/Animate/AnimateNav";
@@ -243,9 +243,9 @@ export default function AnimateLayout({
 }
 ```
 
-- [ ] **Step 3:** Run `npm run build` — expect success (no page exists at `/animate` yet, so nothing renders this layout until Task 9 adds `app/animate/page.tsx` — that's fine, Next.js doesn't error on an unused layout).
+- [x] **Step 3:** Run `npm run build` — expect success (no page exists at `/animate` yet, so nothing renders this layout until Task 9 adds `app/animate/page.tsx` — that's fine, Next.js doesn't error on an unused layout).
 
-- [ ] **Step 4:** Commit: `git add components/Animate/AnimateNav.tsx app/animate/layout.tsx && git commit -m "feat: add /animate shell and nav"`
+- [x] **Step 4:** Commit: `git add components/Animate/AnimateNav.tsx app/animate/layout.tsx && git commit -m "feat: add /animate shell and nav"`
 
 ---
 
@@ -253,7 +253,7 @@ export default function AnimateLayout({
 
 Oversized headline, drifting animated SVG shapes, and a spring-based cursor-follow flourish — the first three seconds have to demonstrate motion craft (spec §11). The cursor-follow uses a CSS `transition` on `transform` (a lightweight spring approximation) rather than pulling in a new physics library.
 
-- [ ] **Step 1:** Create `components/Animate/AnimateHero.tsx`:
+- [x] **Step 1:** Create `components/Animate/AnimateHero.tsx`:
 
 ```tsx
 "use client";
@@ -316,11 +316,11 @@ const AnimateHero = () => {
 export default AnimateHero;
 ```
 
-- [ ] **Step 2:** Run `npm run build` — expect success.
+- [x] **Step 2:** Run `npm run build` — expect success.
 
-- [ ] **Step 3:** Manual check (once `app/animate/page.tsx` exists after Task 9 — note this and come back to verify then): moving the mouse over the hero drifts the large blurred circle toward the cursor; the smaller blob spins continuously; with "prefers-reduced-motion: reduce" emulated in DevTools, neither moves.
+- [x] **Step 3:** Manual check (once `app/animate/page.tsx` exists after Task 9 — note this and come back to verify then): moving the mouse over the hero drifts the large blurred circle toward the cursor; the smaller blob spins continuously; with "prefers-reduced-motion: reduce" emulated in DevTools, neither moves.
 
-- [ ] **Step 4:** Commit: `git add components/Animate/AnimateHero.tsx && git commit -m "feat: add /animate hero"`
+- [x] **Step 4:** Commit: `git add components/Animate/AnimateHero.tsx && git commit -m "feat: add /animate hero"`
 
 ---
 
@@ -328,7 +328,7 @@ export default AnimateHero;
 
 The literal "dummy buttons" ask (spec §7/§11). Four toys, each a **real, satisfying, accessible interaction with no backend** — not a dead control. Each gets its own small component plus a test, since this is the single most important "fun" showcase on the route.
 
-- [ ] **Step 1: Write failing tests for the toggle**
+- [x] **Step 1: Write failing tests for the toggle**
 
 Create `components/Animate/Playground/__tests__/PlaygroundToggle.test.tsx`:
 
@@ -367,11 +367,11 @@ describe("PlaygroundToggle", () => {
 
 This test file needs `@testing-library/user-event`, which isn't installed yet.
 
-- [ ] **Step 2:** Install it: `npm install -D @testing-library/user-event`
+- [x] **Step 2:** Install it: `npm install -D @testing-library/user-event`
 
-- [ ] **Step 3:** Run the test, confirm it fails on `Cannot find module '../PlaygroundToggle'`.
+- [x] **Step 3:** Run the test, confirm it fails on `Cannot find module '../PlaygroundToggle'`.
 
-- [ ] **Step 4:** Create `components/Animate/Playground/PlaygroundToggle.tsx`:
+- [x] **Step 4:** Create `components/Animate/Playground/PlaygroundToggle.tsx`:
 
 ```tsx
 "use client";
@@ -400,9 +400,9 @@ export default function PlaygroundToggle() {
 }
 ```
 
-- [ ] **Step 5:** Run the test — expect PASS, 3/3.
+- [x] **Step 5:** Run the test — expect PASS, 3/3.
 
-- [ ] **Step 6: Write failing tests for the slider**
+- [x] **Step 6: Write failing tests for the slider**
 
 Create `components/Animate/Playground/__tests__/PlaygroundSlider.test.tsx`:
 
@@ -425,9 +425,9 @@ describe("PlaygroundSlider", () => {
 });
 ```
 
-- [ ] **Step 7:** Run it, confirm it fails on module-not-found.
+- [x] **Step 7:** Run it, confirm it fails on module-not-found.
 
-- [ ] **Step 8:** Create `components/Animate/Playground/PlaygroundSlider.tsx`:
+- [x] **Step 8:** Create `components/Animate/Playground/PlaygroundSlider.tsx`:
 
 ```tsx
 "use client";
@@ -455,9 +455,9 @@ export default function PlaygroundSlider() {
 }
 ```
 
-- [ ] **Step 9:** Run the test — expect PASS, 2/2.
+- [x] **Step 9:** Run the test — expect PASS, 2/2.
 
-- [ ] **Step 10: Write failing tests for the magnetic button**
+- [x] **Step 10: Write failing tests for the magnetic button**
 
 Create `components/Animate/Playground/__tests__/PlaygroundMagneticButton.test.tsx`:
 
@@ -483,9 +483,9 @@ describe("PlaygroundMagneticButton", () => {
 });
 ```
 
-- [ ] **Step 11:** Run it, confirm it fails on module-not-found.
+- [x] **Step 11:** Run it, confirm it fails on module-not-found.
 
-- [ ] **Step 12:** Create `components/Animate/Playground/PlaygroundMagneticButton.tsx`:
+- [x] **Step 12:** Create `components/Animate/Playground/PlaygroundMagneticButton.tsx`:
 
 ```tsx
 "use client";
@@ -528,9 +528,9 @@ export default function PlaygroundMagneticButton() {
 }
 ```
 
-- [ ] **Step 13:** Run the test — expect PASS, 2/2.
+- [x] **Step 13:** Run the test — expect PASS, 2/2.
 
-- [ ] **Step 14: Write failing tests for the shape-morph trigger**
+- [x] **Step 14: Write failing tests for the shape-morph trigger**
 
 Create `components/Animate/Playground/__tests__/PlaygroundShapeMorph.test.tsx`:
 
@@ -558,9 +558,9 @@ describe("PlaygroundShapeMorph", () => {
 });
 ```
 
-- [ ] **Step 15:** Run it, confirm it fails on module-not-found.
+- [x] **Step 15:** Run it, confirm it fails on module-not-found.
 
-- [ ] **Step 16:** Create `components/Animate/Playground/PlaygroundShapeMorph.tsx`:
+- [x] **Step 16:** Create `components/Animate/Playground/PlaygroundShapeMorph.tsx`:
 
 ```tsx
 "use client";
@@ -590,9 +590,9 @@ export default function PlaygroundShapeMorph() {
 }
 ```
 
-- [ ] **Step 17:** Run the test — expect PASS, 2/2.
+- [x] **Step 17:** Run the test — expect PASS, 2/2.
 
-- [ ] **Step 18: Compose the playground section**
+- [x] **Step 18: Compose the playground section**
 
 Create `components/Animate/Playground/InteractivePlayground.tsx`:
 
@@ -639,9 +639,9 @@ export default function InteractivePlayground() {
 }
 ```
 
-- [ ] **Step 19:** Run `npm run test` — expect all suites (Plan 1/2/3's plus these four) to pass. Run `npm run build` — expect success.
+- [x] **Step 19:** Run `npm run test` — expect all suites (Plan 1/2/3's plus these four) to pass. Run `npm run build` — expect success.
 
-- [ ] **Step 20:** Commit: `git add components/Animate/Playground package.json package-lock.json && git commit -m "feat: add /animate interactive playground"`
+- [x] **Step 20:** Commit: `git add components/Animate/Playground package.json package-lock.json && git commit -m "feat: add /animate interactive playground"`
 
 ---
 
@@ -649,7 +649,7 @@ export default function InteractivePlayground() {
 
 Varied bento sizing, not a repeated identical-card grid (per impeccable's ban on that pattern).
 
-- [ ] **Step 1:** Create `components/Animate/CapabilitiesStrip.tsx`:
+- [x] **Step 1:** Create `components/Animate/CapabilitiesStrip.tsx`:
 
 ```tsx
 const capabilities = [
@@ -684,9 +684,9 @@ export default function CapabilitiesStrip() {
 }
 ```
 
-- [ ] **Step 2:** Run `npm run build` — expect success.
+- [x] **Step 2:** Run `npm run build` — expect success.
 
-- [ ] **Step 3:** Commit: `git add components/Animate/CapabilitiesStrip.tsx && git commit -m "feat: add /animate capabilities strip"`
+- [x] **Step 3:** Commit: `git add components/Animate/CapabilitiesStrip.tsx && git commit -m "feat: add /animate capabilities strip"`
 
 ---
 
@@ -694,7 +694,7 @@ export default function CapabilitiesStrip() {
 
 The one deliberate dark-band section (spec §11) — reels get contrast to pop against, rest of the page stays light. Reuses the shared `ProjectCard` themed `accent="animate"`.
 
-- [ ] **Step 1:** Create `components/Animate/FeaturedWork.tsx`:
+- [x] **Step 1:** Create `components/Animate/FeaturedWork.tsx`:
 
 ```tsx
 import Link from "next/link";
@@ -732,9 +732,9 @@ export default function FeaturedWork() {
 
 (`text-base` here is Tailwind's `--color-base` text-color utility — on the dark band it reads as near-white, giving the inverted-section contrast intentionally.)
 
-- [ ] **Step 2:** Run `npm run build` — expect success.
+- [x] **Step 2:** Run `npm run build` — expect success.
 
-- [ ] **Step 3:** Commit: `git add components/Animate/FeaturedWork.tsx && git commit -m "feat: add /animate featured work band"`
+- [x] **Step 3:** Commit: `git add components/Animate/FeaturedWork.tsx && git commit -m "feat: add /animate featured work band"`
 
 ---
 
@@ -742,7 +742,7 @@ export default function FeaturedWork() {
 
 Same visual language as `/build`'s testimonial cards, seeded with placeholder data until real motion-client quotes exist (spec §12).
 
-- [ ] **Step 1:** Create `components/Animate/AnimateTestimonials.tsx`:
+- [x] **Step 1:** Create `components/Animate/AnimateTestimonials.tsx`:
 
 ```tsx
 import Image from "next/image";
@@ -777,9 +777,9 @@ export default function AnimateTestimonials() {
 }
 ```
 
-- [ ] **Step 2:** Run `npm run build` — expect success.
+- [x] **Step 2:** Run `npm run build` — expect success.
 
-- [ ] **Step 3:** Commit: `git add components/Animate/AnimateTestimonials.tsx && git commit -m "feat: add /animate testimonials"`
+- [x] **Step 3:** Commit: `git add components/Animate/AnimateTestimonials.tsx && git commit -m "feat: add /animate testimonials"`
 
 ---
 
@@ -787,7 +787,7 @@ export default function AnimateTestimonials() {
 
 The route's primary conversion moment (spec §6/§11, audience-first). No email-service backend exists yet, so the form is honest about that: it validates a real email format client-side and confirms with copy that doesn't overpromise persistence.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `components/Animate/__tests__/ResourcesTeaser.test.tsx`:
 
@@ -825,9 +825,9 @@ describe("ResourcesTeaser", () => {
 });
 ```
 
-- [ ] **Step 2:** Run it, confirm it fails on module-not-found.
+- [x] **Step 2:** Run it, confirm it fails on module-not-found.
 
-- [ ] **Step 3:** Create `components/Animate/ResourcesTeaser.tsx`:
+- [x] **Step 3:** Create `components/Animate/ResourcesTeaser.tsx`:
 
 ```tsx
 "use client";
@@ -909,9 +909,9 @@ export default function ResourcesTeaser() {
 }
 ```
 
-- [ ] **Step 4:** Run the test — expect PASS, 3/3.
+- [x] **Step 4:** Run the test — expect PASS, 3/3.
 
-- [ ] **Step 5:** Commit: `git add components/Animate/ResourcesTeaser.tsx components/Animate/__tests__/ResourcesTeaser.test.tsx && git commit -m "feat: add /animate resources teaser + signup"`
+- [x] **Step 5:** Commit: `git add components/Animate/ResourcesTeaser.tsx components/Animate/__tests__/ResourcesTeaser.test.tsx && git commit -m "feat: add /animate resources teaser + signup"`
 
 ---
 
@@ -919,7 +919,7 @@ export default function ResourcesTeaser() {
 
 Composes everything from Tasks 3–8 into the actual route.
 
-- [ ] **Step 1:** Create `components/Animate/HireCta.tsx`:
+- [x] **Step 1:** Create `components/Animate/HireCta.tsx`:
 
 ```tsx
 import Link from "next/link";
@@ -944,7 +944,7 @@ export default function HireCta() {
 }
 ```
 
-- [ ] **Step 2:** Create `components/Animate/AnimateFooter.tsx`:
+- [x] **Step 2:** Create `components/Animate/AnimateFooter.tsx`:
 
 ```tsx
 import Link from "next/link";
@@ -966,7 +966,7 @@ export default function AnimateFooter() {
 }
 ```
 
-- [ ] **Step 3:** Create `app/animate/page.tsx`:
+- [x] **Step 3:** Create `app/animate/page.tsx`:
 
 ```tsx
 import type { Metadata } from "next";
@@ -1012,11 +1012,11 @@ export default function AnimatePage() {
 }
 ```
 
-- [ ] **Step 4:** Run `npm run build` — expect success. `/animate` should now appear in the route list.
+- [x] **Step 4:** Run `npm run build` — expect success. `/animate` should now appear in the route list.
 
-- [ ] **Step 5:** Manual check: `npm run dev`, visit `/animate` directly, and also via the landing page's **Animate** card (`/`) — it should no longer 404. Scroll the whole page top to bottom; every section from Tasks 3–8 should be present and styled consistently. Click "Switch mode" in the nav (→ `/`), "← All modes" and "View dev work" in the footer (→ `/` and `/build`), and "Let's talk" (→ `/build#contact`).
+- [x] **Step 5:** Manual check: `npm run dev`, visit `/animate` directly, and also via the landing page's **Animate** card (`/`) — it should no longer 404. Scroll the whole page top to bottom; every section from Tasks 3–8 should be present and styled consistently. Click "Switch mode" in the nav (→ `/`), "← All modes" and "View dev work" in the footer (→ `/` and `/build`), and "Let's talk" (→ `/build#contact`).
 
-- [ ] **Step 6:** Commit: `git add components/Animate/HireCta.tsx components/Animate/AnimateFooter.tsx app/animate/page.tsx && git commit -m "feat: compose /animate home page"`
+- [x] **Step 6:** Commit: `git add components/Animate/HireCta.tsx components/Animate/AnimateFooter.tsx app/animate/page.tsx && git commit -m "feat: compose /animate home page"`
 
 ---
 
@@ -1024,7 +1024,7 @@ export default function AnimatePage() {
 
 Shared `ProjectCard`, themed `accent="animate"`.
 
-- [ ] **Step 1:** Create `app/animate/projects/page.tsx`:
+- [x] **Step 1:** Create `app/animate/projects/page.tsx`:
 
 ```tsx
 import type { Metadata } from "next";
@@ -1069,11 +1069,11 @@ export default function AnimateProjectsPage() {
 }
 ```
 
-- [ ] **Step 2:** Run `npm run build` — expect success.
+- [x] **Step 2:** Run `npm run build` — expect success.
 
-- [ ] **Step 3:** Manual check: `/animate/projects` shows all three placeholder projects with tag chips; clicking one navigates to its case study.
+- [x] **Step 3:** Manual check: `/animate/projects` shows all three placeholder projects with tag chips; clicking one navigates to its case study.
 
-- [ ] **Step 4:** Commit: `git add app/animate/projects/page.tsx && git commit -m "feat: add /animate/projects grid"`
+- [x] **Step 4:** Commit: `git add app/animate/projects/page.tsx && git commit -m "feat: add /animate/projects grid"`
 
 ---
 
@@ -1081,7 +1081,7 @@ export default function AnimateProjectsPage() {
 
 Video embed is a click-to-load facade when a real `videoEmbedUrl` exists; every current entry is a placeholder without one, so this also exercises the "coming soon" fallback state.
 
-- [ ] **Step 1:** Create `app/animate/projects/[slug]/page.tsx`:
+- [x] **Step 1:** Create `app/animate/projects/[slug]/page.tsx`:
 
 ```tsx
 import type { Metadata } from "next";
@@ -1184,11 +1184,11 @@ const AnimateProjectPage = async ({ params }: Props) => {
 export default AnimateProjectPage;
 ```
 
-- [ ] **Step 2:** Run `npm run build` — expect success. Confirm all 3 placeholder slugs are statically generated.
+- [x] **Step 2:** Run `npm run build` — expect success. Confirm all 3 placeholder slugs are statically generated.
 
-- [ ] **Step 3:** Manual check: each case study shows the "Reel coming soon" placeholder (none have a real `videoEmbedUrl` yet), the process text, tool tags, and a working back link.
+- [x] **Step 3:** Manual check: each case study shows the "Reel coming soon" placeholder (none have a real `videoEmbedUrl` yet), the process text, tool tags, and a working back link.
 
-- [ ] **Step 4:** Commit: `git add app/animate/projects/[slug] && git commit -m "feat: add /animate project case study page"`
+- [x] **Step 4:** Commit: `git add app/animate/projects/[slug] && git commit -m "feat: add /animate project case study page"`
 
 ---
 
@@ -1196,7 +1196,7 @@ export default AnimateProjectPage;
 
 Client-side filter by resource type (Downloads / Tutorials / Tool links / All) — the one piece of real logic on this page, so it gets a test.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `components/Animate/__tests__/ResourceFilter.test.tsx`:
 
@@ -1229,9 +1229,9 @@ describe("ResourceFilter", () => {
 });
 ```
 
-- [ ] **Step 2:** Run it, confirm it fails on module-not-found.
+- [x] **Step 2:** Run it, confirm it fails on module-not-found.
 
-- [ ] **Step 3:** Create `components/Animate/ResourceFilter.tsx`:
+- [x] **Step 3:** Create `components/Animate/ResourceFilter.tsx`:
 
 ```tsx
 "use client";
@@ -1287,9 +1287,9 @@ export default function ResourceFilter({ resources }: { resources: ResourceConte
 }
 ```
 
-- [ ] **Step 4:** Run the test — expect PASS, 2/2.
+- [x] **Step 4:** Run the test — expect PASS, 2/2.
 
-- [ ] **Step 5:** Create `app/animate/resources/page.tsx`:
+- [x] **Step 5:** Create `app/animate/resources/page.tsx`:
 
 ```tsx
 import type { Metadata } from "next";
@@ -1321,11 +1321,11 @@ export default function ResourcesPage() {
 }
 ```
 
-- [ ] **Step 6:** Run `npm run build` — expect success.
+- [x] **Step 6:** Run `npm run build` — expect success.
 
-- [ ] **Step 7:** Manual check: `/animate/resources` shows all 3 placeholder resources; clicking each filter pill narrows the list correctly; "All" restores everything.
+- [x] **Step 7:** Manual check: `/animate/resources` shows all 3 placeholder resources; clicking each filter pill narrows the list correctly; "All" restores everything.
 
-- [ ] **Step 8:** Commit: `git add components/Animate/ResourceFilter.tsx components/Animate/__tests__/ResourceFilter.test.tsx app/animate/resources/page.tsx && git commit -m "feat: add /animate/resources hub with type filter"`
+- [x] **Step 8:** Commit: `git add components/Animate/ResourceFilter.tsx components/Animate/__tests__/ResourceFilter.test.tsx app/animate/resources/page.tsx && git commit -m "feat: add /animate/resources hub with type filter"`
 
 ---
 
@@ -1333,7 +1333,7 @@ export default function ResourcesPage() {
 
 Downloads with no real `fileUrl` yet (all current placeholder entries) show a "coming soon" state instead of a dead link — same honesty pattern as the video embed in Task 11.
 
-- [ ] **Step 1:** Create `app/animate/resources/[slug]/page.tsx`:
+- [x] **Step 1:** Create `app/animate/resources/[slug]/page.tsx`:
 
 ```tsx
 import type { Metadata } from "next";
@@ -1421,11 +1421,11 @@ const ResourceDetailPage = async ({ params }: Props) => {
 export default ResourceDetailPage;
 ```
 
-- [ ] **Step 2:** Run `npm run build` — expect success.
+- [x] **Step 2:** Run `npm run build` — expect success.
 
-- [ ] **Step 3:** Manual check: each of the 3 placeholder resources shows "Coming soon" (none have `fileUrl`/`externalUrl` set... check `data/resources.ts` from Task 1 — the `tools-i-use` entry does have an `externalUrl`, so that one should show a working "Visit link" button opening in a new tab; the other two should show "Coming soon").
+- [x] **Step 3:** Manual check: each of the 3 placeholder resources shows "Coming soon" (none have `fileUrl`/`externalUrl` set... check `data/resources.ts` from Task 1 — the `tools-i-use` entry does have an `externalUrl`, so that one should show a working "Visit link" button opening in a new tab; the other two should show "Coming soon").
 
-- [ ] **Step 4:** Commit: `git add app/animate/resources/[slug] && git commit -m "feat: add /animate resource detail page"`
+- [x] **Step 4:** Commit: `git add app/animate/resources/[slug] && git commit -m "feat: add /animate resource detail page"`
 
 ---
 
@@ -1433,20 +1433,20 @@ export default ResourceDetailPage;
 
 Extends `next-sitemap` to include the new dynamic `/animate` routes (spec §13).
 
-- [ ] **Step 1:** Read the current `next-sitemap.config.js` and add an `additionalPaths` (or equivalent, matching whatever API the existing config already uses) entry enumerating `/animate/projects/[slug]` and `/animate/resources/[slug]` for each item in `motionProjectsData` and `resourcesData`, following the same pattern already used (if any) for `/build/projects/[projectID]`. If the existing config has no dynamic-route handling at all (static-only sitemap), add a minimal `additionalPaths` async function that imports both data files and returns a loc entry per project/resource slug, matching next-sitemap's documented `additionalPaths` API.
+- [x] **Step 1:** Read the current `next-sitemap.config.js` and add an `additionalPaths` (or equivalent, matching whatever API the existing config already uses) entry enumerating `/animate/projects/[slug]` and `/animate/resources/[slug]` for each item in `motionProjectsData` and `resourcesData`, following the same pattern already used (if any) for `/build/projects/[projectID]`. If the existing config has no dynamic-route handling at all (static-only sitemap), add a minimal `additionalPaths` async function that imports both data files and returns a loc entry per project/resource slug, matching next-sitemap's documented `additionalPaths` API.
 
-- [ ] **Step 2:** Run `npm run build && npx next-sitemap` (or whatever script currently generates the sitemap — check `package.json` for an existing `postbuild` hook) and inspect the generated `public/sitemap.xml` (or wherever it outputs) to confirm `/animate`, `/animate/projects`, each `/animate/projects/[slug]`, `/animate/resources`, and each `/animate/resources/[slug]` are all present.
+- [x] **Step 2:** Run `npm run build && npx next-sitemap` (or whatever script currently generates the sitemap — check `package.json` for an existing `postbuild` hook) and inspect the generated `public/sitemap.xml` (or wherever it outputs) to confirm `/animate`, `/animate/projects`, each `/animate/projects/[slug]`, `/animate/resources`, and each `/animate/resources/[slug]` are all present.
 
-- [ ] **Step 3:** Commit: `git add next-sitemap.config.js && git commit -m "feat: extend sitemap to cover /animate dynamic routes"`
+- [x] **Step 3:** Commit: `git add next-sitemap.config.js && git commit -m "feat: extend sitemap to cover /animate dynamic routes"`
 
 ---
 
 ## Definition of Done
 
-- [ ] `npm run build` and `npm run test` both succeed.
-- [ ] `/animate` is reachable from the landing page's Animate card and no longer 404s.
-- [ ] Every playground toy is a real `button`/`input[type=range]` with a correct ARIA role, works via mouse, touch, and keyboard, and does something visible when used.
-- [ ] The resources hub's type filter actually filters (verified by test, not just visually).
-- [ ] No placeholder content pretends to be real — every video embed and resource without a real asset shows an honest "coming soon" state rather than a broken link or an empty player.
-- [ ] `/animate` has working cross-links back to `/` and to `/build`, and `/build` (from Plan 2/3) already links to `/animate`.
-- [ ] Every `/animate/*` page has its own accurate `<title>`/description, including the dynamic project and resource detail pages.
+- [x] `npm run build` and `npm run test` both succeed.
+- [x] `/animate` is reachable from the landing page's Animate card and no longer 404s.
+- [x] Every playground toy is a real `button`/`input[type=range]` with a correct ARIA role, works via mouse, touch, and keyboard, and does something visible when used.
+- [x] The resources hub's type filter actually filters (verified by test, not just visually).
+- [x] No placeholder content pretends to be real — every video embed and resource without a real asset shows an honest "coming soon" state rather than a broken link or an empty player.
+- [x] `/animate` has working cross-links back to `/` and to `/build`, and `/build` (from Plan 2/3) already links to `/animate`.
+- [x] Every `/animate/*` page has its own accurate `<title>`/description, including the dynamic project and resource detail pages.

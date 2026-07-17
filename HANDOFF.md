@@ -20,7 +20,7 @@ npm install
 - Plan 1 (Foundation): `docs/superpowers/plans/2026-07-13-design-system-foundation.md` — ✅ complete, reviewed clean
 - Plan 2 (Landing): `docs/superpowers/plans/2026-07-13-landing-page.md` — ✅ complete, reviewed clean
 - Plan 3 (`/build` redesign): `docs/superpowers/plans/2026-07-13-build-route-redesign.md` — ✅ complete, reviewed clean
-- Plan 4 (`/animate`): `docs/superpowers/plans/2026-07-13-animate-route.md` — written, not started — **currently next**
+- Plan 4 (`/animate`): `docs/superpowers/plans/2026-07-13-animate-route.md` — ✅ complete, reviewed clean
 
 ## Plan 1 progress (7 tasks total) — ✅ COMPLETE
 
@@ -64,11 +64,28 @@ Every task from `docs/superpowers/plans/2026-07-13-build-route-redesign.md` is i
 
 **Non-blocking note:** while testing locally, a Turbopack dev-mode error appeared once (`Can't resolve '@vercel/turbopack-next/internal/font/google/font'`), traced to Turbopack misdetecting the workspace root because of a stray `package-lock.json` in `C:\Users\okata\` (home directory) — visible in the build's own "Detected additional lockfiles" warning. It resolved itself/didn't recur, but if it comes back, the fix is setting `turbopack.root` explicitly in `next.config.ts` rather than relying on auto-detection.
 
-## Plan 3 is done — next up is Plan 4 (`/animate` route)
+## Plan 4 progress (14 tasks total) — ✅ COMPLETE
 
-This is the final plan in the sequence — it builds a whole new `/animate` route (motion-design portfolio) sharing the design system but with its own accent color, nav, and motion language, per the spec. It's the plan that finally makes the landing page's "Animate" route-choice card resolve instead of 404ing.
+Every task from `docs/superpowers/plans/2026-07-13-animate-route.md` is implemented and committed (`051ea72`..`5d3bf8f`). `/animate` is a whole new motion-design route — home page (hero, 4-toy interactive playground, capabilities strip, dark-band featured work, testimonials, resources teaser + newsletter signup, hire CTA), project case studies, and a resources hub with type filters — sharing the design system but themed in `accent-animate` (violet) instead of `accent-build` (amber). The final whole-implementation review came back clean — highlights:
 
-Pick up Plan 4 with the subagent-driven-development skill, same pattern as Plans 1-3: dispatch an implementer per task using the exact task text from `docs/superpowers/plans/2026-07-13-animate-route.md`, then a spec-compliance reviewer, then a code-quality reviewer per task, then a final whole-implementation review. This is the last plan — once it's reviewed clean, the whole 4-phase redesign is complete.
+- All placeholder content (3 motion projects, 3 resources, 2 testimonials) is clearly labeled as placeholder in code/copy, uses the existing `/images/null-project.jpg` convention, and every missing optional field (`videoEmbedUrl`, `fileUrl`/`externalUrl`) renders an honest "coming soon" state — verified live via a temporary prod server, including the one resource (`tools-i-use`) that *does* have a real external link.
+- All 4 playground toys are real, keyboard-accessible controls (`role="switch"`, real `input[type=range]`, real `<button>`s) — 14/14 playground tests pass.
+- `/animate` now returns 200 and the landing page's Animate route-choice card resolves instead of 404ing. Cross-links confirmed both directions (`/animate` → `/` and `/build`; landing → `/animate`).
+- Sitemap extended to cover all 9 `/animate` paths (3 project slugs + 3 resource slugs + the 3 index pages); a `postbuild` script (`next-sitemap`) was added since none existed before, otherwise the sitemap config would never actually run.
+
+**Three deviations from the plan doc, all reviewed and confirmed correct:**
+- `vitest.setup.ts` got a global `window.matchMedia` polyfill (jsdom doesn't implement it) — needed because the plan's own `PlaygroundMagneticButton.test.tsx` transitively calls `usePrefersReducedMotion`. Guarded with `if (!window.matchMedia)` so it never overrides the hook's own test, which mocks `matchMedia` explicitly per-case.
+- `ResourcesTeaser.tsx`'s form got `noValidate` — without it, the browser's native `type="email"` constraint validation silently blocked the submit event before React's `onSubmit` (and the plan's own "rejects an invalid email" test) ever ran. `type="email"` is kept for the keyboard/input-mode hint; actual format validation is now entirely the component's own regex.
+- `next-sitemap.config.js` duplicates the project/resource slugs as plain literals instead of importing the `.ts` data files directly — next-sitemap's config loads via plain Node, which can't resolve this repo's `@/...` path aliases or reliably run TypeScript across arbitrary Node versions (no `engines` field pins one for deploy). A comment flags to keep the literals in sync with `data/motion-projects.ts`/`data/resources.ts`.
+
+## 🎉 All 4 plans complete — the redesign is done
+
+Plan 1 (Foundation) → Plan 2 (Landing) → Plan 3 (`/build` redesign) → Plan 4 (`/animate`) are all implemented, tested, and independently reviewed clean. The site now has: `/` as the mode-select landing page, `/build` as the redesigned dev portfolio, `/animate` as the new motion-design portfolio with placeholder content pending real assets.
+
+**What's left before this is truly launch-ready (not code — content/ops):**
+- Swap placeholder motion project reels, resource downloads, and testimonials for real ones (spec §12) — see the "Placeholder —" comments in `data/motion-projects.ts`, `data/resources.ts`, `data/motion-testimonials.ts` for exactly what to replace.
+- Decide on and wire up a real newsletter backend for `ResourcesTeaser.tsx`'s signup form (currently client-side-only, honestly doesn't claim to persist anything).
+- Push this branch and open a PR / merge to main when ready — nothing has been pushed to `origin` yet this session (credentials issue flagged earlier: local git is authenticated as a different GitHub account than the repo owner).
 
 ## A few things learned the hard way this session, worth knowing before continuing
 
