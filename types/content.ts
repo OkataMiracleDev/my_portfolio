@@ -27,3 +27,9 @@ export interface TestimonialContent {
   quote: string;
   avatar: string;
 }
+
+export interface MotionProjectContent extends ProjectContent {
+  videoEmbedUrl?: string;
+  process: string;
+  tools: string[];
+}
