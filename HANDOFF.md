@@ -28,14 +28,20 @@ npm install
 
 ## `/animate` v2 redesign — next up (written, not started)
 
-After Plan 4 shipped, live user feedback (with screenshots) surfaced four issues: nav text illegible on both routes, dead space in the `/animate` hero, playground animations too stiff and wrongly grid-bundled, and a request for a much bigger visual swing on `/animate` inspired by kova.me and danielsun.space. Rather than implement immediately, a spec + plan were written (per explicit user request, "so I can continue this on a different device") — see the two documents linked above. **Neither has been implemented or approved yet.**
+After Plan 4 shipped, live user feedback (with screenshots) surfaced four issues: nav text illegible on both routes, dead space in the `/animate` hero, playground animations too stiff and wrongly grid-bundled, and a request for a much bigger visual swing on `/animate` inspired by kova.me and danielsun.space. A first spec/plan draft was written from a text-only `WebFetch` of both reference sites (which returned almost nothing useful — both are JS-rendered SPAs). The user then supplied real screenshots of both sites, and **both documents were fully rewritten** against that actual visual analysis — see the two documents linked above, current versions. **Neither has been implemented or approved yet.**
+
+Key decisions baked into the current spec (§1 has the full screenshot-by-screenshot analysis):
+- Leans toward Kova's register (mixed bold+italic headline typography, mono metadata labels, an explicit "easter-egg" toggle, per-project custom device frames) over Daniel Sun's scrapbook register, because it fits Okata's dual dev+motion identity better.
+- Borrows two things from Daniel Sun regardless: the diagonal light-beam hero background (in violet) and the tilted-Polaroid scattered project layout.
+- Playground toys are gated behind a single explicit toggle button (Kova's "SOME EYE CANDY" idea) rather than scattered invisibly — a revision from this spec's first draft.
+- New: a "credentials/stats" block (Kova's "Bragging rights") and a scattered/per-project-framed Featured Work section (replacing the uniform card grid) — bigger structural changes than the first draft anticipated.
 
 Before starting implementation:
-1. Read `docs/superpowers/specs/2026-07-17-animate-v2-redesign.md` in full, including its §6 open questions (Lottie asset sourcing, second dark-band placement, whether the kova.me/danielsun.space direction still matches what's live — the spec's author could not visually inspect those sites directly, only fetch their text content, so §4's creative direction is informed guesswork that needs a human sanity-check).
-2. Get the user's answers to those three open questions.
-3. Then follow `docs/superpowers/plans/2026-07-17-animate-v2-redesign.md` task-by-task, same subagent-driven-development pattern as Plans 1-4 (implementer → spec-compliance review → code-quality review per task → final whole-implementation review).
+1. Read `docs/superpowers/specs/2026-07-17-animate-v2-redesign.md` in full, especially §1 (screenshot analysis) and §8 (four open questions: Lottie vs. light-beam-alone, Cabinet Grotesk italic-axis availability, toggle button copy, credentials-block numbers).
+2. Get the user's answers to those four open questions.
+3. Then follow `docs/superpowers/plans/2026-07-17-animate-v2-redesign.md` task-by-task (7 tasks), same subagent-driven-development pattern as Plans 1-4.
 
-This plan introduces two new dependencies scoped narrowly (`lottie-react` for the hero, `motion`/Framer Motion strictly inside `components/Animate/Playground/*`) — neither should spread elsewhere in the codebase, which remains GSAP-only outside that one directory.
+Dependencies this plan may introduce: `motion` (Framer Motion, scoped strictly to `components/Animate/Playground/*`) and, conditionally, `lottie-react` (only if the light-beam + bigger type doesn't resolve the hero dead-space complaint on its own). Neither should spread elsewhere in the codebase, which remains GSAP-only outside the Playground directory.
 
 ## Plan 1 progress (7 tasks total) — ✅ COMPLETE
 
