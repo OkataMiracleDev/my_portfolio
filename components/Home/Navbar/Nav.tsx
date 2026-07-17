@@ -46,13 +46,7 @@ const Nav = () => {
 
   if (!mounted) {
     return (
-      <nav
-        className="fixed top-6 left-1/2 -translate-x-1/2 z-[10000] opacity-0"
-        style={{
-          padding: "0.75rem 1.5rem",
-          borderRadius: "9999px",
-        }}
-      >
+      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-[10000] opacity-0 rounded-pill px-6 py-3">
         <div className="flex items-center gap-4 md:gap-8">
           {navLinks.map((link) => (
             <div key={link.id} className="w-6 h-6" />
@@ -65,14 +59,9 @@ const Nav = () => {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-[10000] transition-all duration-300 ${
-        navBg ? "card" : "bg-transparent"
+      className={`fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-[10000] rounded-pill px-4 py-3 transition-colors duration-200 ease-out ${
+        navBg ? "bg-base-raised shadow-[0_4px_24px_rgb(0_0_0_/_0.08)]" : "bg-transparent"
       }`}
-      style={{
-        padding: "0.75rem 1rem",
-        borderRadius: "9999px",
-        width: "auto",
-      }}
     >
       <div className="flex items-center justify-center gap-4.5 md:gap-8">
         {navLinks.map((link) => {
@@ -83,13 +72,13 @@ const Nav = () => {
               key={link.id}
               href={link.url}
               download="Okata-Miracle-resume.docx"
-              className="text-sm md:text-base font-medium transition-all duration-300 hover:scale-110 nav-icon whitespace-nowrap"
+              className="text-sm md:text-base font-medium text-ink transition-transform duration-200 ease-out hover:scale-110 whitespace-nowrap"
             >
               {link.label}
             </a>
           ) : (
             <Link href={link.url} key={link.id}>
-              <span className="text-sm md:text-base font-medium transition-all duration-300 hover:scale-110 inline-block nav-icon whitespace-nowrap">
+              <span className="text-sm md:text-base font-medium text-ink transition-transform duration-200 ease-out hover:scale-110 inline-block whitespace-nowrap">
                 {link.label}
               </span>
             </Link>
@@ -98,11 +87,7 @@ const Nav = () => {
 
         <button
           onClick={() => router.push("/build/blog")}
-          className="px-3 md:px-4 py-1.5 md:py-2 rounded-full font-medium text-sm md:text-sm transition-all duration-300 hover:scale-105 whitespace-nowrap"
-          style={{
-            background: 'oklch(0.65 0.25 285)',
-            color: 'oklch(1 0 0)',
-          }}
+          className="rounded-pill bg-accent-build px-3 md:px-4 py-1.5 md:py-2 font-medium text-sm text-ink transition-transform duration-200 ease-out hover:scale-105 whitespace-nowrap active:scale-95"
         >
           Blog
         </button>
