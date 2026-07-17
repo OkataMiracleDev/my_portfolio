@@ -4,7 +4,9 @@ Where this stands and exactly how to pick it back up, on this machine or another
 
 ## Branch
 
-`worktree-portfolio-redesign-foundation`, pushed to `origin`. On another device:
+`worktree-portfolio-redesign-foundation`. **⚠️ NOT pushed to `origin`** — as of this writing the branch is 44 commits ahead of `origin/worktree-portfolio-redesign-foundation` and only exists locally on this machine. Attempting to push earlier this session failed with a 403: the local git credentials are authenticated as a different GitHub account (`Work-Better-Life`) than this repo's owner (`OkataMiracleDev`). **Fix the credentials (`gh auth login` as the right account, or update the stored Git credential) and push before switching devices, or this work is only accessible from this machine.**
+
+On another device, once the branch is actually pushed:
 
 ```bash
 git fetch origin
@@ -16,11 +18,24 @@ npm install
 
 ## Documents
 
-- Spec: `docs/superpowers/specs/2026-07-10-portfolio-redesign-design.md`
+- Spec (original 4-plan redesign): `docs/superpowers/specs/2026-07-10-portfolio-redesign-design.md`
 - Plan 1 (Foundation): `docs/superpowers/plans/2026-07-13-design-system-foundation.md` — ✅ complete, reviewed clean
 - Plan 2 (Landing): `docs/superpowers/plans/2026-07-13-landing-page.md` — ✅ complete, reviewed clean
 - Plan 3 (`/build` redesign): `docs/superpowers/plans/2026-07-13-build-route-redesign.md` — ✅ complete, reviewed clean
 - Plan 4 (`/animate`): `docs/superpowers/plans/2026-07-13-animate-route.md` — ✅ complete, reviewed clean
+- **Spec (`/animate` v2 — current, next up): `docs/superpowers/specs/2026-07-17-animate-v2-redesign.md`**
+- **Plan (`/animate` v2 — current, next up): `docs/superpowers/plans/2026-07-17-animate-v2-redesign.md` — written, not started**
+
+## `/animate` v2 redesign — next up (written, not started)
+
+After Plan 4 shipped, live user feedback (with screenshots) surfaced four issues: nav text illegible on both routes, dead space in the `/animate` hero, playground animations too stiff and wrongly grid-bundled, and a request for a much bigger visual swing on `/animate` inspired by kova.me and danielsun.space. Rather than implement immediately, a spec + plan were written (per explicit user request, "so I can continue this on a different device") — see the two documents linked above. **Neither has been implemented or approved yet.**
+
+Before starting implementation:
+1. Read `docs/superpowers/specs/2026-07-17-animate-v2-redesign.md` in full, including its §6 open questions (Lottie asset sourcing, second dark-band placement, whether the kova.me/danielsun.space direction still matches what's live — the spec's author could not visually inspect those sites directly, only fetch their text content, so §4's creative direction is informed guesswork that needs a human sanity-check).
+2. Get the user's answers to those three open questions.
+3. Then follow `docs/superpowers/plans/2026-07-17-animate-v2-redesign.md` task-by-task, same subagent-driven-development pattern as Plans 1-4 (implementer → spec-compliance review → code-quality review per task → final whole-implementation review).
+
+This plan introduces two new dependencies scoped narrowly (`lottie-react` for the hero, `motion`/Framer Motion strictly inside `components/Animate/Playground/*`) — neither should spread elsewhere in the codebase, which remains GSAP-only outside that one directory.
 
 ## Plan 1 progress (7 tasks total) — ✅ COMPLETE
 
