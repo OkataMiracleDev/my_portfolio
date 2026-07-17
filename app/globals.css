@@ -33,6 +33,13 @@
 }
 
 html {
+  /* This site is light-only (no dark theme exists for the new identity —
+     spec §3 treats dark mode as a non-goal). Without this, browsers that
+     auto-apply a dark-mode heuristic to web content (e.g. Edge/Chrome's
+     "force dark mode for web content") selectively repaint flat-color
+     icons/text on light backgrounds, making them look washed out/illegible
+     while photos and highly-saturated brand colors are left alone. */
+  color-scheme: light;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;

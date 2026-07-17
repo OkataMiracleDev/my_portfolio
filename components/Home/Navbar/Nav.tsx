@@ -72,7 +72,7 @@ const Nav = () => {
               key={link.id}
               href={link.url}
               download="Okata-Miracle-resume.docx"
-              className="text-sm md:text-base font-medium text-ink transition-transform duration-200 ease-out hover:scale-110 whitespace-nowrap"
+              className="inline-block text-sm md:text-base font-medium text-ink transition-transform duration-200 ease-out hover:scale-110 whitespace-nowrap"
             >
               {link.label}
             </a>
