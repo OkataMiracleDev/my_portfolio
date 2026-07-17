@@ -32,7 +32,7 @@ const ProjectsPage = () => {
           {projectsData.map((project, index) => (
             <Link
               key={project.id}
-              href={`/projects/${project.projectID}`}
+              href={`/build/projects/${project.projectID}`}
             >
               <ProjectsCard projects={project} index={index} />
             </Link>
@@ -41,7 +41,7 @@ const ProjectsPage = () => {
 
         {/* Back Home Button */}
         <div className="flex justify-center">
-          <Link href="/" className="btn-secondary group inline-flex items-center gap-3">
+          <Link href="/build" className="btn-secondary group inline-flex items-center gap-3">
             <span>←</span>
             <span>Back to Home</span>
           </Link>

@@ -97,7 +97,7 @@ const Nav = () => {
         })}
 
         <button
-          onClick={() => router.push("/blog")}
+          onClick={() => router.push("/build/blog")}
           className="px-3 md:px-4 py-1.5 md:py-2 rounded-full font-medium text-sm md:text-sm transition-all duration-300 hover:scale-105 whitespace-nowrap"
           style={{
             background: 'oklch(0.65 0.25 285)',

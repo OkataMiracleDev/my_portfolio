@@ -35,7 +35,7 @@ export const projectsSliderData = [
 export const homeprojectsData = [
   {
     id: 1,
-    projectID: "/projects/NEM",
+    projectID: "/build/projects/NEM",
     image: "/images/nkechi-evangelical-ministry.jpg",
     image2: "/images/nkechi-evangelical-ministry2.jpg",
     image3: "/images/nkechi-evangelical-ministry3.jpg",
@@ -45,7 +45,7 @@ export const homeprojectsData = [
   },
   {
     id: 2,
-    projectID: "/projects/try-unihub",
+    projectID: "/build/projects/try-unihub",
     image: "/images/try-unihub.jpg",
     image2: "/images/try-unihub2.jpg",
     image3: "/images/try-unihub3.jpg",

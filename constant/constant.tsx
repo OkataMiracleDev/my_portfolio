@@ -22,12 +22,12 @@ export const navLinks: NavLink[] = [
   {
     id: 1,
     label: <RiHome9Line className="text-2xl" />,
-    url: "/",
+    url: "/build",
   },
   {
     id: 2,
     label: <CgProfile className="text-2xl" />,
-    url: "/#about",
+    url: "/build#about",
   },
   {
     id: 3,

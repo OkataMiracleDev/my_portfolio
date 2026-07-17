@@ -112,7 +112,7 @@ const ProjectDisplayPage = async ({ params }: Props) => {
               <span>Visit Project</span>
               <IoLinkOutline className='text-xl' />
             </Link>
-            <Link href="/projects" className="btn-secondary inline-flex items-center gap-2">
+            <Link href="/build/projects" className="btn-secondary inline-flex items-center gap-2">
               <span>←</span>
               <span>Back to Projects</span>
             </Link>

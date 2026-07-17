@@ -65,7 +65,7 @@ const HomeProjects = () => {
         {/* View All Button */}
         <div className="flex justify-center">
           <Link
-            href="/projects"
+            href="/build/projects"
             className="btn-secondary group inline-flex items-center gap-3"
           >
             <span>View All Projects</span>
