@@ -22,22 +22,17 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
   if (!isOpen) return null;
 
   return (
-    <div 
-      className="fixed inset-0 z-[10002] flex items-center justify-center p-4"
-      style={{ background: 'oklch(0.12 0.05 285 / 0.9)' }}
+    <div
+      className="fixed inset-0 z-[10002] flex items-center justify-center bg-ink/40 p-4 backdrop-blur-sm"
       onClick={onClose}
     >
-      <div 
-        className="card w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 relative"
+      <div
+        className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-card bg-base-raised p-8"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-          style={{
-            background: 'oklch(0.25 0.04 285 / 0.5)',
-            color: 'var(--color-text-primary)',
-          }}
+          className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-ink/5 text-ink transition-transform duration-200 ease-out hover:scale-110"
           aria-label="Close modal"
         >
           <span className="text-2xl">×</span>
