@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import AnimateHero from "@/components/Animate/AnimateHero";
-import InteractivePlayground from "@/components/Animate/Playground/InteractivePlayground";
+import { PlaygroundRevealProvider } from "@/components/Animate/Playground/PlaygroundRevealContext";
 import CapabilitiesStrip from "@/components/Animate/CapabilitiesStrip";
 import FeaturedWork from "@/components/Animate/FeaturedWork";
 import AnimateTestimonials from "@/components/Animate/AnimateTestimonials";
@@ -27,15 +27,14 @@ export const metadata: Metadata = {
 
 export default function AnimatePage() {
   return (
-    <>
+    <PlaygroundRevealProvider>
       <AnimateHero />
-      <InteractivePlayground />
       <CapabilitiesStrip />
       <FeaturedWork />
       <AnimateTestimonials />
       <ResourcesTeaser />
       <HireCta />
       <AnimateFooter />
-    </>
+    </PlaygroundRevealProvider>
   );
 }

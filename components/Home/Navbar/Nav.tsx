@@ -7,21 +7,12 @@ import { gsap } from "gsap";
 
 const Nav = () => {
   const router = useRouter();
-  const [navBg, setNavBg] = useState(false);
   const [mounted, setMounted] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const hasAnimated = useRef(false);
 
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    const handler = () => {
-      setNavBg(window.scrollY >= 70);
-    };
-    window.addEventListener("scroll", handler);
-    return () => window.removeEventListener("scroll", handler);
   }, []);
 
   useEffect(() => {
@@ -59,9 +50,7 @@ const Nav = () => {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-[10000] rounded-pill px-4 py-3 transition-colors duration-200 ease-out ${
-        navBg ? "bg-base-raised shadow-[0_4px_24px_rgb(0_0_0_/_0.08)]" : "bg-transparent"
-      }`}
+      className="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-[10000] rounded-pill bg-nav-dark px-4 py-3 shadow-[0_4px_24px_rgb(0_0_0_/_0.08)]"
     >
       <div className="flex items-center justify-center gap-4.5 md:gap-8">
         {navLinks.map((link) => {
@@ -72,13 +61,13 @@ const Nav = () => {
               key={link.id}
               href={link.url}
               download="Okata-Miracle-resume.docx"
-              className="inline-block text-sm md:text-base font-medium text-ink transition-transform duration-200 ease-out hover:scale-110 whitespace-nowrap"
+              className="inline-block text-sm md:text-base font-medium text-base transition-transform duration-200 ease-out hover:scale-110 whitespace-nowrap"
             >
               {link.label}
             </a>
           ) : (
             <Link href={link.url} key={link.id}>
-              <span className="text-sm md:text-base font-medium text-ink transition-transform duration-200 ease-out hover:scale-110 inline-block whitespace-nowrap">
+              <span className="text-sm md:text-base font-medium text-base transition-transform duration-200 ease-out hover:scale-110 inline-block whitespace-nowrap">
                 {link.label}
               </span>
             </Link>

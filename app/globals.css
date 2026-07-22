@@ -8,6 +8,7 @@
   --color-accent-build: oklch(64% 0.19 45);
   --color-accent-animate: oklch(58% 0.24 300);
   --color-band-dark: oklch(16% 0.02 300);
+  --color-nav-dark: oklch(18% 0.02 55);
 
   --radius-card: 1.25rem;
   --radius-pill: 999px;

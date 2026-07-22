@@ -1,38 +1,43 @@
 "use client";
-import { useRef, useState } from "react";
+
+import { useState } from "react";
+import { motion, useSpring } from "motion/react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 export default function PlaygroundMagneticButton() {
-  const buttonRef = useRef<HTMLButtonElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
   const [pressed, setPressed] = useState(false);
+  const x = useSpring(0, { stiffness: 150, damping: 15 });
+  const y = useSpring(0, { stiffness: 150, damping: 15 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (prefersReducedMotion || !buttonRef.current) return;
+    if (prefersReducedMotion) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const relX = e.clientX - rect.left - rect.width / 2;
     const relY = e.clientY - rect.top - rect.height / 2;
-    buttonRef.current.style.transform = `translate(${relX * 0.3}px, ${relY * 0.3}px)`;
+    x.set(relX * 0.3);
+    y.set(relY * 0.3);
   };
 
   const handleMouseLeave = () => {
-    if (!buttonRef.current) return;
-    buttonRef.current.style.transform = "translate(0px, 0px)";
+    x.set(0);
+    y.set(0);
   };
 
   return (
-    <button
-      ref={buttonRef}
-      aria-label="Demo magnetic button — for fun, no data is saved"
+    <motion.button
+      type="button"
+      aria-label="Demo magnetic button - for fun, no data is saved"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onMouseDown={() => setPressed(true)}
       onMouseUp={() => setPressed(false)}
+      style={{ x, y }}
       className={`rounded-pill bg-accent-animate px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out ${
         pressed ? "scale-95" : ""
       }`}
     >
       Try me
-    </button>
+    </motion.button>
   );
 }
