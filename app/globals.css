@@ -75,6 +75,18 @@ body {
   opacity: 1 !important;
 }
 
+/* Ambient 3D orbit used by the /animate playground's decorative
+   PlaygroundOrbit toy — a pure-CSS loop, gated behind
+   prefers-reduced-motion in the component itself. */
+@keyframes playground-orbit {
+  from {
+    transform: translate(-50%, -50%) rotateY(0deg) translateZ(20px) rotateY(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotateY(360deg) translateZ(20px) rotateY(-360deg);
+  }
+}
+
 /* Focus Styles */
 *:focus-visible {
   outline: 2px solid var(--color-ink);

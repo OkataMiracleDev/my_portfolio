@@ -6,6 +6,8 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { resourcesData } from "@/data/resources";
+import PlaygroundConfettiButton from "./Playground/PlaygroundConfettiButton";
+import { usePlaygroundReveal } from "./Playground/PlaygroundRevealContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,6 +19,7 @@ export default function ResourcesTeaser() {
   const [submitted, setSubmitted] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const { revealed } = usePlaygroundReveal();
   const latest = resourcesData.slice(0, 3);
 
   useEffect(() => {
@@ -26,13 +29,13 @@ export default function ResourcesTeaser() {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         items,
-        { y: 28, opacity: 0 },
+        { y: 24, opacity: 0 },
         {
           y: 0,
           opacity: 1,
           duration: 0.55,
           ease: "power4.out",
-          stagger: 0.05,
+          stagger: 0.06,
           scrollTrigger: {
             trigger: listRef.current,
             start: "top 78%",
@@ -56,35 +59,64 @@ export default function ResourcesTeaser() {
   };
 
   return (
-    <section className="section px-6">
+    <section className="section relative px-6 md:px-12">
+      <div
+        className={`absolute bottom-10 right-4 -rotate-3 transition-all duration-500 ease-out md:right-10 ${
+          revealed ? "translate-y-0 opacity-100 delay-150" : "pointer-events-none translate-y-3 opacity-0"
+        }`}
+      >
+        <PlaygroundConfettiButton />
+      </div>
       <div className="mx-auto max-w-4xl">
-        <div className="mb-10 text-center">
-          <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.08em] text-ink/50">
-            Downloads and notes
-          </p>
-          <h2 className="font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-black leading-none text-ink md:text-6xl">
-            Free resources
-          </h2>
-          <p className="mt-3 text-ink/70">LUTs, breakdowns, and tools. Free, no email required.</p>
+        <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-ink/50">
+              Downloads and notes
+            </p>
+            <h2 className="max-w-md font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold leading-[0.95] text-ink md:text-6xl">
+              Free{" "}
+              <span className="font-[family-name:var(--font-accent-script)] italic text-accent-animate">
+                resources.
+              </span>
+            </h2>
+          </div>
+          <p className="max-w-xs text-ink/65">LUTs, breakdowns, and tools. Free, no email required.</p>
         </div>
 
-        <ul ref={listRef} className="mb-10 grid grid-cols-1 gap-4 md:grid-cols-3">
-          {latest.map((resource) => (
+        <ul ref={listRef} className="divide-y divide-ink/10 border-y border-ink/10">
+          {latest.map((resource, i) => (
             <li key={resource.id}>
               <Link
                 href={`/animate/resources/${resource.slug}`}
-                className="block rounded-card bg-base-raised p-6 transition-transform duration-200 ease-out hover:-translate-y-1"
+                className="group flex items-center justify-between gap-6 py-6"
               >
-                <p className="font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.08em] text-accent-animate">
-                  {resource.type}
-                </p>
-                <p className="mt-2 font-semibold text-ink">{resource.title}</p>
+                <span className="font-[family-name:var(--font-jetbrains-mono)] text-sm text-ink/40">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="flex-1">
+                  <span className="block font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-accent-animate">
+                    {resource.type}
+                  </span>
+                  <span className="mt-1 block font-[family-name:var(--font-cabinet-grotesk)] text-xl font-bold text-ink transition-colors duration-200 ease-out group-hover:text-accent-animate md:text-2xl">
+                    {resource.title}
+                  </span>
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="text-2xl text-ink/30 transition-transform duration-200 ease-out group-hover:translate-x-1 group-hover:text-accent-animate"
+                >
+                  →
+                </span>
               </Link>
             </li>
           ))}
         </ul>
 
-        <form onSubmit={handleSubmit} noValidate className="mx-auto flex max-w-md flex-col items-center gap-3 sm:flex-row">
+        <form
+          onSubmit={handleSubmit}
+          noValidate
+          className="mx-auto mt-12 flex max-w-md flex-col items-center gap-3 sm:flex-row"
+        >
           <label htmlFor="newsletter-email" className="sr-only">
             Email address
           </label>

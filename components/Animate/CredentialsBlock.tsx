@@ -9,8 +9,11 @@ const credentials = [
 export default function CredentialsBlock() {
   return (
     <div className="mt-20 border-t border-base/15 pt-12">
-      <h3 className="font-[family-name:var(--font-cabinet-grotesk)] text-5xl font-black leading-none text-base md:text-7xl">
-        Bragging <span className="italic">rights.</span>
+      <h3 className="font-[family-name:var(--font-cabinet-grotesk)] text-5xl font-bold leading-none text-base md:text-7xl">
+        Bragging{" "}
+        <span className="font-[family-name:var(--font-accent-script)] italic text-accent-animate">
+          rights.
+        </span>
       </h3>
       <div className="mt-10 grid gap-6 md:grid-cols-4">
         {credentials.map((item) => (
@@ -18,7 +21,7 @@ export default function CredentialsBlock() {
             <p className="font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-base/45">
               {item.label}
             </p>
-            <p className="mt-4 font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-black text-base">
+            <p className="mt-4 font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold text-base">
               {item.value}
             </p>
           </div>

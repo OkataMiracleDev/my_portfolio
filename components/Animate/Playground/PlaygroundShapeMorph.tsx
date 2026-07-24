@@ -12,10 +12,11 @@ export default function PlaygroundShapeMorph() {
         data-testid="morph-shape"
         data-morphed={morphed}
         animate={{
-          borderRadius: morphed ? "9999px" : "12px",
+          borderRadius: morphed ? "9999px" : "14px",
           rotate: morphed ? 45 : 0,
+          scale: morphed ? 1.05 : 1,
         }}
-        transition={{ type: "spring", duration: 0.6, bounce: 0.25 }}
+        transition={{ duration: 0.7, ease: [0.77, 0, 0.175, 1] }}
         className="h-16 w-16 bg-accent-animate"
         aria-hidden="true"
       />

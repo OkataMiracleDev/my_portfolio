@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
-import { cabinetGrotesk, generalSans } from "@/lib/fonts";
+import { cabinetGrotesk, generalSans, bodoniModa } from "@/lib/fonts";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import { Toaster } from "react-hot-toast";
@@ -38,13 +38,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${cabinetGrotesk.variable} ${generalSans.variable}`}
+      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${cabinetGrotesk.variable} ${generalSans.variable} ${bodoniModa.variable}`}
     >
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
         <meta name="color-scheme" content="light" />
       </head>
-      <body style={{ fontFamily: "var(--font-space-grotesk)" }}>
+      <body className="font-[family-name:var(--font-space-grotesk)]">
         <SmoothScroll />
         {children}
         <Toaster

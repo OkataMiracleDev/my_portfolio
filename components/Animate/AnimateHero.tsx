@@ -5,6 +5,7 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import HeroLightBeam from "./HeroLightBeam";
 import PlaygroundToggle from "./Playground/PlaygroundToggle";
 import PlaygroundToggleButton from "./Playground/PlaygroundToggleButton";
+import PlaygroundDraggableSticker from "./Playground/PlaygroundDraggableSticker";
 import { usePlaygroundReveal } from "./Playground/PlaygroundRevealContext";
 
 const AnimateHero = () => {
@@ -44,7 +45,7 @@ const AnimateHero = () => {
 
   return (
     <section
-      className="relative flex min-h-[100dvh] items-center overflow-hidden px-6 pt-24"
+      className="relative flex min-h-[100dvh] items-center overflow-hidden px-6 pt-28 md:px-12"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
@@ -63,18 +64,38 @@ const AnimateHero = () => {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 max-w-[88rem]">
-        <p className="mb-6 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.08em] text-ink/60">
-          Based remotely / {timeLabel || "--:--"} / Open to work
+      <div
+        className={`absolute right-6 top-24 z-20 rotate-6 transition-all duration-500 ease-out md:right-16 md:top-32 ${
+          revealed ? "translate-y-0 opacity-100 delay-100" : "pointer-events-none translate-y-3 opacity-0"
+        }`}
+      >
+        <PlaygroundDraggableSticker />
+      </div>
+
+      <div className="relative z-10 w-full max-w-[70rem]">
+        <p className="mb-7 flex flex-wrap items-center gap-x-2 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-ink/55">
+          <span>Based remotely</span>
+          <span aria-hidden="true" className="text-accent-animate">·</span>
+          <span className="tabular-nums">{timeLabel || "--:--"}</span>
+          <span aria-hidden="true" className="text-accent-animate">·</span>
+          <span>Open to work</span>
         </p>
-        <h1 className="max-w-[13ch] font-[family-name:var(--font-cabinet-grotesk)] text-[clamp(4.5rem,14vw,15rem)] font-black leading-[0.82] tracking-tight text-ink">
-          <span className="block">Motion that means</span>
-          <span className="block pb-2 italic leading-[0.95]">something.</span>
+
+        <h1 className="max-w-[16ch] font-[family-name:var(--font-cabinet-grotesk)] text-[clamp(3.2rem,9vw,8.5rem)] font-bold leading-[0.88] tracking-tight text-ink">
+          <span className="block">Motion that</span>
+          <span className="block pb-2">
+            means{" "}
+            <span className="font-[family-name:var(--font-accent-script)] italic text-accent-animate">
+              something.
+            </span>
+          </span>
         </h1>
-        <p className="mt-6 max-w-xl text-lg text-ink/70">
-          Brand animation, UI micro-interactions, and short-form video built to hold attention and say something while it does.
+
+        <p className="mt-8 max-w-lg text-lg leading-relaxed text-ink/65">
+          Brand animation, UI micro-interactions, and short-form video, built to hold attention and say something while it does.
         </p>
-        <div className="mt-8 flex flex-wrap items-center gap-4">
+
+        <div className="mt-10 flex flex-wrap items-center gap-4">
           <PlaygroundToggleButton />
           <div
             className={`transition-all duration-300 ease-out ${
