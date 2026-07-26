@@ -40,6 +40,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# nested git worktrees (accidentally got tracked as a stray gitlink once —
+# see main's "redesign animate v2" commit; never track this path)
+/.claude/worktrees/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
