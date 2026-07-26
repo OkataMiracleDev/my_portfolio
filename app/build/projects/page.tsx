@@ -1,20 +1,16 @@
 import React from "react";
-import { projectsData } from "@/data/data";
 import SectionHeading from "@/components/Helper/SectionHeading";
 import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
+import { getDevProjects } from "@/lib/data/public";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Projects | Okata Miracle - Frontend Developer",
   description: "Explore Okata Miracle's latest projects built with Next.js, React, and TailwindCSS.",
 };
-
-export function generateStaticParams() {
-  return projectsData.map((project) => ({
-    projectID: project.projectID,
-  }));
-}
 
 // Groups projects into pairs so they read as "spreads" (two facing pages
 // split by a spine), matching the picture-book layout used on the homepage
@@ -27,8 +23,9 @@ function toSpreads<T>(items: T[]): T[][] {
   return spreads;
 }
 
-const ProjectsPage = () => {
-  const spreads = toSpreads(projectsData);
+const ProjectsPage = async () => {
+  const projects = await getDevProjects();
+  const spreads = toSpreads(projects);
 
   return (
     <div className="min-h-screen pt-32 pb-20 px-6">
@@ -53,7 +50,7 @@ const ProjectsPage = () => {
                 return (
                   <Link
                     key={project.id}
-                    href={`/build/projects/${project.projectID}`}
+                    href={`/build/projects/${project.slug}`}
                     className="group flex flex-col items-center px-2 text-center md:px-10"
                   >
                     <div
@@ -70,7 +67,7 @@ const ProjectsPage = () => {
                     </div>
 
                     <span className="mt-5 font-[family-name:var(--font-jetbrains-mono)] text-xs text-accent-build">
-                      {String(index + 1).padStart(2, "0")} / {String(projectsData.length).padStart(2, "0")}
+                      {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
                     </span>
                     <h3 className="mt-2 font-[family-name:var(--font-cabinet-grotesk)] text-lg font-bold text-ink">
                       {project.name}

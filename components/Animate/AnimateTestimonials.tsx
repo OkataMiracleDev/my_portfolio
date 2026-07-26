@@ -5,13 +5,13 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import { motionTestimonialsData } from "@/data/motion-testimonials";
+import type { TestimonialContent } from "@/types/content";
 import PlaygroundOrbit from "./Playground/PlaygroundOrbit";
 import { usePlaygroundReveal } from "./Playground/PlaygroundRevealContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function AnimateTestimonials() {
+export default function AnimateTestimonials({ testimonials }: { testimonials: TestimonialContent[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
   const { revealed } = usePlaygroundReveal();
@@ -62,7 +62,7 @@ export default function AnimateTestimonials() {
         </h2>
 
         <div className="space-y-16">
-          {motionTestimonialsData.map((testimonial, i) => (
+          {testimonials.map((testimonial, i) => (
             <div
               key={testimonial.id}
               className={`testimonial-quote flex flex-col gap-6 md:flex-row md:items-start md:gap-10 ${

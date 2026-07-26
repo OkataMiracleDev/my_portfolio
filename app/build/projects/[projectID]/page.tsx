@@ -1,10 +1,12 @@
 import Footer from '@/components/Home/Footer/Footer';
-import { projectsData } from '@/data/data'
+import { getDevProjectBySlug } from '@/lib/data/public'
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link'
 import React from 'react'
 import { IoLinkOutline } from "react-icons/io5";
+
+export const dynamic = "force-dynamic";
 
 type Props = {
   params: Promise<{
@@ -14,7 +16,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;
-  const project = projectsData.find((p) => p.projectID === resolvedParams.projectID);
+  const project = await getDevProjectBySlug(resolvedParams.projectID);
 
   if (!project) {
     return { title: "Project not found | Okata Miracle" };
@@ -22,15 +24,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${project.name} | Okata Miracle`,
-    description: project.subhead,
+    description: project.subhead ?? undefined,
   };
 }
 
 const ProjectDisplayPage = async ({ params }: Props) => {
   const resolvedParams = await params;
-  const project = projectsData.find(
-    (p) => p.projectID === resolvedParams.projectID
-  );
+  const project = await getDevProjectBySlug(resolvedParams.projectID);
 
   if (!project) {
     return (
@@ -99,7 +99,7 @@ const ProjectDisplayPage = async ({ params }: Props) => {
 
           <div className='flex flex-wrap gap-4'>
             <Link
-              href={project.link}
+              href={project.link ?? "#"}
               className="inline-flex items-center gap-2 rounded-pill bg-accent-build px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97]"
               target="_blank"
             >
@@ -117,7 +117,7 @@ const ProjectDisplayPage = async ({ params }: Props) => {
         </div>
 
         <div className="space-y-8">
-          {[project.image, project.image2, project.image3].map((img, index) => (
+          {[project.image, project.image2, project.image3].filter((img): img is string => Boolean(img)).map((img, index) => (
             <div key={index} className="overflow-hidden rounded-card bg-base-raised p-6">
               <div className="relative h-64 md:h-96 overflow-hidden rounded-card">
                 <Image

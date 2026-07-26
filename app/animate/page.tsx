@@ -6,7 +6,11 @@ import FeaturedWork from "@/components/Animate/FeaturedWork";
 import AnimateTestimonials from "@/components/Animate/AnimateTestimonials";
 import ResourcesTeaser from "@/components/Animate/ResourcesTeaser";
 import HireCta from "@/components/Animate/HireCta";
+import Contact from "@/components/Home/Contact/Contact";
 import AnimateFooter from "@/components/Animate/AnimateFooter";
+import { getMotionProjects, getTestimonials, getResources } from "@/lib/data/public";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Okata Miracle | Motion Designer",
@@ -25,15 +29,22 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AnimatePage() {
+export default async function AnimatePage() {
+  const [motionProjects, testimonials, resources] = await Promise.all([
+    getMotionProjects(),
+    getTestimonials("animate"),
+    getResources(),
+  ]);
+
   return (
     <PlaygroundRevealProvider>
       <AnimateHero />
       <CapabilitiesStrip />
-      <FeaturedWork />
-      <AnimateTestimonials />
-      <ResourcesTeaser />
+      <FeaturedWork projects={motionProjects} />
+      <AnimateTestimonials testimonials={testimonials} />
+      <ResourcesTeaser resources={resources} />
       <HireCta />
+      <Contact mode="animate" />
       <AnimateFooter />
     </PlaygroundRevealProvider>
   );

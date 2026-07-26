@@ -1,7 +1,12 @@
 import Footer from '@/components/Home/Footer/Footer'
-import React from 'react'
+import Link from 'next/link'
+import { getPublishedPosts } from '@/lib/data/public'
 
-const BlogPage = () => {
+export const dynamic = "force-dynamic";
+
+const BlogPage = async () => {
+  const posts = await getPublishedPosts(["build", "general"]);
+
   return (
     <div className='pt-[15rem] pb-10 w-full'>
         <div className='flex flex-col justify-center items-center gap-10'>
@@ -9,8 +14,24 @@ const BlogPage = () => {
             <h1 className='font-[family-name:var(--font-cabinet-grotesk)] text-3xl md:text-5xl font-bold text-ink'>Blog Posts</h1>
             <p className='text-ink/60 text-center font-medium text-base md:text-lg'>Thoughts, startup news and insights on software development</p>
         </div>
-        <h1 className='text-ink/60 font-medium text-base md:text-lg'>No articles available yet</h1>
-
+        {posts.length === 0 ? (
+          <h1 className='text-ink/60 font-medium text-base md:text-lg'>No articles available yet</h1>
+        ) : (
+          <div className="flex w-full max-w-3xl flex-col gap-6 px-6">
+            {posts.map((post) => (
+              <Link
+                key={post.id}
+                href={`/build/blog/${post.slug}`}
+                className="rounded-card bg-base-raised p-6 transition-transform duration-150 ease-out hover:-translate-y-0.5"
+              >
+                <h2 className="font-[family-name:var(--font-cabinet-grotesk)] text-xl font-bold text-ink">
+                  {post.title}
+                </h2>
+                {post.excerpt && <p className="mt-2 text-sm text-ink/70">{post.excerpt}</p>}
+              </Link>
+            ))}
+          </div>
+        )}
         </div>
         <Footer />
     </div>

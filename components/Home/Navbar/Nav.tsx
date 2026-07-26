@@ -1,12 +1,10 @@
 "use client";
 import { navLinks } from "@/constant/constant";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import React, { useEffect, useState, useRef } from "react";
 import { gsap } from "gsap";
 
 const Nav = () => {
-  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const hasAnimated = useRef(false);
@@ -42,6 +40,7 @@ const Nav = () => {
           {navLinks.map((link) => (
             <div key={link.id} className="w-6 h-6" />
           ))}
+          <div className="w-6 h-6" />
         </div>
       </nav>
     );
@@ -74,12 +73,12 @@ const Nav = () => {
           );
         })}
 
-        <button
-          onClick={() => router.push("/build/blog")}
-          className="rounded-pill bg-accent-build px-3 md:px-4 py-1.5 md:py-2 font-medium text-sm text-ink transition-transform duration-200 ease-out hover:scale-105 whitespace-nowrap active:scale-95"
+        <Link
+          href="/"
+          className="rounded-pill bg-accent-build px-3 md:px-4 py-1.5 md:py-2 font-medium text-sm text-ink transition-transform duration-200 ease-out hover:scale-105 active:scale-95 whitespace-nowrap"
         >
-          Blog
-        </button>
+          Switch mode
+        </Link>
       </div>
     </nav>
   );

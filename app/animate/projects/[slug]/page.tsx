@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { motionProjectsData } from "@/data/motion-projects";
+import { getMotionProjectBySlug } from "@/lib/data/public";
+
+export const dynamic = "force-dynamic";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return motionProjectsData.map((project) => ({ slug: project.slug }));
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const project = motionProjectsData.find((p) => p.slug === slug);
+  const project = await getMotionProjectBySlug(slug);
 
   if (!project) {
     return { title: "Project not found | Okata Miracle" };
@@ -26,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const AnimateProjectPage = async ({ params }: Props) => {
   const { slug } = await params;
-  const project = motionProjectsData.find((p) => p.slug === slug);
+  const project = await getMotionProjectBySlug(slug);
 
   if (!project) {
     return (

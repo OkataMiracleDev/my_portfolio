@@ -4,10 +4,13 @@ import React, { useEffect, useRef } from 'react';
 import TestimonialSlider from './TestimonialSlider';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import type { TestimonialContent } from '@/types/content';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Testimonials = () => {
+type Testimonial = TestimonialContent;
+
+const Testimonials = ({ testimonials }: { testimonials: Testimonial[] }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -39,7 +42,7 @@ const Testimonials = () => {
         </div>
 
         <div ref={sliderRef} className='flex justify-center'>
-          <TestimonialSlider />
+          <TestimonialSlider testimonials={testimonials} />
         </div>
       </div>
     </section>

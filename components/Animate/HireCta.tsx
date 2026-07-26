@@ -25,7 +25,7 @@ export default function HireCta() {
               Always open to motion work, brand, product, or social. No brief too rough.
             </p>
             <Link
-              href="/build#contact"
+              href="#contact"
               className="mt-8 inline-flex items-center gap-2 rounded-pill bg-accent-animate px-7 py-3.5 font-semibold text-ink transition-transform duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97]"
             >
               Let&apos;s talk

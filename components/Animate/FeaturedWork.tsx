@@ -9,11 +9,11 @@ import CredentialsBlock from "./CredentialsBlock";
 import PlaygroundMagneticButton from "./Playground/PlaygroundMagneticButton";
 import { usePlaygroundReveal } from "./Playground/PlaygroundRevealContext";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import { motionProjectsData } from "@/data/motion-projects";
+import type { MotionProjectContent } from "@/types/content";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type Project = (typeof motionProjectsData)[number];
+type Project = MotionProjectContent;
 
 function LeadProject({ project }: { project: Project }) {
   return (
@@ -104,8 +104,8 @@ function PhoneFrameProject({ project }: { project: Project }) {
   );
 }
 
-export default function FeaturedWork() {
-  const [lead, second, third] = motionProjectsData;
+export default function FeaturedWork({ projects }: { projects: Project[] }) {
+  const [lead, second, third] = projects;
   const sectionRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
   const { revealed } = usePlaygroundReveal();
@@ -158,13 +158,17 @@ export default function FeaturedWork() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-[1.4fr_1fr]">
-          <LeadProject project={lead} />
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-1">
-            <PolaroidProject project={second} />
-            <PhoneFrameProject project={third} />
+        {lead && second && third ? (
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-[1.4fr_1fr]">
+            <LeadProject project={lead} />
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-1">
+              <PolaroidProject project={second} />
+              <PhoneFrameProject project={third} />
+            </div>
           </div>
-        </div>
+        ) : (
+          <p className="text-base/60">No motion projects published yet.</p>
+        )}
 
         <div
           className={`mt-12 flex justify-center transition-all duration-300 ease-out ${

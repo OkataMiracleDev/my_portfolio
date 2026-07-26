@@ -6,10 +6,36 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Contact = () => {
+type ContactMode = "build" | "animate";
+
+const MODE_COPY: Record<ContactMode, { heading: string; body: string }> = {
+  build: {
+    heading: "Let's Work Together",
+    body: "Have a project in mind? I'm always open to discussing new opportunities and creative collaborations.",
+  },
+  animate: {
+    heading: "Let's Make Something Move",
+    body: "Motion, brand, or product work — tell me what you're building and I'll get back to you.",
+  },
+};
+
+const MODE_CLASSES: Record<ContactMode, { ring: string; button: string }> = {
+  build: {
+    ring: "focus:ring-accent-build",
+    button: "bg-accent-build",
+  },
+  animate: {
+    ring: "focus:ring-accent-animate",
+    button: "bg-accent-animate",
+  },
+};
+
+const Contact = ({ mode = "build" }: { mode?: ContactMode }) => {
   const [loading, setLoading] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const copy = MODE_COPY[mode];
+  const classes = MODE_CLASSES[mode];
 
   useEffect(() => {
     if (!sectionRef.current || !formRef.current) return;
@@ -41,7 +67,7 @@ const Contact = () => {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullName, email, message }),
+        body: JSON.stringify({ fullName, email, message, mode }),
       });
 
       if (res.ok) {
@@ -65,10 +91,10 @@ const Contact = () => {
         <div className="rounded-card bg-base-raised p-8 md:p-12">
           <div className="mb-10 text-center">
             <h2 className="font-[family-name:var(--font-cabinet-grotesk)] text-3xl md:text-4xl font-bold text-ink mb-4">
-              Let&apos;s Work Together
+              {copy.heading}
             </h2>
             <p className="max-w-2xl mx-auto text-lg text-ink/70">
-              Have a project in mind? I&apos;m always open to discussing new opportunities and creative collaborations.
+              {copy.body}
             </p>
           </div>
 
@@ -84,7 +110,7 @@ const Contact = () => {
                   id="fullName"
                   autoComplete="name"
                   placeholder="Jane Doe"
-                  className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink transition-colors duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-accent-build"
+                  className={`w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink transition-colors duration-200 ease-out focus:outline-none focus:ring-2 ${classes.ring}`}
                 />
               </div>
 
@@ -98,7 +124,7 @@ const Contact = () => {
                   id="email"
                   autoComplete="email"
                   placeholder="jane@example.com"
-                  className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink transition-colors duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-accent-build"
+                  className={`w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink transition-colors duration-200 ease-out focus:outline-none focus:ring-2 ${classes.ring}`}
                 />
               </div>
             </div>
@@ -112,14 +138,14 @@ const Contact = () => {
                 id="message"
                 rows={6}
                 placeholder="Tell me about your project..."
-                className="w-full resize-none rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink transition-colors duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-accent-build"
+                className={`w-full resize-none rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink transition-colors duration-200 ease-out focus:outline-none focus:ring-2 ${classes.ring}`}
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className={`w-full rounded-pill bg-accent-build py-3 font-semibold text-ink transition-transform duration-200 ease-out active:scale-[0.97] ${
+              className={`w-full rounded-pill ${classes.button} py-3 font-semibold text-ink transition-transform duration-200 ease-out active:scale-[0.97] ${
                 loading ? "opacity-50 cursor-not-allowed" : "hover:-translate-y-0.5"
               }`}
             >

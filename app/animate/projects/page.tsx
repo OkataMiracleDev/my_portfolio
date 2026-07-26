@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ProjectCard from "@/components/Shared/ProjectCard";
-import { motionProjectsData } from "@/data/motion-projects";
+import { getMotionProjects } from "@/lib/data/public";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Motion Projects | Okata Miracle",
   description: "Motion design case studies — brand animation, UI micro-interactions, and short-form video.",
 };
 
-export default function AnimateProjectsPage() {
+export default async function AnimateProjectsPage() {
+  const motionProjects = await getMotionProjects();
   return (
     <div className="min-h-screen px-6 pb-20 pt-32">
       <div className="max-w-7xl mx-auto">
@@ -20,7 +23,7 @@ export default function AnimateProjectsPage() {
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 mb-12">
-          {motionProjectsData.map((project) => (
+          {motionProjects.map((project) => (
             <ProjectCard key={project.id} accent="animate" project={project} />
           ))}
         </div>

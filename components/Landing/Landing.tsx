@@ -3,9 +3,11 @@ import LandingHero from "./LandingHero";
 import FunStuffGrid from "./FunStuffGrid";
 import RouteChoiceSection from "./RouteChoiceSection";
 import LandingFooter from "./LandingFooter";
-import { funFactCards } from "@/data/landing";
+import type { funFactCards } from "@/lib/db/schema";
 
-export default function Landing() {
+type FunFactCard = typeof funFactCards.$inferSelect;
+
+export default function Landing({ funFactCards }: { funFactCards: FunFactCard[] }) {
   return (
     <div className="min-h-screen bg-base">
       <LandingHeader />

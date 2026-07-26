@@ -5,7 +5,7 @@ import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import { resourcesData } from "@/data/resources";
+import type { ResourceContent } from "@/types/content";
 import PlaygroundConfettiButton from "./Playground/PlaygroundConfettiButton";
 import { usePlaygroundReveal } from "./Playground/PlaygroundRevealContext";
 
@@ -13,14 +13,14 @@ gsap.registerPlugin(ScrollTrigger);
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export default function ResourcesTeaser() {
+export default function ResourcesTeaser({ resources }: { resources: ResourceContent[] }) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
   const { revealed } = usePlaygroundReveal();
-  const latest = resourcesData.slice(0, 3);
+  const latest = resources.slice(0, 3);
 
   useEffect(() => {
     if (prefersReducedMotion || !listRef.current) return;
@@ -115,7 +115,7 @@ export default function ResourcesTeaser() {
         <form
           onSubmit={handleSubmit}
           noValidate
-          className="mx-auto mt-12 flex max-w-md flex-col items-center gap-3 sm:flex-row"
+          className="mt-12 flex max-w-md flex-col gap-3 sm:flex-row sm:items-center md:mx-auto"
         >
           <label htmlFor="newsletter-email" className="sr-only">
             Email address
@@ -135,9 +135,9 @@ export default function ResourcesTeaser() {
             Notify me
           </button>
         </form>
-        {error && <p className="mt-3 text-center text-sm text-red-600">{error}</p>}
+        {error && <p className="mt-3 text-left text-sm text-red-600 md:text-center">{error}</p>}
         {submitted && (
-          <p className="mt-3 text-center text-sm text-ink/70">
+          <p className="mt-3 text-left text-sm text-ink/70 md:text-center">
             Thanks, the newsletter is launching soon and I&apos;ll let you know.
           </p>
         )}

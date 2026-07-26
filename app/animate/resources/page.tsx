@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import ResourceFilter from "@/components/Animate/ResourceFilter";
-import { resourcesData } from "@/data/resources";
+import { getResources } from "@/lib/data/public";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Resources | Okata Miracle",
   description: "Free downloads, tutorials, and tool recommendations for motion designers.",
 };
 
-export default function ResourcesPage() {
+export default async function ResourcesPage() {
   return (
     <div className="min-h-screen px-6 pb-20 pt-32">
       <div className="max-w-6xl mx-auto">
@@ -20,7 +22,7 @@ export default function ResourcesPage() {
           </p>
         </div>
 
-        <ResourceFilter resources={resourcesData} />
+        <ResourceFilter resources={await getResources()} />
       </div>
     </div>
   );

@@ -6,9 +6,11 @@ import 'swiper/css/effect-cards';
 
 import { EffectCards } from "swiper/modules"
 import Image from 'next/image';
-import { testimonialData } from '@/data/data';
+import type { TestimonialContent } from '@/types/content';
 
-const TestimonialSlider = () => {
+type Testimonial = TestimonialContent;
+
+const TestimonialSlider = ({ testimonials }: { testimonials: Testimonial[] }) => {
   return (
     <div className='w-full max-w-xl'>
       <Swiper
@@ -17,7 +19,7 @@ const TestimonialSlider = () => {
         modules={[EffectCards]}
         className='w-full h-[450px] md:h-[400px]'
       >
-        {testimonialData.map((data, index) => {
+        {testimonials.map((data, index) => {
           return (
             <SwiperSlide
               key={data.id}
@@ -27,7 +29,7 @@ const TestimonialSlider = () => {
                 <div className='relative w-24 h-24 mb-6'>
                   <div className='absolute inset-0 rounded-full bg-accent-build opacity-30 blur-xl' />
                   <Image
-                    src={data.image}
+                    src={data.avatar}
                     width={96}
                     height={96}
                     alt={data.name}
@@ -40,7 +42,7 @@ const TestimonialSlider = () => {
                 </h3>
 
                 <p className='text-sm leading-relaxed text-ink/70'>
-                  &quot;{data.review}&quot;
+                  &quot;{data.quote}&quot;
                 </p>
 
                 <div className='absolute top-6 right-6 font-[family-name:var(--font-jetbrains-mono)] text-sm font-bold text-ink opacity-30'>

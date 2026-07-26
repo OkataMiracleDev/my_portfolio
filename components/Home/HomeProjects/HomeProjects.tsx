@@ -1,15 +1,17 @@
 "use client";
 import SectionHeading from "@/components/Helper/SectionHeading";
-import { homeprojectsData } from "@/data/data";
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import type { devProjects } from "@/lib/db/schema";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const HomeProjects = () => {
+type DevProject = typeof devProjects.$inferSelect;
+
+const HomeProjects = ({ projects }: { projects: DevProject[] }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
@@ -46,10 +48,10 @@ const HomeProjects = () => {
           ref={cardsRef}
           className="grid grid-cols-1 gap-10 rounded-card bg-base-raised px-6 py-10 md:grid-cols-2 md:gap-0 md:divide-x md:divide-ink/10 md:px-4 md:py-12"
         >
-          {homeprojectsData.map((data, index) => (
+          {projects.map((data, index) => (
             <Link
               key={data.id}
-              href={data.projectID}
+              href={`/build/projects/${data.slug}`}
               className="group flex flex-col items-center px-2 text-center md:px-10"
             >
               <div
@@ -66,7 +68,7 @@ const HomeProjects = () => {
               </div>
 
               <span className="mt-5 font-[family-name:var(--font-jetbrains-mono)] text-xs text-accent-build">
-                {String(index + 1).padStart(2, "0")} / {String(homeprojectsData.length).padStart(2, "0")}
+                {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
               </span>
               <h3 className="mt-2 font-[family-name:var(--font-cabinet-grotesk)] text-lg font-bold text-ink">
                 {data.name}

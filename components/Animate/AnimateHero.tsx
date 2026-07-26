@@ -2,10 +2,11 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import HeroLightBeam from "./HeroLightBeam";
+import HeroLightBeam from "@/components/Shared/HeroLightBeam";
 import PlaygroundToggle from "./Playground/PlaygroundToggle";
 import PlaygroundToggleButton from "./Playground/PlaygroundToggleButton";
 import PlaygroundDraggableSticker from "./Playground/PlaygroundDraggableSticker";
+import PlaygroundTiltCard from "./Playground/PlaygroundTiltCard";
 import { usePlaygroundReveal } from "./Playground/PlaygroundRevealContext";
 
 const AnimateHero = () => {
@@ -49,7 +50,7 @@ const AnimateHero = () => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      <HeroLightBeam />
+      <HeroLightBeam accent="animate" />
       <div
         ref={shapeRef}
         className={`absolute -right-24 top-1/4 h-72 w-72 rounded-full bg-accent-animate opacity-15 blur-3xl md:h-96 md:w-96 ${
@@ -70,6 +71,14 @@ const AnimateHero = () => {
         }`}
       >
         <PlaygroundDraggableSticker />
+      </div>
+
+      <div
+        className={`absolute bottom-16 left-6 z-20 -rotate-3 transition-all duration-500 ease-out md:bottom-20 md:left-16 ${
+          revealed ? "translate-y-0 opacity-100 delay-150" : "pointer-events-none translate-y-3 opacity-0"
+        }`}
+      >
+        <PlaygroundTiltCard />
       </div>
 
       <div className="relative z-10 w-full max-w-[70rem]">

@@ -1,9 +1,11 @@
 "use client";
-import { projectsSliderData } from "@/data/data";
 import Image from "next/image";
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import type { devProjects } from "@/lib/db/schema";
+
+type DevProject = typeof devProjects.$inferSelect;
 
 const responsive = {
   superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 3 },
@@ -12,7 +14,7 @@ const responsive = {
   mobile: { breakpoint: { max: 464, min: 0 }, items: 1 },
 };
 
-const ProjectsSlider = () => {
+const ProjectsSlider = ({ projects }: { projects: DevProject[] }) => {
   return (
     <Carousel
       responsive={responsive}
@@ -23,11 +25,11 @@ const ProjectsSlider = () => {
       containerClass="pb-12"
       itemClass="px-4"
     >
-      {projectsSliderData.map((data, index) => {
+      {projects.map((data, index) => {
         return (
           <a
             key={data.id}
-            href={data.link}
+            href={data.link ?? "#"}
             target="_blank"
             rel="noopener noreferrer"
             className="block h-full group"

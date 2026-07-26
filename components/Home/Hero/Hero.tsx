@@ -3,6 +3,7 @@ import Modal from "@/components/Helper/Modal";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import Contact from "../Contact/Contact";
+import HeroLightBeam from "@/components/Shared/HeroLightBeam";
 import { gsap } from "gsap";
 
 const Hero = () => {
@@ -33,6 +34,7 @@ const Hero = () => {
 
   return (
     <div ref={heroRef} className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden" id="home">
+      <HeroLightBeam accent="build" />
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center py-32">
         <div className="space-y-8">
           <div className="space-y-4">
@@ -53,7 +55,11 @@ const Hero = () => {
           </div>
 
           <p ref={descRef} className="max-w-lg text-lg text-ink/70">
-            I craft premium, interactive web experiences that blend bold design with smooth animations. Specializing in GSAP, React, and creating sites that leave an impression.
+            I craft premium,{" "}
+            <span className="font-[family-name:var(--font-accent-script)] italic text-accent-build">
+              interactive
+            </span>{" "}
+            web experiences that blend bold design with smooth animations. Specializing in GSAP, React, and creating sites that leave an impression.
           </p>
 
           <button

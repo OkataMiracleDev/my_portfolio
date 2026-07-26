@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import Landing from "@/components/Landing/Landing";
+import { getFunFactCards } from "@/lib/data/public";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Okata Miracle | Frontend Developer & Motion Designer",
@@ -46,14 +49,16 @@ const personJsonLd = {
   ],
 };
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const funFactCards = await getFunFactCards();
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
-      <Landing />
+      <Landing funFactCards={funFactCards} />
     </>
   );
 }

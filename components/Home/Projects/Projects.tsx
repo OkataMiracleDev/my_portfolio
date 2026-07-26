@@ -3,10 +3,13 @@ import React, { useEffect, useRef } from 'react';
 import ProjectsSlider from './ProjectsSlider';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import type { devProjects } from '@/lib/db/schema';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Projects = () => {
+type DevProject = typeof devProjects.$inferSelect;
+
+const Projects = ({ projects }: { projects: DevProject[] }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
@@ -30,7 +33,7 @@ const Projects = () => {
         >
           Featured Work
         </h2>
-        <ProjectsSlider />
+        <ProjectsSlider projects={projects} />
       </div>
     </section>
   );

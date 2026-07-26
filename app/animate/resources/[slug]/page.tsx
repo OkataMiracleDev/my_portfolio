@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { resourcesData } from "@/data/resources";
+import { getResourceBySlug } from "@/lib/data/public";
+
+export const dynamic = "force-dynamic";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return resourcesData.map((resource) => ({ slug: resource.slug }));
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const resource = resourcesData.find((r) => r.slug === slug);
+  const resource = await getResourceBySlug(slug);
 
   if (!resource) {
     return { title: "Resource not found | Okata Miracle" };
@@ -26,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const ResourceDetailPage = async ({ params }: Props) => {
   const { slug } = await params;
-  const resource = resourcesData.find((r) => r.slug === slug);
+  const resource = await getResourceBySlug(slug);
 
   if (!resource) {
     return (
