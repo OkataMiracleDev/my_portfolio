@@ -112,3 +112,13 @@ export const funFactCards = sqliteTable("fun_fact_cards", {
 // No adminSessions table — §9 Q3 resolved to a pure signed-cookie session
 // (iron-session), nothing tracked server-side. A login_attempts table for
 // rate-limiting is added later, in Task 14.
+
+// Backs rate-limiting on /admin/login (Task 14). Keyed by IP, not by any
+// account concept — there's only one admin account, so "who's attacking"
+// only ever means "which IP is guessing."
+export const loginAttempts = sqliteTable("login_attempts", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  ipAddress: text("ip_address").notNull(),
+  attemptedAt: integer("attempted_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+  success: integer("success", { mode: "boolean" }).notNull().default(false),
+});

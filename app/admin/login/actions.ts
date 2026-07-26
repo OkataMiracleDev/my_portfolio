@@ -2,13 +2,27 @@
 
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { getSession } from "@/lib/auth/session";
+import { isLockedOut, recordLoginAttempt } from "@/lib/auth/rate-limit";
 
 export interface LoginState {
   error?: string;
 }
 
+async function getClientIp(): Promise<string> {
+  const headerList = await headers();
+  const forwardedFor = headerList.get("x-forwarded-for");
+  return forwardedFor?.split(",")[0]?.trim() || "unknown";
+}
+
 export async function login(_prevState: LoginState, formData: FormData): Promise<LoginState> {
+  const ip = await getClientIp();
+
+  if (await isLockedOut(ip)) {
+    return { error: "Too many failed attempts. Try again in 15 minutes." };
+  }
+
   const password = formData.get("password");
 
   if (typeof password !== "string" || password.length === 0) {
@@ -21,6 +35,8 @@ export async function login(_prevState: LoginState, formData: FormData): Promise
   }
 
   const isValid = await bcrypt.compare(password, hash);
+  await recordLoginAttempt(ip, isValid);
+
   if (!isValid) {
     return { error: "Incorrect password." };
   }
