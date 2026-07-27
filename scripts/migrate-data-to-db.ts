@@ -65,7 +65,6 @@ async function migrateMotionProjects() {
       thumbnail: p.thumbnail,
       tags: p.tags,
       videoEmbedUrl: p.videoEmbedUrl ?? null,
-      process: p.process,
       tools: p.tools,
       sortOrder: index,
     }))

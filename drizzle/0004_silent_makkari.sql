@@ -1,0 +1,1 @@
+ALTER TABLE `motion_projects` DROP COLUMN `process`;

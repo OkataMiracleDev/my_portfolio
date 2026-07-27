@@ -3,6 +3,7 @@
 import { useState } from "react";
 import UploadWidget from "@/components/Admin/UploadWidget";
 import BulkUploadWidget from "@/components/Admin/BulkUploadWidget";
+import ProcessStepsEditor, { type ProcessStep } from "@/components/Admin/MotionProjects/ProcessStepsEditor";
 import type { motionProjects } from "@/lib/db/schema";
 
 type MotionProject = typeof motionProjects.$inferSelect;
@@ -22,9 +23,13 @@ export default function MotionProjectForm({ project, action }: MotionProjectForm
   const [thumbnailTouched, setThumbnailTouched] = useState(Boolean(project?.thumbnail));
   const [storyboardImages, setStoryboardImages] = useState<string[]>(project?.storyboardImages ?? []);
   const [videoEmbedUrl, setVideoEmbedUrl] = useState(project?.videoEmbedUrl ?? "");
+  const [processSteps, setProcessSteps] = useState<ProcessStep[]>(
+    project?.processSteps && project.processSteps.length > 0 ? project.processSteps : [{ title: "", body: "" }]
+  );
   const [thumbnailUploading, setThumbnailUploading] = useState(false);
   const [storyboardUploading, setStoryboardUploading] = useState(false);
   const [thumbnailError, setThumbnailError] = useState<string | null>(null);
+  const [processStepsError, setProcessStepsError] = useState<string | null>(null);
 
   const anyUploading = thumbnailUploading || storyboardUploading;
   const youTubeId = extractYouTubeId(videoEmbedUrl);
@@ -50,10 +55,22 @@ export default function MotionProjectForm({ project, action }: MotionProjectForm
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    let blocked = false;
+
     if (!thumbnail) {
-      e.preventDefault();
+      blocked = true;
       setThumbnailError("Add a thumbnail (or a storyboard image) before saving.");
     }
+
+    const hasValidStep = processSteps.some((step) => step.title.trim() && step.body.trim());
+    if (!hasValidStep) {
+      blocked = true;
+      setProcessStepsError("Add at least one process step with a title and body.");
+    } else {
+      setProcessStepsError(null);
+    }
+
+    if (blocked) e.preventDefault();
   }
 
   return (
@@ -61,6 +78,12 @@ export default function MotionProjectForm({ project, action }: MotionProjectForm
       <input type="hidden" name="thumbnail" value={thumbnail} />
       {storyboardImages.map((url, i) => (
         <input key={`${url}-${i}`} type="hidden" name="storyboardImages" value={url} />
+      ))}
+      {processSteps.map((step, i) => (
+        <input key={`step-title-${i}`} type="hidden" name="processStepTitle" value={step.title} />
+      ))}
+      {processSteps.map((step, i) => (
+        <input key={`step-body-${i}`} type="hidden" name="processStepBody" value={step.body} />
       ))}
 
       <Field label="Slug" name="slug" defaultValue={project?.slug} required />
@@ -93,7 +116,10 @@ export default function MotionProjectForm({ project, action }: MotionProjectForm
         defaultValue={project?.videoEmbedUrl ?? ""}
         onChange={setVideoEmbedUrl}
       />
-      <TextArea label="Process" name="process" defaultValue={project?.process} required />
+      <div>
+        <ProcessStepsEditor steps={processSteps} onChange={setProcessSteps} />
+        {processStepsError && <p className="mt-2 text-sm text-red-600">{processStepsError}</p>}
+      </div>
       <Field label="Tools (comma-separated)" name="tools" defaultValue={project?.tools.join(", ")} required />
 
       <BulkUploadWidget

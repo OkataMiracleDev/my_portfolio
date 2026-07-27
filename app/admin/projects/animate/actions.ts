@@ -20,7 +20,14 @@ function parseForm(formData: FormData): MotionProjectInput {
       .map((t) => t.trim())
       .filter(Boolean),
     videoEmbedUrl: (formData.get("videoEmbedUrl") as string) || null,
-    process: String(formData.get("process") ?? ""),
+    processSteps: formData
+      .getAll("processStepTitle")
+      .map(String)
+      .map((title, i) => ({
+        title,
+        body: String(formData.getAll("processStepBody")[i] ?? ""),
+      }))
+      .filter((step) => step.title.trim() || step.body.trim()),
     tools: String(formData.get("tools") ?? "")
       .split(",")
       .map((t) => t.trim())

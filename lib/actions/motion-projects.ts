@@ -14,7 +14,9 @@ const motionProjectSchema = z.object({
   thumbnail: z.string().min(1),
   tags: z.array(z.string().min(1)).min(1),
   videoEmbedUrl: z.string().url().optional().nullable(),
-  process: z.string().min(1),
+  processSteps: z
+    .array(z.object({ title: z.string().min(1), body: z.string().min(1) }))
+    .min(1, "Add at least one process step"),
   tools: z.array(z.string().min(1)).min(1),
   storyboardImages: z.array(z.string().min(1)).default([]),
 });

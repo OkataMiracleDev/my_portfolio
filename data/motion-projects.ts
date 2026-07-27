@@ -14,7 +14,6 @@ export const motionProjectsData: MotionProjectContent[] = [
     thumbnail: "/images/null-project.jpg",
     tags: ["Brand Animation", "After Effects"],
     href: "/animate/projects/brand-launch-reel",
-    process: "Placeholder process breakdown — replace with the real concept-to-delivery writeup for this project.",
     tools: ["After Effects", "Illustrator"],
   },
   {
@@ -25,7 +24,6 @@ export const motionProjectsData: MotionProjectContent[] = [
     thumbnail: "/images/null-project.jpg",
     tags: ["UI Motion", "Figma", "GSAP"],
     href: "/animate/projects/ui-microinteractions",
-    process: "Placeholder process breakdown — replace with the real concept-to-delivery writeup for this project.",
     tools: ["Figma", "GSAP", "Principle"],
   },
   {
@@ -36,7 +34,6 @@ export const motionProjectsData: MotionProjectContent[] = [
     thumbnail: "/images/null-project.jpg",
     tags: ["Explainer", "Premiere Pro"],
     href: "/animate/projects/social-explainer",
-    process: "Placeholder process breakdown — replace with the real concept-to-delivery writeup for this project.",
     tools: ["Premiere Pro", "After Effects"],
   },
 ];

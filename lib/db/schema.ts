@@ -40,7 +40,10 @@ export const motionProjects = sqliteTable("motion_projects", {
   thumbnail: text("thumbnail").notNull(),
   tags: text("tags", { mode: "json" }).$type<string[]>().notNull().default(sql`'[]'`),
   videoEmbedUrl: text("video_embed_url"), // null = "coming soon" state, unchanged from today
-  process: text("process").notNull(),
+  processSteps: text("process_steps", { mode: "json" })
+    .$type<{ title: string; body: string }[]>()
+    .notNull()
+    .default(sql`'[]'`),
   tools: text("tools", { mode: "json" }).$type<string[]>().notNull().default(sql`'[]'`),
   storyboardImages: text("storyboard_images", { mode: "json" }).$type<string[]>().notNull().default(sql`'[]'`),
   sortOrder: integer("sort_order").notNull().default(0),

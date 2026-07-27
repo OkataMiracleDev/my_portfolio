@@ -30,7 +30,7 @@ export interface TestimonialContent {
 
 export interface MotionProjectContent extends ProjectContent {
   videoEmbedUrl?: string;
-  process: string;
+  processSteps?: { title: string; body: string }[];
   tools: string[];
   storyboardImages?: string[];
 }

@@ -61,12 +61,28 @@ const AnimateProjectPage = async ({ params }: Props) => {
           )}
         </div>
 
-        <div className="mb-8 rounded-card bg-base-raised p-8">
-          <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate">
-            Process
-          </p>
-          <p className="mb-6 text-ink/70">{project.process}</p>
+        {project.processSteps && project.processSteps.length > 0 && (
+          <div className="mb-8 rounded-card bg-base-raised p-8">
+            <p className="mb-6 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate">
+              Process
+            </p>
+            <ol className="space-y-8 border-l border-ink/15 pl-8 sm:pl-10">
+              {project.processSteps.map((step, i) => (
+                <li key={i} className="relative">
+                  <span className="absolute -left-12 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-accent-animate font-[family-name:var(--font-jetbrains-mono)] text-sm font-bold text-ink sm:-left-14">
+                    {i + 1}
+                  </span>
+                  <h3 className="mb-1 font-[family-name:var(--font-cabinet-grotesk)] text-lg font-bold text-ink">
+                    {step.title}
+                  </h3>
+                  <p className="text-ink/70">{step.body}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
 
+        <div className="mb-8 rounded-card bg-base-raised p-8">
           <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate">
             Tools
           </p>

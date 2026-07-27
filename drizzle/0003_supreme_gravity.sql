@@ -1,0 +1,1 @@
+ALTER TABLE `motion_projects` ADD `process_steps` text DEFAULT '[]' NOT NULL;
