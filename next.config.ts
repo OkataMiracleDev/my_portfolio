@@ -5,6 +5,14 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.public.blob.vercel-storage.com",
+      },
+    ],
+  },
   // @libsql/client pulls in native bindings (via hrana-client) that
   // Turbopack's bundler misparses when inlined (it tries to parse the
   // package's LICENSE file as JS) — excluding it from bundling and letting
