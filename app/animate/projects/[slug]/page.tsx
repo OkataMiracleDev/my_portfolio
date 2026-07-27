@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { getMotionProjectBySlug } from "@/lib/data/public";
 
@@ -80,6 +81,26 @@ const AnimateProjectPage = async ({ params }: Props) => {
             ))}
           </div>
         </div>
+
+        {project.storyboardImages && project.storyboardImages.length > 0 && (
+          <div className="mb-8 rounded-card bg-base-raised p-8">
+            <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate">
+              Storyboard
+            </p>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {project.storyboardImages.map((url, i) => (
+                <div key={`${url}-${i}`} className="relative aspect-square overflow-hidden rounded-xl">
+                  <Image
+                    src={url}
+                    alt={`${project.title} storyboard frame ${i + 1}`}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         <Link
           href="/animate/projects"

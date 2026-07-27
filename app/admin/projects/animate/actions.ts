@@ -25,6 +25,7 @@ function parseForm(formData: FormData): MotionProjectInput {
       .split(",")
       .map((t) => t.trim())
       .filter(Boolean),
+    storyboardImages: formData.getAll("storyboardImages").map(String).filter(Boolean),
   };
 }
 

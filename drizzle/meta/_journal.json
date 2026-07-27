@@ -15,6 +15,13 @@
       "when": 1785089466639,
       "tag": "0001_hesitant_scourge",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1785160385674,
+      "tag": "0002_lame_sir_ram",
+      "breakpoints": true
     }
   ]
 }

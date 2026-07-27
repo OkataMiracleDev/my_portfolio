@@ -8,9 +8,10 @@ interface UploadWidgetProps {
   value: string | null | undefined;
   onChange: (url: string) => void;
   kind?: "image" | "download";
+  onUploadingChange?: (uploading: boolean) => void;
 }
 
-export default function UploadWidget({ label, value, onChange, kind = "image" }: UploadWidgetProps) {
+export default function UploadWidget({ label, value, onChange, kind = "image", onUploadingChange }: UploadWidgetProps) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,6 +20,7 @@ export default function UploadWidget({ label, value, onChange, kind = "image" }:
     if (!file) return;
 
     setUploading(true);
+    onUploadingChange?.(true);
     setError(null);
 
     const formData = new FormData();
@@ -34,6 +36,7 @@ export default function UploadWidget({ label, value, onChange, kind = "image" }:
       setError(err instanceof Error ? err.message : "Upload failed");
     } finally {
       setUploading(false);
+      onUploadingChange?.(false);
     }
   }
 

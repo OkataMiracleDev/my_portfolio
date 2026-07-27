@@ -16,6 +16,7 @@ const motionProjectSchema = z.object({
   videoEmbedUrl: z.string().url().optional().nullable(),
   process: z.string().min(1),
   tools: z.array(z.string().min(1)).min(1),
+  storyboardImages: z.array(z.string().min(1)).default([]),
 });
 
 export type MotionProjectInput = z.infer<typeof motionProjectSchema>;

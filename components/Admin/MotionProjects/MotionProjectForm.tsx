@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import UploadWidget from "@/components/Admin/UploadWidget";
+import BulkUploadWidget from "@/components/Admin/BulkUploadWidget";
 import type { motionProjects } from "@/lib/db/schema";
 
 type MotionProject = typeof motionProjects.$inferSelect;
@@ -11,31 +12,105 @@ interface MotionProjectFormProps {
   action: (formData: FormData) => void;
 }
 
+function extractYouTubeId(url: string): string | null {
+  const match = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
+  return match ? match[1] : null;
+}
+
 export default function MotionProjectForm({ project, action }: MotionProjectFormProps) {
   const [thumbnail, setThumbnail] = useState(project?.thumbnail ?? "");
+  const [thumbnailTouched, setThumbnailTouched] = useState(Boolean(project?.thumbnail));
+  const [storyboardImages, setStoryboardImages] = useState<string[]>(project?.storyboardImages ?? []);
+  const [videoEmbedUrl, setVideoEmbedUrl] = useState(project?.videoEmbedUrl ?? "");
+  const [thumbnailUploading, setThumbnailUploading] = useState(false);
+  const [storyboardUploading, setStoryboardUploading] = useState(false);
+  const [thumbnailError, setThumbnailError] = useState<string | null>(null);
+
+  const anyUploading = thumbnailUploading || storyboardUploading;
+  const youTubeId = extractYouTubeId(videoEmbedUrl);
+
+  function handleThumbnailChange(url: string) {
+    setThumbnail(url);
+    setThumbnailTouched(true);
+    setThumbnailError(null);
+  }
+
+  function handleStoryboardChange(urls: string[]) {
+    setStoryboardImages(urls);
+    // Auto-fill the thumbnail from the first storyboard shot, but only if
+    // the admin hasn't deliberately set one already.
+    if (!thumbnailTouched && urls.length > 0) {
+      setThumbnail(urls[0]);
+    }
+  }
+
+  function useYouTubeThumbnail() {
+    if (!youTubeId) return;
+    handleThumbnailChange(`https://img.youtube.com/vi/${youTubeId}/maxresdefault.jpg`);
+  }
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    if (!thumbnail) {
+      e.preventDefault();
+      setThumbnailError("Add a thumbnail (or a storyboard image) before saving.");
+    }
+  }
 
   return (
-    <form action={action} className="max-w-2xl space-y-5">
+    <form action={action} onSubmit={handleSubmit} className="max-w-2xl space-y-5">
       <input type="hidden" name="thumbnail" value={thumbnail} />
+      {storyboardImages.map((url, i) => (
+        <input key={`${url}-${i}`} type="hidden" name="storyboardImages" value={url} />
+      ))}
 
       <Field label="Slug" name="slug" defaultValue={project?.slug} required />
       <Field label="Title" name="title" defaultValue={project?.title} required />
       <TextArea label="Description" name="description" defaultValue={project?.description} required />
-      <UploadWidget label="Thumbnail" value={thumbnail} onChange={setThumbnail} />
+
+      <div>
+        <UploadWidget
+          label="Thumbnail"
+          value={thumbnail}
+          onChange={handleThumbnailChange}
+          onUploadingChange={setThumbnailUploading}
+        />
+        {youTubeId && (
+          <button
+            type="button"
+            onClick={useYouTubeThumbnail}
+            className="mt-2 rounded-pill border border-ink/15 px-4 py-2 text-sm font-medium text-ink transition-colors duration-200 ease-out hover:bg-ink/5"
+          >
+            Use YouTube thumbnail
+          </button>
+        )}
+        {thumbnailError && <p className="mt-2 text-sm text-red-600">{thumbnailError}</p>}
+      </div>
+
       <Field label="Tags (comma-separated)" name="tags" defaultValue={project?.tags.join(", ")} required />
       <Field
         label="Video embed URL (optional — leave blank for 'coming soon')"
         name="videoEmbedUrl"
         defaultValue={project?.videoEmbedUrl ?? ""}
+        onChange={setVideoEmbedUrl}
       />
       <TextArea label="Process" name="process" defaultValue={project?.process} required />
       <Field label="Tools (comma-separated)" name="tools" defaultValue={project?.tools.join(", ")} required />
 
+      <BulkUploadWidget
+        label="Storyboard images"
+        values={storyboardImages}
+        onChange={handleStoryboardChange}
+        onUploadingChange={setStoryboardUploading}
+      />
+
       <button
         type="submit"
-        className="rounded-pill bg-accent-animate px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out active:scale-[0.97]"
+        disabled={anyUploading}
+        className={`rounded-pill bg-accent-animate px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out active:scale-[0.97] ${
+          anyUploading ? "opacity-50 cursor-not-allowed" : ""
+        }`}
       >
-        Save
+        {anyUploading ? "Uploading…" : "Save"}
       </button>
     </form>
   );
@@ -46,11 +121,13 @@ function Field({
   name,
   defaultValue,
   required,
+  onChange,
 }: {
   label: string;
   name: string;
   defaultValue?: string | null;
   required?: boolean;
+  onChange?: (value: string) => void;
 }) {
   return (
     <div>
@@ -59,6 +136,7 @@ function Field({
         name={name}
         defaultValue={defaultValue ?? ""}
         required={required}
+        onChange={onChange ? (e) => onChange(e.target.value) : undefined}
         className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
       />
     </div>

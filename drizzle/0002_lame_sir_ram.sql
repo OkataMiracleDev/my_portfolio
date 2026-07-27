@@ -1,0 +1,1 @@
+ALTER TABLE `motion_projects` ADD `storyboard_images` text DEFAULT '[]' NOT NULL;

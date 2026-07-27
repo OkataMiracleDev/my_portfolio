@@ -42,6 +42,7 @@ export const motionProjects = sqliteTable("motion_projects", {
   videoEmbedUrl: text("video_embed_url"), // null = "coming soon" state, unchanged from today
   process: text("process").notNull(),
   tools: text("tools", { mode: "json" }).$type<string[]>().notNull().default(sql`'[]'`),
+  storyboardImages: text("storyboard_images", { mode: "json" }).$type<string[]>().notNull().default(sql`'[]'`),
   sortOrder: integer("sort_order").notNull().default(0),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
