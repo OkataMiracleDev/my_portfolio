@@ -33,6 +33,7 @@ function parseForm(formData: FormData): MotionProjectInput {
       .map((t) => t.trim())
       .filter(Boolean),
     storyboardImages: formData.getAll("storyboardImages").map(String).filter(Boolean),
+    featuredOnHome: formData.get("featuredOnHome") === "on",
   };
 }
 

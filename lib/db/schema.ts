@@ -46,6 +46,7 @@ export const motionProjects = sqliteTable("motion_projects", {
     .default(sql`'[]'`),
   tools: text("tools", { mode: "json" }).$type<string[]>().notNull().default(sql`'[]'`),
   storyboardImages: text("storyboard_images", { mode: "json" }).$type<string[]>().notNull().default(sql`'[]'`),
+  featuredOnHome: integer("featured_on_home", { mode: "boolean" }).notNull().default(false),
   sortOrder: integer("sort_order").notNull().default(0),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),

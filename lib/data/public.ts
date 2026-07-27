@@ -44,6 +44,11 @@ export async function getMotionProjectBySlug(slug: string): Promise<MotionProjec
   return rows.find((row) => row.slug === slug) ?? null;
 }
 
+export async function getFeaturedMotionProjects(): Promise<MotionProjectContent[]> {
+  const rows = await getMotionProjects();
+  return rows.filter((row) => row.featuredOnHome);
+}
+
 export async function getResources(): Promise<ResourceContent[]> {
   const rows = await db.select().from(resources).orderBy(asc(resources.sortOrder));
   return rows.map((row) => ({

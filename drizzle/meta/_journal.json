@@ -36,6 +36,13 @@
       "when": 1785164338530,
       "tag": "0004_silent_makkari",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1785167706688,
+      "tag": "0005_acoustic_amphibian",
+      "breakpoints": true
     }
   ]
 }

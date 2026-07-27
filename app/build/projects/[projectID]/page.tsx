@@ -1,4 +1,5 @@
 import Footer from '@/components/Home/Footer/Footer';
+import ExpandableText from '@/components/Shared/ExpandableText';
 import { getDevProjectBySlug } from '@/lib/data/public'
 import { Metadata } from 'next';
 import Image from 'next/image';
@@ -94,7 +95,11 @@ const ProjectDisplayPage = async ({ params }: Props) => {
             <p className='mb-3 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-build'>
               Description
             </p>
-            <p className='leading-relaxed text-ink/70'>{project.description}</p>
+            <ExpandableText
+              text={project.description}
+              className="leading-relaxed text-ink/70"
+              linkClassName="text-accent-build"
+            />
           </div>
 
           <div className='flex flex-wrap gap-4'>

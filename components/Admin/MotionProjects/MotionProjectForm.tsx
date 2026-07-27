@@ -129,6 +129,15 @@ export default function MotionProjectForm({ project, action }: MotionProjectForm
         onUploadingChange={setStoryboardUploading}
       />
 
+      <label className="flex items-center gap-2 text-sm text-ink/70">
+        <input
+          type="checkbox"
+          name="featuredOnHome"
+          defaultChecked={project?.featuredOnHome ?? false}
+        />
+        Featured on /animate home
+      </label>
+
       <button
         type="submit"
         disabled={anyUploading}

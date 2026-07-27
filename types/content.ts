@@ -33,4 +33,5 @@ export interface MotionProjectContent extends ProjectContent {
   processSteps?: { title: string; body: string }[];
   tools: string[];
   storyboardImages?: string[];
+  featuredOnHome?: boolean;
 }

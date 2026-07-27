@@ -1,0 +1,1 @@
+ALTER TABLE `motion_projects` ADD `featured_on_home` integer DEFAULT false NOT NULL;

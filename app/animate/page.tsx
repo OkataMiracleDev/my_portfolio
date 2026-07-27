@@ -7,7 +7,7 @@ import AnimateTestimonials from "@/components/Animate/AnimateTestimonials";
 import ResourcesTeaser from "@/components/Animate/ResourcesTeaser";
 import Contact from "@/components/Home/Contact/Contact";
 import AnimateFooter from "@/components/Animate/AnimateFooter";
-import { getMotionProjects, getTestimonials, getResources } from "@/lib/data/public";
+import { getFeaturedMotionProjects, getTestimonials, getResources } from "@/lib/data/public";
 
 export const dynamic = "force-dynamic";
 
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
 };
 
 export default async function AnimatePage() {
-  const [motionProjects, testimonials, resources] = await Promise.all([
-    getMotionProjects(),
+  const [featuredMotionProjects, testimonials, resources] = await Promise.all([
+    getFeaturedMotionProjects(),
     getTestimonials("animate"),
     getResources(),
   ]);
@@ -39,7 +39,7 @@ export default async function AnimatePage() {
     <PlaygroundRevealProvider>
       <AnimateHero />
       <CapabilitiesStrip />
-      <FeaturedWork projects={motionProjects} />
+      <FeaturedWork projects={featuredMotionProjects} />
       <AnimateTestimonials testimonials={testimonials} />
       <ResourcesTeaser resources={resources} />
       <Contact mode="animate" />

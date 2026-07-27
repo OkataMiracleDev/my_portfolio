@@ -19,6 +19,7 @@ const motionProjectSchema = z.object({
     .min(1, "Add at least one process step"),
   tools: z.array(z.string().min(1)).min(1),
   storyboardImages: z.array(z.string().min(1)).default([]),
+  featuredOnHome: z.boolean().default(false),
 });
 
 export type MotionProjectInput = z.infer<typeof motionProjectSchema>;

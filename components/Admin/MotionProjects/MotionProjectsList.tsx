@@ -43,6 +43,11 @@ export default function MotionProjectsList({ initialItems }: { initialItems: Mot
             <p className="font-semibold text-ink">{item.title}</p>
             <p className="text-sm text-ink/50">{item.slug}</p>
           </div>
+          {item.featuredOnHome && (
+            <span className="rounded-pill bg-accent-animate/15 px-3 py-1 text-xs font-medium text-accent-animate">
+              Featured
+            </span>
+          )}
           <Link
             href={`/admin/projects/animate/${item.id}`}
             className="rounded-pill border border-ink/15 px-4 py-2 text-sm font-medium text-ink hover:bg-ink/5"
