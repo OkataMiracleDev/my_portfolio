@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import PlaygroundShapeMorph from "@/components/Animate/Playground/PlaygroundShapeMorph";
+import { usePlaygroundReveal } from "@/components/Animate/Playground/PlaygroundRevealContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -36,6 +38,7 @@ const Contact = ({ mode = "build" }: { mode?: ContactMode }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const copy = MODE_COPY[mode];
   const classes = MODE_CLASSES[mode];
+  const { revealed } = usePlaygroundReveal();
 
   useEffect(() => {
     if (!sectionRef.current || !formRef.current) return;
@@ -97,6 +100,15 @@ const Contact = ({ mode = "build" }: { mode?: ContactMode }) => {
               {copy.body}
             </p>
           </div>
+
+          {mode === "animate" && revealed && (
+            <div className="mb-10 flex flex-col items-center gap-3">
+              <p className="font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-ink/40">
+                One more thing
+              </p>
+              <PlaygroundShapeMorph />
+            </div>
+          )}
 
           <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

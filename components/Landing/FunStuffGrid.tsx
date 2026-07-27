@@ -22,14 +22,14 @@ export default function FunStuffGrid({ facts }: FunStuffGridProps) {
           </span>
         </div>
 
-        <div className="grid grid-cols-[1rem_auto_1fr] items-baseline gap-x-3 gap-y-2 px-6 py-5 font-[family-name:var(--font-jetbrains-mono)] text-sm">
+        <div className="grid grid-cols-[1rem_auto_1fr] items-baseline gap-x-2 gap-y-2 px-4 py-4 font-[family-name:var(--font-jetbrains-mono)] text-xs sm:gap-x-3 sm:px-6 sm:py-5 sm:text-sm">
           {facts.map((fact) => {
             const isStatus = fact.id === "status";
             return (
               <Fragment key={fact.id}>
                 <span className="text-accent-build">{">"}</span>
-                <span className="text-ink/45">{toKey(fact.label)}</span>
-                <span className="flex items-baseline gap-2 truncate text-ink">
+                <span className="truncate text-ink/45">{toKey(fact.label)}</span>
+                <span className="flex min-w-0 items-baseline gap-2 truncate text-ink">
                   <span className="truncate">&quot;{fact.value}&quot;</span>
                   {isStatus && (
                     <span
