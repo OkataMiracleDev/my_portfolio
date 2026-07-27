@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import ExpandableText from "@/components/Shared/ExpandableText";
 import { getMotionProjectBySlug } from "@/lib/data/public";
 
 export const dynamic = "force-dynamic";
@@ -43,7 +44,13 @@ const AnimateProjectPage = async ({ params }: Props) => {
         <h1 className="mb-4 font-[family-name:var(--font-cabinet-grotesk)] text-4xl md:text-5xl font-bold text-ink">
           {project.title}
         </h1>
-        <p className="mb-8 text-lg text-ink/70">{project.description}</p>
+        <div className="mb-8">
+          <ExpandableText
+            text={project.description}
+            className="text-lg text-ink/70"
+            linkClassName="text-accent-animate"
+          />
+        </div>
 
         <div className="mb-8 flex aspect-video items-center justify-center rounded-card bg-band-dark">
           {project.videoEmbedUrl ? (
