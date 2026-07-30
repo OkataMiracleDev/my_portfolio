@@ -9,6 +9,7 @@ const PhotoCollage = () => {
           <Image
             src={"/images/3.jpg"}
             fill
+            quality={90}
             alt="mimi_codes"
             className='object-cover rounded-xl'
           />

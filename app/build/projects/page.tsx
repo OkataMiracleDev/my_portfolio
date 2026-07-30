@@ -62,6 +62,7 @@ const ProjectsPage = async () => {
                         src={project.image}
                         alt={project.name}
                         fill
+                        quality={90}
                         className="object-cover"
                       />
                     </div>

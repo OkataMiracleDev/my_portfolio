@@ -52,12 +52,12 @@ const AnimateProjectPage = async ({ params }: Props) => {
           />
         </div>
 
-        <div className="mb-8 flex aspect-video items-center justify-center rounded-card bg-band-dark">
+        <div className="mb-8 flex aspect-video items-center justify-center overflow-hidden rounded-card bg-band-dark">
           {project.videoEmbedUrl ? (
             <iframe
               src={project.videoEmbedUrl}
               title={project.title}
-              className="h-full w-full rounded-card"
+              className="block h-full w-full border-0"
               allow="autoplay; fullscreen"
               allowFullScreen
             />
@@ -117,6 +117,7 @@ const AnimateProjectPage = async ({ params }: Props) => {
                     src={url}
                     alt={`${project.title} storyboard frame ${i + 1}`}
                     fill
+                    quality={90}
                     className="object-cover"
                   />
                 </div>

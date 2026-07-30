@@ -83,7 +83,7 @@ export default function AnimateTestimonials({ testimonials }: { testimonials: Te
                   className={`mt-6 flex items-center gap-3 ${i % 2 === 1 ? "md:flex-row-reverse" : ""}`}
                 >
                   <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full">
-                    <Image src={testimonial.avatar} alt={testimonial.name} fill className="object-cover" />
+                    <Image src={testimonial.avatar} alt={testimonial.name} fill quality={90} className="object-cover" />
                   </div>
                   <div>
                     <p className="font-semibold text-ink">{testimonial.name}</p>

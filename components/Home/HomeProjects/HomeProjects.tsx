@@ -63,6 +63,7 @@ const HomeProjects = ({ projects }: { projects: DevProject[] }) => {
                   src={data.image}
                   alt={data.name}
                   fill
+                  quality={90}
                   className="object-cover"
                 />
               </div>

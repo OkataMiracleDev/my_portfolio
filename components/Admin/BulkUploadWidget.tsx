@@ -55,7 +55,7 @@ export default function BulkUploadWidget({ label, values, onChange, onUploadingC
         <div className="mb-3 grid grid-cols-4 gap-3 sm:grid-cols-6">
           {values.map((url, i) => (
             <div key={`${url}-${i}`} className="group relative aspect-square overflow-hidden rounded-xl">
-              <Image src={url} alt="" fill className="object-cover" />
+              <Image src={url} alt="" fill quality={90} className="object-cover" />
               <button
                 type="button"
                 onClick={() => removeAt(i)}

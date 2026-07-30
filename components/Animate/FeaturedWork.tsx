@@ -25,6 +25,7 @@ function LeadProject({ project }: { project: Project }) {
         src={project.thumbnail}
         alt={project.title}
         fill
+        quality={90}
         className="object-cover opacity-80 transition-transform duration-700 ease-out group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
@@ -61,6 +62,7 @@ function PolaroidProject({ project }: { project: Project }) {
           src={project.thumbnail}
           alt={project.title}
           fill
+          quality={90}
           className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
       </div>
@@ -88,6 +90,7 @@ function PhoneFrameProject({ project }: { project: Project }) {
             src={project.thumbnail}
             alt={project.title}
             fill
+            quality={90}
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
           />
         </div>
@@ -158,14 +161,18 @@ export default function FeaturedWork({ projects }: { projects: Project[] }) {
           </Link>
         </div>
 
-        {lead && second && third ? (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-[1.4fr_1fr]">
-            <LeadProject project={lead} />
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-1">
-              <PolaroidProject project={second} />
-              <PhoneFrameProject project={third} />
+        {lead ? (
+          second || third ? (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-[1.4fr_1fr]">
+              <LeadProject project={lead} />
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-1">
+                {second && <PolaroidProject project={second} />}
+                {third && <PhoneFrameProject project={third} />}
+              </div>
             </div>
-          </div>
+          ) : (
+            <LeadProject project={lead} />
+          )
         ) : (
           <p className="text-base/60">No motion projects published yet.</p>
         )}

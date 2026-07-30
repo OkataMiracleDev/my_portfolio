@@ -44,6 +44,7 @@ const ProjectsSlider = ({ projects }: { projects: DevProject[] }) => {
                   src={data.image}
                   alt={data.name}
                   fill
+                  quality={90}
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 />
               </div>

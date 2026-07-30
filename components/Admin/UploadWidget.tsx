@@ -45,7 +45,7 @@ export default function UploadWidget({ label, value, onChange, kind = "image", o
       <label className="mb-2 block text-sm font-medium text-ink/70">{label}</label>
       {value && kind === "image" && (
         <div className="relative mb-3 h-32 w-32 overflow-hidden rounded-xl">
-          <Image src={value} alt="" fill className="object-cover" />
+          <Image src={value} alt="" fill quality={90} className="object-cover" />
         </div>
       )}
       {value && kind === "download" && (

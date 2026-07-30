@@ -89,6 +89,7 @@ const Hero = () => {
                   src="/images/Miracle_Okata.jpg"
                   alt="Okata Miracle"
                   fill
+                  quality={90}
                   className="object-cover"
                   priority
                 />

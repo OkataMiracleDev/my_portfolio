@@ -32,6 +32,7 @@ const TestimonialSlider = ({ testimonials }: { testimonials: Testimonial[] }) =>
                     src={data.avatar}
                     width={96}
                     height={96}
+                    quality={90}
                     alt={data.name}
                     className='relative rounded-full w-full h-full object-cover border-[3px] border-accent-build'
                   />

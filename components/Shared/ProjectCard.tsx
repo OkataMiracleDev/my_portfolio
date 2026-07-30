@@ -25,6 +25,7 @@ export default function ProjectCard({ project, accent }: ProjectCardProps) {
           src={project.thumbnail}
           alt={project.title}
           fill
+          quality={90}
           className="object-cover transition-transform duration-200 ease-out group-hover:scale-[1.03]"
         />
       </div>
@@ -32,7 +33,7 @@ export default function ProjectCard({ project, accent }: ProjectCardProps) {
         <h3 className="font-[family-name:var(--font-cabinet-grotesk)] text-xl font-bold text-ink">
           {project.title}
         </h3>
-        <p className="mt-2 text-sm text-ink/70">{project.description}</p>
+        <p className="mt-2 line-clamp-3 text-sm text-ink/70">{project.description}</p>
         <ul className="mt-4 flex flex-wrap gap-2">
           {project.tags.map((tag) => (
             <li

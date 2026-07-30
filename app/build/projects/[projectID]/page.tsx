@@ -129,6 +129,7 @@ const ProjectDisplayPage = async ({ params }: Props) => {
                   src={img}
                   alt={`${project.name} screenshot ${index + 1}`}
                   fill
+                  quality={90}
                   className="object-cover transition-transform duration-700 ease-out hover:scale-105"
                 />
               </div>
