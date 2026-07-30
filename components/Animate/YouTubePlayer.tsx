@@ -123,6 +123,15 @@ export default function YouTubePlayer({ videoId, title }: { videoId: string; tit
       </div>
 
       {ready && (
+        <button
+          type="button"
+          onClick={togglePlay}
+          aria-label={playing ? "Pause" : "Play"}
+          className="absolute inset-0 z-0 cursor-pointer"
+        />
+      )}
+
+      {ready && (
         <div className="absolute inset-x-0 bottom-0 z-10 flex items-center gap-3 bg-gradient-to-t from-ink/80 to-transparent px-4 py-3">
           <button
             type="button"
