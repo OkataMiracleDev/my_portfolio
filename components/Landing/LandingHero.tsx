@@ -12,7 +12,7 @@ export default function LandingHero() {
           hour: "numeric",
           minute: "2-digit",
           hour12: true,
-        }).format(new Date())
+        }).format(new Date()),
       );
     };
 
@@ -51,7 +51,8 @@ export default function LandingHero() {
       </h1>
 
       <p className="relative mt-6 max-w-xl text-lg text-ink/70 md:text-xl">
-        A frontend developer with an amber accent and a motion designer with a violet one. Same person, two crafts. Pick a lane below.
+        A frontend developer and a motion designer. Same person, two crafts.
+        Pick a lane below.
       </p>
     </section>
   );

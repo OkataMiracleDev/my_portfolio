@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import ExpandableText from "@/components/Shared/ExpandableText";
+import StoryboardGallery from "@/components/Animate/StoryboardGallery";
 import { getMotionProjectBySlug } from "@/lib/data/public";
 
 export const dynamic = "force-dynamic";
@@ -110,19 +110,7 @@ const AnimateProjectPage = async ({ params }: Props) => {
             <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate">
               Storyboard
             </p>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {project.storyboardImages.map((url, i) => (
-                <div key={`${url}-${i}`} className="relative aspect-square overflow-hidden rounded-xl">
-                  <Image
-                    src={url}
-                    alt={`${project.title} storyboard frame ${i + 1}`}
-                    fill
-                    quality={90}
-                    className="object-cover"
-                  />
-                </div>
-              ))}
-            </div>
+            <StoryboardGallery images={project.storyboardImages} altPrefix={project.title} />
           </div>
         )}
 
