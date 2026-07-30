@@ -113,10 +113,17 @@ export default function YouTubePlayer({ videoId, title }: { videoId: string; tit
 
   return (
     <div className="absolute inset-0">
-      <div id={mountId} className="h-full w-full" />
+      {/* pointer-events-none keeps the mouse off YouTube's own iframe content
+          entirely — otherwise hovering reveals YouTube's channel/branding
+          overlay, which no player parameter can suppress. All playback here
+          goes through the JS API, so the iframe never needs to receive
+          pointer input. */}
+      <div className="pointer-events-none h-full w-full">
+        <div id={mountId} className="h-full w-full" />
+      </div>
 
       {ready && (
-        <div className="absolute inset-x-0 bottom-0 flex items-center gap-3 bg-gradient-to-t from-ink/80 to-transparent px-4 py-3">
+        <div className="absolute inset-x-0 bottom-0 z-10 flex items-center gap-3 bg-gradient-to-t from-ink/80 to-transparent px-4 py-3">
           <button
             type="button"
             onClick={togglePlay}
