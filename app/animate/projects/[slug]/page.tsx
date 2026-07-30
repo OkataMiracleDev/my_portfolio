@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ExpandableText from "@/components/Shared/ExpandableText";
 import StoryboardGallery from "@/components/Animate/StoryboardGallery";
+import VideoEmbed from "@/components/Animate/VideoEmbed";
 import { getMotionProjectBySlug } from "@/lib/data/public";
 
 export const dynamic = "force-dynamic";
@@ -57,13 +58,7 @@ const AnimateProjectPage = async ({ params }: Props) => {
           style={{ paddingBottom: "56.25%" }}
         >
           {project.videoEmbedUrl ? (
-            <iframe
-              src={project.videoEmbedUrl}
-              title={project.title}
-              className="absolute inset-0 block h-full w-full border-0"
-              allow="autoplay; fullscreen"
-              allowFullScreen
-            />
+            <VideoEmbed embedUrl={project.videoEmbedUrl} title={project.title} />
           ) : (
             <p className="absolute inset-0 flex items-center justify-center font-[family-name:var(--font-jetbrains-mono)] text-sm text-base/60">
               Reel coming soon
