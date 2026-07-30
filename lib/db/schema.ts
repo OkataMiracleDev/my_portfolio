@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, uniqueIndex } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
 
 // libSQL/SQLite has no UUID-generating default and no array/boolean column
@@ -138,3 +138,22 @@ export const loginAttempts = sqliteTable("login_attempts", {
   attemptedAt: integer("attempted_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   success: integer("success", { mode: "boolean" }).notNull().default(false),
 });
+
+// Per-route daily unique-visitor tracking for /build and /animate. ipAddress
+// is stored as a SHA-256 hash, not raw — we only ever need to dedupe, never
+// to recover the actual IP. The unique index on (visitDate, route, ipHash)
+// is the dedup mechanism itself: a second visit from the same IP to the same
+// route on the same day hits the constraint and is dropped via
+// onConflictDoNothing, so counting rows for a (date, route) pair IS the
+// unique-visitor count — no separate aggregation needed.
+export const siteVisits = sqliteTable(
+  "site_visits",
+  {
+    id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+    visitDate: text("visit_date").notNull(), // "YYYY-MM-DD", UTC
+    route: text("route", { enum: ["build", "animate"] }).notNull(),
+    ipHash: text("ip_hash").notNull(),
+    createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+  },
+  (table) => [uniqueIndex("site_visits_unique_visit").on(table.visitDate, table.route, table.ipHash)]
+);

@@ -86,7 +86,14 @@ export default function MotionProjectForm({ project, action }: MotionProjectForm
         <input key={`step-body-${i}`} type="hidden" name="processStepBody" value={step.body} />
       ))}
 
-      <Field label="Slug" name="slug" defaultValue={project?.slug} required />
+      <Field
+        label="Slug"
+        name="slug"
+        defaultValue={project?.slug}
+        required
+        pattern="[a-z0-9-]+"
+        patternTitle="Lowercase letters, numbers, and hyphens only"
+      />
       <Field label="Title" name="title" defaultValue={project?.title} required />
       <TextArea label="Description" name="description" defaultValue={project?.description} required />
 
@@ -113,6 +120,7 @@ export default function MotionProjectForm({ project, action }: MotionProjectForm
       <Field
         label="Video embed URL (optional — leave blank for 'coming soon')"
         name="videoEmbedUrl"
+        type="url"
         defaultValue={project?.videoEmbedUrl ?? ""}
         onChange={setVideoEmbedUrl}
       />
@@ -157,20 +165,29 @@ function Field({
   defaultValue,
   required,
   onChange,
+  type = "text",
+  pattern,
+  patternTitle,
 }: {
   label: string;
   name: string;
   defaultValue?: string | null;
   required?: boolean;
   onChange?: (value: string) => void;
+  type?: string;
+  pattern?: string;
+  patternTitle?: string;
 }) {
   return (
     <div>
       <label className="mb-2 block text-sm font-medium text-ink/70">{label}</label>
       <input
         name={name}
+        type={type}
         defaultValue={defaultValue ?? ""}
         required={required}
+        pattern={pattern}
+        title={patternTitle}
         onChange={onChange ? (e) => onChange(e.target.value) : undefined}
         className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
       />

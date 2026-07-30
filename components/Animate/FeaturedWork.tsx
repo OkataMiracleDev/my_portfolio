@@ -15,6 +15,19 @@ gsap.registerPlugin(ScrollTrigger);
 
 type Project = MotionProjectContent;
 
+const NOISE_TEXTURE =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E";
+
+function CornerArrow() {
+  return (
+    <span className="absolute right-6 top-6 z-10 flex h-10 w-10 -translate-y-2 items-center justify-center rounded-full border border-base/25 bg-ink/40 text-base opacity-0 backdrop-blur-sm transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <path d="M7 17L17 7M17 7H9M17 7V15" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </span>
+  );
+}
+
 function LeadProject({ project }: { project: Project }) {
   return (
     <Link
@@ -29,10 +42,13 @@ function LeadProject({ project }: { project: Project }) {
         className="object-cover opacity-80 transition-transform duration-700 ease-out group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
+      <CornerArrow />
       <div className="relative z-10 flex h-full flex-col justify-end p-8 md:p-10">
-        <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-base/60">
-          Placeholder reel
-        </p>
+        {project.tags[0] && (
+          <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-accent-animate">
+            {project.tags[0]}
+          </p>
+        )}
         <h3 className="max-w-md font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold leading-[0.95] text-base md:text-5xl">
           {project.title}
         </h3>
@@ -55,7 +71,7 @@ function PolaroidProject({ project }: { project: Project }) {
   return (
     <Link
       href={project.href}
-      className="featured-work-card group block rounded-2xl border border-base/85 bg-base p-3 shadow-[0_24px_60px_rgb(0_0_0_/_0.28)] transition-transform duration-300 ease-out hover:-translate-y-1.5 hover:rotate-0 md:rotate-2"
+      className="featured-work-card group block rounded-2xl border border-base/85 bg-base p-3 shadow-[0_24px_60px_rgb(0_0_0_/_0.28)] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:rotate-0 hover:shadow-[0_28px_70px_rgb(139_92_246_/_0.35)] md:rotate-2"
     >
       <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-ink">
         <Image
@@ -67,9 +83,11 @@ function PolaroidProject({ project }: { project: Project }) {
         />
       </div>
       <div className="px-2 py-4">
-        <p className="font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-ink/45">
-          Placeholder reel
-        </p>
+        {project.tags[0] && (
+          <p className="font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-accent-animate">
+            {project.tags[0]}
+          </p>
+        )}
         <h3 className="mt-2 font-[family-name:var(--font-cabinet-grotesk)] text-xl font-bold text-ink">
           {project.title}
         </h3>
@@ -82,7 +100,7 @@ function PhoneFrameProject({ project }: { project: Project }) {
   return (
     <Link
       href={project.href}
-      className="featured-work-card group block rounded-2xl border border-base/85 bg-base p-3 shadow-[0_24px_60px_rgb(0_0_0_/_0.28)] transition-transform duration-300 ease-out hover:-translate-y-1.5 hover:rotate-0 md:-rotate-3"
+      className="featured-work-card group block rounded-2xl border border-base/85 bg-base p-3 shadow-[0_24px_60px_rgb(0_0_0_/_0.28)] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:rotate-0 hover:shadow-[0_28px_70px_rgb(139_92_246_/_0.35)] md:-rotate-3"
     >
       <div className="mx-auto max-w-[13rem] rounded-[1.75rem] border-[8px] border-ink bg-ink p-1.5">
         <div className="relative aspect-[9/17] overflow-hidden rounded-[1.15rem]">
@@ -96,9 +114,11 @@ function PhoneFrameProject({ project }: { project: Project }) {
         </div>
       </div>
       <div className="px-2 py-4 text-center">
-        <p className="font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-ink/45">
-          Placeholder reel
-        </p>
+        {project.tags[0] && (
+          <p className="font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-accent-animate">
+            {project.tags[0]}
+          </p>
+        )}
         <h3 className="mt-2 font-[family-name:var(--font-cabinet-grotesk)] text-xl font-bold text-ink">
           {project.title}
         </h3>
@@ -150,12 +170,32 @@ export default function FeaturedWork({
   }, [prefersReducedMotion]);
 
   return (
-    <section ref={sectionRef} className="section bg-band-dark px-6 md:px-12">
-      <div className="mx-auto max-w-6xl">
+    <section ref={sectionRef} className="section relative overflow-hidden bg-band-dark px-6 md:px-12">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-overlay"
+        style={{ backgroundImage: `url("${NOISE_TEXTURE}")` }}
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute -left-24 -top-24 h-96 w-96 rounded-full bg-accent-animate opacity-[0.12] blur-3xl"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute -right-24 top-1/3 h-72 w-72 rounded-full bg-accent-animate opacity-[0.08] blur-3xl"
+        aria-hidden="true"
+      />
+
+      <div className="relative mx-auto max-w-6xl">
         <div className="mb-14 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-base/45">
-              Selected motion
+            <p className="mb-4 flex items-center gap-3 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-base/45">
+              <span>Selected motion</span>
+              {projects.length > 0 && (
+                <>
+                  <span aria-hidden="true" className="h-px w-8 bg-base/20" />
+                  <span>{String(projects.length).padStart(2, "0")} reels</span>
+                </>
+              )}
             </p>
             <h2 className="font-[family-name:var(--font-cabinet-grotesk)] text-5xl font-bold leading-[0.9] text-base md:text-7xl">
               Featured{" "}

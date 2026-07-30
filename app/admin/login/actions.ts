@@ -2,18 +2,12 @@
 
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
 import { getSession } from "@/lib/auth/session";
 import { isLockedOut, recordLoginAttempt } from "@/lib/auth/rate-limit";
+import { getClientIp } from "@/lib/utils/client-ip";
 
 export interface LoginState {
   error?: string;
-}
-
-async function getClientIp(): Promise<string> {
-  const headerList = await headers();
-  const forwardedFor = headerList.get("x-forwarded-for");
-  return forwardedFor?.split(",")[0]?.trim() || "unknown";
 }
 
 export async function login(_prevState: LoginState, formData: FormData): Promise<LoginState> {

@@ -20,7 +20,14 @@ export default function PostForm({ post, action }: PostFormProps) {
     <form action={action} className="max-w-4xl space-y-5">
       <input type="hidden" name="coverImage" value={coverImage ?? ""} />
 
-      <Field label="Slug" name="slug" defaultValue={post?.slug} required />
+      <Field
+        label="Slug"
+        name="slug"
+        defaultValue={post?.slug}
+        required
+        pattern="[a-z0-9-]+"
+        patternTitle="Lowercase letters, numbers, and hyphens only"
+      />
       <Field label="Title" name="title" defaultValue={post?.title} required />
 
       <div>
@@ -79,11 +86,15 @@ function Field({
   name,
   defaultValue,
   required,
+  pattern,
+  patternTitle,
 }: {
   label: string;
   name: string;
   defaultValue?: string | null;
   required?: boolean;
+  pattern?: string;
+  patternTitle?: string;
 }) {
   return (
     <div>
@@ -92,6 +103,8 @@ function Field({
         name={name}
         defaultValue={defaultValue ?? ""}
         required={required}
+        pattern={pattern}
+        title={patternTitle}
         className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-build"
       />
     </div>

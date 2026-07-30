@@ -33,7 +33,14 @@ export default function ResourceForm({ resource, action }: ResourceFormProps) {
         </select>
       </div>
 
-      <Field label="Slug" name="slug" defaultValue={resource?.slug} required />
+      <Field
+        label="Slug"
+        name="slug"
+        defaultValue={resource?.slug}
+        required
+        pattern="[a-z0-9-]+"
+        patternTitle="Lowercase letters, numbers, and hyphens only"
+      />
       <Field label="Title" name="title" defaultValue={resource?.title} required />
       <TextArea label="Description" name="description" defaultValue={resource?.description} required />
 
@@ -41,7 +48,13 @@ export default function ResourceForm({ resource, action }: ResourceFormProps) {
         <UploadWidget label="File" value={fileUrl} onChange={setFileUrl} kind="download" />
       )}
       {type === "tool-link" && (
-        <Field label="External URL" name="externalUrl" defaultValue={resource?.externalUrl ?? ""} required />
+        <Field
+          label="External URL"
+          name="externalUrl"
+          defaultValue={resource?.externalUrl ?? ""}
+          required
+          type="url"
+        />
       )}
 
       <Field label="Tags (comma-separated)" name="tags" defaultValue={resource?.tags.join(", ")} required />
@@ -61,19 +74,28 @@ function Field({
   name,
   defaultValue,
   required,
+  type = "text",
+  pattern,
+  patternTitle,
 }: {
   label: string;
   name: string;
   defaultValue?: string | null;
   required?: boolean;
+  type?: string;
+  pattern?: string;
+  patternTitle?: string;
 }) {
   return (
     <div>
       <label className="mb-2 block text-sm font-medium text-ink/70">{label}</label>
       <input
         name={name}
+        type={type}
         defaultValue={defaultValue ?? ""}
         required={required}
+        pattern={pattern}
+        title={patternTitle}
         className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
       />
     </div>

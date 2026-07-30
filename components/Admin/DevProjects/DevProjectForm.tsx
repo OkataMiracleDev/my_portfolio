@@ -22,7 +22,14 @@ export default function DevProjectForm({ project, action }: DevProjectFormProps)
       <input type="hidden" name="image2" value={image2 ?? ""} />
       <input type="hidden" name="image3" value={image3 ?? ""} />
 
-      <Field label="Slug" name="slug" defaultValue={project?.slug} required />
+      <Field
+        label="Slug"
+        name="slug"
+        defaultValue={project?.slug}
+        required
+        pattern="[a-zA-Z0-9-]+"
+        patternTitle="Letters, numbers, and hyphens only"
+      />
       <Field label="Name" name="name" defaultValue={project?.name} required />
       <Field label="Subhead" name="subhead" defaultValue={project?.subhead ?? ""} />
       <TextArea label="Description" name="description" defaultValue={project?.description} required />
@@ -38,7 +45,7 @@ export default function DevProjectForm({ project, action }: DevProjectFormProps)
       <Field label="Date" name="date" defaultValue={project?.date ?? ""} />
       <Field label="Type" name="type" defaultValue={project?.type ?? ""} />
       <Field label="Client" name="client" defaultValue={project?.client ?? ""} />
-      <Field label="Live link" name="link" defaultValue={project?.link ?? ""} />
+      <Field label="Live link" name="link" defaultValue={project?.link ?? ""} type="url" />
 
       <label className="flex items-center gap-2 text-sm text-ink/70">
         <input
@@ -64,19 +71,28 @@ function Field({
   name,
   defaultValue,
   required,
+  type = "text",
+  pattern,
+  patternTitle,
 }: {
   label: string;
   name: string;
   defaultValue?: string | null;
   required?: boolean;
+  type?: string;
+  pattern?: string;
+  patternTitle?: string;
 }) {
   return (
     <div>
       <label className="mb-2 block text-sm font-medium text-ink/70">{label}</label>
       <input
         name={name}
+        type={type}
         defaultValue={defaultValue ?? ""}
         required={required}
+        pattern={pattern}
+        title={patternTitle}
         className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-build"
       />
     </div>
