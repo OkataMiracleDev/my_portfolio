@@ -3,16 +3,15 @@
 import PlaygroundColorDial from "./Playground/PlaygroundColorDial";
 import { usePlaygroundReveal } from "./Playground/PlaygroundRevealContext";
 
-const credentials = [
-  // Placeholder-honest figures for the motion route until real numbers are supplied.
-  { label: "Years creating", value: "2+" },
-  { label: "Projects shipped", value: "12+" },
-  { label: "Tools mastered", value: "6" },
-  { label: "Resource drops", value: "3" },
-];
+interface Credential {
+  label: string;
+  value: string;
+}
 
-export default function CredentialsBlock() {
+export default function CredentialsBlock({ credentials }: { credentials: Credential[] }) {
   const { revealed } = usePlaygroundReveal();
+
+  if (credentials.length === 0) return null;
 
   return (
     <div className="mt-20 border-t border-base/15 pt-12">

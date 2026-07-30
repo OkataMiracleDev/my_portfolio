@@ -43,6 +43,13 @@
       "when": 1785167706688,
       "tag": "0005_acoustic_amphibian",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1785410833696,
+      "tag": "0006_condemned_hitman",
+      "breakpoints": true
     }
   ]
 }

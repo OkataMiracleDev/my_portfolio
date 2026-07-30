@@ -52,17 +52,20 @@ const AnimateProjectPage = async ({ params }: Props) => {
           />
         </div>
 
-        <div className="mb-8 flex aspect-video items-center justify-center overflow-hidden rounded-card bg-band-dark">
+        <div
+          className="relative mb-8 w-full overflow-hidden rounded-card bg-band-dark"
+          style={{ paddingBottom: "56.25%" }}
+        >
           {project.videoEmbedUrl ? (
             <iframe
               src={project.videoEmbedUrl}
               title={project.title}
-              className="block h-full w-full border-0"
+              className="absolute inset-0 block h-full w-full border-0"
               allow="autoplay; fullscreen"
               allowFullScreen
             />
           ) : (
-            <p className="font-[family-name:var(--font-jetbrains-mono)] text-sm text-base/60">
+            <p className="absolute inset-0 flex items-center justify-center font-[family-name:var(--font-jetbrains-mono)] text-sm text-base/60">
               Reel coming soon
             </p>
           )}

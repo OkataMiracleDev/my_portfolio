@@ -114,6 +114,17 @@ export const funFactCards = sqliteTable("fun_fact_cards", {
   sortOrder: integer("sort_order").notNull().default(0),
 });
 
+// "Bragging rights" stat cards on /animate (components/Animate/CredentialsBlock.tsx)
+// — same label/value shape as funFactCards but scoped to the animate route,
+// kept as its own table rather than overloading fun_fact_cards with a route
+// column since the two are unrelated content on different routes.
+export const animateCredentials = sqliteTable("animate_credentials", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  label: text("label").notNull(),
+  value: text("value").notNull(),
+  sortOrder: integer("sort_order").notNull().default(0),
+});
+
 // No adminSessions table — §9 Q3 resolved to a pure signed-cookie session
 // (iron-session), nothing tracked server-side. A login_attempts table for
 // rate-limiting is added later, in Task 14.

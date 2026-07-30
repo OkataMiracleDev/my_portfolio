@@ -8,6 +8,7 @@ import {
   posts,
   experienceEntries,
   funFactCards,
+  animateCredentials,
 } from "@/lib/db/schema";
 import type { ResourceContent, TestimonialContent, MotionProjectContent } from "@/types/content";
 
@@ -99,4 +100,8 @@ export async function getExperienceEntries() {
 
 export async function getFunFactCards() {
   return db.select().from(funFactCards).orderBy(asc(funFactCards.sortOrder));
+}
+
+export async function getAnimateCredentials() {
+  return db.select().from(animateCredentials).orderBy(asc(animateCredentials.sortOrder));
 }

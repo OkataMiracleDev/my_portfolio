@@ -107,7 +107,18 @@ function PhoneFrameProject({ project }: { project: Project }) {
   );
 }
 
-export default function FeaturedWork({ projects }: { projects: Project[] }) {
+interface Credential {
+  label: string;
+  value: string;
+}
+
+export default function FeaturedWork({
+  projects,
+  credentials,
+}: {
+  projects: Project[];
+  credentials: Credential[];
+}) {
   const [lead, second, third] = projects;
   const sectionRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -185,7 +196,7 @@ export default function FeaturedWork({ projects }: { projects: Project[] }) {
           <PlaygroundMagneticButton />
         </div>
 
-        <CredentialsBlock />
+        <CredentialsBlock credentials={credentials} />
       </div>
     </section>
   );

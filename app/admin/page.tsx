@@ -9,6 +9,7 @@ import {
   posts,
   experienceEntries,
   funFactCards,
+  animateCredentials,
 } from "@/lib/db/schema";
 
 export const dynamic = "force-dynamic";
@@ -21,6 +22,7 @@ const CARDS = [
   { table: posts, label: "Posts", href: "/admin/posts" },
   { table: experienceEntries, label: "Experience", href: "/admin/experience" },
   { table: funFactCards, label: "Fun Facts", href: "/admin/landing" },
+  { table: animateCredentials, label: "Bragging Rights", href: "/admin/credentials" },
 ] as const;
 
 export default async function AdminDashboardPage() {

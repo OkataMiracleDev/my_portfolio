@@ -12,6 +12,7 @@ export default function StoryboardGallery({ images, altPrefix }: StoryboardGalle
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const justOpenedRef = useRef(false);
+  const scrollSettleTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   function openAt(index: number) {
     justOpenedRef.current = true;
@@ -37,6 +38,7 @@ export default function StoryboardGallery({ images, altPrefix }: StoryboardGalle
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKeyDown);
+      if (scrollSettleTimeout.current) clearTimeout(scrollSettleTimeout.current);
     };
   }, [openIndex, images.length]);
 
@@ -53,10 +55,17 @@ export default function StoryboardGallery({ images, altPrefix }: StoryboardGalle
   }, [openIndex]);
 
   function handleScrollerScroll() {
-    const el = scrollerRef.current;
-    if (!el) return;
-    const index = Math.round(el.scrollLeft / el.clientWidth);
-    setOpenIndex((current) => (current !== null && current !== index ? index : current));
+    // Programmatic scrollTo (from goTo/arrow keys) fires continuous scroll
+    // events too. Only commit the settled position once scrolling actually
+    // stops, otherwise a mid-animation tick can snap state — and the sync
+    // effect below — right back to where it started.
+    if (scrollSettleTimeout.current) clearTimeout(scrollSettleTimeout.current);
+    scrollSettleTimeout.current = setTimeout(() => {
+      const el = scrollerRef.current;
+      if (!el) return;
+      const index = Math.round(el.scrollLeft / el.clientWidth);
+      setOpenIndex((current) => (current !== null && current !== index ? index : current));
+    }, 120);
   }
 
   return (
