@@ -1,5 +1,6 @@
 import Footer from '@/components/Home/Footer/Footer';
 import ExpandableText from '@/components/Shared/ExpandableText';
+import JsonLd from '@/components/Shared/JsonLd';
 import { getDevProjectBySlug } from '@/lib/data/public'
 import { Metadata } from 'next';
 import Image from 'next/image';
@@ -23,9 +24,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "Project not found | Okata Miracle" };
   }
 
+  const title = `${project.name} | Okata Miracle`;
+  const description = project.subhead || project.description;
+  const url = `https://www.okata-miracle.site/build/projects/${project.slug}`;
+
   return {
-    title: `${project.name} | Okata Miracle`,
-    description: project.subhead ?? undefined,
+    title,
+    description,
+    keywords: project.technology,
+    openGraph: {
+      title,
+      description,
+      url,
+      type: "article",
+      images: [{ url: project.image }],
+    },
+    alternates: { canonical: url },
   };
 }
 
@@ -43,8 +57,20 @@ const ProjectDisplayPage = async ({ params }: Props) => {
     );
   }
 
+  const projectJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.name,
+    description: project.subhead || project.description,
+    image: project.image,
+    keywords: project.technology.join(", "),
+    creator: { "@type": "Person", name: "Okata Miracle", url: "https://www.okata-miracle.site" },
+    url: `https://www.okata-miracle.site/build/projects/${project.slug}`,
+  };
+
   return (
     <div className='min-h-screen pt-32 pb-20 px-6'>
+      <JsonLd data={projectJsonLd} />
       <div className='max-w-5xl mx-auto'>
         <div className='rounded-card bg-base-raised p-8 md:p-12 mb-12'>
           <h1 className='mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-4xl md:text-5xl font-bold text-ink'>

@@ -12,7 +12,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) return { title: "Post not found | Okata Miracle" };
-  return { title: `${post.title} | Okata Miracle`, description: post.excerpt ?? undefined };
+
+  const title = `${post.title} | Okata Miracle`;
+  const description = post.excerpt ?? undefined;
+  const url = `https://www.okata-miracle.site/build/blog/${post.slug}`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      type: "article",
+      images: post.coverImage ? [{ url: post.coverImage }] : undefined,
+    },
+    alternates: { canonical: url },
+  };
 }
 
 export default async function BlogPostPage({ params }: Props) {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getResourceBySlug } from "@/lib/data/public";
+import JsonLd from "@/components/Shared/JsonLd";
 
 export const dynamic = "force-dynamic";
 
@@ -16,9 +17,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "Resource not found | Okata Miracle" };
   }
 
+  const title = `${resource.title} | Okata Miracle`;
+  const url = `https://www.okata-miracle.site/animate/resources/${resource.slug}`;
+
   return {
-    title: `${resource.title} | Okata Miracle`,
+    title,
     description: resource.description,
+    keywords: resource.tags,
+    openGraph: { title, description: resource.description, url, type: "article" },
+    alternates: { canonical: url },
   };
 }
 
@@ -38,8 +45,19 @@ const ResourceDetailPage = async ({ params }: Props) => {
 
   const actionHref = resource.fileUrl ?? resource.externalUrl;
 
+  const resourceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: resource.title,
+    description: resource.description,
+    keywords: resource.tags.join(", "),
+    creator: { "@type": "Person", name: "Okata Miracle", url: "https://www.okata-miracle.site" },
+    url: `https://www.okata-miracle.site/animate/resources/${resource.slug}`,
+  };
+
   return (
     <div className="min-h-screen px-6 pb-20 pt-32">
+      <JsonLd data={resourceJsonLd} />
       <div className="max-w-2xl mx-auto rounded-card bg-base-raised p-8 md:p-12">
         <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate">
           {resource.type}

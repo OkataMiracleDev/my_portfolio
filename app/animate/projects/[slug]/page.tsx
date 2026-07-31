@@ -3,6 +3,7 @@ import Link from "next/link";
 import ExpandableText from "@/components/Shared/ExpandableText";
 import StoryboardGallery from "@/components/Animate/StoryboardGallery";
 import VideoEmbed from "@/components/Animate/VideoEmbed";
+import JsonLd from "@/components/Shared/JsonLd";
 import { getMotionProjectBySlug } from "@/lib/data/public";
 
 export const dynamic = "force-dynamic";
@@ -19,9 +20,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "Project not found | Okata Miracle" };
   }
 
+  const title = `${project.title} | Okata Miracle`;
+  const url = `https://www.okata-miracle.site${project.href}`;
+
   return {
-    title: `${project.title} | Okata Miracle`,
+    title,
     description: project.description,
+    keywords: [...project.tags, ...project.tools],
+    openGraph: {
+      title,
+      description: project.description,
+      url,
+      type: "article",
+      images: [{ url: project.thumbnail }],
+    },
+    alternates: { canonical: url },
   };
 }
 
@@ -39,8 +52,20 @@ const AnimateProjectPage = async ({ params }: Props) => {
     );
   }
 
+  const projectJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title,
+    description: project.description,
+    image: project.thumbnail,
+    keywords: [...project.tags, ...project.tools].join(", "),
+    creator: { "@type": "Person", name: "Okata Miracle", url: "https://www.okata-miracle.site" },
+    url: `https://www.okata-miracle.site${project.href}`,
+  };
+
   return (
     <div className="min-h-screen px-6 pb-20 pt-32">
+      <JsonLd data={projectJsonLd} />
       <div className="max-w-4xl mx-auto">
         <h1 className="mb-4 font-[family-name:var(--font-cabinet-grotesk)] text-4xl md:text-5xl font-bold text-ink">
           {project.title}

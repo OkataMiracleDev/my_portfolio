@@ -9,6 +9,7 @@ export interface DailyRouteVisits {
   visitDate: string;
   build: number;
   animate: number;
+  landing: number;
   total: number;
 }
 
@@ -34,7 +35,8 @@ export async function getVisitSummary(windowDays = 30) {
 
   const byDate = new Map<string, DailyRouteVisits>();
   for (const row of rows) {
-    const entry = byDate.get(row.visitDate) ?? { visitDate: row.visitDate, build: 0, animate: 0, total: 0 };
+    const entry =
+      byDate.get(row.visitDate) ?? { visitDate: row.visitDate, build: 0, animate: 0, landing: 0, total: 0 };
     entry[row.route] += 1;
     entry.total += 1;
     byDate.set(row.visitDate, entry);
@@ -45,7 +47,8 @@ export async function getVisitSummary(windowDays = 30) {
 
   const today = todayUtc();
   const todayEntry: DailyRouteVisits =
-    allDaily.find((d) => d.visitDate === today) ?? { visitDate: today, build: 0, animate: 0, total: 0 };
+    allDaily.find((d) => d.visitDate === today) ??
+    { visitDate: today, build: 0, animate: 0, landing: 0, total: 0 };
 
   const weekStart = daysAgoUtc(6);
   const weekTotal = allDaily.filter((d) => d.visitDate >= weekStart).reduce((sum, d) => sum + d.total, 0);

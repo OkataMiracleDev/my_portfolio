@@ -3,7 +3,7 @@ import { db } from "@/lib/db/client";
 import { siteVisits } from "@/lib/db/schema";
 import { getClientIp } from "@/lib/utils/client-ip";
 
-type VisitRoute = "build" | "animate";
+type VisitRoute = "build" | "animate" | "landing";
 
 function todayUtc(): string {
   return new Date().toISOString().slice(0, 10);

@@ -139,7 +139,7 @@ export const loginAttempts = sqliteTable("login_attempts", {
   success: integer("success", { mode: "boolean" }).notNull().default(false),
 });
 
-// Per-route daily unique-visitor tracking for /build and /animate. ipAddress
+// Per-route daily unique-visitor tracking for /, /build, and /animate. ipAddress
 // is stored as a SHA-256 hash, not raw — we only ever need to dedupe, never
 // to recover the actual IP. The unique index on (visitDate, route, ipHash)
 // is the dedup mechanism itself: a second visit from the same IP to the same
@@ -151,7 +151,7 @@ export const siteVisits = sqliteTable(
   {
     id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
     visitDate: text("visit_date").notNull(), // "YYYY-MM-DD", UTC
-    route: text("route", { enum: ["build", "animate"] }).notNull(),
+    route: text("route", { enum: ["build", "animate", "landing"] }).notNull(),
     ipHash: text("ip_hash").notNull(),
     createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   },

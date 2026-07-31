@@ -11,6 +11,7 @@ import {
   animateCredentials,
 } from "@/lib/db/schema";
 import type { ResourceContent, TestimonialContent, MotionProjectContent } from "@/types/content";
+import { slugifyTag } from "@/lib/utils/slugify-tag";
 
 // Dev projects: consolidates data/data.ts's three overlapping arrays
 // (projectsData, homeprojectsData, projectsSliderData). Callers that
@@ -104,4 +105,60 @@ export async function getFunFactCards() {
 
 export async function getAnimateCredentials() {
   return db.select().from(animateCredentials).orderBy(asc(animateCredentials.sortOrder));
+}
+
+// Tags are free text entered per-project/resource in the admin, so the same
+// concept ("Next.js", "next.js", "Next js") could technically be typed
+// differently across entries. Grouping by slugifyTag(tag) means those still
+// collapse onto one archive page; the first-seen original casing is kept as
+// the display label.
+export async function getAllTags() {
+  const [devRows, motionRows, resourceRows] = await Promise.all([
+    getDevProjects(),
+    getMotionProjects(),
+    getResources(),
+  ]);
+
+  const counts = new Map<string, { label: string; count: number }>();
+  const addTag = (tag: string) => {
+    const slug = slugifyTag(tag);
+    if (!slug) return;
+    const existing = counts.get(slug);
+    if (existing) existing.count += 1;
+    else counts.set(slug, { label: tag, count: 1 });
+  };
+
+  devRows.forEach((p) => p.technology.forEach(addTag));
+  motionRows.forEach((p) => {
+    p.tags.forEach(addTag);
+    p.tools.forEach(addTag);
+  });
+  resourceRows.forEach((r) => r.tags.forEach(addTag));
+
+  return Array.from(counts.entries())
+    .map(([slug, { label, count }]) => ({ slug, label, count }))
+    .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
+}
+
+export async function getContentByTagSlug(tagSlug: string) {
+  const [devRows, motionRows, resourceRows] = await Promise.all([
+    getDevProjects(),
+    getMotionProjects(),
+    getResources(),
+  ]);
+
+  const matches = (tags: string[]) => tags.some((t) => slugifyTag(t) === tagSlug);
+
+  const devMatches = devRows.filter((p) => matches(p.technology));
+  const motionMatches = motionRows.filter((p) => matches(p.tags) || matches(p.tools));
+  const resourceMatches = resourceRows.filter((r) => matches(r.tags));
+
+  const label =
+    devMatches[0]?.technology.find((t) => slugifyTag(t) === tagSlug) ??
+    motionMatches[0]?.tags.find((t) => slugifyTag(t) === tagSlug) ??
+    motionMatches[0]?.tools.find((t) => slugifyTag(t) === tagSlug) ??
+    resourceMatches[0]?.tags.find((t) => slugifyTag(t) === tagSlug) ??
+    tagSlug;
+
+  return { label, devMatches, motionMatches, resourceMatches };
 }

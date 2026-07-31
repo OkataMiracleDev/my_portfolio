@@ -7,6 +7,7 @@
   --color-base-raised: oklch(99% 0.006 55);
   --color-accent-build: oklch(64% 0.19 45);
   --color-accent-animate: oklch(58% 0.24 300);
+  --color-accent-landing: oklch(62% 0.15 150);
   --color-band-dark: oklch(16% 0.02 300);
   --color-nav-dark: oklch(18% 0.02 55);
 

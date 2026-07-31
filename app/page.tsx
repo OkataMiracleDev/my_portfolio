@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Landing from "@/components/Landing/Landing";
+import JsonLd from "@/components/Shared/JsonLd";
 import { getFunFactCards } from "@/lib/data/public";
+import { recordVisit } from "@/lib/analytics/record-visit";
 
 export const dynamic = "force-dynamic";
 
@@ -50,14 +52,12 @@ const personJsonLd = {
 };
 
 export default async function LandingPage() {
+  await recordVisit("landing");
   const funFactCards = await getFunFactCards();
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
-      />
+      <JsonLd data={personJsonLd} />
       <Landing funFactCards={funFactCards} />
     </>
   );

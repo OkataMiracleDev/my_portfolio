@@ -5,8 +5,18 @@ import { getResources } from "@/lib/data/public";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Resources | Okata Miracle",
+  title: "Free Motion Design Resources | Okata Miracle",
   description: "Free downloads, tutorials, and tool recommendations for motion designers.",
+  openGraph: {
+    title: "Free Motion Design Resources | Okata Miracle",
+    description: "Free downloads, tutorials, and tool recommendations for motion designers.",
+    url: "https://www.okata-miracle.site/animate/resources",
+    siteName: "Okata Miracle",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://www.okata-miracle.site/animate/resources",
+  },
 };
 
 export default async function ResourcesPage() {

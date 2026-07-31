@@ -8,8 +8,19 @@ import { getDevProjects } from "@/lib/data/public";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Projects | Okata Miracle - Frontend Developer",
-  description: "Explore Okata Miracle's latest projects built with Next.js, React, and TailwindCSS.",
+  title: "Dev Projects | Okata Miracle — React & Next.js Portfolio",
+  description:
+    "Frontend development case studies by Okata Miracle — real client and product work built with React, Next.js, TypeScript, and Tailwind CSS.",
+  openGraph: {
+    title: "Dev Projects | Okata Miracle",
+    description: "Frontend development case studies built with React, Next.js, TypeScript, and Tailwind CSS.",
+    url: "https://www.okata-miracle.site/build/projects",
+    siteName: "Okata Miracle",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://www.okata-miracle.site/build/projects",
+  },
 };
 
 // Groups projects into pairs so they read as "spreads" (two facing pages

@@ -6,8 +6,18 @@ import { getMotionProjects } from "@/lib/data/public";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Motion Projects | Okata Miracle",
+  title: "Motion Projects | Okata Miracle — Motion Design Case Studies",
   description: "Motion design case studies — brand animation, UI micro-interactions, and short-form video.",
+  openGraph: {
+    title: "Motion Projects | Okata Miracle",
+    description: "Motion design case studies — brand animation, UI micro-interactions, and short-form video.",
+    url: "https://www.okata-miracle.site/animate/projects",
+    siteName: "Okata Miracle",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://www.okata-miracle.site/animate/projects",
+  },
 };
 
 export default async function AnimateProjectsPage() {

@@ -1,8 +1,25 @@
 import Footer from '@/components/Home/Footer/Footer'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { getPublishedPosts } from '@/lib/data/public'
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Blog | Okata Miracle — Software Development Notes",
+  description:
+    "Writing on software development, frontend engineering, and building products by Okata Miracle.",
+  openGraph: {
+    title: "Blog | Okata Miracle",
+    description: "Writing on software development and frontend engineering.",
+    url: "https://www.okata-miracle.site/build/blog",
+    siteName: "Okata Miracle",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://www.okata-miracle.site/build/blog",
+  },
+};
 
 const BlogPage = async () => {
   const posts = await getPublishedPosts(["build", "general"]);

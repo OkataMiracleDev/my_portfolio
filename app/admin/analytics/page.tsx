@@ -20,8 +20,9 @@ export default async function AnalyticsPage() {
         Analytics
       </h1>
 
-      <div className="mb-10 grid grid-cols-2 gap-4 md:grid-cols-5">
+      <div className="mb-10 grid grid-cols-2 gap-4 md:grid-cols-6">
         <StatCard label="Today" value={today.total} />
+        <StatCard label="Today — /" value={today.landing} />
         <StatCard label="Today — /build" value={today.build} />
         <StatCard label="Today — /animate" value={today.animate} />
         <StatCard label="Last 7 days" value={weekTotal} />
@@ -41,6 +42,7 @@ export default async function AnalyticsPage() {
             <thead>
               <tr className="border-b border-ink/10 text-ink/50">
                 <th className="px-6 py-3 font-medium">Date</th>
+                <th className="px-6 py-3 font-medium">/</th>
                 <th className="px-6 py-3 font-medium">/build</th>
                 <th className="px-6 py-3 font-medium">/animate</th>
                 <th className="px-6 py-3 font-medium">Total</th>
@@ -50,6 +52,7 @@ export default async function AnalyticsPage() {
               {daily.map((day) => (
                 <tr key={day.visitDate}>
                   <td className="px-6 py-3 font-medium text-ink">{day.visitDate}</td>
+                  <td className="px-6 py-3 text-accent-landing">{day.landing}</td>
                   <td className="px-6 py-3 text-accent-build">{day.build}</td>
                   <td className="px-6 py-3 text-accent-animate">{day.animate}</td>
                   <td className="px-6 py-3 font-semibold text-ink">{day.total}</td>
