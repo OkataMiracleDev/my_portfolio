@@ -98,7 +98,7 @@ function CarouselSlide({ project }: { project: Project }) {
           <p className="mt-4 line-clamp-3 max-w-sm text-sm leading-relaxed text-base/65 md:text-base">
             {project.description}
           </p>
-          <div className="mt-6 flex flex-wrap gap-2">
+          <div className="mt-6 hidden flex-wrap gap-2 md:flex">
             {project.tags.map((tag) => (
               <span
                 key={tag}
