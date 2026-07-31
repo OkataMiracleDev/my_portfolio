@@ -85,17 +85,23 @@ function CarouselSlide({ project }: { project: Project }) {
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/30" />
       </div>
 
-      <div className="relative z-10 grid h-full grid-cols-1 gap-8 p-8 md:grid-cols-[1fr_1.1fr] md:gap-10 md:p-12">
+      <div className="relative z-10 grid h-full grid-cols-1 gap-4 p-6 md:grid-cols-[1fr_1.1fr] md:gap-10 md:p-12">
+        <div className="relative order-first flex items-center justify-center md:order-none">
+          <div className="relative aspect-[4/3] w-full max-w-[15rem] overflow-hidden rounded-2xl border border-base/10 shadow-[0_20px_50px_rgb(0_0_0_/_0.4)] transition-transform duration-500 ease-out group-hover:scale-[1.02] md:max-w-none md:-rotate-2 md:shadow-[0_30px_80px_rgb(0_0_0_/_0.45)] md:group-hover:rotate-0">
+            <Image src={project.thumbnail} alt={project.title} fill quality={90} className="object-cover" />
+          </div>
+        </div>
+
         <div className="flex flex-col justify-end">
           {project.tags[0] && (
-            <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-accent-animate">
+            <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-accent-animate md:mb-4">
               {project.tags[0]}
             </p>
           )}
-          <h3 className="line-clamp-2 max-w-md font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold leading-[0.95] text-base md:text-5xl">
+          <h3 className="line-clamp-2 max-w-md font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold leading-[0.95] text-base md:text-4xl lg:text-5xl">
             {project.title}
           </h3>
-          <p className="mt-4 line-clamp-3 max-w-sm text-sm leading-relaxed text-base/65 md:text-base">
+          <p className="mt-3 line-clamp-2 max-w-sm text-sm leading-relaxed text-base/65 md:mt-4 md:line-clamp-3 md:text-base">
             {project.description}
           </p>
           <div className="mt-6 hidden flex-wrap gap-2 md:flex">
@@ -107,12 +113,6 @@ function CarouselSlide({ project }: { project: Project }) {
                 {tag}
               </span>
             ))}
-          </div>
-        </div>
-
-        <div className="relative hidden md:flex md:items-center md:justify-center">
-          <div className="relative aspect-[4/3] w-full -rotate-2 overflow-hidden rounded-2xl border border-base/10 shadow-[0_30px_80px_rgb(0_0_0_/_0.45)] transition-transform duration-500 ease-out group-hover:rotate-0 group-hover:scale-[1.02]">
-            <Image src={project.thumbnail} alt={project.title} fill quality={90} className="object-cover" />
           </div>
         </div>
       </div>
@@ -273,7 +273,7 @@ export default function FeaturedWork({
           >
             <Link
               href={active.href}
-              className="group relative block h-[30rem] overflow-hidden rounded-[2rem] bg-ink md:h-[38rem]"
+              className="group relative block h-[34rem] overflow-hidden rounded-[2rem] bg-ink md:h-[38rem]"
             >
               {prefersReducedMotion ? (
                 <div className="absolute inset-0">
