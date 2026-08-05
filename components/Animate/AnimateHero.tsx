@@ -94,7 +94,7 @@ const AnimateHero = () => {
           <span className="block">Motion that</span>
           <span className="block pb-2">
             means{" "}
-            <span className="font-[family-name:var(--font-accent-script)] italic text-accent-animate">
+            <span className="text-accent-animate">
               something.
             </span>
           </span>

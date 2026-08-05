@@ -7,21 +7,21 @@ import { recordVisit } from "@/lib/analytics/record-visit";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Okata Miracle | Frontend Developer & Motion Designer",
+  title: "Mimi Studios | Frontend Developer & Motion Designer",
   description:
-    "Okata Miracle builds interfaces as a frontend developer and brings them to life as a motion designer. Explore dev work, motion reels, and free resources.",
+    "Mimi Studios builds interfaces as a frontend developer and brings them to life as a motion designer. Explore dev work, motion reels, and free resources.",
   openGraph: {
-    title: "Okata Miracle | Frontend Developer & Motion Designer",
+    title: "Mimi Studios | Frontend Developer & Motion Designer",
     description:
       "Frontend developer and motion designer. Explore dev work, motion reels, and free resources.",
     url: "https://www.okata-miracle.site",
-    siteName: "Okata Miracle",
+    siteName: "Mimi Studios",
     images: [
       {
         url: "https://www.okata-miracle.site/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Okata Miracle - Frontend Developer & Motion Designer",
+        alt: "Mimi Studios - Frontend Developer & Motion Designer",
       },
     ],
     locale: "en_US",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Okata Miracle | Frontend Developer & Motion Designer",
+    title: "Mimi Studios | Frontend Developer & Motion Designer",
     description: "Frontend developer and motion designer.",
     creator: "@mimi_codes",
     images: ["https://www.okata-miracle.site/og-image.png"],
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
 };
 
-const personJsonLd = {
+const founderJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Okata Miracle",
@@ -51,13 +51,24 @@ const personJsonLd = {
   ],
 };
 
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Mimi Studios",
+  url: "https://www.okata-miracle.site",
+  logo: "https://www.okata-miracle.site/mimi-logo.svg",
+  description: "Mimi Studios — motion design and frontend development, built on intention, not decoration.",
+  founder: { "@type": "Person", name: "Okata Miracle" },
+};
+
 export default async function LandingPage() {
   await recordVisit("landing");
   const funFactCards = await getFunFactCards();
 
   return (
     <>
-      <JsonLd data={personJsonLd} />
+      <JsonLd data={organizationJsonLd} />
+      <JsonLd data={founderJsonLd} />
       <Landing funFactCards={funFactCards} />
     </>
   );

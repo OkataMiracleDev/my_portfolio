@@ -12,21 +12,21 @@ import { getFeaturedMotionProjects, getTestimonials, getResources, getAnimateCre
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Okata Miracle | Motion Designer — Brand Animation & GSAP",
+  title: "Mimi Studios | Motion Designer — Brand Animation & GSAP",
   description:
-    "Motion design by Okata Miracle — brand animation, UI micro-interactions, short-form video, plus free resources for the motion design community.",
+    "Motion design by Mimi Studios — brand animation, UI micro-interactions, short-form video, plus free resources for the motion design community.",
   openGraph: {
-    title: "Okata Miracle | Motion Designer",
+    title: "Mimi Studios | Motion Designer",
     description: "Brand animation, UI micro-interactions, and free motion design resources.",
     url: "https://www.okata-miracle.site/animate",
-    siteName: "Okata Miracle",
+    siteName: "Mimi Studios",
     images: [{ url: "https://www.okata-miracle.site/og-image.png", width: 1200, height: 630 }],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Okata Miracle | Motion Designer",
+    title: "Mimi Studios | Motion Designer",
     description: "Brand animation, UI micro-interactions, and short-form video.",
   },
   alternates: {

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mimi Studios — Brand Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0D0D10;
+    --surface:#161619;
+    --surface2:#1E1E22;
+    --paper:#F4F3EF;
+    --muted:#8B8A91;
+    --line:#2A2A2E;
+    --signal:#4F5BFF;
+    --ease:#FF5A36;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--font-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--signal); color:var(--paper);}
+  .wrap{max-width:920px; margin:0 auto; padding:0 32px;}
+
+  /* Timecode track labels — motion-editing motif */
+  .track{
+    display:flex; align-items:center; gap:14px;
+    font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em;
+    color:var(--muted); text-transform:uppercase;
+    margin-bottom:28px;
+  }
+  .track::before{
+    content:''; width:8px; height:8px; background:var(--ease);
+    transform:rotate(45deg); flex-shrink:0;
+  }
+  .track .tc{color:var(--signal); margin-left:auto;}
+
+  section{padding:96px 0; border-bottom:1px solid var(--line);}
+  section:last-child{border-bottom:none;}
+
+  /* HERO */
+  .hero{padding-top:64px; padding-bottom:80px; position:relative; overflow:hidden;}
+  .hero .eyebrow{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:0.15em;
+    color:var(--muted); text-transform:uppercase; margin-bottom:24px;
+  }
+  .wordmark{
+    font-family:var(--font-display); font-weight:700;
+    font-size:clamp(56px, 11vw, 122px);
+    line-height:0.95; letter-spacing:-0.02em;
+    display:flex; align-items:baseline; flex-wrap:wrap; gap:0 20px;
+  }
+  .wordmark .studios{color:var(--muted); font-weight:400;}
+  .tagline{
+    font-size:19px; color:var(--muted); max-width:520px; margin-top:28px;
+  }
+  .tagline b{color:var(--paper); font-weight:600;}
+
+  /* animated bezier curve — signature element */
+  .curve-box{margin-top:64px; border:1px solid var(--line); background:var(--surface); border-radius:2px; padding:28px;}
+  .curve-label{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:11px; color:var(--muted); margin-bottom:16px;}
+  svg.curve{width:100%; height:180px; display:block;}
+  .curve-path{fill:none; stroke:var(--line); stroke-width:1;}
+  .curve-active{fill:none; stroke:var(--signal); stroke-width:2;}
+  .curve-dot{fill:var(--ease);}
+  .handle{fill:var(--surface2); stroke:var(--muted); stroke-width:1;}
+
+  h2{
+    font-family:var(--font-display); font-weight:600;
+    font-size:clamp(28px, 4vw, 40px); letter-spacing:-0.01em;
+    margin-bottom:16px;
+  }
+  .lede{color:var(--muted); font-size:16px; max-width:600px; margin-bottom:48px;}
+
+  /* ESSENCE */
+  .essence-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line);}
+  .essence-card{background:var(--ink); padding:32px;}
+  .essence-card .k{font-family:var(--font-mono); font-size:11px; color:var(--ease); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px;}
+  .essence-card p{color:var(--paper); font-size:16px;}
+
+  /* LOGO */
+  .logo-panel{border:1px solid var(--line); background:var(--surface); padding:64px; display:flex; align-items:center; justify-content:center; margin-bottom:24px;}
+  .logo-panel.dark{background:var(--ink);}
+  .mark{display:flex; align-items:center; gap:18px;}
+  .mark svg{width:56px; height:56px;}
+  .mark-word{font-family:var(--font-display); font-weight:700; font-size:32px; letter-spacing:-0.01em;}
+  .logo-row{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+  .logo-caption{font-family:var(--font-mono); font-size:11px; color:var(--muted); text-align:center; margin-top:-12px; margin-bottom:24px; text-transform:uppercase; letter-spacing:0.08em;}
+  .rules{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:40px;}
+  .rule-card{border:1px solid var(--line); padding:20px;}
+  .rule-card .status{font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; margin-bottom:10px; text-transform:uppercase;}
+  .rule-card.no .status{color:var(--ease);}
+  .rule-card.yes .status{color:var(--signal);}
+  .rule-card p{font-size:13px; color:var(--muted);}
+  .mini-logo{height:40px; display:flex; align-items:center; margin-bottom:14px; font-family:var(--font-display); font-weight:700; font-size:20px;}
+
+  /* COLOR */
+  .swatch-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:16px;}
+  .swatch{border:1px solid var(--line);}
+  .swatch-block{height:120px;}
+  .swatch-info{padding:14px 12px; font-family:var(--font-mono); background:var(--surface);}
+  .swatch-info .name{font-size:12px; color:var(--paper); margin-bottom:4px; font-family:var(--font-body); font-weight:600;}
+  .swatch-info .hex{font-size:11px; color:var(--muted);}
+
+  /* TYPE */
+  .type-row{padding:32px 0; border-top:1px solid var(--line); display:flex; align-items:baseline; justify-content:space-between; gap:24px;}
+  .type-row:last-child{border-bottom:1px solid var(--line);}
+  .type-meta{font-family:var(--font-mono); font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; min-width:160px;}
+  .type-sample{flex:1;}
+  .display-sample{font-family:var(--font-display); font-weight:600; font-size:44px; letter-spacing:-0.01em;}
+  .body-sample{font-family:var(--font-body); font-size:18px; color:var(--paper); max-width:480px;}
+  .mono-sample{font-family:var(--font-mono); font-size:15px; color:var(--signal);}
+
+  /* VOICE */
+  .voice-list{display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line);}
+  .voice-item{background:var(--ink); padding:28px 32px; display:grid; grid-template-columns:180px 1fr; gap:24px; align-items:start;}
+  .voice-item .principle{font-family:var(--font-display); font-weight:600; font-size:18px;}
+  .voice-item .ex{font-size:14px;}
+  .voice-item .ex .say{color:var(--paper); margin-bottom:6px;}
+  .voice-item .ex .not{color:var(--muted); text-decoration:line-through;}
+  .tag{display:inline-block; font-family:var(--font-mono); font-size:10px; letter-spacing:0.08em; padding:2px 6px; border-radius:2px; margin-right:8px;}
+  .tag.say{background:rgba(79,91,255,0.15); color:var(--signal);}
+  .tag.not{background:rgba(255,90,54,0.12); color:var(--ease);}
+
+  /* APPLICATIONS */
+  .app-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+  .app-card{border:1px solid var(--line); background:var(--surface); padding:24px; aspect-ratio:16/10; display:flex; flex-direction:column; justify-content:space-between;}
+  .app-card .app-label{font-family:var(--font-mono); font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em;}
+
+  footer{padding:64px 0 96px; text-align:center;}
+  footer p{font-family:var(--font-mono); font-size:11px; color:var(--muted); letter-spacing:0.05em;}
+
+  @media(max-width:700px){
+    .essence-grid, .logo-row, .rules, .app-grid{grid-template-columns:1fr;}
+    .swatch-grid{grid-template-columns:repeat(2,1fr);}
+    .voice-item{grid-template-columns:1fr;}
+    .type-row{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">Brand Guide — v1.0</div>
+    <div class="wordmark">Mimi<span class="studios">Studios</span></div>
+    <p class="tagline">Motion design built on <b>intention, not decoration</b> — every ease curve, every frame, chosen on purpose.</p>
+
+    <div class="curve-box">
+      <div class="curve-label">
+        <span>EASE.CURVE — CUSTOM BEZIER</span>
+        <span>0.65, 0, 0.35, 1</span>
+      </div>
+      <svg class="curve" viewBox="0 0 400 180" preserveAspectRatio="none">
+        <line x1="20" y1="20" x2="20" y2="160" stroke="#2A2A2E" stroke-width="1"/>
+        <line x1="20" y1="160" x2="380" y2="160" stroke="#2A2A2E" stroke-width="1"/>
+        <path class="curve-path" d="M 20 160 C 150 160, 130 20, 380 20"/>
+        <path class="curve-active" d="M 20 160 C 150 160, 130 20, 380 20" stroke-dasharray="500" stroke-dashoffset="500">
+          <animate attributeName="stroke-dashoffset" from="500" to="0" dur="1.6s" fill="freeze" begin="0.3s"/>
+        </path>
+        <circle class="handle" cx="150" cy="160" r="4"/>
+        <circle class="handle" cx="130" cy="20" r="4"/>
+        <circle class="curve-dot" r="5">
+          <animateMotion path="M 20 160 C 150 160, 130 20, 380 20" dur="2.4s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ESSENCE -->
+  <section>
+    <div class="track">Section — Brand Essence<span class="tc">00:00:01:00</span></div>
+    <h2>What Mimi Studios stands for</h2>
+    <p class="lede">The essence guides every decision — from which client to take on to which typeface goes on a thumbnail.</p>
+    <div class="essence-grid">
+      <div class="essence-card">
+        <div class="k">Positioning</div>
+        <p>A motion design practice for founders and brands who need their product or story to move — literally — with the same craft as a big studio, at independent speed.</p>
+      </div>
+      <div class="essence-card">
+        <div class="k">Who it's for</div>
+        <p>SaaS founders, app teams, and brands who need explainer motion, product demos, and social-native animation that doesn't look templated.</p>
+      </div>
+      <div class="essence-card">
+        <div class="k">Personality</div>
+        <p>Precise, quietly confident, technically fluent. Talks like a craftsperson, not a salesperson.</p>
+      </div>
+      <div class="essence-card">
+        <div class="k">Not this</div>
+        <p>Not a stock-template shop. Not loud for the sake of it. Not vague about process or pricing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGO -->
+  <section>
+    <div class="track">Section — Logo System<span class="tc">00:00:02:00</span></div>
+    <h2>The mark</h2>
+    <p class="lede">A keyframe diamond — the exact marker used to set a value on a timeline — as the icon. It's the single most honest symbol of the craft: a decision, made at a specific point in time.</p>
+
+    <div class="logo-row">
+      <div>
+        <div class="logo-panel">
+          <div class="mark">
+            <svg viewBox="0 0 56 56"><rect x="8" y="8" width="40" height="40" fill="#4F5BFF" transform="rotate(45 28 28)"/></svg>
+            <div class="mark-word">Mimi Studios</div>
+          </div>
+        </div>
+        <div class="logo-caption">Primary lockup — light on dark</div>
+      </div>
+      <div>
+        <div class="logo-panel dark" style="background:var(--paper);">
+          <div class="mark" style="color:var(--ink);">
+            <svg viewBox="0 0 56 56"><rect x="8" y="8" width="40" height="40" fill="#0D0D10" transform="rotate(45 28 28)"/></svg>
+            <div class="mark-word">Mimi Studios</div>
+          </div>
+        </div>
+        <div class="logo-caption">Reversed — dark on light</div>
+      </div>
+    </div>
+
+    <div class="logo-panel" style="padding:48px;">
+      <svg viewBox="0 0 80 80" style="width:80px; height:80px;"><rect x="12" y="12" width="56" height="56" fill="#4F5BFF" transform="rotate(45 40 40)"/><rect x="30" y="30" width="20" height="20" fill="#0D0D10" transform="rotate(45 40 40)"/></svg>
+    </div>
+    <div class="logo-caption">Icon-only mark — favicon, social avatar, app icon</div>
+
+    <div class="rules">
+      <div class="rule-card yes">
+        <div class="mini-logo">Mimi Studios</div>
+        <div class="status">Correct</div>
+        <p>Keyframe icon in signal blue, clear space equal to the diamond's height on all sides, wordmark in Space Grotesk 700.</p>
+      </div>
+      <div class="rule-card no">
+        <div class="mini-logo" style="color:var(--ease); font-style:italic;">Mimi Studios</div>
+        <div class="status">Avoid</div>
+        <p>No italics, no drop shadows, no recoloring the mark outside signal blue / ink / paper.</p>
+      </div>
+      <div class="rule-card no">
+        <div class="mini-logo" style="letter-spacing:0.15em; font-size:14px;">M I M I  S T U D I O S</div>
+        <div class="status">Avoid</div>
+        <p>Don't stretch, condense, or letter-space the wordmark — set once, used consistently.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLOR -->
+  <section>
+    <div class="track">Section — Color<span class="tc">00:00:03:00</span></div>
+    <h2>Palette</h2>
+    <p class="lede">Near-black and warm paper carry the brand. Signal blue is the one accent used with intent — for the mark, links, and active states. Ease orange appears only at moments of emphasis, echoing a timeline's time marker.</p>
+    <div class="swatch-grid">
+      <div class="swatch">
+        <div class="swatch-block" style="background:#0D0D10;"></div>
+        <div class="swatch-info"><div class="name">Ink</div><div class="hex">#0D0D10</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background:#161619;"></div>
+        <div class="swatch-info"><div class="name">Surface</div><div class="hex">#161619</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background:#F4F3EF;"></div>
+        <div class="swatch-info"><div class="name">Paper</div><div class="hex">#F4F3EF</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background:#4F5BFF;"></div>
+        <div class="swatch-info"><div class="name">Signal</div><div class="hex">#4F5BFF</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background:#FF5A36;"></div>
+        <div class="swatch-info"><div class="name">Ease</div><div class="hex">#FF5A36</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPE -->
+  <section>
+    <div class="track">Section — Typography<span class="tc">00:00:04:00</span></div>
+    <h2>Type system</h2>
+    <p class="lede">Space Grotesk for anything that needs presence — headlines, the wordmark, big numbers. Inter for reading. JetBrains Mono for anything technical — timecodes, hex values, specs.</p>
+
+    <div class="type-row">
+      <div class="type-meta">Display / Space Grotesk 600</div>
+      <div class="type-sample"><div class="display-sample">Motion with intent</div></div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">Body / Inter 400–500</div>
+      <div class="type-sample"><p class="body-sample">Used for proposals, case studies, and anything a client reads start to finish. Set at 16–18px with generous line height.</p></div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">Mono / JetBrains Mono</div>
+      <div class="type-sample"><div class="mono-sample">00:00:12:04 — EASE(0.65, 0, 0.35, 1)</div></div>
+    </div>
+  </section>
+
+  <!-- VOICE -->
+  <section>
+    <div class="track">Section — Voice<span class="tc">00:00:05:00</span></div>
+    <h2>How Mimi Studios talks</h2>
+    <p class="lede">Four principles that apply to captions, proposals, and DMs alike.</p>
+    <div class="voice-list">
+      <div class="voice-item">
+        <div class="principle">Be specific</div>
+        <div class="ex">
+          <div class="say"><span class="tag say">SAY</span>"Cut load-perceived time with a 400ms skeleton-to-content transition."</div>
+          <div class="not"><span class="tag not">NOT</span>"Made the app feel faster."</div>
+        </div>
+      </div>
+      <div class="voice-item">
+        <div class="principle">Own the craft language</div>
+        <div class="ex">
+          <div class="say"><span class="tag say">SAY</span>"Custom ease curve, no default easing."</div>
+          <div class="not"><span class="tag not">NOT</span>"Smooth animations!"</div>
+        </div>
+      </div>
+      <div class="voice-item">
+        <div class="principle">Confident, not salesy</div>
+        <div class="ex">
+          <div class="say"><span class="tag say">SAY</span>"Here's the direction — happy to walk through the reasoning."</div>
+          <div class="not"><span class="tag not">NOT</span>"I think you'll LOVE this!! 🔥🔥"</div>
+        </div>
+      </div>
+      <div class="voice-item">
+        <div class="principle">Short sentences, real nouns</div>
+        <div class="ex">
+          <div class="say"><span class="tag say">SAY</span>"Delivery: Friday. Two rounds of revisions included."</div>
+          <div class="not"><span class="tag not">NOT</span>"We aim to deliver in a timely manner pending feedback."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPLICATIONS -->
+  <section>
+    <div class="track">Section — Applications<span class="tc">00:00:06:00</span></div>
+    <h2>Where it shows up</h2>
+    <div class="app-grid">
+      <div class="app-card">
+        <div class="app-label">Social avatar</div>
+        <svg viewBox="0 0 80 80" style="width:64px; height:64px; align-self:center; margin:auto;"><rect x="12" y="12" width="56" height="56" fill="#4F5BFF" transform="rotate(45 40 40)"/></svg>
+        <div class="app-label" style="text-align:right;">1:1</div>
+      </div>
+      <div class="app-card">
+        <div class="app-label">Video outro card</div>
+        <div style="font-family:var(--font-display); font-weight:700; font-size:24px; align-self:center; margin:auto;">Mimi Studios</div>
+        <div class="app-label" style="text-align:right;">16:9</div>
+      </div>
+      <div class="app-card">
+        <div class="app-label">Invoice / doc header</div>
+        <div class="mark" style="align-self:flex-start;"><svg viewBox="0 0 56 56" style="width:24px; height:24px;"><rect x="8" y="8" width="40" height="40" fill="#4F5BFF" transform="rotate(45 28 28)"/></svg><div class="mark-word" style="font-size:16px;">Mimi Studios</div></div>
+        <div class="app-label">A4 header</div>
+      </div>
+      <div class="app-card">
+        <div class="app-label">Reel watermark</div>
+        <div class="mono-sample" style="align-self:flex-end; margin-top:auto; font-size:12px;">mimistudios</div>
+        <div class="app-label" style="text-align:right;">Corner-safe</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>MIMI STUDIOS — BRAND GUIDE — V1.0 — AUGUST 2026</p>
+  </footer>
+
+</div>
+</body>
+</html>

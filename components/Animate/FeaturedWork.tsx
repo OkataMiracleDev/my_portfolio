@@ -52,7 +52,7 @@ function NavButton({
       type="button"
       onClick={onClick}
       aria-label={direction === "next" ? "Next project" : "Previous project"}
-      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-base/15 text-base/60 transition-all duration-200 ease-out hover:border-base/30 hover:text-base active:scale-95"
+      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-ink/15 text-ink/60 transition-all duration-200 ease-out hover:border-ink/30 hover:text-ink active:scale-95"
     >
       <svg
         width="16"
@@ -239,25 +239,25 @@ export default function FeaturedWork({
       <div className="relative mx-auto max-w-6xl">
         <div className="mb-14 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="mb-4 flex items-center gap-3 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-base/45">
+            <p className="mb-4 flex items-center gap-3 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-ink/45">
               <span>Selected motion</span>
               {total > 0 && (
                 <>
-                  <span aria-hidden="true" className="h-px w-8 bg-base/20" />
+                  <span aria-hidden="true" className="h-px w-8 bg-ink/20" />
                   <span>{String(total).padStart(2, "0")} reels</span>
                 </>
               )}
             </p>
-            <h2 className="font-[family-name:var(--font-cabinet-grotesk)] text-5xl font-bold leading-[0.9] text-base md:text-7xl">
+            <h2 className="font-[family-name:var(--font-cabinet-grotesk)] text-5xl font-bold leading-[0.9] text-ink md:text-7xl">
               Featured{" "}
-              <span className="font-[family-name:var(--font-accent-script)] italic text-accent-animate">
+              <span className="text-accent-animate">
                 work.
               </span>
             </h2>
           </div>
           <Link
             href="/animate/projects"
-            className="w-fit rounded-pill border border-base/20 px-5 py-2.5 text-sm font-medium text-base/80 transition-colors duration-200 ease-out hover:bg-base/10"
+            className="w-fit rounded-pill border border-ink/20 px-5 py-2.5 text-sm font-medium text-ink/80 transition-colors duration-200 ease-out hover:bg-ink/10"
           >
             View all
           </Link>
@@ -315,7 +315,7 @@ export default function FeaturedWork({
                   onKeyDown={handleTrackKeyDown}
                   className="relative h-6 flex-1 cursor-pointer touch-none outline-none"
                 >
-                  <div className="absolute top-1/2 h-[3px] w-full -translate-y-1/2 rounded-pill bg-base/15">
+                  <div className="absolute top-1/2 h-[3px] w-full -translate-y-1/2 rounded-pill bg-ink/15">
                     <motion.div
                       className="h-full rounded-pill bg-accent-animate"
                       animate={{ width: `${((activeIndex + 1) / total) * 100}%` }}
@@ -334,16 +334,16 @@ export default function FeaturedWork({
 
                 <NavButton direction="next" onClick={() => goTo(activeIndex + 1)} />
 
-                <p className="font-[family-name:var(--font-jetbrains-mono)] text-xs tabular-nums text-base/50">
+                <p className="font-[family-name:var(--font-jetbrains-mono)] text-xs tabular-nums text-ink/50">
                   {String(activeIndex + 1).padStart(2, "0")}
-                  <span className="text-base/25"> / </span>
+                  <span className="text-ink/25"> / </span>
                   {String(total).padStart(2, "0")}
                 </p>
               </div>
             )}
           </div>
         ) : (
-          <p className="text-base/60">No motion projects published yet.</p>
+          <p className="text-ink/60">No motion projects published yet.</p>
         )}
 
         <div

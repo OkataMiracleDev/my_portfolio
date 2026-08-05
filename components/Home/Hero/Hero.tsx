@@ -42,24 +42,24 @@ const Hero = () => {
               ref={subtitleRef}
               className="text-sm uppercase tracking-[0.3em] font-[family-name:var(--font-jetbrains-mono)] text-accent-build"
             >
-              Frontend Developer
+              Frontend Development
             </p>
             <h1
               ref={nameRef}
               className="font-[family-name:var(--font-cabinet-grotesk)] text-6xl md:text-8xl font-bold leading-[0.95] tracking-tight text-ink"
             >
-              <span className="inline-block">OKATA</span>
+              <span className="inline-block">MIMI</span>
               <br />
-              <span className="inline-block">MIRACLE</span>
+              <span className="inline-block">STUDIOS</span>
             </h1>
           </div>
 
           <p ref={descRef} className="max-w-lg text-lg text-ink/70">
-            I craft premium,{" "}
-            <span className="font-[family-name:var(--font-accent-script)] italic text-accent-build">
-              interactive
-            </span>{" "}
-            web experiences that blend bold design with smooth animations. Specializing in GSAP, React, and creating sites that leave an impression.
+            Interfaces built on{" "}
+            <span className="text-accent-build">
+              intention
+            </span>
+            , not decoration — precise interactions, deliberate motion, and code that holds up. Specializing in GSAP, React, and Next.js.
           </p>
 
           <button

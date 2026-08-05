@@ -9,16 +9,24 @@ export default async function TestimonialsAdminPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
           Testimonials
         </h1>
-        <Link
-          href="/admin/testimonials/new"
-          className="rounded-pill bg-accent-build px-5 py-2.5 text-sm font-semibold text-ink"
-        >
-          + New
-        </Link>
+        <div className="flex gap-3">
+          <Link
+            href="/admin/testimonials/submissions"
+            className="rounded-pill border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink hover:bg-ink/5"
+          >
+            Submissions
+          </Link>
+          <Link
+            href="/admin/testimonials/new"
+            className="rounded-pill bg-accent-build px-5 py-2.5 text-sm font-semibold text-ink"
+          >
+            + New
+          </Link>
+        </div>
       </div>
       {items.length === 0 ? (
         <p className="text-ink/50">No testimonials yet.</p>

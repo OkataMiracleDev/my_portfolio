@@ -1,15 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  /* Light-minimal identity tokens (spec §6). */
-  --color-ink: oklch(21% 0.015 55);
-  --color-base: oklch(97% 0.01 55);
-  --color-base-raised: oklch(99% 0.006 55);
-  --color-accent-build: oklch(64% 0.19 45);
-  --color-accent-animate: oklch(58% 0.24 300);
-  --color-accent-landing: oklch(62% 0.15 150);
-  --color-band-dark: oklch(16% 0.02 300);
-  --color-nav-dark: oklch(18% 0.02 55);
+  /* Mimi Studios brand tokens (rebrand from the old light-minimal identity).
+     "ink"/"base" keep their semantic ROLES from before — base = page
+     background, ink = foreground text — but now point to dark values
+     instead of light ones, since the new brand is dark-primary. Every
+     component already themed via these token names re-skins automatically;
+     nothing below is a per-component change. */
+  --color-ink: #f4f3ef; /* paper — foreground text on the dark base */
+  --color-base: #0d0d10; /* ink — primary background */
+  --color-base-raised: #161619; /* surface — raised cards */
+  --color-accent-build: #4f5bff; /* signal — one accent, used everywhere */
+  --color-accent-animate: #4f5bff;
+  --color-accent-landing: #4f5bff;
+  --color-band-dark: #1e1e22; /* surface2 — deepest contrast band */
+  --color-nav-dark: #1e1e22;
+  --color-ease: #ff5a36; /* sparse emphasis only, never a primary accent */
 
   --radius-card: 1.25rem;
   --radius-pill: 999px;
@@ -35,13 +41,12 @@
 }
 
 html {
-  /* This site is light-only (no dark theme exists for the new identity —
-     spec §3 treats dark mode as a non-goal). Without this, browsers that
-     auto-apply a dark-mode heuristic to web content (e.g. Edge/Chrome's
-     "force dark mode for web content") selectively repaint flat-color
-     icons/text on light backgrounds, making them look washed out/illegible
-     while photos and highly-saturated brand colors are left alone. */
-  color-scheme: light;
+  /* Mimi Studios is dark-primary by design (no light theme exists). Without
+     this, browsers that auto-apply a dark-mode heuristic to web content
+     (e.g. Edge/Chrome's "force dark mode for web content") can still
+     selectively repaint form controls/scrollbars incorrectly against an
+     already-dark page. */
+  color-scheme: dark;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -81,10 +86,12 @@ body {
    prefers-reduced-motion in the component itself. */
 @keyframes playground-orbit {
   from {
-    transform: translate(-50%, -50%) rotateY(0deg) translateZ(20px) rotateY(0deg);
+    transform: translate(-50%, -50%) rotateY(0deg) translateZ(20px)
+      rotateY(0deg);
   }
   to {
-    transform: translate(-50%, -50%) rotateY(360deg) translateZ(20px) rotateY(-360deg);
+    transform: translate(-50%, -50%) rotateY(360deg) translateZ(20px)
+      rotateY(-360deg);
   }
 }
 
@@ -97,7 +104,7 @@ body {
 
 /* Selection */
 ::selection {
-  background: oklch(21% 0.015 55 / 0.15);
+  background: color-mix(in oklab, var(--color-accent-build) 35%, transparent);
   color: var(--color-ink);
 }
 
@@ -111,12 +118,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: oklch(21% 0.015 55 / 0.25);
+  background: color-mix(in oklab, var(--color-ink) 25%, transparent);
   border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: oklch(21% 0.015 55 / 0.4);
+  background: color-mix(in oklab, var(--color-ink) 40%, transparent);
 }
 
 /* Reduced Motion */

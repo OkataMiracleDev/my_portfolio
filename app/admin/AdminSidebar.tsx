@@ -7,6 +7,8 @@ import { logout } from "./actions";
 const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/analytics", label: "Analytics" },
+  { href: "/admin/clients", label: "Clients" },
+  { href: "/admin/rate-cards", label: "Rate Cards" },
   { href: "/admin/projects/dev", label: "Dev Projects" },
   { href: "/admin/projects/animate", label: "Motion Projects" },
   { href: "/admin/resources", label: "Resources" },

@@ -14,10 +14,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resource = await getResourceBySlug(slug);
 
   if (!resource) {
-    return { title: "Resource not found | Okata Miracle" };
+    return { title: "Resource not found | Mimi Studios" };
   }
 
-  const title = `${resource.title} | Okata Miracle`;
+  const title = `${resource.title} | Mimi Studios`;
   const url = `https://www.okata-miracle.site/animate/resources/${resource.slug}`;
 
   return {

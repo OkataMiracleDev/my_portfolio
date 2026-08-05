@@ -15,11 +15,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const total = devMatches.length + motionMatches.length + resourceMatches.length;
 
   if (total === 0) {
-    return { title: "Not found | Okata Miracle" };
+    return { title: "Not found | Mimi Studios" };
   }
 
-  const title = `${label} — Frontend Dev & Motion Design Work | Okata Miracle`;
-  const description = `Frontend development and motion design work tagged "${label}" by Okata Miracle — projects, reels, and resources.`;
+  const title = `${label} — Frontend Dev & Motion Design Work | Mimi Studios`;
+  const description = `Frontend development and motion design work tagged "${label}" by Mimi Studios — projects, reels, and resources.`;
 
   return {
     title,
@@ -39,7 +39,7 @@ export default async function TagPage({ params }: Props) {
   const collectionJsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: `${label} — Okata Miracle`,
+    name: `${label} — Mimi Studios`,
     description: `Frontend development and motion design work tagged "${label}".`,
     url: `https://www.okata-miracle.site/tags/${tag}`,
   };

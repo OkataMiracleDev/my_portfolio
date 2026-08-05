@@ -10,7 +10,7 @@ export default function PlaygroundToggle() {
     <button
       role="switch"
       aria-checked={checked}
-      aria-label="Demo toggle - for fun, no data is saved"
+      aria-label="Toggle demo — decorative, not wired to any action"
       onClick={() => setChecked((current) => !current)}
       className={`relative h-8 w-14 shrink-0 overflow-hidden rounded-pill border transition-colors duration-200 ease-out ${
         checked ? "border-transparent bg-accent-animate" : "border-ink/10 bg-ink/10"

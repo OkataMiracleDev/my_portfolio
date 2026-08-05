@@ -4,7 +4,9 @@ import { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "motion/react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
-const HUES = ["oklch(58% 0.24 300)", "oklch(62% 0.20 260)", "oklch(60% 0.22 330)", "oklch(64% 0.18 220)"];
+// Signal blue → ease orange sweep — the dial only ever cycles through the
+// brand's own two accents, nothing arbitrary.
+const HUES = ["oklch(58% 0.24 264)", "oklch(60% 0.22 300)", "oklch(63% 0.21 340)", "oklch(66% 0.19 35)"];
 
 export default function PlaygroundColorDial() {
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -47,14 +49,14 @@ export default function PlaygroundColorDial() {
         onPointerUp={stopDragging}
         onPointerLeave={stopDragging}
         role="img"
-        aria-label="Demo color dial - for fun, no data is saved"
-        className="relative h-14 w-14 shrink-0 touch-none cursor-grab rounded-full border-2 border-base/20 bg-band-dark active:cursor-grabbing"
+        aria-label="Color dial demo — decorative, not wired to any action"
+        className="relative h-14 w-14 shrink-0 touch-none cursor-grab rounded-full border-2 border-ink/20 bg-band-dark active:cursor-grabbing"
       >
         <motion.div
           style={{ rotate: prefersReducedMotion ? 0 : springRotate }}
           className="absolute inset-0"
         >
-          <span className="absolute left-1/2 top-1.5 h-3.5 w-1 -translate-x-1/2 rounded-full bg-base/50" />
+          <span className="absolute left-1/2 top-1.5 h-3.5 w-1 -translate-x-1/2 rounded-full bg-ink/50" />
         </motion.div>
       </div>
       <span

@@ -5,13 +5,13 @@ import { getResources } from "@/lib/data/public";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Free Motion Design Resources | Okata Miracle",
+  title: "Free Motion Design Resources | Mimi Studios",
   description: "Free downloads, tutorials, and tool recommendations for motion designers.",
   openGraph: {
-    title: "Free Motion Design Resources | Okata Miracle",
+    title: "Free Motion Design Resources | Mimi Studios",
     description: "Free downloads, tutorials, and tool recommendations for motion designers.",
     url: "https://www.okata-miracle.site/animate/resources",
-    siteName: "Okata Miracle",
+    siteName: "Mimi Studios",
     type: "website",
   },
   alternates: {

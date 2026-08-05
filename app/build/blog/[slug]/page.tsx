@@ -11,9 +11,9 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
-  if (!post) return { title: "Post not found | Okata Miracle" };
+  if (!post) return { title: "Post not found | Mimi Studios" };
 
-  const title = `${post.title} | Okata Miracle`;
+  const title = `${post.title} | Mimi Studios`;
   const description = post.excerpt ?? undefined;
   const url = `https://www.okata-miracle.site/build/blog/${post.slug}`;
 

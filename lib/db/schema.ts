@@ -1,5 +1,6 @@
 import { sqliteTable, text, integer, uniqueIndex } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
+import crypto from "node:crypto";
 
 // libSQL/SQLite has no UUID-generating default and no array/boolean column
 // types (spec §4's Postgres sketch used both) — ids are generated in
@@ -157,3 +158,78 @@ export const siteVisits = sqliteTable(
   },
   (table) => [uniqueIndex("site_visits_unique_visit").on(table.visitDate, table.route, table.ipHash)]
 );
+
+// --- Client pipeline / CRM ---------------------------------------------
+// Kept deliberately simple (a single flat `stage` column, not a separate
+// stage-history table) — this is a one-person studio tracking a handful of
+// active clients at a time, not a sales team needing audit trails.
+
+// shareToken is a separate, unguessable value from `id` specifically so the
+// public portal link (/portal/[token]) never exposes or depends on the
+// internal record id, and can be rotated independently if it ever leaks.
+export const clients = sqliteTable("clients", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  name: text("name").notNull(),
+  email: text("email"),
+  company: text("company"),
+  stage: text("stage", {
+    enum: ["lead", "conversation", "meeting", "proposal_sent", "deposit_paid", "in_progress", "completed", "lost"],
+  })
+    .notNull()
+    .default("lead"),
+  notes: text("notes"), // internal only — never rendered on the public portal
+  shareToken: text("share_token")
+    .notNull()
+    .unique()
+    .$defaultFn(() => crypto.randomBytes(16).toString("hex")),
+  sortOrder: integer("sort_order").notNull().default(0),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+});
+
+// Manually-posted progress entries shown on a client's public portal —
+// text plus optional images (Vercel Blob URLs, same as everywhere else)
+// and an optional video embed. No FK cascade relied on at the DB level;
+// lib/actions/clients.ts deletes these explicitly when a client is deleted.
+export const clientUpdates = sqliteTable("client_updates", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  clientId: text("client_id").notNull(),
+  title: text("title").notNull(),
+  body: text("body"),
+  images: text("images", { mode: "json" }).$type<string[]>().notNull().default(sql`'[]'`),
+  videoEmbedUrl: text("video_embed_url"),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+});
+
+// clientId null = a reusable generic/template rate card (e.g. the public
+// /animate/rates page could eventually read from here); non-null = a
+// bespoke card generated for one client, viewable on their portal.
+export const rateCards = sqliteTable("rate_cards", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  clientId: text("client_id"),
+  title: text("title").notNull(),
+  lineItems: text("line_items", { mode: "json" })
+    .$type<{ title: string; description: string; price: string; unit: string }[]>()
+    .notNull()
+    .default(sql`'[]'`),
+  notes: text("notes"),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+});
+
+// Raw incoming submissions from the public /animate/testimonial form —
+// curated/edited in admin before promoting a subset into `testimonials`,
+// the table that actually renders on the site.
+export const testimonialSubmissions = sqliteTable("testimonial_submissions", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  name: text("name").notNull(),
+  company: text("company"),
+  project: text("project"),
+  problem: text("problem"),
+  process: text("process"),
+  result: text("result"),
+  quote: text("quote"),
+  consent: integer("consent", { mode: "boolean" }).notNull().default(false),
+  status: text("status", { enum: ["new", "promoted", "archived"] }).notNull().default("new"),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+});

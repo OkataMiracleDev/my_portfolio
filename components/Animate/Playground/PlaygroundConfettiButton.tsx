@@ -44,10 +44,10 @@ export default function PlaygroundConfettiButton() {
       <button
         type="button"
         onClick={handleClick}
-        aria-label="Demo celebration button - for fun, no data is saved"
+        aria-label="Particle burst demo — decorative, not wired to any action"
         className="rounded-pill bg-ink px-5 py-2.5 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.08em] text-base transition-transform duration-200 ease-out hover:scale-105 active:scale-95"
       >
-        Push for confetti
+        Trigger particles
       </button>
     </div>
   );

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mimi Studios — Design Language</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0D0D10; --surface:#161619; --surface2:#1E1E22;
+    --paper:#F4F3EF; --muted:#8B8A91; --line:#2A2A2E;
+    --signal:#4F5BFF; --signal-dark:#3542D6; --ease:#FF5A36;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--ink); color:var(--paper); font-family:var(--font-body); line-height:1.6; -webkit-font-smoothing:antialiased;}
+  ::selection{background:var(--signal); color:var(--paper);}
+  .wrap{max-width:920px; margin:0 auto; padding:0 32px;}
+
+  .track{display:flex; align-items:center; gap:14px; font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; color:var(--muted); text-transform:uppercase; margin-bottom:28px;}
+  .track::before{content:''; width:8px; height:8px; background:var(--ease); transform:rotate(45deg); flex-shrink:0;}
+  .track .tc{color:var(--signal); margin-left:auto;}
+
+  section{padding:88px 0; border-bottom:1px solid var(--line);}
+  section:last-child{border-bottom:none;}
+
+  .hero{padding-top:72px; padding-bottom:64px;}
+  .eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; margin-bottom:24px;}
+  .titlewrap{display:flex; align-items:center; gap:24px; flex-wrap:wrap;}
+  .titlewrap svg{width:80px; height:80px; flex-shrink:0;}
+  h1{font-family:var(--font-display); font-weight:700; font-size:clamp(40px, 7vw, 64px); line-height:1; letter-spacing:-0.01em;}
+  .tagline{font-size:18px; color:var(--muted); max-width:560px; margin-top:24px;}
+
+  h2{font-family:var(--font-display); font-weight:600; font-size:clamp(26px, 4vw, 36px); letter-spacing:-0.01em; margin-bottom:16px;}
+  .lede{color:var(--muted); font-size:16px; max-width:600px; margin-bottom:48px;}
+
+  /* LOGO */
+  .logo-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:32px;}
+  .logo-cell{background:var(--ink); padding:48px 24px; display:flex; flex-direction:column; align-items:center; gap:16px;}
+  .logo-cell.light{background:var(--paper);}
+  .logo-cell svg{width:90px; height:90px;}
+  .logo-cell .use{font-family:var(--font-mono); font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; text-align:center;}
+
+  .clearspace{display:flex; justify-content:center; margin:40px 0;}
+  .cs-box{border:1px dashed var(--line); padding:36px; position:relative;}
+  .cs-box svg{width:80px; height:80px;}
+  .cs-label{position:absolute; font-family:var(--font-mono); font-size:9px; color:var(--ease); text-transform:uppercase;}
+
+  .rules{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .rule-card{border:1px solid var(--line); padding:20px;}
+  .rule-card .status{font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; margin-bottom:10px; text-transform:uppercase;}
+  .rule-card.no .status{color:var(--ease);}
+  .rule-card.yes .status{color:var(--signal);}
+  .rule-card p{font-size:13px; color:var(--muted);}
+  .mini{height:44px; margin-bottom:14px; display:flex; align-items:center;}
+  .mini svg{height:36px;}
+
+  /* COLOR */
+  .swatch-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:16px;}
+  .swatch{border:1px solid var(--line);}
+  .swatch-block{height:110px;}
+  .swatch-info{padding:14px 12px; font-family:var(--font-mono); background:var(--surface);}
+  .swatch-info .name{font-size:12px; color:var(--paper); margin-bottom:4px; font-family:var(--font-body); font-weight:600;}
+  .swatch-info .hex{font-size:11px; color:var(--muted);}
+  .swatch-note{font-size:13px; color:var(--muted); margin-top:8px;}
+  .usage-bar{display:flex; height:14px; border-radius:2px; overflow:hidden; margin:24px 0 8px;}
+  .usage-bar div{height:100%;}
+  .usage-legend{display:flex; gap:24px; font-family:var(--font-mono); font-size:11px; color:var(--muted); flex-wrap:wrap;}
+  .usage-legend span{display:flex; align-items:center; gap:6px;}
+  .usage-legend i{width:8px; height:8px; display:inline-block;}
+
+  /* TYPE */
+  .type-row{padding:28px 0; border-top:1px solid var(--line); display:flex; align-items:baseline; justify-content:space-between; gap:24px; flex-wrap:wrap;}
+  .type-row:last-child{border-bottom:1px solid var(--line);}
+  .type-meta{font-family:var(--font-mono); font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; min-width:170px;}
+  .type-sample{flex:1; min-width:220px;}
+  .display-sample{font-family:var(--font-display); font-weight:600; font-size:40px; letter-spacing:-0.01em;}
+  .body-sample{font-family:var(--font-body); font-size:17px; color:var(--paper); max-width:480px;}
+  .mono-sample{font-family:var(--font-mono); font-size:15px; color:var(--signal);}
+  .scale{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:24px;}
+  .scale-item{border:1px solid var(--line); padding:16px;}
+  .scale-item .sz{font-family:var(--font-mono); font-size:11px; color:var(--muted); margin-bottom:8px;}
+
+  /* VOICE */
+  .voice-list{display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line);}
+  .voice-item{background:var(--ink); padding:24px 28px; display:grid; grid-template-columns:160px 1fr; gap:24px; align-items:start;}
+  .voice-item .principle{font-family:var(--font-display); font-weight:600; font-size:17px;}
+  .voice-item .ex{font-size:14px;}
+  .voice-item .ex .say{color:var(--paper); margin-bottom:6px;}
+  .voice-item .ex .not{color:var(--muted); text-decoration:line-through;}
+  .tag{display:inline-block; font-family:var(--font-mono); font-size:10px; letter-spacing:0.08em; padding:2px 6px; border-radius:2px; margin-right:8px;}
+  .tag.say{background:rgba(79,91,255,0.15); color:var(--signal);}
+  .tag.not{background:rgba(255,90,54,0.12); color:var(--ease);}
+
+  /* SPACING/GRID */
+  .grid-demo{display:flex; gap:8px; margin-bottom:16px;}
+  .grid-demo div{height:40px; flex:1; background:var(--surface2); border:1px solid var(--line);}
+  .spacing-scale{display:flex; align-items:flex-end; gap:12px; margin-top:24px;}
+  .sp{background:var(--signal); }
+  .sp-label{font-family:var(--font-mono); font-size:10px; color:var(--muted); text-align:center; margin-top:6px;}
+
+  footer{padding:56px 0 96px; text-align:center;}
+  footer p{font-family:var(--font-mono); font-size:11px; color:var(--muted); letter-spacing:0.05em;}
+
+  @media(max-width:700px){
+    .logo-grid, .rules, .swatch-grid, .scale{grid-template-columns:1fr;}
+    .voice-item{grid-template-columns:1fr;}
+    .type-row{flex-direction:column; align-items:flex-start;}
+  }
+
+  /* logo path reused throughout */
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">Design Language — v2.0</div>
+    <div class="titlewrap">
+      <svg viewBox="0 0 100 100">
+        <path d="M12 88 C 12 70, 20 40, 30 16 C 34 8, 40 8, 44 18 L 50 46 L 56 18 C 60 8, 66 8, 70 16 C 80 40, 88 70, 88 88" fill="none" stroke="#3542D6" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" transform="translate(2,3)"/>
+        <path d="M12 88 C 12 70, 20 40, 30 16 C 34 8, 40 8, 44 18 L 50 46 L 56 18 C 60 8, 66 8, 70 16 C 80 40, 88 70, 88 88" fill="none" stroke="#4F5BFF" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h1>Mimi Studios</h1>
+    </div>
+    <p class="tagline">The complete system — logo, color, type, voice, and spacing — for every asset that carries the Mimi Studios name.</p>
+  </section>
+
+  <!-- LOGO -->
+  <section>
+    <div class="track">Section — Logo<span class="tc">00:00:01:00</span></div>
+    <h2>The mark</h2>
+    <p class="lede">A bottom-anchored M — two strokes rising to peaks, dipping to a valley in the middle. Three approved colorways, each layered in two values for depth.</p>
+
+    <div class="logo-grid">
+      <div class="logo-cell">
+        <svg viewBox="0 0 100 100">
+          <path d="M12 88 C 12 70, 20 40, 30 16 C 34 8, 40 8, 44 18 L 50 46 L 56 18 C 60 8, 66 8, 70 16 C 80 40, 88 70, 88 88" fill="none" stroke="#3542D6" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" transform="translate(2,3)"/>
+          <path d="M12 88 C 12 70, 20 40, 30 16 C 34 8, 40 8, 44 18 L 50 46 L 56 18 C 60 8, 66 8, 70 16 C 80 40, 88 70, 88 88" fill="none" stroke="#4F5BFF" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="use">Primary — signal only</div>
+      </div>
+      <div class="logo-cell">
+        <svg viewBox="0 0 100 100">
+          <path d="M12 88 C 12 70, 20 40, 30 16 C 34 8, 40 8, 44 18 L 50 46 L 56 18 C 60 8, 66 8, 70 16 C 80 40, 88 70, 88 88" fill="none" stroke="#FF5A36" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" transform="translate(2,3)"/>
+          <path d="M12 88 C 12 70, 20 40, 30 16 C 34 8, 40 8, 44 18 L 50 46 L 56 18 C 60 8, 66 8, 70 16 C 80 40, 88 70, 88 88" fill="none" stroke="#4F5BFF" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="use">Featured — signal + ease</div>
+      </div>
+      <div class="logo-cell light">
+        <svg viewBox="0 0 100 100">
+          <path d="M12 88 C 12 70, 20 40, 30 16 C 34 8, 40 8, 44 18 L 50 46 L 56 18 C 60 8, 66 8, 70 16 C 80 40, 88 70, 88 88" fill="none" stroke="#0D0D10" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" transform="translate(2,3)"/>
+          <path d="M12 88 C 12 70, 20 40, 30 16 C 34 8, 40 8, 44 18 L 50 46 L 56 18 C 60 8, 66 8, 70 16 C 80 40, 88 70, 88 88" fill="none" stroke="#4F5BFF" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="use">Reversed — light bg</div>
+      </div>
+    </div>
+
+    <div class="clearspace">
+      <div class="cs-box">
+        <span class="cs-label" style="top:4px; left:50%; transform:translateX(-50%);">clear space = 1× mark height, all sides</span>
+        <svg viewBox="0 0 100 100" style="margin-top:14px;">
+          <path d="M12 88 C 12 70, 20 40, 30 16 C 34 8, 40 8, 44 18 L 50 46 L 56 18 C 60 8, 66 8, 70 16 C 80 40, 88 70, 88 88" fill="none" stroke="#3542D6" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" transform="translate(2,3)"/>
+          <path d="M12 88 C 12 70, 20 40, 30 16 C 34 8, 40 8, 44 18 L 50 46 L 56 18 C 60 8, 66 8, 70 16 C 80 40, 88 70, 88 88" fill="none" stroke="#4F5BFF" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="rules">
+      <div class="rule-card yes">
+        <div class="mini"><svg viewBox="0 0 100 100"><path d="M12 88 C 12 70, 20 40, 30 16 C 34 8, 40 8, 44 18 L 50 46 L 56 18 C 60 8, 66 8, 70 16 C 80 40, 88 70, 88 88" fill="none" stroke="#4F5BFF" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="status">Correct</div>
+        <p>One of the three approved colorways, full clear space respected, never smaller than 20px.</p>
+      </div>
+      <div class="rule-card no">
+        <div class="mini" style="filter:hue-rotate(90deg);"><svg viewBox="0 0 100 100"><path d="M12 88 C 12 70, 20 40, 30 16 C 34 8, 40 8, 44 18 L 50 46 L 56 18 C 60 8, 66 8, 70 16 C 80 40, 88 70, 88 88" fill="none" stroke="#4F5BFF" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="status">Avoid</div>
+        <p>No recoloring outside the three approved colorways — including gradients or hue shifts.</p>
+      </div>
+      <div class="rule-card no">
+        <div class="mini" style="transform:scaleX(0.5); transform-origin:left;"><svg viewBox="0 0 100 100"><path d="M12 88 C 12 70, 20 40, 30 16 C 34 8, 40 8, 44 18 L 50 46 L 56 18 C 60 8, 66 8, 70 16 C 80 40, 88 70, 88 88" fill="none" stroke="#4F5BFF" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="status">Avoid</div>
+        <p>Don't stretch or distort the proportions — scale uniformly only.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLOR -->
+  <section>
+    <div class="track">Section — Color<span class="tc">00:00:02:00</span></div>
+    <h2>Palette</h2>
+    <p class="lede">Six colors, one job each. Ink and Paper carry almost everything; Signal is the one true accent; Ease is reserved for moments of emphasis only.</p>
+
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch-block" style="background:#0D0D10;"></div><div class="swatch-info"><div class="name">Ink</div><div class="hex">#0D0D10 · rgb(13,13,16)</div></div></div>
+      <div class="swatch"><div class="swatch-block" style="background:#161619;"></div><div class="swatch-info"><div class="name">Surface</div><div class="hex">#161619 · rgb(22,22,25)</div></div></div>
+      <div class="swatch"><div class="swatch-block" style="background:#F4F3EF;"></div><div class="swatch-info"><div class="name">Paper</div><div class="hex">#F4F3EF · rgb(244,243,239)</div></div></div>
+      <div class="swatch"><div class="swatch-block" style="background:#4F5BFF;"></div><div class="swatch-info"><div class="name">Signal</div><div class="hex">#4F5BFF · rgb(79,91,255)</div></div></div>
+      <div class="swatch"><div class="swatch-block" style="background:#3542D6;"></div><div class="swatch-info"><div class="name">Signal Dark</div><div class="hex">#3542D6 · rgb(53,66,214)</div></div></div>
+      <div class="swatch"><div class="swatch-block" style="background:#FF5A36;"></div><div class="swatch-info"><div class="name">Ease</div><div class="hex">#FF5A36 · rgb(255,90,54)</div></div></div>
+    </div>
+
+    <div class="usage-bar">
+      <div style="background:#0D0D10; width:45%;"></div>
+      <div style="background:#F4F3EF; width:25%;"></div>
+      <div style="background:#4F5BFF; width:20%;"></div>
+      <div style="background:#3542D6; width:6%;"></div>
+      <div style="background:#FF5A36; width:4%;"></div>
+    </div>
+    <div class="usage-legend">
+      <span><i style="background:#0D0D10;"></i>Ink 45%</span>
+      <span><i style="background:#F4F3EF;"></i>Paper 25%</span>
+      <span><i style="background:#4F5BFF;"></i>Signal 20%</span>
+      <span><i style="background:#3542D6;"></i>Signal Dark 6%</span>
+      <span><i style="background:#FF5A36;"></i>Ease 4%</span>
+    </div>
+    <p class="swatch-note">Rough proportion for a typical asset — Ease should almost always be the smallest slice. If orange starts feeling common, that's the signal to pull back.</p>
+  </section>
+
+  <!-- TYPE -->
+  <section>
+    <div class="track">Section — Typography<span class="tc">00:00:03:00</span></div>
+    <h2>Type system</h2>
+    <p class="lede">Space Grotesk for presence, Inter for reading, JetBrains Mono for anything technical — timecodes, hex codes, specs, status lines.</p>
+
+    <div class="type-row">
+      <div class="type-meta">Display / Space Grotesk 600–700</div>
+      <div class="type-sample"><div class="display-sample">Motion with intent</div></div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">Body / Inter 400–500</div>
+      <div class="type-sample"><p class="body-sample">Used for proposals, case studies, and site copy — anything a client reads start to finish. Set at 16–18px with generous line height (1.5–1.6).</p></div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">Mono / JetBrains Mono</div>
+      <div class="type-sample"><div class="mono-sample">00:00:12:04 — #4F5BFF — EASE(0.65,0,0.35,1)</div></div>
+    </div>
+
+    <div class="scale">
+      <div class="scale-item"><div class="sz">H1 — 56–64px / 700</div><div style="font-family:var(--font-display); font-weight:700; font-size:28px;">Aa</div></div>
+      <div class="scale-item"><div class="sz">H2 — 32–40px / 600</div><div style="font-family:var(--font-display); font-weight:600; font-size:24px;">Aa</div></div>
+      <div class="scale-item"><div class="sz">Body — 16–18px / 400</div><div style="font-family:var(--font-body); font-size:18px;">Aa</div></div>
+      <div class="scale-item"><div class="sz">Mono / label — 11–13px / 400</div><div style="font-family:var(--font-mono); font-size:13px;">Aa</div></div>
+    </div>
+  </section>
+
+  <!-- SPACING -->
+  <section>
+    <div class="track">Section — Spacing &amp; Grid<span class="tc">00:00:04:00</span></div>
+    <h2>Space</h2>
+    <p class="lede">An 8px base unit. Everything — padding, gaps, margins — should land on a multiple of 8, so layouts feel deliberate rather than eyeballed.</p>
+    <div class="spacing-scale">
+      <div><div class="sp" style="width:8px; height:8px;"></div><div class="sp-label">8</div></div>
+      <div><div class="sp" style="width:16px; height:16px;"></div><div class="sp-label">16</div></div>
+      <div><div class="sp" style="width:24px; height:24px;"></div><div class="sp-label">24</div></div>
+      <div><div class="sp" style="width:32px; height:32px;"></div><div class="sp-label">32</div></div>
+      <div><div class="sp" style="width:48px; height:48px;"></div><div class="sp-label">48</div></div>
+      <div><div class="sp" style="width:64px; height:64px;"></div><div class="sp-label">64</div></div>
+      <div><div class="sp" style="width:96px; height:96px;"></div><div class="sp-label">96</div></div>
+    </div>
+  </section>
+
+  <!-- VOICE -->
+  <section>
+    <div class="track">Section — Voice<span class="tc">00:00:05:00</span></div>
+    <h2>How it talks</h2>
+    <p class="lede">Four principles — captions, proposals, and DMs alike.</p>
+    <div class="voice-list">
+      <div class="voice-item">
+        <div class="principle">Be specific</div>
+        <div class="ex"><div class="say"><span class="tag say">SAY</span>"Cut load-perceived time with a 400ms skeleton-to-content transition."</div><div class="not"><span class="tag not">NOT</span>"Made the app feel faster."</div></div>
+      </div>
+      <div class="voice-item">
+        <div class="principle">Own the craft language</div>
+        <div class="ex"><div class="say"><span class="tag say">SAY</span>"Custom ease curve, no default easing."</div><div class="not"><span class="tag not">NOT</span>"Smooth animations!"</div></div>
+      </div>
+      <div class="voice-item">
+        <div class="principle">Confident, not salesy</div>
+        <div class="ex"><div class="say"><span class="tag say">SAY</span>"Here's the direction — happy to walk through the reasoning."</div><div class="not"><span class="tag not">NOT</span>"I think you'll LOVE this!! 🔥🔥"</div></div>
+      </div>
+      <div class="voice-item">
+        <div class="principle">Short sentences, real nouns</div>
+        <div class="ex"><div class="say"><span class="tag say">SAY</span>"Delivery: Friday. Two rounds of revisions included."</div><div class="not"><span class="tag not">NOT</span>"We aim to deliver in a timely manner pending feedback."</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>MIMI STUDIOS — DESIGN LANGUAGE — V2.0 — AUGUST 2026</p>
+  </footer>
+
+</div>
+</body>
+</html>

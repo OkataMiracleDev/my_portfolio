@@ -8,7 +8,7 @@ const Footer = () => {
       <div className='max-w-7xl mx-auto'>
         <div className='rounded-card bg-base-raised p-8 flex flex-col md:flex-row justify-between items-center gap-6'>
           <p className='text-sm text-ink/60'>
-            © 2025 Okata Miracle. All rights reserved.
+            © {new Date().getFullYear()} Mimi Studios. All rights reserved.
           </p>
 
           <div className='flex items-center gap-6'>

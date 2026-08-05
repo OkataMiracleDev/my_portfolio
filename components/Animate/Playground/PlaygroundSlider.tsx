@@ -12,7 +12,7 @@ export default function PlaygroundSlider() {
         max={100}
         value={value}
         onChange={(e) => setValue(Number(e.target.value))}
-        aria-label="Demo slider — for fun, no data is saved"
+        aria-label="Slider demo — decorative, not wired to any action"
         className="h-2 flex-1 cursor-pointer appearance-none rounded-pill bg-ink/15 accent-accent-animate"
       />
       <span className="w-8 text-right font-[family-name:var(--font-jetbrains-mono)] text-sm text-ink">

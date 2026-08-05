@@ -8,15 +8,19 @@ type Testimonial = typeof testimonials.$inferSelect;
 
 interface TestimonialFormProps {
   testimonial?: Testimonial;
+  defaultValues?: { name?: string; quote?: string; fromSubmissionId?: string };
   action: (formData: FormData) => void;
 }
 
-export default function TestimonialForm({ testimonial, action }: TestimonialFormProps) {
+export default function TestimonialForm({ testimonial, defaultValues, action }: TestimonialFormProps) {
   const [avatar, setAvatar] = useState(testimonial?.avatar ?? "");
 
   return (
     <form action={action} className="max-w-2xl space-y-5">
       <input type="hidden" name="avatar" value={avatar} />
+      {defaultValues?.fromSubmissionId && (
+        <input type="hidden" name="fromSubmissionId" value={defaultValues.fromSubmissionId} />
+      )}
 
       <div>
         <label className="mb-2 block text-sm font-medium text-ink/70">Route</label>
@@ -30,9 +34,9 @@ export default function TestimonialForm({ testimonial, action }: TestimonialForm
         </select>
       </div>
 
-      <Field label="Name" name="name" defaultValue={testimonial?.name} required />
+      <Field label="Name" name="name" defaultValue={testimonial?.name ?? defaultValues?.name} required />
       <Field label="Role (optional)" name="role" defaultValue={testimonial?.role ?? ""} />
-      <TextArea label="Quote" name="quote" defaultValue={testimonial?.quote} required />
+      <TextArea label="Quote" name="quote" defaultValue={testimonial?.quote ?? defaultValues?.quote} required />
       <UploadWidget label="Avatar" value={avatar} onChange={setAvatar} />
 
       <button

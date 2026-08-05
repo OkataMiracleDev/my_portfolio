@@ -27,7 +27,7 @@ export default function PlaygroundMagneticButton() {
   return (
     <motion.button
       type="button"
-      aria-label="Demo magnetic button - for fun, no data is saved"
+      aria-label="Magnetic button demo — decorative, not wired to any action"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onMouseDown={() => setPressed(true)}
@@ -37,7 +37,7 @@ export default function PlaygroundMagneticButton() {
         pressed ? "scale-95" : ""
       }`}
     >
-      Try me
+      Engage
     </motion.button>
   );
 }

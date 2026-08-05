@@ -6,19 +6,19 @@ import { usePlaygroundReveal } from "./Playground/PlaygroundRevealContext";
 const capabilities = [
   {
     id: "brand",
-    number: "01",
+    number: "00:00:01:00",
     title: "Brand Animation",
     description: "Logo reveals, brand videos, and motion identity systems that carry a brand's voice into movement.",
   },
   {
     id: "ui",
-    number: "02",
+    number: "00:00:02:00",
     title: "UI Micro-interactions",
     description: "The small moments that make software feel considered, from a button press to a page transition.",
   },
   {
     id: "social",
-    number: "03",
+    number: "00:00:03:00",
     title: "Social & Explainer",
     description: "Short-form video built to hold attention in the first second and explain fast after that.",
   },
@@ -46,21 +46,21 @@ export default function CapabilitiesStrip() {
               }`}
             >
               <div
-                className={`font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate md:col-span-1 ${
+                className={`whitespace-nowrap font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate md:col-span-3 ${
                   i % 2 === 1 ? "md:order-3 md:text-right" : ""
                 }`}
               >
                 {cap.number}
               </div>
               <h3
-                className={`font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold text-ink transition-colors duration-200 ease-out group-hover:text-accent-animate md:col-span-5 md:text-3xl ${
+                className={`font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold text-ink transition-colors duration-200 ease-out group-hover:text-accent-animate md:col-span-4 md:text-3xl ${
                   i % 2 === 1 ? "md:order-2" : ""
                 }`}
               >
                 {cap.title}
               </h3>
               <p
-                className={`max-w-md text-ink/65 md:col-span-6 ${
+                className={`max-w-md text-ink/65 md:col-span-5 ${
                   i % 2 === 1 ? "md:order-1 md:ml-auto" : "md:ml-auto"
                 }`}
               >
@@ -77,7 +77,7 @@ export default function CapabilitiesStrip() {
         >
           <div className="w-full max-w-sm rounded-card border border-ink/10 bg-base-raised p-5 shadow-[0_18px_48px_rgb(0_0_0_/_0.06)]">
             <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-ink/50">
-              Not wired to anything, promise
+              Decorative, not wired to any action
             </p>
             <PlaygroundSlider />
           </div>

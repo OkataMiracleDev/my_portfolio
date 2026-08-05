@@ -8,6 +8,7 @@ import {
   reorderTestimonials,
   type TestimonialInput,
 } from "@/lib/actions/testimonials";
+import { markTestimonialSubmissionStatus } from "@/lib/actions/testimonial-submissions";
 
 function parseForm(formData: FormData): TestimonialInput {
   return {
@@ -21,6 +22,12 @@ function parseForm(formData: FormData): TestimonialInput {
 
 export async function createTestimonialAction(formData: FormData) {
   await createTestimonial(parseForm(formData));
+
+  const fromSubmissionId = formData.get("fromSubmissionId") as string | null;
+  if (fromSubmissionId) {
+    await markTestimonialSubmissionStatus(fromSubmissionId, "promoted");
+  }
+
   redirect("/admin/testimonials");
 }
 

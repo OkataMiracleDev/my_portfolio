@@ -52,9 +52,12 @@ export default async function AnalyticsPage() {
               {daily.map((day) => (
                 <tr key={day.visitDate}>
                   <td className="px-6 py-3 font-medium text-ink">{day.visitDate}</td>
-                  <td className="px-6 py-3 text-accent-landing">{day.landing}</td>
-                  <td className="px-6 py-3 text-accent-build">{day.build}</td>
-                  <td className="px-6 py-3 text-accent-animate">{day.animate}</td>
+                  {/* Hardcoded (not brand tokens) so the three columns stay visually
+                      distinguishable now that /build, /animate, and / share one
+                      brand accent color. */}
+                  <td className="px-6 py-3 text-emerald-400">{day.landing}</td>
+                  <td className="px-6 py-3 text-amber-400">{day.build}</td>
+                  <td className="px-6 py-3 text-violet-400">{day.animate}</td>
                   <td className="px-6 py-3 font-semibold text-ink">{day.total}</td>
                 </tr>
               ))}

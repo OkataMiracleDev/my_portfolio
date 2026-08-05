@@ -17,10 +17,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const project = await getMotionProjectBySlug(slug);
 
   if (!project) {
-    return { title: "Project not found | Okata Miracle" };
+    return { title: "Project not found | Mimi Studios" };
   }
 
-  const title = `${project.title} | Okata Miracle`;
+  const title = `${project.title} | Mimi Studios`;
   const url = `https://www.okata-miracle.site${project.href}`;
 
   return {
@@ -85,7 +85,7 @@ const AnimateProjectPage = async ({ params }: Props) => {
           {project.videoEmbedUrl ? (
             <VideoEmbed embedUrl={project.videoEmbedUrl} title={project.title} />
           ) : (
-            <p className="absolute inset-0 flex items-center justify-center font-[family-name:var(--font-jetbrains-mono)] text-sm text-base/60">
+            <p className="absolute inset-0 flex items-center justify-center font-[family-name:var(--font-jetbrains-mono)] text-sm text-ink/60">
               Reel coming soon
             </p>
           )}

@@ -5,9 +5,9 @@ import { getAllTags } from "@/lib/data/public";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Browse by Skill & Topic | Okata Miracle",
+  title: "Browse by Skill & Topic | Mimi Studios",
   description:
-    "Browse Okata Miracle's frontend development and motion design work by skill, tool, and topic — React, Next.js, GSAP, After Effects, and more.",
+    "Browse Mimi Studios' frontend development and motion design work by skill, tool, and topic — React, Next.js, GSAP, After Effects, and more.",
   alternates: {
     canonical: "https://www.okata-miracle.site/tags",
   },

@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
-const OKATA_TEXT = "Okata";
-const MIRACLE_TEXT = "Miracle ";
-const MAKES_TEXT = "makes things.";
-const HEADING_LENGTH = OKATA_TEXT.length + MIRACLE_TEXT.length + MAKES_TEXT.length;
+const MIMI_TEXT = "Mimi";
+const STUDIOS_TEXT = "Studios ";
+const MEANS_TEXT = "means it.";
+const HEADING_LENGTH = MIMI_TEXT.length + STUDIOS_TEXT.length + MEANS_TEXT.length;
 
 function useTypewriter(length: number, enabled: boolean, speed = 45, startDelay = 300) {
   const [revealed, setRevealed] = useState(enabled ? 0 : length);
@@ -48,15 +48,15 @@ export default function LandingHero() {
   const prefersReducedMotion = usePrefersReducedMotion();
   const revealed = useTypewriter(HEADING_LENGTH, !prefersReducedMotion);
 
-  const okataVisible = OKATA_TEXT.slice(0, Math.min(OKATA_TEXT.length, revealed));
-  const afterOkata = Math.max(0, revealed - OKATA_TEXT.length);
-  const miracleVisible = MIRACLE_TEXT.slice(0, Math.min(MIRACLE_TEXT.length, afterOkata));
-  const afterMiracle = Math.max(0, afterOkata - MIRACLE_TEXT.length);
-  const makesVisible = MAKES_TEXT.slice(0, Math.min(MAKES_TEXT.length, afterMiracle));
+  const mimiVisible = MIMI_TEXT.slice(0, Math.min(MIMI_TEXT.length, revealed));
+  const afterMimi = Math.max(0, revealed - MIMI_TEXT.length);
+  const studiosVisible = STUDIOS_TEXT.slice(0, Math.min(STUDIOS_TEXT.length, afterMimi));
+  const afterStudios = Math.max(0, afterMimi - STUDIOS_TEXT.length);
+  const meansVisible = MEANS_TEXT.slice(0, Math.min(MEANS_TEXT.length, afterStudios));
 
-  const okataTyping = revealed > 0 && revealed <= OKATA_TEXT.length;
-  const miracleTyping = afterOkata > 0 && afterOkata <= MIRACLE_TEXT.length;
-  const makesTyping = afterMiracle > 0 && afterMiracle <= MAKES_TEXT.length;
+  const mimiTyping = revealed > 0 && revealed <= MIMI_TEXT.length;
+  const studiosTyping = afterMimi > 0 && afterMimi <= STUDIOS_TEXT.length;
+  const meansTyping = afterStudios > 0 && afterStudios <= MEANS_TEXT.length;
 
   useEffect(() => {
     const updateTime = () => {
@@ -95,26 +95,26 @@ export default function LandingHero() {
 
       <h1
         className="relative max-w-[18ch] font-[family-name:var(--font-cabinet-grotesk)] text-[clamp(3rem,9vw,7.5rem)] font-bold leading-[0.9] tracking-tight text-ink"
-        aria-label={`${OKATA_TEXT} ${MIRACLE_TEXT}${MAKES_TEXT}`}
+        aria-label={`${MIMI_TEXT} ${STUDIOS_TEXT}${MEANS_TEXT}`}
       >
         <span aria-hidden="true">
           <span className="block">
-            {okataVisible}
-            {okataTyping && <Caret />}
+            {mimiVisible}
+            {mimiTyping && <Caret />}
           </span>
           <span className="block">
-            {miracleVisible}
-            {miracleTyping && <Caret />}
-            <span className="font-[family-name:var(--font-accent-script)] italic text-ink/70">
-              {makesVisible}
-              {makesTyping && <Caret />}
+            {studiosVisible}
+            {studiosTyping && <Caret />}
+            <span className="text-accent-build">
+              {meansVisible}
+              {meansTyping && <Caret />}
             </span>
           </span>
         </span>
       </h1>
 
       <p className="relative mt-6 max-w-xl text-lg text-ink/70 md:text-xl">
-        A frontend developer and a motion designer. Same person, two crafts.
+        Frontend development and motion design, built on intention, not decoration.
         Pick a lane below.
       </p>
     </section>

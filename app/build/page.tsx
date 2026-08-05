@@ -6,22 +6,22 @@ import { getDevProjects, getFeaturedDevProjects, getExperienceEntries, getTestim
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Okata Miracle | Frontend Developer — React, Next.js, TypeScript",
+  title: "Mimi Studios | Frontend Developer — React, Next.js, TypeScript",
   description:
-    "Okata Miracle is a frontend developer building fast, accessible interfaces with React, Next.js, TypeScript, and Tailwind CSS. Explore projects, experience, and client work.",
+    "Mimi Studios is a frontend development & motion design studio building fast, accessible interfaces with React, Next.js, TypeScript, and Tailwind CSS. Explore projects, experience, and client work.",
   openGraph: {
-    title: "Okata Miracle | Frontend Developer — React, Next.js, TypeScript",
+    title: "Mimi Studios | Frontend Developer — React, Next.js, TypeScript",
     description:
       "Frontend developer building fast, accessible interfaces with React, Next.js, TypeScript, and Tailwind CSS.",
     url: "https://www.okata-miracle.site/build",
-    siteName: "Okata Miracle",
+    siteName: "Mimi Studios",
     images: [{ url: "https://www.okata-miracle.site/og-image.png", width: 1200, height: 630 }],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Okata Miracle | Frontend Developer",
+    title: "Mimi Studios | Frontend Developer",
     description: "React, Next.js, TypeScript, and Tailwind CSS developer.",
   },
   alternates: {

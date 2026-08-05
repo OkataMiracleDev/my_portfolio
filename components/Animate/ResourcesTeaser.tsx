@@ -75,7 +75,7 @@ export default function ResourcesTeaser({ resources }: { resources: ResourceCont
             </p>
             <h2 className="max-w-md font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold leading-[0.95] text-ink md:text-6xl">
               Free{" "}
-              <span className="font-[family-name:var(--font-accent-script)] italic text-accent-animate">
+              <span className="text-accent-animate">
                 resources.
               </span>
             </h2>

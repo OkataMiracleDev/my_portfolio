@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mimi Studios — Testimonial Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0D0D10; --surface:#161619; --surface2:#1E1E22;
+    --paper:#F4F3EF; --muted:#8B8A91; --line:#2A2A2E;
+    --signal:#4F5BFF; --ease:#FF5A36;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--ink); color:var(--paper); font-family:'Inter', sans-serif; line-height:1.6;}
+  .wrap{max-width:640px; margin:0 auto; padding:64px 24px 96px;}
+  .mark{display:flex; align-items:center; gap:12px; margin-bottom:40px;}
+  .mark svg{width:32px; height:32px;}
+  .mark span{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:18px;}
+  .eyebrow{font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.1em; color:var(--muted); text-transform:uppercase; margin-bottom:16px;}
+  h1{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:clamp(30px,6vw,42px); letter-spacing:-0.01em; margin-bottom:16px;}
+  .lede{color:var(--muted); font-size:16px; max-width:520px; margin-bottom:48px;}
+  .field{margin-bottom:32px;}
+  .field label{display:block; font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:15px; margin-bottom:6px;}
+  .field .hint{font-size:13px; color:var(--muted); margin-bottom:12px;}
+  .field input, .field textarea{
+    width:100%; background:var(--surface); border:1px solid var(--line); color:var(--paper);
+    font-family:'Inter', sans-serif; font-size:15px; padding:12px 14px; border-radius:2px;
+    outline:none; resize:vertical;
+  }
+  .field input:focus, .field textarea:focus{border-color:var(--signal);}
+  .field textarea{min-height:100px;}
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .consent{display:flex; align-items:flex-start; gap:10px; margin-bottom:40px; padding:16px; background:var(--surface); border:1px solid var(--line);}
+  .consent input{width:auto; margin-top:3px;}
+  .consent label{font-size:13px; color:var(--muted); font-weight:400; font-family:'Inter', sans-serif;}
+  button{
+    font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:15px;
+    background:var(--signal); color:var(--paper); border:none; padding:14px 28px;
+    border-radius:2px; cursor:pointer; width:100%;
+  }
+  button:hover{opacity:0.9;}
+  .status{margin-top:16px; font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--muted); text-align:center;}
+  .track{font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-top:64px; padding-top:24px; border-top:1px solid var(--line); text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mark">
+    <svg viewBox="0 0 100 100"><path d="M15 85 L15 20 L50 60 L85 20 L85 85" fill="none" stroke="#4F5BFF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>Mimi Studios</span>
+  </div>
+
+  <div class="eyebrow">Client feedback — 3 min</div>
+  <h1>Quick thoughts on working together?</h1>
+  <p class="lede">This helps future clients know what to expect — and helps me too. Answer whatever's relevant, skip the rest. Takes about 3 minutes.</p>
+
+  <form id="testiForm">
+    <div class="row2">
+      <div class="field">
+        <label for="name">Your name</label>
+        <input type="text" id="name" required>
+      </div>
+      <div class="field">
+        <label for="company">Company / role</label>
+        <input type="text" id="company">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="project">What did we work on?</label>
+      <div class="hint">Project name and what it was for.</div>
+      <input type="text" id="project">
+    </div>
+
+    <div class="field">
+      <label for="problem">What was the problem going in?</label>
+      <div class="hint">What did you need, and why?</div>
+      <textarea id="problem"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="process">What was it actually like working together?</label>
+      <div class="hint">Communication, turnaround, how it felt to collaborate — be honest, this is the useful part.</div>
+      <textarea id="process"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="result">What changed because of the final work?</label>
+      <div class="hint">A result, a reaction, a number — whatever's true.</div>
+      <textarea id="result"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="quote">If you had to sum it up in one line?</label>
+      <div class="hint">Optional — this is often the line that gets pulled out and featured.</div>
+      <textarea id="quote" style="min-height:70px;"></textarea>
+    </div>
+
+    <div class="consent">
+      <input type="checkbox" id="consent" checked>
+      <label for="consent">It's okay to use my name, company, and these quotes publicly on the Mimi Studios site and social pages.</label>
+    </div>
+
+    <button type="submit">Send it over →</button>
+    <div class="status" id="status"></div>
+  </form>
+
+  <div class="track">Mimi Studios — thank you for the time</div>
+</div>
+
+<script>
+document.getElementById('testiForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const name = document.getElementById('name').value || '(not given)';
+  const company = document.getElementById('company').value || '(not given)';
+  const project = document.getElementById('project').value || '(not given)';
+  const problem = document.getElementById('problem').value || '(not given)';
+  const process = document.getElementById('process').value || '(not given)';
+  const result = document.getElementById('result').value || '(not given)';
+  const quote = document.getElementById('quote').value || '(not given)';
+  const consent = document.getElementById('consent').checked ? 'Yes' : 'No';
+
+  const body = `Name: ${name}\nCompany/role: ${company}\nProject: ${project}\n\nProblem going in:\n${problem}\n\nWhat it was like working together:\n${process}\n\nWhat changed:\n${result}\n\nOne-line summary:\n${quote}\n\nOK to publish publicly: ${consent}`;
+
+  const mailto = `mailto:?subject=${encodeURIComponent('Testimonial for Mimi Studios — ' + name)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailto;
+  document.getElementById('status').textContent = 'Opening your email app to send this...';
+});
+</script>
+</body>
+</html>

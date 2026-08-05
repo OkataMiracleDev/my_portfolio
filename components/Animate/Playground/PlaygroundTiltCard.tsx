@@ -30,12 +30,12 @@ export default function PlaygroundTiltCard() {
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
         className="flex h-full w-full flex-col items-center justify-center gap-1 rounded-xl border border-ink/10 bg-base-raised shadow-[0_16px_36px_rgb(0_0_0_/_0.12)]"
         role="img"
-        aria-label="Demo tilt card - for fun, no data is saved"
+        aria-label="Tilt card demo — decorative, not wired to any action"
       >
         <span className="font-[family-name:var(--font-jetbrains-mono)] text-[0.6rem] uppercase tracking-[0.1em] text-ink/50">
-          tilt me
+          tilt
         </span>
-        <span className="font-[family-name:var(--font-accent-script)] text-lg italic text-accent-animate">
+        <span className="text-lg text-accent-animate">
           hi
         </span>
       </motion.div>

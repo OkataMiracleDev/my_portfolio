@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin"],
+      disallow: ["/admin", "/portal"],
     },
     sitemap: "https://www.okata-miracle.site/sitemap.xml",
     host: "https://www.okata-miracle.site",

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mimi Studios — Rate Card</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0D0D10; --surface:#161619; --surface2:#1E1E22;
+    --paper:#F4F3EF; --muted:#8B8A91; --line:#2A2A2E;
+    --signal:#4F5BFF; --ease:#FF5A36;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--ink); color:var(--paper); font-family:'Inter', sans-serif; line-height:1.6;}
+  .wrap{max-width:880px; margin:0 auto; padding:64px 24px 96px;}
+  .mark{display:flex; align-items:center; gap:12px; margin-bottom:40px;}
+  .mark svg{width:30px; height:30px;}
+  .mark span{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:17px;}
+  .eyebrow{font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.1em; color:var(--muted); text-transform:uppercase; margin-bottom:16px;}
+  h1{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:clamp(30px,6vw,44px); letter-spacing:-0.01em; margin-bottom:16px;}
+  .lede{color:var(--muted); font-size:16px; max-width:560px; margin-bottom:56px;}
+  h2{font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:22px; margin-bottom:8px;}
+  .section-lede{color:var(--muted); font-size:14px; max-width:520px; margin-bottom:28px;}
+  section{margin-bottom:64px;}
+
+  .service-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:16px;}
+  .service{background:var(--ink); padding:28px 24px;}
+  .service .num{font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--ease); margin-bottom:12px;}
+  .service h3{font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:17px; margin-bottom:10px;}
+  .service p{font-size:13px; color:var(--muted); margin-bottom:20px; min-height:60px;}
+  .price{font-family:'JetBrains Mono', monospace; font-size:20px; color:var(--signal); border-top:1px solid var(--line); padding-top:16px;}
+  .price .unit{font-size:11px; color:var(--muted); display:block; margin-top:4px; text-transform:uppercase; letter-spacing:0.06em;}
+
+  .retainer-box{border:1px solid var(--signal); background:rgba(79,91,255,0.06); padding:32px; margin-bottom:16px;}
+  .retainer-box .tag{font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--signal); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+  .retainer-box h3{font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:20px; margin-bottom:10px;}
+  .retainer-box p{color:var(--muted); font-size:14px; max-width:600px; margin-bottom:20px;}
+  .retainer-tiers{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  .rtier{background:var(--surface); border:1px solid var(--line); padding:18px;}
+  .rtier .name{font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:14px; margin-bottom:6px;}
+  .rtier .price{font-size:16px; border:none; padding:0; margin-top:8px;}
+  .rtier .desc{font-size:12px; color:var(--muted);}
+
+  .addons{display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line);}
+  .addon-row{background:var(--ink); padding:16px 20px; display:flex; justify-content:space-between; align-items:center; font-size:14px;}
+  .addon-row .name{color:var(--paper);}
+  .addon-row .val{font-family:'JetBrains Mono', monospace; color:var(--signal); font-size:13px;}
+
+  .terms{border-top:1px solid var(--line); padding-top:32px;}
+  .terms ul{list-style:none;}
+  .terms li{font-size:14px; color:var(--muted); margin-bottom:10px; padding-left:18px; position:relative;}
+  .terms li::before{content:'—'; position:absolute; left:0; color:var(--ease);}
+
+  .fillnote{background:var(--surface); border:1px dashed var(--line); padding:18px 20px; margin-bottom:48px; font-size:13px; color:var(--muted); font-family:'JetBrains Mono', monospace;}
+  .fillnote b{color:var(--ease);}
+
+  footer{text-align:center; padding-top:48px; border-top:1px solid var(--line); margin-top:32px;}
+  footer p{font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--muted); letter-spacing:0.05em;}
+
+  @media(max-width:700px){
+    .service-grid, .retainer-tiers{grid-template-columns:1fr;}
+    .addon-row{flex-direction:column; align-items:flex-start; gap:4px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mark">
+    <svg viewBox="0 0 100 100"><path d="M15 85 L15 20 L50 60 L85 20 L85 85" fill="none" stroke="#4F5BFF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>Mimi Studios</span>
+  </div>
+
+  <div class="eyebrow">Rate Card — 2026</div>
+  <h1>Pricing, plainly.</h1>
+  <p class="lede">Project rates for one-off work, plus a retainer option for anyone who needs motion on an ongoing basis. Every project starts with a quick call to scope it properly — these are starting points, not final quotes.</p>
+
+  <div class="fillnote">⚠ <b>Placeholder numbers below</b> — swap the bracketed [$X] figures for your real rates before sending this out. I've sized the tiers relative to each other (e.g. explainer video priced above a single logo reveal) but the actual dollar amounts are yours to set based on your experience level and market.</div>
+
+  <section>
+    <div class="eyebrow">Track 01</div>
+    <h2>Project-based work</h2>
+    <p class="section-lede">Flat fee per deliverable. Price depends on length, complexity, and revision rounds — ranges below cover typical scope.</p>
+
+    <div class="service-grid">
+      <div class="service">
+        <div class="num">01</div>
+        <h3>Brand Animation</h3>
+        <p>Logo reveals, brand intros/outros, motion identity systems.</p>
+        <div class="price">[$X – $X]<span class="unit">Per deliverable</span></div>
+      </div>
+      <div class="service">
+        <div class="num">02</div>
+        <h3>UI Micro-interactions</h3>
+        <p>Button states, transitions, loading sequences — priced per interaction set.</p>
+        <div class="price">[$X – $X]<span class="unit">Per interaction set</span></div>
+      </div>
+      <div class="service">
+        <div class="num">03</div>
+        <h3>Social & Explainer</h3>
+        <p>Short-form video and explainer content, kinetic typography, up to 60–90 sec.</p>
+        <div class="price">[$X – $X]<span class="unit">Per video</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Track 02</div>
+    <h2>Monthly retainer</h2>
+    <p class="section-lede">For brands and teams that need a steady stream of motion work — social content, product micro-interactions, ongoing brand animation — without re-scoping a new project every time.</p>
+
+    <div class="retainer-box">
+      <div class="tag">Recommended for ongoing clients</div>
+      <h3>How it works</h3>
+      <p>A fixed number of deliverables or hours per month, billed monthly, with priority turnaround over one-off project requests. Unused capacity doesn't roll over — this keeps the retainer sustainable for both sides.</p>
+      <div class="retainer-tiers">
+        <div class="rtier">
+          <div class="name">Starter</div>
+          <div class="desc">2–3 short deliverables / mo</div>
+          <div class="price">[$X /mo]</div>
+        </div>
+        <div class="rtier">
+          <div class="name">Growth</div>
+          <div class="desc">4–6 deliverables / mo</div>
+          <div class="price">[$X /mo]</div>
+        </div>
+        <div class="rtier">
+          <div class="name">Studio</div>
+          <div class="desc">Dedicated weekly capacity</div>
+          <div class="price">[$X /mo]</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Track 03</div>
+    <h2>Add-ons</h2>
+    <div class="addons">
+      <div class="addon-row"><span class="name">Rush delivery (under 5 business days)</span><span class="val">+[X]%</span></div>
+      <div class="addon-row"><span class="name">Extra revision round (beyond included)</span><span class="val">[$X] / round</span></div>
+      <div class="addon-row"><span class="name">Source file handoff (.aep, raw assets)</span><span class="val">[$X]</span></div>
+      <div class="addon-row"><span class="name">Voiceover / TTS integration</span><span class="val">[$X]</span></div>
+    </div>
+  </section>
+
+  <section class="terms">
+    <h2>Terms, at a glance</h2>
+    <ul>
+      <li>50% deposit to start, balance due on final delivery</li>
+      <li>2 rounds of revisions included per project — additional rounds billed as add-ons</li>
+      <li>Project timelines confirmed after scoping call, typically 5–10 business days depending on scope</li>
+      <li>Retainer clients get priority scheduling over new project inquiries</li>
+      <li>Usage rights: final files are for the agreed use case (specify: social, web, ads, etc.) — broader licensing available on request</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>MIMI STUDIOS — RATE CARD — VALID FOR 2026 — SUBJECT TO CHANGE</p>
+  </footer>
+</div>
+</body>
+</html>

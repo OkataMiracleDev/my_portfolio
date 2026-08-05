@@ -28,7 +28,7 @@ const Nav = () => {
           duration: 1,
           delay: 0.5,
           ease: "power4.out",
-        }
+        },
       );
     }
   }, [mounted]);
@@ -53,20 +53,21 @@ const Nav = () => {
     >
       <div className="flex items-center justify-center gap-4.5 md:gap-8">
         {navLinks.map((link) => {
-          const isDownload = typeof link.url === "string" && link.url.endsWith(".docx");
+          const isDownload =
+            typeof link.url === "string" && link.url.endsWith(".docx");
 
           return isDownload ? (
             <a
               key={link.id}
               href={link.url}
               download="Okata-Miracle-resume.docx"
-              className="inline-block text-sm md:text-base font-medium text-base transition-transform duration-200 ease-out hover:scale-110 whitespace-nowrap"
+              className="inline-block text-sm md:text-base font-medium text-ink transition-transform duration-200 ease-out hover:scale-110 whitespace-nowrap"
             >
               {link.label}
             </a>
           ) : (
             <Link href={link.url} key={link.id}>
-              <span className="text-sm md:text-base font-medium text-base transition-transform duration-200 ease-out hover:scale-110 inline-block whitespace-nowrap">
+              <span className="text-sm md:text-base font-medium text-ink transition-transform duration-200 ease-out hover:scale-110 inline-block whitespace-nowrap">
                 {link.label}
               </span>
             </Link>

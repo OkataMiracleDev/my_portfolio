@@ -48,11 +48,11 @@ export default function PlaygroundEtchPad() {
       onPointerUp={stopDrawing}
       onPointerLeave={stopDrawing}
       role="img"
-      aria-label="Doodle pad - for fun, no data is saved"
+      aria-label="Sketch pad — decorative, not wired to any action"
       className="relative h-14 w-28 shrink-0 touch-none overflow-hidden rounded-xl border border-ink/15 bg-base-raised"
     >
       <span className="pointer-events-none absolute inset-0 flex items-center justify-center font-[family-name:var(--font-jetbrains-mono)] text-[0.55rem] uppercase tracking-[0.08em] text-ink/30">
-        doodle here
+        sketch
       </span>
       <AnimatePresence>
         {points.map((point) => (

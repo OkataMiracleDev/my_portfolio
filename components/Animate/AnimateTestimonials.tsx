@@ -56,7 +56,7 @@ export default function AnimateTestimonials({ testimonials }: { testimonials: Te
         </p>
         <h2 className="mb-16 max-w-xl font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold leading-[0.95] text-ink md:text-6xl">
           What clients{" "}
-          <span className="font-[family-name:var(--font-accent-script)] italic text-accent-animate">
+          <span className="text-accent-animate">
             say.
           </span>
         </h2>
