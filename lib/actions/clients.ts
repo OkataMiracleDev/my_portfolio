@@ -6,17 +6,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db/client";
 import { clients, clientUpdates, rateCards } from "@/lib/db/schema";
 import { requireSession } from "@/lib/auth/session";
-
-export const CLIENT_STAGES = [
-  "lead",
-  "conversation",
-  "meeting",
-  "proposal_sent",
-  "deposit_paid",
-  "in_progress",
-  "completed",
-  "lost",
-] as const;
+import { CLIENT_STAGES } from "@/lib/constants/client-stages";
 
 const clientSchema = z.object({
   name: z.string().min(1).max(200),

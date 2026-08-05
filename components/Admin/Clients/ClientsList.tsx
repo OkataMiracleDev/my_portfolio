@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
-import { CLIENT_STAGES } from "@/lib/actions/clients";
+import { CLIENT_STAGES } from "@/lib/constants/client-stages";
 import { updateClientStageAction, deleteClientAction } from "@/app/admin/clients/actions";
 import type { clients } from "@/lib/db/schema";
 

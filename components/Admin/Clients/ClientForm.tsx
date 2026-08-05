@@ -1,6 +1,6 @@
 "use client";
 
-import { CLIENT_STAGES } from "@/lib/actions/clients";
+import { CLIENT_STAGES } from "@/lib/constants/client-stages";
 import type { clients } from "@/lib/db/schema";
 
 type Client = typeof clients.$inferSelect;

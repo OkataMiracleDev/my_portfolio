@@ -9,9 +9,9 @@ import {
   rotateShareToken,
   createClientUpdate,
   deleteClientUpdate,
-  CLIENT_STAGES,
   type ClientInput,
 } from "@/lib/actions/clients";
+import { CLIENT_STAGES } from "@/lib/constants/client-stages";
 
 function parseClientForm(formData: FormData): ClientInput {
   const stage = String(formData.get("stage") ?? "lead");
