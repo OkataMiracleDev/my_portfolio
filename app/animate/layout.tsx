@@ -11,7 +11,9 @@ export default async function AnimateLayout({
 
   return (
     <div className="min-h-screen bg-base font-[family-name:var(--font-general-sans)] text-ink">
-      <MimiLogo className="fixed left-4 top-4 z-[10000] md:left-6 md:top-6" />
+      <div className="fixed left-6 top-6 z-[10000] hidden md:block">
+        <MimiLogo />
+      </div>
       <AnimateNav />
       {children}
     </div>
