@@ -5,7 +5,7 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 const MIMI_TEXT = "Mimi";
 const STUDIOS_TEXT = "Studios ";
-const MEANS_TEXT = "means it.";
+const MEANS_TEXT = "does motion.";
 const HEADING_LENGTH = MIMI_TEXT.length + STUDIOS_TEXT.length + MEANS_TEXT.length;
 
 function useTypewriter(length: number, enabled: boolean, speed = 45, startDelay = 300) {
@@ -86,7 +86,7 @@ export default function LandingHero() {
       />
 
       <p className="relative mb-6 flex flex-wrap items-center gap-x-2 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-ink/55">
-        <span>Lagos, Nigeria</span>
+        <span>PH, Nigeria</span>
         <span aria-hidden="true">·</span>
         <span className="tabular-nums">{timeLabel || "--:--"}</span>
         <span aria-hidden="true">·</span>
