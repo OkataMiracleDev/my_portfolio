@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import PrintButton from "./PrintButton";
-import { currencyBadgeLabel } from "@/lib/constants/currencies";
+import { currencyBadgeLabel, prefixCurrency } from "@/lib/constants/currencies";
 import type { rateCards } from "@/lib/db/schema";
 
 type RateCard = typeof rateCards.$inferSelect;
@@ -33,7 +33,7 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
       const url = new URL(card.ctaUrl, window.location.origin);
       if (selectedItem) {
         url.searchParams.set("package", selectedItem.title);
-        url.searchParams.set("price", selectedItem.price);
+        url.searchParams.set("price", prefixCurrency(selectedItem.price, card.currency));
       }
       window.location.href = url.toString();
       return;
@@ -97,7 +97,7 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
                     </div>
                     {item.description && <p className="mb-4 text-xs text-ink/50">{item.description}</p>}
                     <p className="font-[family-name:var(--font-jetbrains-mono)] text-lg text-accent-animate">
-                      {item.price}
+                      {prefixCurrency(item.price, card.currency)}
                     </p>
                     {item.unit && (
                       <p className="mt-0.5 text-[0.65rem] uppercase tracking-[0.06em] text-ink/40">
