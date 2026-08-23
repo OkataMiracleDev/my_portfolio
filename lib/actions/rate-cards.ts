@@ -8,6 +8,7 @@ import { rateCards } from "@/lib/db/schema";
 import { requireSession } from "@/lib/auth/session";
 
 const lineItemSchema = z.object({
+  section: z.string().optional().default(""),
   title: z.string().min(1),
   description: z.string().optional().default(""),
   price: z.string().min(1),
@@ -17,7 +18,10 @@ const lineItemSchema = z.object({
 const rateCardSchema = z.object({
   clientId: z.string().min(1).optional().nullable(),
   title: z.string().min(1).max(200),
+  layout: z.enum(["flat", "sectioned"]).default("flat"),
+  currency: z.string().min(1).max(10).default("USD"),
   lineItems: z.array(lineItemSchema).min(1),
+  terms: z.array(z.string().min(1)).optional().default([]),
   notes: z.string().optional().nullable(),
 });
 

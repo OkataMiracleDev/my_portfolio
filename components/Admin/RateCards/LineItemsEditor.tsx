@@ -1,6 +1,7 @@
 "use client";
 
 export interface LineItem {
+  section?: string;
   title: string;
   description: string;
   price: string;
@@ -10,15 +11,16 @@ export interface LineItem {
 interface LineItemsEditorProps {
   items: LineItem[];
   onChange: (items: LineItem[]) => void;
+  sectioned?: boolean;
 }
 
-export default function LineItemsEditor({ items, onChange }: LineItemsEditorProps) {
+export default function LineItemsEditor({ items, onChange, sectioned = false }: LineItemsEditorProps) {
   function updateItem(index: number, field: keyof LineItem, value: string) {
     onChange(items.map((item, i) => (i === index ? { ...item, [field]: value } : item)));
   }
 
   function addItem() {
-    onChange([...items, { title: "", description: "", price: "", unit: "" }]);
+    onChange([...items, { section: "", title: "", description: "", price: "", unit: "" }]);
   }
 
   function removeItem(index: number) {
@@ -44,6 +46,14 @@ export default function LineItemsEditor({ items, onChange }: LineItemsEditorProp
                 Remove
               </button>
             </div>
+            {sectioned && (
+              <input
+                value={item.section ?? ""}
+                onChange={(e) => updateItem(i, "section", e.target.value)}
+                placeholder="Section (e.g. Project work, Retainer, Add-ons)"
+                className="mb-2 w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-sm text-accent-animate focus:outline-none focus:ring-2 focus:ring-accent-animate"
+              />
+            )}
             <input
               value={item.title}
               onChange={(e) => updateItem(i, "title", e.target.value)}

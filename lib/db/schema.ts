@@ -208,10 +208,19 @@ export const rateCards = sqliteTable("rate_cards", {
   id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
   clientId: text("client_id"),
   title: text("title").notNull(),
+  // "flat" = one plain list of line items; "sectioned" = items grouped under
+  // named tracks (e.g. "Project work", "Retainer") like the public /animate/rates page.
+  layout: text("layout", { enum: ["flat", "sectioned"] }).notNull().default("flat"),
+  // ISO-ish code (USD, NGN, EUR, ...) shown as a badge — prices themselves stay
+  // free text so ranges/units ("$300 – $800", "/mo") keep working as-is.
+  currency: text("currency").notNull().default("USD"),
   lineItems: text("line_items", { mode: "json" })
-    .$type<{ title: string; description: string; price: string; unit: string }[]>()
+    .$type<{ section?: string; title: string; description: string; price: string; unit: string }[]>()
     .notNull()
     .default(sql`'[]'`),
+  // Public bullet list rendered under the line items (deposit terms, revision
+  // policy, etc.) — separate from `notes` below, which stays internal-only.
+  terms: text("terms", { mode: "json" }).$type<string[]>().notNull().default(sql`'[]'`),
   notes: text("notes"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
