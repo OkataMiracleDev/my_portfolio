@@ -91,7 +91,7 @@ export default function RateCardForm({ rateCard, clients, defaultClientId, actio
             ))}
           </select>
           <p className="mt-1 text-xs text-ink/50">
-            Shown as a badge on the card. Keep typing prices as free text (symbols, ranges, "/mo") —
+            Shown as a badge on the card. Keep typing prices as free text (symbols, ranges, &quot;/mo&quot;) —
             this doesn&apos;t reformat them.
           </p>
         </div>
