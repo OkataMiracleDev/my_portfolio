@@ -71,6 +71,13 @@
       "when": 1787518227889,
       "tag": "0009_sour_champions",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1787519730677,
+      "tag": "0010_superb_karnak",
+      "breakpoints": true
     }
   ]
 }

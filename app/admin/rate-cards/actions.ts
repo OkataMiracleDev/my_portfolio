@@ -38,6 +38,7 @@ function parseForm(formData: FormData): RateCardInput {
     currency: String(formData.get("currency") ?? "USD") || "USD",
     lineItems,
     terms,
+    ctaUrl: (formData.get("ctaUrl") as string)?.trim() || null,
     notes: (formData.get("notes") as string) || null,
   };
 }

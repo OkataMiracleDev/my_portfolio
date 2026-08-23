@@ -146,6 +146,24 @@ export default function RateCardForm({ rateCard, clients, defaultClientId, actio
       </div>
 
       <div>
+        <label className="mb-2 block text-sm font-medium text-ink/70">
+          &quot;Accept &amp; get started&quot; link (optional)
+        </label>
+        <input
+          name="ctaUrl"
+          type="text"
+          defaultValue={rateCard?.ctaUrl ?? ""}
+          placeholder="/mimi-studios-youtube-intro-brief.html"
+          className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+        />
+        <p className="mt-1 text-xs text-ink/50">
+          Where the client is sent after picking a package and hitting &quot;Accept &amp; get
+          started&quot; — usually a brief page. Leave blank to fall back to a &quot;mailto&quot; link
+          instead.
+        </p>
+      </div>
+
+      <div>
         <label className="mb-2 block text-sm font-medium text-ink/70">Notes (internal, optional)</label>
         <textarea
           name="notes"

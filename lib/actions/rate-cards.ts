@@ -22,6 +22,7 @@ const rateCardSchema = z.object({
   currency: z.string().min(1).max(10).default("USD"),
   lineItems: z.array(lineItemSchema).min(1),
   terms: z.array(z.string().min(1)).optional().default([]),
+  ctaUrl: z.string().min(1).optional().nullable(),
   notes: z.string().optional().nullable(),
 });
 

@@ -221,6 +221,9 @@ export const rateCards = sqliteTable("rate_cards", {
   // Public bullet list rendered under the line items (deposit terms, revision
   // policy, etc.) — separate from `notes` below, which stays internal-only.
   terms: text("terms", { mode: "json" }).$type<string[]>().notNull().default(sql`'[]'`),
+  // Where "Accept & get started" sends the client — typically a brief page.
+  // Null falls back to a mailto link.
+  ctaUrl: text("cta_url"),
   notes: text("notes"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),

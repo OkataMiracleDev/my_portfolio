@@ -1,0 +1,1 @@
+ALTER TABLE `rate_cards` ADD `cta_url` text;
