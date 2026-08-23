@@ -11,36 +11,36 @@ const SERVICES = [
     number: "00:00:01:00",
     title: "Brand Animation",
     description: "Logo reveals, brand intros/outros, motion identity systems.",
-    price: "[$X – $X]",
+    price: "$300 – $800",
     unit: "Per deliverable",
   },
   {
     number: "00:00:02:00",
     title: "UI Micro-interactions",
     description: "Button states, transitions, loading sequences — priced per interaction set.",
-    price: "[$X – $X]",
+    price: "$250 – $600",
     unit: "Per interaction set",
   },
   {
     number: "00:00:03:00",
     title: "Social & Explainer",
     description: "Short-form video and explainer content, kinetic typography, up to 60–90 sec.",
-    price: "[$X – $X]",
+    price: "$400 – $1,000",
     unit: "Per video",
   },
 ];
 
 const RETAINER_TIERS = [
-  { name: "Starter", desc: "2–3 short deliverables / mo", price: "[$X /mo]" },
-  { name: "Growth", desc: "4–6 deliverables / mo", price: "[$X /mo]" },
-  { name: "Studio", desc: "Dedicated weekly capacity", price: "[$X /mo]" },
+  { name: "Starter", desc: "2–3 short deliverables / mo", price: "$800 /mo" },
+  { name: "Growth", desc: "4–6 deliverables / mo", price: "$1,500 /mo" },
+  { name: "Studio", desc: "Dedicated weekly capacity", price: "$2,500 /mo" },
 ];
 
 const ADDONS = [
-  { name: "Rush delivery (under 5 business days)", value: "+[X]%" },
-  { name: "Extra revision round (beyond included)", value: "[$X] / round" },
-  { name: "Source file handoff (.aep, raw assets)", value: "[$X]" },
-  { name: "Voiceover / TTS integration", value: "[$X]" },
+  { name: "Rush delivery (under 5 business days)", value: "+25%" },
+  { name: "Extra revision round (beyond included)", value: "$150 / round" },
+  { name: "Source file handoff (.aep, raw assets)", value: "$100" },
+  { name: "Voiceover / TTS integration", value: "$150" },
 ];
 
 const TERMS = [
@@ -66,10 +66,6 @@ export default function RateCardPage() {
           ongoing basis. Every project starts with a quick call to scope it properly — these are
           starting points, not final quotes.
         </p>
-
-        <div className="mb-16 rounded-xl border border-dashed border-ink/15 bg-base-raised p-5 font-[family-name:var(--font-jetbrains-mono)] text-xs text-ink/50">
-          Rates below are placeholders — final numbers are confirmed on a scoping call.
-        </div>
 
         <section className="mb-16">
           <p className="mb-2 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-accent-animate">
