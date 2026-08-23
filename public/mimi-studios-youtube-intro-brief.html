@@ -92,6 +92,12 @@
   .print-btn{position:fixed; bottom:24px; right:24px; background:var(--signal); color:var(--paper); border:none; font-family:var(--font-body); font-weight:600; font-size:14px; padding:14px 22px; border-radius:999px; cursor:pointer; box-shadow:0 8px 24px rgba(79,91,255,0.35); z-index:50;}
   .print-btn:hover{background:var(--signal-dark);}
 
+  .send-row{margin-top:28px;}
+  .send-btn{width:100%; font-family:var(--font-display); font-weight:600; font-size:16px; background:var(--signal); color:var(--paper); border:none; padding:16px 24px; border-radius:6px; cursor:pointer; transition:opacity 0.2s;}
+  .send-btn:hover{opacity:0.9;}
+  .send-btn:disabled{opacity:0.6; cursor:default;}
+  .status-msg{margin-top:12px; font-family:var(--font-mono); font-size:12px; text-align:center; min-height:16px; color:var(--muted);}
+
   @media(max-width:640px){
     .sign-row{grid-template-columns:1fr;}
     .wrap{padding:0 20px;}
@@ -100,6 +106,7 @@
   /* PRINT: switch to paper so it stays legible on paper */
   @media print{
     .print-btn{display:none;}
+    .send-row{display:none;}
     body{background:#fff; color:#0D0D10;}
     section{padding:32px 0; page-break-inside:avoid;}
     .q input[type="text"], .q textarea{background:#fff; border:1px solid #bbb; color:#0D0D10;}
@@ -496,6 +503,11 @@
       <div class="contact">
         Questions before you fill this in? Reach us at <b>hello@mimistudios.com</b>
       </div>
+
+      <div class="send-row">
+        <button type="button" class="send-btn" id="sendBtn">Send brief to Mimi Studios →</button>
+        <div class="status-msg" id="sendStatus"></div>
+      </div>
     </div>
   </section>
 
@@ -504,5 +516,50 @@
   </footer>
 
 </div>
+
+<script>
+function collectAnswers(){
+  var answers = [];
+  document.querySelectorAll('.q').forEach(function(q){
+    var askEl = q.querySelector('.ask');
+    var numEl = q.querySelector('.num');
+    var label = askEl ? askEl.textContent.trim() : (numEl ? numEl.textContent.trim() : '');
+    var field = q.querySelector('input[type="text"], textarea');
+    if(!label || !field) return;
+    answers.push({ question: label, answer: field.value });
+  });
+  return answers;
+}
+
+document.getElementById('sendBtn').addEventListener('click', function(){
+  var btn = this;
+  var statusEl = document.getElementById('sendStatus');
+  var answers = collectAnswers();
+  var channelNameField = document.querySelector('.q input[type="text"]');
+  var channelName = channelNameField ? channelNameField.value : '';
+
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  statusEl.textContent = '';
+
+  fetch('/api/youtube-intro-brief', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ channelName: channelName, answers: answers })
+  })
+    .then(function(res){
+      if(!res.ok) throw new Error('failed');
+      statusEl.textContent = "Sent! We've received your brief and will be in touch.";
+      statusEl.style.color = 'var(--signal)';
+      btn.textContent = 'Sent ✓';
+    })
+    .catch(function(){
+      statusEl.textContent = "Couldn't send — check your connection and try again, or email hello@mimistudios.com directly.";
+      statusEl.style.color = 'var(--ease)';
+      btn.disabled = false;
+      btn.textContent = 'Send brief to Mimi Studios →';
+    });
+});
+</script>
 </body>
 </html>
