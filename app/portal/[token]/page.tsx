@@ -128,7 +128,7 @@ export default async function ClientPortalPage({ params }: { params: Promise<{ t
 
                   <div className="mt-8 flex flex-wrap gap-3 border-t border-ink/10 pt-6">
                     <a
-                      href={`mailto:hello@mimistudios.com?subject=${encodeURIComponent(
+                      href={`mailto:okatamiracle.dev@gmail.com?subject=${encodeURIComponent(
                         `Ready to move forward — ${card.title}`
                       )}`}
                       className="inline-flex items-center gap-2 rounded-pill bg-accent-animate px-5 py-2.5 text-sm font-semibold text-ink transition-transform duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97]"
