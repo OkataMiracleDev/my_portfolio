@@ -13,6 +13,8 @@ const NAV_ITEMS = [
   { href: "/admin/projects/dev", label: "Dev Projects" },
   { href: "/admin/projects/animate", label: "Motion Projects" },
   { href: "/admin/resources", label: "Resources" },
+  { href: "/admin/plugins", label: "Plugins" },
+  { href: "/admin/plugins/sales", label: "Plugin Sales" },
   { href: "/admin/testimonials", label: "Testimonials" },
   { href: "/admin/posts", label: "Posts" },
   { href: "/admin/experience", label: "Experience" },
