@@ -9,8 +9,14 @@ import {
   experienceEntries,
   funFactCards,
   animateCredentials,
+  studioPlugins,
 } from "@/lib/db/schema";
-import type { ResourceContent, TestimonialContent, MotionProjectContent } from "@/types/content";
+import type {
+  ResourceContent,
+  TestimonialContent,
+  MotionProjectContent,
+  StudioPluginContent,
+} from "@/types/content";
 import { slugifyTag } from "@/lib/utils/slugify-tag";
 
 // Dev projects: consolidates data/data.ts's three overlapping arrays
@@ -63,6 +69,31 @@ export async function getResources(): Promise<ResourceContent[]> {
 
 export async function getResourceBySlug(slug: string): Promise<ResourceContent | null> {
   const rows = await getResources();
+  return rows.find((row) => row.slug === slug) ?? null;
+}
+
+// Published plugins only, and never selects fileUrl — the file is only
+// ever resolved server-side for actual delivery (lib/plugins/repo.ts).
+export async function getStudioPlugins(): Promise<StudioPluginContent[]> {
+  const rows = await db
+    .select({
+      id: studioPlugins.id,
+      slug: studioPlugins.slug,
+      title: studioPlugins.title,
+      description: studioPlugins.description,
+      tags: studioPlugins.tags,
+      thumbnailUrl: studioPlugins.thumbnailUrl,
+      priceAmount: studioPlugins.priceAmount,
+      pwywEnabled: studioPlugins.pwywEnabled,
+    })
+    .from(studioPlugins)
+    .where(eq(studioPlugins.published, true))
+    .orderBy(asc(studioPlugins.sortOrder));
+  return rows;
+}
+
+export async function getStudioPluginBySlug(slug: string): Promise<StudioPluginContent | null> {
+  const rows = await getStudioPlugins();
   return rows.find((row) => row.slug === slug) ?? null;
 }
 
