@@ -245,3 +245,41 @@ export const testimonialSubmissions = sqliteTable("testimonial_submissions", {
   status: text("status", { enum: ["new", "promoted", "archived"] }).notNull().default("new"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
 });
+
+// ============================================================================
+// Studio Plugin Store — Gumroad-style storefront for self-made plugins,
+// separate from the `resources` table above (which stays reserved for
+// links to third-party resources the user didn't make). See
+// docs/superpowers/specs/2026-08-31-studio-plugin-store-design.md.
+// ============================================================================
+
+export const studioPlugins = sqliteTable("studio_plugins", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  slug: text("slug").notNull().unique(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  tags: text("tags", { mode: "json" }).$type<string[]>().notNull().default(sql`'[]'`),
+  thumbnailUrl: text("thumbnail_url").notNull(), // 1:1 image
+  fileUrl: text("file_url").notNull(), // Blob URL — never selected by public-facing queries
+  priceAmount: integer("price_amount").notNull(), // ₦, major units (not kobo)
+  pwywEnabled: integer("pwyw_enabled", { mode: "boolean" }).notNull().default(false),
+  published: integer("published", { mode: "boolean" }).notNull().default(false),
+  sortOrder: integer("sort_order").notNull().default(0),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+});
+
+// One row per checkout attempt. status starts "pending" on init, becomes
+// "paid" (with downloadToken minted) once Paystack confirms the charge, or
+// "cancelled" if Paystack reports it failed/abandoned. See
+// lib/plugins/purchase-status.ts for the pending -> paid transition guard
+// that makes marking a purchase paid idempotent.
+export const pluginPurchases = sqliteTable("plugin_purchases", {
+  reference: text("reference").primaryKey(), // "plg_" + uuid
+  pluginId: text("plugin_id").notNull().references(() => studioPlugins.id),
+  email: text("email").notNull(),
+  amountPaid: integer("amount_paid").notNull(), // ₦, major units
+  status: text("status", { enum: ["pending", "paid", "cancelled"] }).notNull().default("pending"),
+  downloadToken: text("download_token").unique(), // set only when status -> paid
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+});
