@@ -35,3 +35,14 @@ export interface MotionProjectContent extends ProjectContent {
   storyboardImages?: string[];
   featuredOnHome?: boolean;
 }
+
+export interface StudioPluginContent {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  tags: string[];
+  thumbnailUrl: string;
+  priceAmount: number;
+  pwywEnabled: boolean;
+}
