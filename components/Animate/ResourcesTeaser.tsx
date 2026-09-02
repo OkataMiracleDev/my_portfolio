@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import type { ResourceContent, StudioPluginContent } from "@/types/content";
+import PluginCard from "./PluginCard";
 import PlaygroundConfettiButton from "./Playground/PlaygroundConfettiButton";
 import { usePlaygroundReveal } from "./Playground/PlaygroundRevealContext";
 
@@ -101,7 +102,7 @@ export default function ResourcesTeaser({
               Downloads and notes
             </p>
             <h2 className="max-w-md font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold leading-[0.95] text-ink md:text-6xl">
-              <span className="text-accent-animate">resources.</span>
+              <span className="text-accent-animate">Resources.</span>
             </h2>
           </div>
           <p className="max-w-xs text-ink/65">
@@ -120,19 +121,7 @@ export default function ResourcesTeaser({
             >
               {studioPlugins.slice(0, 3).map((plugin) => (
                 <li key={plugin.id}>
-                  <Link
-                    href={`/animate/resources/plugins/${plugin.slug}`}
-                    className="group block rounded-card bg-base-raised p-5 transition-transform duration-200 ease-out hover:-translate-y-1"
-                  >
-                    <span className="block font-[family-name:var(--font-cabinet-grotesk)] font-bold text-ink transition-colors duration-200 ease-out group-hover:text-accent-animate">
-                      {plugin.title}
-                    </span>
-                    <span className="mt-1 block text-sm text-ink/60">
-                      {plugin.pwywEnabled
-                        ? "Pay what you want"
-                        : `₦${plugin.priceAmount.toLocaleString()}`}
-                    </span>
-                  </Link>
+                  <PluginCard plugin={plugin} />
                 </li>
               ))}
             </ul>
