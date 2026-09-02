@@ -34,11 +34,32 @@ const MODE_CLASSES: Record<ContactMode, { ring: string; button: string }> = {
 
 const Contact = ({ mode = "build" }: { mode?: ContactMode }) => {
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const sectionRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
   const copy = MODE_COPY[mode];
   const classes = MODE_CLASSES[mode];
   const { revealed } = usePlaygroundReveal();
+
+  // When arriving from the rate card ("Start <plan>"), seed the message with
+  // the picked plan + price so the visitor can edit from there rather than
+  // starting on a blank field. Read from the URL directly to avoid pulling
+  // useSearchParams (and its Suspense requirement) into this page.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const plan = params.get("plan");
+    if (!plan) return;
+
+    const price = params.get("price");
+    const billing = params.get("billing");
+    const pricePart = price ? ` (${price}${billing ? `, billed ${billing}` : ""})` : "";
+
+    setMessage(
+      `Hi Miracle — I'd like to get started on the ${plan} retainer${pricePart}.\n\nHere's a bit about what we need:\n`
+    );
+    messageRef.current?.focus({ preventScroll: true });
+  }, []);
 
   useEffect(() => {
     if (!sectionRef.current || !formRef.current) return;
@@ -76,6 +97,7 @@ const Contact = ({ mode = "build" }: { mode?: ContactMode }) => {
       if (res.ok) {
         toast.success("Message sent successfully!");
         form.reset();
+        setMessage("");
       } else {
         const data = await res.json();
         toast.error(data.error || "Something went wrong. Please try again.");
@@ -146,9 +168,12 @@ const Contact = ({ mode = "build" }: { mode?: ContactMode }) => {
                 Your Message
               </label>
               <textarea
+                ref={messageRef}
                 name="message"
                 id="message"
                 rows={6}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 placeholder="Tell me about your project..."
                 className={`w-full resize-none rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink transition-colors duration-200 ease-out focus:outline-none focus:ring-2 ${classes.ring}`}
               />

@@ -145,6 +145,14 @@ export default function RetainerPricing() {
           const sub = isYearly ? `${usd(yearlyTotal)} billed yearly` : "billed monthly";
           const featured = tier.featured;
 
+          // Carry the picked plan + price into the contact form so the
+          // message field lands pre-filled (Contact reads these params).
+          const ctaHref = `/animate?${new URLSearchParams({
+            plan: tier.name,
+            price: `${big} / mo`,
+            billing,
+          }).toString()}#contact`;
+
           return (
             <div
               key={tier.id}
@@ -229,7 +237,7 @@ export default function RetainerPricing() {
               </ul>
 
               <Link
-                href="/animate#contact"
+                href={ctaHref}
                 className={`mt-auto flex items-center justify-center gap-2 rounded-pill px-5 py-3 text-sm font-semibold transition-transform duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97] ${
                   featured
                     ? "bg-[var(--color-base)] text-ink"

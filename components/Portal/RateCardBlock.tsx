@@ -22,6 +22,32 @@ function groupBySection(items: LineItem[]) {
   return order.map((key) => ({ section: key, items: groups.get(key)! }));
 }
 
+function SelectMark({ selected }: { selected: boolean }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`mt-1 grid h-4 w-4 shrink-0 place-items-center rounded-full border transition-colors duration-200 ${
+        selected
+          ? "border-accent-animate bg-accent-animate"
+          : "border-ink/30 group-hover:border-ink/55"
+      }`}
+    >
+      {selected && (
+        <svg viewBox="0 0 12 12" className="h-2.5 w-2.5 text-ink">
+          <path
+            d="M2 6.4 4.8 9.2 10 3.2"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      )}
+    </span>
+  );
+}
+
 export default function RateCardBlock({ card }: { card: RateCard }) {
   const sections = groupBySection(card.lineItems);
   const selectable = card.lineItems.length > 1;
@@ -45,18 +71,26 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
   }
 
   return (
-    <div className="mb-8 rounded-card border border-ink/10 bg-base-raised p-6 md:p-8">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <p className="font-[family-name:var(--font-cabinet-grotesk)] text-xl font-bold text-ink">
-          {card.title}
-        </p>
+    <div className="mb-14">
+      {/* Title + currency, on a rule rather than inside a panel */}
+      <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-2 border-b border-ink/15 pb-5">
+        <div>
+          <p className="font-[family-name:var(--font-jetbrains-mono)] text-[0.7rem] uppercase tracking-[0.14em] text-ink/40">
+            {selectable ? `${card.lineItems.length} packages` : "Quote"}
+          </p>
+          <p className="mt-1.5 font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold leading-[1] text-ink md:text-3xl">
+            {card.title}
+          </p>
+        </div>
         <span className="rounded-pill border border-accent-animate/30 bg-accent-animate/10 px-3 py-1 font-[family-name:var(--font-jetbrains-mono)] text-[0.65rem] uppercase tracking-[0.06em] text-accent-animate">
           {currencyBadgeLabel(card.currency)}
         </span>
       </div>
 
       {selectable && (
-        <p className="mb-4 text-xs text-ink/50">Pick the option that fits, then accept below.</p>
+        <p className="mt-5 text-sm text-ink/55">
+          Pick the option that fits — your choice carries down to the summary below.
+        </p>
       )}
 
       {sections.map((group, gi) => {
@@ -64,46 +98,62 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
         for (let s = 0; s < gi; s++) runningIndex += sections[s].items.length;
 
         return (
-          <div key={group.section || gi} className="mb-8 last:mb-0">
+          <div key={group.section || gi} className="mt-8">
             {card.layout === "sectioned" && group.section && (
-              <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-accent-animate">
+              <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-[0.7rem] uppercase tracking-[0.14em] text-accent-animate">
                 Track {String(gi + 1).padStart(2, "0")} — {group.section}
               </p>
             )}
-            <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl bg-ink/10 sm:grid-cols-2">
+
+            <div
+              role={selectable ? "radiogroup" : undefined}
+              aria-label={selectable ? group.section || card.title : undefined}
+              className="divide-y divide-ink/10 border-y border-ink/10"
+            >
               {group.items.map((item, i) => {
                 const index = runningIndex + i;
                 const isSelected = selectable && selected === index;
+
                 return (
                   <button
                     key={i}
                     type="button"
-                    onClick={() => selectable && setSelected(index)}
+                    role={selectable ? "radio" : undefined}
+                    aria-checked={selectable ? isSelected : undefined}
                     disabled={!selectable}
-                    className={`bg-base p-5 text-left transition-colors ${
-                      selectable ? "cursor-pointer" : ""
-                    } ${isSelected ? "ring-2 ring-inset ring-accent-animate" : ""}`}
+                    onClick={() => selectable && setSelected(index)}
+                    className={`group flex w-full items-start gap-4 px-1 py-5 text-left transition-colors duration-200 ${
+                      selectable ? "cursor-pointer hover:bg-ink/[0.03]" : "cursor-default"
+                    } ${isSelected ? "bg-accent-animate/[0.07]" : ""}`}
                   >
-                    <div className="mb-1 flex items-start justify-between gap-2">
-                      <p className="text-sm font-semibold text-ink">{item.title}</p>
-                      {selectable && (
-                        <span
-                          className={`mt-0.5 h-4 w-4 shrink-0 rounded-full border-2 ${
-                            isSelected ? "border-accent-animate bg-accent-animate" : "border-ink/25"
+                    {selectable && <SelectMark selected={isSelected} />}
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                        <p
+                          className={`font-[family-name:var(--font-cabinet-grotesk)] text-[1.05rem] font-bold ${
+                            isSelected ? "text-ink" : "text-ink/90"
                           }`}
-                          aria-hidden="true"
-                        />
+                        >
+                          {item.title}
+                        </p>
+                        <p className="shrink-0 whitespace-nowrap font-[family-name:var(--font-cabinet-grotesk)] text-lg font-bold text-accent-animate">
+                          {prefixCurrency(item.price, card.currency)}
+                        </p>
+                      </div>
+
+                      {item.unit && (
+                        <p className="mt-0.5 text-right font-[family-name:var(--font-jetbrains-mono)] text-[0.65rem] uppercase tracking-[0.06em] text-ink/40">
+                          {item.unit}
+                        </p>
+                      )}
+
+                      {item.description && (
+                        <p className="mt-2 max-w-[62ch] text-sm leading-relaxed text-ink/55">
+                          {item.description}
+                        </p>
                       )}
                     </div>
-                    {item.description && <p className="mb-4 text-xs text-ink/50">{item.description}</p>}
-                    <p className="font-[family-name:var(--font-jetbrains-mono)] text-lg text-accent-animate">
-                      {prefixCurrency(item.price, card.currency)}
-                    </p>
-                    {item.unit && (
-                      <p className="mt-0.5 text-[0.65rem] uppercase tracking-[0.06em] text-ink/40">
-                        {item.unit}
-                      </p>
-                    )}
                   </button>
                 );
               })}
@@ -113,32 +163,50 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
       })}
 
       {card.terms.length > 0 && (
-        <div className="mt-8 border-t border-ink/10 pt-6">
-          <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-ink/50">
+        <div className="mt-10">
+          <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-[0.7rem] uppercase tracking-[0.14em] text-ink/45">
             Terms
           </p>
-          <ul className="space-y-2">
+          <ol className="divide-y divide-ink/10 border-t border-ink/10">
             {card.terms.map((term, i) => (
-              <li key={i} className="flex gap-3 text-sm text-ink/60">
-                <span className="text-accent-animate" aria-hidden="true">
-                  →
+              <li key={i} className="grid grid-cols-[auto_1fr] gap-4 py-3">
+                <span className="font-[family-name:var(--font-jetbrains-mono)] text-xs tabular-nums text-ink/30">
+                  {String(i + 1).padStart(2, "0")}
                 </span>
-                <span>{term}</span>
+                <span className="max-w-[62ch] text-sm leading-relaxed text-ink/60">{term}</span>
               </li>
             ))}
-          </ul>
+          </ol>
         </div>
       )}
 
-      <div className="mt-8 flex flex-wrap gap-3 border-t border-ink/10 pt-6">
-        <button
-          type="button"
-          onClick={handleAccept}
-          className="inline-flex items-center gap-2 rounded-pill bg-accent-animate px-5 py-2.5 text-sm font-semibold text-ink transition-transform duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97]"
-        >
-          Accept &amp; get started →
-        </button>
-        <PrintButton className="rounded-pill border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink transition-colors duration-200 ease-out hover:bg-ink/5" />
+      <div className="mt-10 border-t border-ink/15 pt-6">
+        {selectable && selectedItem && (
+          <div className="mb-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+            <p className="text-sm text-ink/55">
+              Selected — <span className="font-medium text-ink">{selectedItem.title}</span>
+            </p>
+            <p className="font-[family-name:var(--font-cabinet-grotesk)] text-xl font-bold text-ink">
+              {prefixCurrency(selectedItem.price, card.currency)}
+              {selectedItem.unit && (
+                <span className="ml-1.5 font-[family-name:var(--font-jetbrains-mono)] text-xs font-normal lowercase tracking-normal text-ink/45">
+                  {selectedItem.unit}
+                </span>
+              )}
+            </p>
+          </div>
+        )}
+
+        <div className="flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={handleAccept}
+            className="inline-flex items-center gap-2 rounded-pill bg-accent-animate px-5 py-2.5 text-sm font-semibold text-ink transition-transform duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97]"
+          >
+            Accept &amp; get started <span aria-hidden="true">→</span>
+          </button>
+          <PrintButton className="rounded-pill border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink transition-colors duration-200 ease-out hover:bg-ink/5" />
+        </div>
       </div>
     </div>
   );

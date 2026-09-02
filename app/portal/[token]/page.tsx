@@ -32,22 +32,23 @@ export default async function ClientPortalPage({ params }: { params: Promise<{ t
   const { client, updates, rateCards } = data;
 
   return (
-    <div className="min-h-screen px-6 pb-20 pt-10">
+    <div className="min-h-screen px-6 pb-24 pt-12">
       <div className="mx-auto max-w-2xl">
-        <MimiLogo className="mb-16" />
+        <MimiLogo className="mb-14" />
 
-        <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-accent-animate">
-          {STAGE_LABELS[client.stage] ?? client.stage}
-        </p>
-        <h1 className="mb-3 font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold leading-[0.95] text-ink md:text-5xl">
-          {client.name}
-        </h1>
-        {client.company && <p className="mb-12 text-ink/60">{client.company}</p>}
-        {!client.company && <div className="mb-12" />}
+        <header className="border-b border-ink/15 pb-8">
+          <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-accent-animate">
+            {STAGE_LABELS[client.stage] ?? client.stage}
+          </p>
+          <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold leading-[0.95] text-ink md:text-5xl">
+            {client.name}
+          </h1>
+          {client.company && <p className="mt-3 text-ink/60">{client.company}</p>}
+        </header>
 
         {rateCards.length > 0 && (
-          <section className="mb-16">
-            <h2 className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-ink/50">
+          <section className="mt-14">
+            <h2 className="mb-6 font-[family-name:var(--font-jetbrains-mono)] text-[0.7rem] uppercase tracking-[0.14em] text-ink/45">
               Rate card
             </h2>
             {rateCards.map((card) => (
@@ -56,8 +57,8 @@ export default async function ClientPortalPage({ params }: { params: Promise<{ t
           </section>
         )}
 
-        <section>
-          <h2 className="mb-6 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-ink/50">
+        <section className="mt-14">
+          <h2 className="mb-6 font-[family-name:var(--font-jetbrains-mono)] text-[0.7rem] uppercase tracking-[0.14em] text-ink/45">
             Progress
           </h2>
 
