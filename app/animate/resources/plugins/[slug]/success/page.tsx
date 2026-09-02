@@ -4,6 +4,7 @@ import { getStudioPluginBySlug } from "@/lib/data/public";
 import { verifyTransaction } from "@/lib/plugins/paystack";
 import { markPurchasePaid, getPluginById } from "@/lib/plugins/repo";
 import { sendPluginReceiptEmail } from "@/lib/plugins/email";
+import { getSiteUrl } from "@/lib/plugins/site-url";
 
 export const dynamic = "force-dynamic";
 
@@ -39,7 +40,7 @@ export default async function PluginSuccessPage({ params, searchParams }: Props)
                 toEmail: purchase.email,
                 pluginTitle: fullPlugin.title,
                 amountPaid: purchase.amountPaid,
-                downloadUrl: `https://www.okata-miracle.site/api/plugins/download/${purchase.downloadToken}`,
+                downloadUrl: `${getSiteUrl()}/api/plugins/download/${purchase.downloadToken}`,
               });
             } catch (emailError) {
               console.error("Plugin receipt email failed (purchase was still marked paid):", emailError);

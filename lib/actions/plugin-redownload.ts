@@ -2,6 +2,7 @@
 
 import { getPaidPurchasesByEmail, getPluginById } from "@/lib/plugins/repo";
 import { sendPluginReceiptEmail } from "@/lib/plugins/email";
+import { getSiteUrl } from "@/lib/plugins/site-url";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -23,7 +24,7 @@ export async function requestRedownload(formData: FormData): Promise<void> {
         toEmail: email,
         pluginTitle: plugin.title,
         amountPaid: purchase.amountPaid,
-        downloadUrl: `https://www.okata-miracle.site/api/plugins/download/${purchase.downloadToken}`,
+        downloadUrl: `${getSiteUrl()}/api/plugins/download/${purchase.downloadToken}`,
       });
     } catch (err) {
       console.error("Plugin redownload email failed for one purchase (continuing):", err);
