@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer, real, uniqueIndex } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, uniqueIndex } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
 import crypto from "node:crypto";
 
@@ -244,55 +244,6 @@ export const testimonialSubmissions = sqliteTable("testimonial_submissions", {
   consent: integer("consent", { mode: "boolean" }).notNull().default(false),
   status: text("status", { enum: ["new", "promoted", "archived"] }).notNull().default("new"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
-});
-
-// ============================================================================
-// brandmydell — 10-spot auction on mimi's Dell Latitude 7320.
-//
-// Spot definitions (size, dimensions, label, position) are static and live in
-// src/content/specs.json. Only the mutable bid state lives in the DB: the
-// current high bid, the high bidder, the bid count, and the history.
-//
-// `brandmydell_payments` replaces the in-memory `Map<reference, payment>`
-// the old Express server kept. One row per paystack transaction, lifetime
-// tracked via the `status` enum (pending → paid | cancelled).
-// ============================================================================
-
-export const brandmydellSpots = sqliteTable("brandmydell_spots", {
-  id: integer("id").primaryKey(), // 1..10
-  position: text("position").notNull(),
-  label: text("label").notNull(),
-  size: text("size", { enum: ["small", "medium", "large"] }).notNull(),
-  dimensionsW: real("dimensions_w").notNull(),
-  dimensionsH: real("dimensions_h").notNull(),
-  dimensionsUnit: text("dimensions_unit").notNull().default("cm"),
-  premium: integer("premium", { mode: "boolean" }).notNull().default(false),
-  status: text("status").notNull().default("live"),
-  currentBid: integer("current_bid").notNull().default(0),
-  currentBidder: text("current_bidder"),
-  bidCount: integer("bid_count").notNull().default(0),
-  sortOrder: integer("sort_order").notNull().default(0),
-});
-
-export const brandmydellBids = sqliteTable("brandmydell_bids", {
-  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
-  spotId: integer("spot_id").notNull().references(() => brandmydellSpots.id),
-  amount: integer("amount").notNull(),
-  bidder: text("bidder").notNull(),
-  email: text("email").notNull(),
-  at: integer("at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
-});
-
-export const brandmydellPayments = sqliteTable("brandmydell_payments", {
-  reference: text("reference").primaryKey(), // bmd_<uuid>
-  spotId: integer("spot_id").notNull(),
-  amount: integer("amount").notNull(),
-  bidder: text("bidder").notNull(),
-  email: text("email").notNull(),
-  status: text("status", { enum: ["pending", "paid", "cancelled"] })
-    .notNull()
-    .default("pending"),
-  at: integer("at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
 });
 
 // ============================================================================
