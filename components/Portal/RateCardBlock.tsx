@@ -22,31 +22,8 @@ function groupBySection(items: LineItem[]) {
   return order.map((key) => ({ section: key, items: groups.get(key)! }));
 }
 
-function SelectMark({ selected }: { selected: boolean }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={`mt-1 grid h-4 w-4 shrink-0 place-items-center rounded-full border transition-colors duration-200 ${
-        selected
-          ? "border-accent-animate bg-accent-animate"
-          : "border-ink/30 group-hover:border-ink/55"
-      }`}
-    >
-      {selected && (
-        <svg viewBox="0 0 12 12" className="h-2.5 w-2.5 text-ink">
-          <path
-            d="M2 6.4 4.8 9.2 10 3.2"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )}
-    </span>
-  );
-}
+const gridColsFor = (count: number) =>
+  count >= 3 ? "sm:grid-cols-2 lg:grid-cols-3" : count === 2 ? "sm:grid-cols-2" : "max-w-md";
 
 export default function RateCardBlock({ card }: { card: RateCard }) {
   const sections = groupBySection(card.lineItems);
@@ -108,7 +85,7 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
             <div
               role={selectable ? "radiogroup" : undefined}
               aria-label={selectable ? group.section || card.title : undefined}
-              className="divide-y divide-ink/10 border-y border-ink/10"
+              className={`grid grid-cols-1 items-start gap-4 print:grid-cols-1 ${gridColsFor(group.items.length)}`}
             >
               {group.items.map((item, i) => {
                 const index = runningIndex + i;
@@ -122,38 +99,84 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
                     aria-checked={selectable ? isSelected : undefined}
                     disabled={!selectable}
                     onClick={() => selectable && setSelected(index)}
-                    className={`group flex w-full items-start gap-4 px-1 py-5 text-left transition-colors duration-200 ${
-                      selectable ? "cursor-pointer hover:bg-ink/[0.03]" : "cursor-default"
-                    } ${isSelected ? "bg-accent-animate/[0.07]" : ""}`}
+                    className={`group flex h-full flex-col rounded-card p-6 text-left transition-colors duration-200 md:p-7 ${
+                      isSelected
+                        ? "bg-ink text-[var(--color-base)] shadow-[0_28px_70px_-30px_rgb(79_91_255_/_0.5)]"
+                        : selectable
+                          ? "cursor-pointer border border-ink/12 bg-base-raised hover:border-ink/30"
+                          : "border border-ink/12 bg-base-raised"
+                    }`}
                   >
-                    {selectable && <SelectMark selected={isSelected} />}
-
-                    <div className="min-w-0 flex-1">
-                      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                        <p
-                          className={`font-[family-name:var(--font-cabinet-grotesk)] text-[1.05rem] font-bold ${
-                            isSelected ? "text-ink" : "text-ink/90"
-                          }`}
-                        >
-                          {item.title}
-                        </p>
-                        <p className="shrink-0 whitespace-nowrap font-[family-name:var(--font-cabinet-grotesk)] text-lg font-bold text-accent-animate">
-                          {prefixCurrency(item.price, card.currency)}
-                        </p>
-                      </div>
-
-                      {item.unit && (
-                        <p className="mt-0.5 text-right font-[family-name:var(--font-jetbrains-mono)] text-[0.65rem] uppercase tracking-[0.06em] text-ink/40">
-                          {item.unit}
-                        </p>
-                      )}
-
-                      {item.description && (
-                        <p className="mt-2 max-w-[62ch] text-sm leading-relaxed text-ink/55">
-                          {item.description}
-                        </p>
+                    <div className="mb-5 flex items-center justify-between gap-3">
+                      <span
+                        className={`font-[family-name:var(--font-jetbrains-mono)] text-[0.7rem] uppercase tracking-[0.14em] ${
+                          isSelected ? "text-[var(--color-base)]/45" : "text-ink/35"
+                        }`}
+                      >
+                        {`PKG ${String(index + 1).padStart(2, "0")}`}
+                      </span>
+                      {isSelected && (
+                        <span className="rounded-pill bg-accent-animate px-2.5 py-1 font-[family-name:var(--font-jetbrains-mono)] text-[0.6rem] uppercase tracking-[0.08em] text-ink">
+                          Selected
+                        </span>
                       )}
                     </div>
+
+                    <h4
+                      className={`font-[family-name:var(--font-cabinet-grotesk)] text-lg font-bold ${
+                        isSelected ? "text-[var(--color-base)]" : "text-ink"
+                      }`}
+                    >
+                      {item.title}
+                    </h4>
+
+                    <p
+                      className={`mt-3 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold ${
+                        isSelected ? "text-[var(--color-base)]" : "text-accent-animate"
+                      }`}
+                    >
+                      {prefixCurrency(item.price, card.currency)}
+                    </p>
+                    {item.unit && (
+                      <p
+                        className={`mt-1 font-[family-name:var(--font-jetbrains-mono)] text-[0.65rem] uppercase tracking-[0.06em] ${
+                          isSelected ? "text-[var(--color-base)]/45" : "text-ink/40"
+                        }`}
+                      >
+                        {item.unit}
+                      </p>
+                    )}
+
+                    {item.description && (
+                      <>
+                        <hr
+                          className={`my-5 border-0 border-t ${
+                            isSelected ? "border-[var(--color-base)]/15" : "border-ink/10"
+                          }`}
+                        />
+                        <p
+                          className={`text-sm leading-relaxed print:line-clamp-none ${
+                            isSelected
+                              ? "text-[var(--color-base)]/75"
+                              : "line-clamp-[8] text-ink/55"
+                          }`}
+                        >
+                          {item.description}
+                        </p>
+                      </>
+                    )}
+
+                    {selectable && (
+                      <span
+                        className={`mt-auto inline-flex w-fit items-center gap-1.5 rounded-pill px-4 py-2 text-xs font-semibold transition-colors duration-200 ${
+                          isSelected
+                            ? "bg-[var(--color-base)] text-ink"
+                            : "bg-accent-animate/12 text-accent-animate group-hover:bg-accent-animate group-hover:text-ink"
+                        }`}
+                      >
+                        {isSelected ? "Selected ✓" : "Select this package"}
+                      </span>
+                    )}
                   </button>
                 );
               })}

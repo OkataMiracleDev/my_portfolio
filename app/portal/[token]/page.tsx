@@ -33,7 +33,7 @@ export default async function ClientPortalPage({ params }: { params: Promise<{ t
 
   return (
     <div className="min-h-screen px-6 pb-24 pt-12">
-      <div className="mx-auto max-w-2xl">
+      <div className="mx-auto max-w-3xl">
         <MimiLogo className="mb-14" />
 
         <header className="border-b border-ink/15 pb-8">
