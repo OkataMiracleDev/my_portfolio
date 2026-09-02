@@ -33,18 +33,20 @@ export default async function ClientPortalPage({ params }: { params: Promise<{ t
 
   return (
     <div className="min-h-screen px-6 pb-24 pt-12">
-      <div className="mx-auto max-w-3xl">
-        <MimiLogo className="mb-14" />
+      <div className="mx-auto max-w-5xl">
+        <div className="max-w-2xl">
+          <MimiLogo className="mb-14" />
 
-        <header className="border-b border-ink/15 pb-8">
-          <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-accent-animate">
-            {STAGE_LABELS[client.stage] ?? client.stage}
-          </p>
-          <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold leading-[0.95] text-ink md:text-5xl">
-            {client.name}
-          </h1>
-          {client.company && <p className="mt-3 text-ink/60">{client.company}</p>}
-        </header>
+          <header className="border-b border-ink/15 pb-8">
+            <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-accent-animate">
+              {STAGE_LABELS[client.stage] ?? client.stage}
+            </p>
+            <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold leading-[0.95] text-ink md:text-5xl">
+              {client.name}
+            </h1>
+            {client.company && <p className="mt-3 text-ink/60">{client.company}</p>}
+          </header>
+        </div>
 
         {rateCards.length > 0 && (
           <section className="mt-14">
@@ -57,7 +59,7 @@ export default async function ClientPortalPage({ params }: { params: Promise<{ t
           </section>
         )}
 
-        <section className="mt-14">
+        <section className="mt-14 max-w-2xl">
           <h2 className="mb-6 font-[family-name:var(--font-jetbrains-mono)] text-[0.7rem] uppercase tracking-[0.14em] text-ink/45">
             Progress
           </h2>
@@ -79,7 +81,9 @@ export default async function ClientPortalPage({ params }: { params: Promise<{ t
                   <h3 className="mb-2 font-[family-name:var(--font-cabinet-grotesk)] text-lg font-bold text-ink">
                     {update.title}
                   </h3>
-                  {update.body && <p className="mb-4 text-sm leading-relaxed text-ink/70">{update.body}</p>}
+                  {update.body && (
+                    <p className="mb-4 max-w-[68ch] text-sm leading-relaxed text-ink/70">{update.body}</p>
+                  )}
 
                   {update.videoEmbedUrl && (
                     <div className="relative mb-4 w-full overflow-hidden rounded-card bg-base-raised" style={{ paddingBottom: "56.25%" }}>

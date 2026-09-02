@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import PrintButton from "./PrintButton";
+import { parseInclusions, type Inclusion } from "./parseInclusions";
 import { currencyBadgeLabel, prefixCurrency } from "@/lib/constants/currencies";
 import type { rateCards } from "@/lib/db/schema";
 
@@ -23,7 +24,108 @@ function groupBySection(items: LineItem[]) {
 }
 
 const gridColsFor = (count: number) =>
-  count >= 3 ? "sm:grid-cols-2 lg:grid-cols-3" : count === 2 ? "sm:grid-cols-2" : "max-w-md";
+  count >= 3
+    ? "sm:grid-cols-2 lg:grid-cols-3"
+    : count === 2
+      ? "sm:grid-cols-2 lg:max-w-3xl"
+      : "max-w-md";
+
+// A bare number in the `unit` field ("1") reads as a stray digit on the card —
+// spell it out so it's clearly a quantity of deliverables.
+function formatUnit(unit: string): string {
+  const t = unit.trim();
+  if (/^\d+$/.test(t)) return `${t} deliverable${t === "1" ? "" : "s"}`;
+  return t;
+}
+
+function InclusionList({
+  items,
+  selected,
+  collapsed,
+}: {
+  items: Inclusion[];
+  selected: boolean;
+  collapsed: boolean;
+}) {
+  const bodyTone = selected ? "text-[var(--color-base)]/75" : "text-ink/55";
+
+  // Nothing parseable beyond one prose blob — render it as plain text.
+  if (items.length === 1 && !items[0].label && !items[0].sub) {
+    return (
+      <p
+        className={`text-sm leading-relaxed print:line-clamp-none ${
+          collapsed ? "line-clamp-[8]" : ""
+        } ${bodyTone}`}
+      >
+        {items[0].text}
+      </p>
+    );
+  }
+
+  const shown = collapsed ? items.slice(0, 4) : items;
+  const hidden = items.length - shown.length;
+  const strongTone = selected ? "text-[var(--color-base)]" : "text-ink/85";
+  const markTone = selected ? "text-[var(--color-base)]" : "text-accent-animate";
+
+  return (
+    <div>
+      <p
+        className={`mb-3 font-[family-name:var(--font-jetbrains-mono)] text-[0.65rem] uppercase tracking-[0.14em] ${
+          selected ? "text-[var(--color-base)]/45" : "text-ink/35"
+        }`}
+      >
+        What&apos;s included
+      </p>
+      <ul className="space-y-2.5">
+        {shown.map((inc, k) => (
+          <li key={k} className={`flex gap-2.5 text-sm leading-snug ${bodyTone}`}>
+            <svg
+              viewBox="0 0 14 14"
+              aria-hidden="true"
+              className={`mt-[3px] h-3 w-3 shrink-0 ${markTone}`}
+            >
+              <path
+                d="M2 7.5 5.5 11 12 3"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span>
+              {inc.label && (
+                <span className={`font-semibold ${strongTone}`}>
+                  {inc.label}
+                  {inc.text ? " — " : ""}
+                </span>
+              )}
+              {inc.text}
+              {inc.sub && inc.sub.length > 0 && (
+                <span className="mt-1.5 flex flex-col gap-1">
+                  {inc.sub.map((s, si) => (
+                    <span key={si} className="text-xs opacity-80">
+                      – {s}
+                    </span>
+                  ))}
+                </span>
+              )}
+            </span>
+          </li>
+        ))}
+      </ul>
+      {collapsed && hidden > 0 && (
+        <p
+          className={`mt-2.5 text-xs ${
+            selected ? "text-[var(--color-base)]/55" : "text-ink/40"
+          }`}
+        >
+          +{hidden} more — select to see all
+        </p>
+      )}
+    </div>
+  );
+}
 
 export default function RateCardBlock({ card }: { card: RateCard }) {
   const sections = groupBySection(card.lineItems);
@@ -143,7 +245,7 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
                           isSelected ? "text-[var(--color-base)]/45" : "text-ink/40"
                         }`}
                       >
-                        {item.unit}
+                        {formatUnit(item.unit)}
                       </p>
                     )}
 
@@ -154,15 +256,11 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
                             isSelected ? "border-[var(--color-base)]/15" : "border-ink/10"
                           }`}
                         />
-                        <p
-                          className={`text-sm leading-relaxed print:line-clamp-none ${
-                            isSelected
-                              ? "text-[var(--color-base)]/75"
-                              : "line-clamp-[8] text-ink/55"
-                          }`}
-                        >
-                          {item.description}
-                        </p>
+                        <InclusionList
+                          items={parseInclusions(item.description)}
+                          selected={isSelected}
+                          collapsed={selectable && !isSelected}
+                        />
                       </>
                     )}
 
@@ -213,7 +311,7 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
               {prefixCurrency(selectedItem.price, card.currency)}
               {selectedItem.unit && (
                 <span className="ml-1.5 font-[family-name:var(--font-jetbrains-mono)] text-xs font-normal lowercase tracking-normal text-ink/45">
-                  {selectedItem.unit}
+                  {formatUnit(selectedItem.unit)}
                 </span>
               )}
             </p>
