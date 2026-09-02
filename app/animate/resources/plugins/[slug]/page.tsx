@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getStudioPluginBySlug } from "@/lib/data/public";
 import PluginBuyForm from "@/components/Animate/PluginBuyForm";
+import ExpandableText from "@/components/Shared/ExpandableText";
 import JsonLd from "@/components/Shared/JsonLd";
 
 export const dynamic = "force-dynamic";
@@ -58,29 +59,41 @@ export default async function PluginDetailPage({ params }: Props) {
   return (
     <div className="min-h-screen px-6 pb-20 pt-32">
       <JsonLd data={jsonLd} />
-      <div className="max-w-3xl mx-auto grid gap-10 rounded-card bg-base-raised p-8 md:grid-cols-2 md:p-12">
-        <div className="relative aspect-square overflow-hidden rounded-xl">
-          <Image src={plugin.thumbnailUrl} alt={plugin.title} fill quality={90} className="object-cover" />
+      <div className="max-w-4xl mx-auto">
+        <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate">
+          Mimi Studio
+        </p>
+        <h1 className="mb-4 font-[family-name:var(--font-cabinet-grotesk)] text-4xl md:text-5xl font-bold text-ink">
+          {plugin.title}
+        </h1>
+        <div className="mb-10 max-w-2xl">
+          <ExpandableText
+            text={plugin.description}
+            className="text-lg text-ink/70"
+            linkClassName="text-accent-animate"
+          />
         </div>
-        <div>
-          <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate">
-            Mimi Studio
-          </p>
-          <h1 className="mb-4 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold text-ink">
-            {plugin.title}
-          </h1>
-          <p className="mb-8 text-ink/70">{plugin.description}</p>
-          <PluginBuyForm plugin={plugin} />
+
+        <div className="grid gap-10 md:grid-cols-[1.1fr_1fr] md:items-start">
+          <div className="relative aspect-square overflow-hidden rounded-card bg-band-dark">
+            <Image src={plugin.thumbnailUrl} alt={plugin.title} fill quality={90} className="object-cover" />
+          </div>
+
+          <div className="rounded-card bg-base-raised p-8">
+            <p className="mb-6 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate">Get it</p>
+            <PluginBuyForm plugin={plugin} />
+          </div>
         </div>
-      </div>
-      <div className="mx-auto mt-8 max-w-3xl">
-        <Link
-          href="/animate/resources"
-          className="inline-flex items-center gap-2 rounded-pill border border-ink/15 px-6 py-3 font-medium text-ink transition-colors duration-200 ease-out hover:bg-ink/5"
-        >
-          <span>←</span>
-          <span>Back to Resources</span>
-        </Link>
+
+        <div className="mt-10">
+          <Link
+            href="/animate/resources"
+            className="inline-flex items-center gap-2 rounded-pill border border-ink/15 px-6 py-3 font-medium text-ink transition-colors duration-200 ease-out hover:bg-ink/5"
+          >
+            <span>←</span>
+            <span>Back to Resources</span>
+          </Link>
+        </div>
       </div>
     </div>
   );
