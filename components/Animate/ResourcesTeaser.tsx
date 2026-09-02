@@ -5,7 +5,7 @@ import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import type { ResourceContent } from "@/types/content";
+import type { ResourceContent, StudioPluginContent } from "@/types/content";
 import PlaygroundConfettiButton from "./Playground/PlaygroundConfettiButton";
 import { usePlaygroundReveal } from "./Playground/PlaygroundRevealContext";
 
@@ -13,36 +13,61 @@ gsap.registerPlugin(ScrollTrigger);
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export default function ResourcesTeaser({ resources }: { resources: ResourceContent[] }) {
+export default function ResourcesTeaser({
+  resources,
+  studioPlugins,
+}: {
+  resources: ResourceContent[];
+  studioPlugins: StudioPluginContent[];
+}) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
+  const pluginsListRef = useRef<HTMLUListElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
   const { revealed } = usePlaygroundReveal();
   const latest = resources.slice(0, 3);
 
   useEffect(() => {
-    if (prefersReducedMotion || !listRef.current) return;
+    if (prefersReducedMotion) return;
 
-    const items = listRef.current.querySelectorAll("li");
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        items,
-        { y: 24, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.55,
-          ease: "power4.out",
-          stagger: 0.06,
-          scrollTrigger: {
-            trigger: listRef.current,
-            start: "top 78%",
-          },
-        }
-      );
-    }, listRef);
+      if (listRef.current) {
+        gsap.fromTo(
+          listRef.current.querySelectorAll("li"),
+          { y: 24, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.55,
+            ease: "power4.out",
+            stagger: 0.06,
+            scrollTrigger: {
+              trigger: listRef.current,
+              start: "top 78%",
+            },
+          }
+        );
+      }
+      if (pluginsListRef.current) {
+        gsap.fromTo(
+          pluginsListRef.current.querySelectorAll("li"),
+          { y: 24, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.55,
+            ease: "power4.out",
+            stagger: 0.06,
+            scrollTrigger: {
+              trigger: pluginsListRef.current,
+              start: "top 85%",
+            },
+          }
+        );
+      }
+    });
 
     return () => ctx.revert();
   }, [prefersReducedMotion]);
@@ -82,6 +107,31 @@ export default function ResourcesTeaser({ resources }: { resources: ResourceCont
           </div>
           <p className="max-w-xs text-ink/65">LUTs, breakdowns, and tools. Free, no email required.</p>
         </div>
+
+        {studioPlugins.length > 0 && (
+          <div className="mb-14">
+            <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-ink/50">
+              Mimi Studio
+            </p>
+            <ul ref={pluginsListRef} className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              {studioPlugins.slice(0, 3).map((plugin) => (
+                <li key={plugin.id}>
+                  <Link
+                    href={`/animate/resources/plugins/${plugin.slug}`}
+                    className="group block rounded-card bg-base-raised p-5 transition-transform duration-200 ease-out hover:-translate-y-1"
+                  >
+                    <span className="block font-[family-name:var(--font-cabinet-grotesk)] font-bold text-ink transition-colors duration-200 ease-out group-hover:text-accent-animate">
+                      {plugin.title}
+                    </span>
+                    <span className="mt-1 block text-sm text-ink/60">
+                      {plugin.pwywEnabled ? "Pay what you want" : `₦${plugin.priceAmount.toLocaleString()}`}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <ul ref={listRef} className="divide-y divide-ink/10 border-y border-ink/10">
           {latest.map((resource, i) => (

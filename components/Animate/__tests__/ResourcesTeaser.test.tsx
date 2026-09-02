@@ -2,10 +2,11 @@ import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ResourcesTeaser from "../ResourcesTeaser";
+import { resourcesData } from "@/data/resources";
 
 describe("ResourcesTeaser", () => {
   it("renders up to 3 latest resources", () => {
-    render(<ResourcesTeaser />);
+    render(<ResourcesTeaser resources={resourcesData} studioPlugins={[]} />);
     expect(screen.getByText("Starter LUT Pack")).toBeInTheDocument();
     expect(screen.getByText("Breaking Down a Brand Reel")).toBeInTheDocument();
     expect(screen.getByText("Tools I Use")).toBeInTheDocument();
@@ -13,7 +14,7 @@ describe("ResourcesTeaser", () => {
 
   it("rejects an invalid email on submit", async () => {
     const user = userEvent.setup();
-    render(<ResourcesTeaser />);
+    render(<ResourcesTeaser resources={resourcesData} studioPlugins={[]} />);
     const input = screen.getByLabelText(/email/i);
     await user.type(input, "not-an-email");
     await user.click(screen.getByRole("button", { name: /notify me/i }));
@@ -22,7 +23,7 @@ describe("ResourcesTeaser", () => {
 
   it("confirms signup for a valid email without claiming a backend exists", async () => {
     const user = userEvent.setup();
-    render(<ResourcesTeaser />);
+    render(<ResourcesTeaser resources={resourcesData} studioPlugins={[]} />);
     const input = screen.getByLabelText(/email/i);
     await user.type(input, "reader@example.com");
     await user.click(screen.getByRole("button", { name: /notify me/i }));
