@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import RetainerPricing from "@/components/Animate/RateCard/RetainerPricing";
 
 export const metadata: Metadata = {
   title: "Rate Card | Mimi Studios",
@@ -30,12 +31,6 @@ const SERVICES = [
   },
 ];
 
-const RETAINER_TIERS = [
-  { name: "Starter", desc: "2–3 short deliverables / mo", price: "$800 /mo" },
-  { name: "Growth", desc: "4–6 deliverables / mo", price: "$1,500 /mo" },
-  { name: "Studio", desc: "Dedicated weekly capacity", price: "$2,500 /mo" },
-];
-
 const ADDONS = [
   { name: "Rush delivery (under 5 business days)", value: "+25%" },
   { name: "Extra revision round (beyond included)", value: "$150 / round" },
@@ -44,52 +39,72 @@ const ADDONS = [
 ];
 
 const TERMS = [
-  "50% deposit to start, balance due on final delivery",
-  "2 rounds of revisions included per project — additional rounds billed as add-ons",
-  "Project timelines confirmed after scoping call, typically 5–10 business days depending on scope",
-  "Retainer clients get priority scheduling over new project inquiries",
-  "Usage rights: final files are for the agreed use case (specify: social, web, ads, etc.) — broader licensing available on request",
+  "50% deposit to start, balance due on final delivery.",
+  "2 rounds of revisions included per project — additional rounds billed as add-ons.",
+  "Project timelines confirmed after the scoping call, typically 5–10 business days depending on scope.",
+  "Retainer clients get priority scheduling over new project inquiries.",
+  "Usage rights: final files are for the agreed use case (social, web, ads, etc.) — broader licensing available on request.",
 ];
 
 export default function RateCardPage() {
-  return (
-    <div className="min-h-screen px-6 pb-20 pt-32">
-      <div className="mx-auto max-w-4xl">
-        <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-ink/50">
-          Rate card — {new Date().getFullYear()}
-        </p>
-        <h1 className="mb-4 font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold leading-[0.95] text-ink md:text-5xl">
-          Pricing, plainly.
-        </h1>
-        <p className="mb-6 max-w-xl text-lg text-ink/70">
-          Project rates for one-off work, plus a retainer option for anyone who needs motion on an
-          ongoing basis. Every project starts with a quick call to scope it properly — these are
-          starting points, not final quotes.
-        </p>
+  const year = new Date().getFullYear();
 
-        <section className="mb-16">
-          <p className="mb-2 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-accent-animate">
-            Track 01
+  return (
+    <div className="min-h-screen px-6 pb-24 pt-32 md:px-12">
+      <div className="mx-auto max-w-5xl">
+        {/* Hero — asymmetric split: statement left, context right */}
+        <header className="grid grid-cols-1 gap-8 border-b border-ink/10 pb-16 md:grid-cols-12 md:gap-12 md:pb-24">
+          <div className="md:col-span-7">
+            <p className="mb-5 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-ink/50">
+              Rate card — {year}
+            </p>
+            <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-5xl font-bold leading-[0.92] text-ink md:text-7xl">
+              Pricing,
+              <br />
+              plainly.
+            </h1>
+          </div>
+          <div className="md:col-span-4 md:col-start-9 md:pt-3">
+            <p className="max-w-[42ch] text-[1rem] leading-relaxed text-ink/70">
+              Project rates for one-off work, plus a retainer for anyone who needs motion on an
+              ongoing basis. Every engagement starts with a short call to scope it properly — these
+              are starting points, not final quotes.
+            </p>
+            <Link
+              href="/animate/projects"
+              className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-accent-animate underline-offset-4 hover:underline"
+            >
+              See sample deliverables <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </header>
+
+        <RetainerPricing />
+
+        {/* Track 02 — one-off project work */}
+        <section className="border-b border-ink/10 py-20 md:py-28">
+          <p className="mb-2 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-accent-animate">
+            Track 02 — Project-based work
           </p>
-          <h2 className="mb-2 font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold text-ink">
-            Project-based work
+          <h2 className="mb-3 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold leading-[0.95] text-ink md:text-4xl">
+            One-off, flat fee per deliverable
           </h2>
-          <p className="mb-8 max-w-xl text-sm text-ink/60">
-            Flat fee per deliverable. Price depends on length, complexity, and revision rounds —
-            ranges below cover typical scope.
+          <p className="mb-10 max-w-xl text-sm leading-relaxed text-ink/60 md:text-[1rem]">
+            Price depends on length, complexity, and revision rounds — the ranges below cover typical
+            scope.
           </p>
 
           <div className="grid grid-cols-1 gap-px overflow-hidden rounded-card bg-ink/10 md:grid-cols-3">
             {SERVICES.map((service) => (
-              <div key={service.title} className="bg-base p-6">
-                <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-xs text-accent-animate">
+              <div key={service.title} className="flex flex-col bg-base p-6 md:p-7">
+                <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-xs text-accent-animate">
                   {service.number}
                 </p>
                 <h3 className="mb-2 font-[family-name:var(--font-cabinet-grotesk)] text-lg font-bold text-ink">
                   {service.title}
                 </h3>
-                <p className="mb-6 min-h-[3.5rem] text-sm text-ink/60">{service.description}</p>
-                <div className="border-t border-ink/10 pt-4 font-[family-name:var(--font-jetbrains-mono)] text-lg text-accent-animate">
+                <p className="mb-8 text-sm leading-relaxed text-ink/60">{service.description}</p>
+                <div className="mt-auto border-t border-ink/10 pt-4 font-[family-name:var(--font-jetbrains-mono)] text-xl text-accent-animate">
                   {service.price}
                   <span className="mt-1 block text-[0.65rem] uppercase tracking-[0.06em] text-ink/40">
                     {service.unit}
@@ -100,59 +115,19 @@ export default function RateCardPage() {
           </div>
         </section>
 
-        <section className="mb-16">
-          <p className="mb-2 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-accent-animate">
-            Track 02
+        {/* Track 03 — add-ons */}
+        <section className="border-b border-ink/10 py-20 md:py-28">
+          <p className="mb-2 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-accent-animate">
+            Track 03 — Add-ons
           </p>
-          <h2 className="mb-2 font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold text-ink">
-            Monthly retainer
+          <h2 className="mb-10 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold leading-[0.95] text-ink md:text-4xl">
+            Stack these onto any project
           </h2>
-          <p className="mb-8 max-w-xl text-sm text-ink/60">
-            For brands and teams that need a steady stream of motion work — social content, product
-            micro-interactions, ongoing brand animation — without re-scoping a new project every
-            time.
-          </p>
-
-          <div className="rounded-card border border-accent-animate/30 bg-accent-animate/[0.06] p-8">
-            <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.08em] text-accent-animate">
-              Recommended for ongoing clients
-            </p>
-            <h3 className="mb-2 font-[family-name:var(--font-cabinet-grotesk)] text-xl font-bold text-ink">
-              How it works
-            </h3>
-            <p className="mb-6 max-w-2xl text-sm text-ink/60">
-              A fixed number of deliverables or hours per month, billed monthly, with priority
-              turnaround over one-off project requests. Unused capacity doesn&apos;t roll over —
-              this keeps the retainer sustainable for both sides.
-            </p>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              {RETAINER_TIERS.map((tier) => (
-                <div key={tier.name} className="rounded-xl border border-ink/10 bg-base p-4">
-                  <p className="mb-1 font-[family-name:var(--font-cabinet-grotesk)] text-sm font-bold text-ink">
-                    {tier.name}
-                  </p>
-                  <p className="mb-2 text-xs text-ink/50">{tier.desc}</p>
-                  <p className="font-[family-name:var(--font-jetbrains-mono)] text-base text-accent-animate">
-                    {tier.price}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="mb-16">
-          <p className="mb-2 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-accent-animate">
-            Track 03
-          </p>
-          <h2 className="mb-8 font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold text-ink">
-            Add-ons
-          </h2>
-          <div className="divide-y divide-ink/10 rounded-card border border-ink/10">
+          <div className="divide-y divide-ink/10 border-y border-ink/10">
             {ADDONS.map((addon) => (
-              <div key={addon.name} className="flex items-center justify-between gap-4 px-6 py-4">
-                <span className="text-sm text-ink">{addon.name}</span>
-                <span className="font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate">
+              <div key={addon.name} className="flex items-center justify-between gap-6 py-4">
+                <span className="text-sm text-ink/85">{addon.name}</span>
+                <span className="shrink-0 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate">
                   {addon.value}
                 </span>
               </div>
@@ -160,38 +135,43 @@ export default function RateCardPage() {
           </div>
         </section>
 
-        <section className="border-t border-ink/10 pt-10">
-          <h2 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold text-ink">
+        {/* Terms */}
+        <section className="py-20 md:py-28">
+          <h2 className="font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold leading-[0.95] text-ink md:text-4xl">
             Terms, at a glance
           </h2>
-          <ul className="space-y-3">
-            {TERMS.map((term) => (
-              <li key={term} className="flex gap-3 text-sm text-ink/60">
-                <span className="text-accent-animate" aria-hidden="true">
-                  →
+          <ol className="mt-10 divide-y divide-ink/10 border-t border-ink/10">
+            {TERMS.map((term, i) => (
+              <li key={term} className="grid grid-cols-[auto_1fr] gap-5 py-5">
+                <span className="font-[family-name:var(--font-jetbrains-mono)] text-xs tabular-nums text-ink/35">
+                  {String(i + 1).padStart(2, "0")}
                 </span>
-                <span>{term}</span>
+                <span className="max-w-[65ch] text-sm leading-relaxed text-ink/65">{term}</span>
               </li>
             ))}
-          </ul>
+          </ol>
         </section>
 
-        <div className="mt-16 flex flex-wrap gap-4">
+        {/* Close */}
+        <div className="flex flex-wrap gap-3 border-t border-ink/10 pt-12">
           <Link
             href="/animate#contact"
             className="inline-flex items-center gap-2 rounded-pill bg-accent-animate px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97]"
           >
-            <span>Start a project</span>
-            <span>→</span>
+            <span>Book a scoping call</span>
+            <span aria-hidden="true">→</span>
           </Link>
           <Link
             href="/animate"
             className="inline-flex items-center gap-2 rounded-pill border border-ink/15 px-6 py-3 font-medium text-ink transition-colors duration-200 ease-out hover:bg-ink/5"
           >
-            <span>←</span>
-            <span>Back to Animate</span>
+            <span aria-hidden="true">←</span>
+            <span>Back to Mimi Studios</span>
           </Link>
         </div>
+        <p className="mt-10 font-[family-name:var(--font-jetbrains-mono)] text-[0.7rem] uppercase tracking-[0.1em] text-ink/35">
+          Mimi Studios — rate card — valid for {year} — subject to change
+        </p>
       </div>
     </div>
   );

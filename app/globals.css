@@ -81,6 +81,20 @@ body {
   opacity: 1 !important;
 }
 
+/* Rate card — the price value re-runs this when the billing period
+   toggles between monthly and yearly
+   (components/Animate/RateCard/RetainerPricing.tsx). */
+@keyframes rate-price-swap {
+  from {
+    opacity: 0;
+    transform: translateY(0.4rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Ambient 3D orbit used by the /animate playground's decorative
    PlaygroundOrbit toy — a pure-CSS loop, gated behind
    prefers-reduced-motion in the component itself. */
