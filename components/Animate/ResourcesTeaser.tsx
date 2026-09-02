@@ -47,7 +47,7 @@ export default function ResourcesTeaser({
               trigger: listRef.current,
               start: "top 78%",
             },
-          }
+          },
         );
       }
       if (pluginsListRef.current) {
@@ -64,7 +64,7 @@ export default function ResourcesTeaser({
               trigger: pluginsListRef.current,
               start: "top 85%",
             },
-          }
+          },
         );
       }
     });
@@ -87,7 +87,9 @@ export default function ResourcesTeaser({
     <section className="section relative px-6 md:px-12">
       <div
         className={`absolute bottom-10 right-4 -rotate-3 transition-all duration-500 ease-out md:right-10 ${
-          revealed ? "translate-y-0 opacity-100 delay-150" : "pointer-events-none translate-y-3 opacity-0"
+          revealed
+            ? "translate-y-0 opacity-100 delay-150"
+            : "pointer-events-none translate-y-3 opacity-0"
         }`}
       >
         <PlaygroundConfettiButton />
@@ -99,13 +101,12 @@ export default function ResourcesTeaser({
               Downloads and notes
             </p>
             <h2 className="max-w-md font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold leading-[0.95] text-ink md:text-6xl">
-              Free{" "}
-              <span className="text-accent-animate">
-                resources.
-              </span>
+              <span className="text-accent-animate">resources.</span>
             </h2>
           </div>
-          <p className="max-w-xs text-ink/65">LUTs, breakdowns, and tools. Free, no email required.</p>
+          <p className="max-w-xs text-ink/65">
+            LUTs, breakdowns, and tools. Free, no email required.
+          </p>
         </div>
 
         {studioPlugins.length > 0 && (
@@ -113,7 +114,10 @@ export default function ResourcesTeaser({
             <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-ink/50">
               Mimi Studio
             </p>
-            <ul ref={pluginsListRef} className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <ul
+              ref={pluginsListRef}
+              className="grid grid-cols-1 gap-4 sm:grid-cols-3"
+            >
               {studioPlugins.slice(0, 3).map((plugin) => (
                 <li key={plugin.id}>
                   <Link
@@ -124,7 +128,9 @@ export default function ResourcesTeaser({
                       {plugin.title}
                     </span>
                     <span className="mt-1 block text-sm text-ink/60">
-                      {plugin.pwywEnabled ? "Pay what you want" : `₦${plugin.priceAmount.toLocaleString()}`}
+                      {plugin.pwywEnabled
+                        ? "Pay what you want"
+                        : `₦${plugin.priceAmount.toLocaleString()}`}
                     </span>
                   </Link>
                 </li>
@@ -133,7 +139,10 @@ export default function ResourcesTeaser({
           </div>
         )}
 
-        <ul ref={listRef} className="divide-y divide-ink/10 border-y border-ink/10">
+        <ul
+          ref={listRef}
+          className="divide-y divide-ink/10 border-y border-ink/10"
+        >
           {latest.map((resource, i) => (
             <li key={resource.id}>
               <Link
@@ -185,7 +194,11 @@ export default function ResourcesTeaser({
             Notify me
           </button>
         </form>
-        {error && <p className="mt-3 text-left text-sm text-red-600 md:text-center">{error}</p>}
+        {error && (
+          <p className="mt-3 text-left text-sm text-red-600 md:text-center">
+            {error}
+          </p>
+        )}
         {submitted && (
           <p className="mt-3 text-left text-sm text-ink/70 md:text-center">
             Thanks, the newsletter is launching soon and I&apos;ll let you know.
