@@ -1,0 +1,77 @@
+﻿node.exe : npm notice run okata-miracle-portfolio@0.1.0 dev
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Users\okata\AppData\Roaming\ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (npm notice run ...folio@0.1.0 dev:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+npm notice run next dev --turbopack
+   ▲ Next.js 15.5.9 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.189:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Compiled middleware in 127ms
+ ✓ Ready in 1278ms
+ ○ Compiling /brandmydell ...
+ ✓ Compiled /brandmydell in 8.2s
+ GET /brandmydell 200 in 11968ms
+ GET /brandmydell 200 in 1805ms
+ GET /brandmydell 200 in 2085ms
+ ○ Compiling / ...
+ ✓ Compiled / in 745ms
+ ⨯ Error: Failed query: select "id", "label", "value", "sort_order" from "fun_fact_cards" order by 
+"fun_fact_cards"."sort_order" asc
+params: 
+    at async LandingPage (app\page.tsx:66:24)
+  64 | export default async function LandingPage() {
+  65 |   await recordVisit("landing");
+> 66 |   const funFactCards = await getFunFactCards();
+     |                        ^
+  67 |
+  68 |   return (
+  69 |     <> {
+  query: 'select "id", "label", "value", "sort_order" from "fun_fact_cards" order by "fun_fact_cards"."sort_order" 
+asc',
+  params: [],
+  digest: '453364002',
+  [cause]: [TypeError: fetch failed] {
+    [cause]: [Error [ConnectTimeoutError]: Connect Timeout Error (attempted address: 
+portfolio-admin-db-mimi-codes.aws-us-east-2.turso.io:443, timeout: 10000ms)] {
+      code: 'UND_ERR_CONNECT_TIMEOUT'
+    }
+  }
+}
+ GET / 500 in 21338ms
+ ✓ Compiled /_not-found/page in 209ms
+ GET /sw.js 404 in 336ms
+ ⨯ Error: Failed query: select "id", "label", "value", "sort_order" from "fun_fact_cards" order by 
+"fun_fact_cards"."sort_order" asc
+params: 
+    at async LandingPage (app\page.tsx:66:24)
+  64 | export default async function LandingPage() {
+  65 |   await recordVisit("landing");
+> 66 |   const funFactCards = await getFunFactCards();
+     |                        ^
+  67 |
+  68 |   return (
+  69 |     <> {
+  query: 'select "id", "label", "value", "sort_order" from "fun_fact_cards" order by "fun_fact_cards"."sort_order" 
+asc',
+  params: [],
+  digest: '453364002',
+  [cause]: [TypeError: fetch failed] {
+    [cause]: [Error: getaddrinfo ENOTFOUND portfolio-admin-db-mimi-codes.aws-us-east-2.turso.io] {
+      errno: -3008,
+      code: 'ENOTFOUND',
+      syscall: 'getaddrinfo',
+      hostname: 'portfolio-admin-db-mimi-codes.aws-us-east-2.turso.io'
+    }
+  }
+}
+ GET / 500 in 10809ms
+ ✓ Compiled /favicon.ico in 229ms
+ GET /favicon.ico 200 in 534ms
+ GET /sw.js 404 in 121ms
+ GET /sw.js 404 in 262ms
