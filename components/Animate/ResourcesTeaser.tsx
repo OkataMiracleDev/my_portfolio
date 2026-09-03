@@ -106,7 +106,7 @@ export default function ResourcesTeaser({
             </h2>
           </div>
           <p className="max-w-xs text-ink/65">
-            LUTs, breakdowns, and tools. Free, no email required.
+            LUTs, breakdowns, and tools i use daily.
           </p>
         </div>
 

@@ -7,10 +7,12 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Free Motion Design Resources | Mimi Studios",
-  description: "Free downloads, tutorials, and tool recommendations for motion designers.",
+  description:
+    "Free downloads, tutorials, and tool recommendations for motion designers.",
   openGraph: {
     title: "Free Motion Design Resources | Mimi Studios",
-    description: "Free downloads, tutorials, and tool recommendations for motion designers.",
+    description:
+      "Free downloads, tutorials, and tool recommendations for motion designers.",
     url: "https://www.okata-miracle.site/animate/resources",
     siteName: "Mimi Studios",
     type: "website",
@@ -21,7 +23,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ResourcesPage() {
-  const [resources, plugins] = await Promise.all([getResources(), getStudioPlugins()]);
+  const [resources, plugins] = await Promise.all([
+    getResources(),
+    getStudioPlugins(),
+  ]);
 
   return (
     <div className="min-h-screen px-6 pb-20 pt-32">
@@ -31,7 +36,7 @@ export default async function ResourcesPage() {
             Resources
           </h1>
           <p className="mt-4 text-lg text-ink/70">
-            Free for the community — no email required for downloads.
+            Free for the community — email required for downloads.
           </p>
         </div>
 
