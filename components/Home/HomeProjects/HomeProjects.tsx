@@ -1,102 +1,104 @@
 "use client";
-import SectionHeading from "@/components/Helper/SectionHeading";
-import React, { useEffect, useRef } from "react";
-import Image from "next/image";
+
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import WorkCard from "@/components/Shared/WorkCard";
+import { Meta } from "@/components/Shared/brand/Hud";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import type { devProjects } from "@/lib/db/schema";
 
 gsap.registerPlugin(ScrollTrigger);
 
 type DevProject = typeof devProjects.$inferSelect;
 
-const HomeProjects = ({ projects }: { projects: DevProject[] }) => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
+export default function HomeProjects({ projects }: { projects: DevProject[] }) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(headingRef.current, {
-        scrollTrigger: { trigger: sectionRef.current, start: "top 70%" },
-        y: 50, opacity: 0, duration: 1, ease: "power4.out",
-      });
+    if (prefersReducedMotion || !sectionRef.current) return;
 
-      gsap.from(cardsRef.current?.children || [], {
-        scrollTrigger: { trigger: cardsRef.current, start: "top 80%" },
-        y: 60, opacity: 0, duration: 0.9, stagger: 0.15, ease: "power4.out",
-      });
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".featured-card",
+        { y: 44, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power4.out",
+          stagger: 0.09,
+          scrollTrigger: { trigger: ".featured-grid", start: "top 80%" },
+        }
+      );
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [prefersReducedMotion]);
+
+  if (projects.length === 0) return null;
 
   return (
-    <section ref={sectionRef} className="section px-6">
-      <div className="max-w-5xl mx-auto">
-        <div ref={headingRef} className="text-center mb-10">
-          <SectionHeading heading="Here's A Bit of What I've Worked On" />
-          <p className="mt-3 text-ink/70">
-            Selected projects showcasing my approach to design and development
-          </p>
-        </div>
+    <section
+      ref={sectionRef}
+      id="work"
+      // Offsets the fixed nav so the hero's "See the work" jump does not park
+      // the heading underneath it.
+      className="relative scroll-mt-24 overflow-hidden bg-frame px-6 py-24 md:px-12 md:py-36"
+    >
+      <div
+        className="pointer-events-none absolute -right-40 top-0 h-[34rem] w-[34rem] rounded-full bg-accent-build opacity-[0.09] blur-[130px]"
+        aria-hidden="true"
+      />
 
-        {/* Picture-book spread: two facing "pages" split by a spine, each a
-            small tilted photo + a couple lines of copy, not a full card grid. */}
-        <div
-          ref={cardsRef}
-          className="grid grid-cols-1 gap-10 rounded-card bg-base-raised px-6 py-10 md:grid-cols-2 md:gap-0 md:divide-x md:divide-ink/10 md:px-4 md:py-12"
-        >
-          {projects.map((data, index) => (
-            <Link
-              key={data.id}
-              href={`/build/projects/${data.slug}`}
-              className="group flex flex-col items-center px-2 text-center md:px-10"
-            >
-              <div
-                className={`relative h-36 w-36 overflow-hidden rounded-2xl bg-base shadow-[0_8px_24px_rgb(0_0_0_/_0.08)] transition-transform duration-300 ease-out group-hover:scale-[1.04] group-hover:rotate-0 md:h-44 md:w-44 ${
-                  index % 2 === 0 ? "-rotate-3" : "rotate-3"
-                }`}
-              >
-                <Image
-                  src={data.image}
-                  alt={data.name}
-                  fill
-                  quality={90}
-                  className="object-cover"
-                />
-              </div>
-
-              <span className="mt-5 font-[family-name:var(--font-jetbrains-mono)] text-xs text-accent-build">
-                {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
-              </span>
-              <h3 className="mt-2 font-[family-name:var(--font-cabinet-grotesk)] text-lg font-bold text-ink">
-                {data.name}
-              </h3>
-              <p className="mt-2 max-w-xs text-sm text-ink/70 line-clamp-2">
-                {data.description}
-              </p>
-              <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-accent-build">
-                View Project
-                <span className="transition-transform duration-200 ease-out group-hover:translate-x-1">→</span>
-              </span>
-            </Link>
-          ))}
-        </div>
-
-        <div className="flex justify-center mt-10">
+      <div className="relative mx-auto max-w-[84rem]">
+        <div className="mb-14 flex flex-col gap-6 md:mb-20 md:flex-row md:items-end md:justify-between">
+          <div>
+            <Meta className="mb-5 block text-ink/40">Selected work</Meta>
+            <h2 className="font-[family-name:var(--font-cabinet-grotesk)] text-[clamp(2.6rem,7vw,5.5rem)] font-bold leading-[0.88] tracking-[-0.03em] text-ink">
+              What I&apos;ve
+              <br />
+              actually built<span className="text-signal">.</span>
+            </h2>
+          </div>
           <Link
             href="/build/projects"
-            className="group inline-flex items-center gap-3 rounded-pill border border-ink/15 px-6 py-3 font-medium text-ink transition-colors duration-200 ease-out hover:bg-ink/5"
+            className="group inline-flex w-fit items-center gap-2 rounded-pill border border-ink/15 py-1.5 pl-5 pr-1.5 text-sm font-medium text-ink/75 transition-colors duration-200 ease-out hover:border-ink/35 hover:text-ink"
           >
-            <span>View All Projects</span>
-            <span className="group-hover:translate-x-1 transition-transform duration-200 ease-out">→</span>
+            <span>Every project</span>
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink/10 transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-px">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M7 17L17 7M17 7H9M17 7V15"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
           </Link>
         </div>
+
+        <ul className="featured-grid grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project, i) => (
+            <li key={project.id} className="featured-card">
+              <WorkCard
+                href={`/build/projects/${project.slug}`}
+                image={project.image}
+                title={project.name}
+                description={project.description}
+                index={i}
+                eyebrow="Case study"
+                tags={project.technology}
+                accent="build"
+              />
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
-};
-
-export default HomeProjects;
+}

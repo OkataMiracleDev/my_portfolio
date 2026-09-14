@@ -3,8 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import OkataRing from "./brand/OkataRing";
-import { Meta } from "./brand/Hud";
+import { Meta } from "@/components/Shared/brand/Hud";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -55,11 +54,13 @@ function MarqueeRow() {
           <span className="font-[family-name:var(--font-cabinet-grotesk)] text-xl font-bold tracking-tight text-ink/85 md:text-3xl">
             {item}
           </span>
-          <OkataRing
-            className="h-4 w-4 shrink-0 md:h-5 md:w-5"
-            ringColor="var(--color-accent-animate)"
-            badgeColor="var(--color-signal)"
-            strokeWidth={13}
+          {/* A separator, not a logo moment. The real mark is a hairline ring
+              -- at 16px it collapses into a smudge with an orange speck -- and
+              repeating the logo between every name down a marquee spends it
+              cheaply. A dot does the one job this needs. */}
+          <span
+            aria-hidden="true"
+            className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent-animate md:h-2 md:w-2"
           />
         </span>
       ))}

@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import VideoEmbed from "./VideoEmbed";
-import OkataRing from "./brand/OkataRing";
-import { Meta, Tally } from "./brand/Hud";
+import OkataRing from "@/components/Shared/brand/OkataRing";
+import { Meta, Tally } from "@/components/Shared/brand/Hud";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import type { MotionProjectContent } from "@/types/content";
 
@@ -74,7 +74,11 @@ export default function ReelFrame({ featured }: { featured?: MotionProjectConten
           <div className="relative overflow-hidden rounded-[calc(2rem-0.375rem)] bg-stage md:rounded-[calc(2rem-0.5rem)]">
             <div className="relative aspect-[16/10] w-full md:aspect-[2.39/1]">
               {embedUrl && playing ? (
-                <VideoEmbed embedUrl={embedUrl} title={title ?? "Featured project"} />
+                <VideoEmbed
+                  embedUrl={embedUrl}
+                  title={title ?? "Featured project"}
+                  poster={featured?.thumbnail}
+                />
               ) : (
                 <>
                   {featured?.thumbnail && (
@@ -132,8 +136,6 @@ export default function ReelFrame({ featured }: { featured?: MotionProjectConten
                       <>
                         <OkataRing
                           className="okata-ring-drift h-14 w-14 opacity-70 md:h-16 md:w-16"
-                          ringColor="var(--color-ink)"
-                          strokeWidth={9}
                         />
                         <div>
                           <h2 className="font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold leading-tight tracking-tight text-ink md:text-4xl">
@@ -148,8 +150,6 @@ export default function ReelFrame({ featured }: { featured?: MotionProjectConten
                       <>
                         <OkataRing
                           className="okata-ring-drift h-14 w-14 opacity-70 md:h-16 md:w-16"
-                          ringColor="var(--color-ink)"
-                          strokeWidth={9}
                         />
                         <p className="font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold tracking-tight text-ink md:text-3xl">
                           Nothing featured yet

@@ -2,6 +2,7 @@ import Home from '@/components/Home/Home'
 import { Metadata } from 'next';
 import React from 'react'
 import { getDevProjects, getFeaturedDevProjects, getExperienceEntries, getTestimonials } from '@/lib/data/public'
+import { getStackVersions } from '@/lib/stack-versions'
 
 export const dynamic = "force-dynamic";
 
@@ -37,15 +38,17 @@ const HomePage = async () => {
     getTestimonials("build"),
   ]);
 
+  // Read on the server so package.json never reaches the client bundle.
+  const stack = getStackVersions()
+
   return (
-    <div className=''>
-      <Home
-        allDevProjects={allDevProjects}
-        featuredDevProjects={featuredDevProjects}
-        experienceEntries={experienceEntries}
-        testimonials={testimonials}
-      />
-    </div>
+    <Home
+      allDevProjects={allDevProjects}
+      featuredDevProjects={featuredDevProjects}
+      experienceEntries={experienceEntries}
+      testimonials={testimonials}
+      stack={stack}
+    />
   )
 }
 

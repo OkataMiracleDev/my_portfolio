@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import OkataRing from "./brand/OkataRing";
-import { Meta, Tally } from "./brand/Hud";
+import OkataRing from "@/components/Shared/brand/OkataRing";
+import { Meta, Tally } from "@/components/Shared/brand/Hud";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -87,11 +87,6 @@ export default function OperatorSection() {
                 sits half on and half off a laptop lid. */}
             <OkataRing
               className="absolute -bottom-7 -right-5 h-20 w-20 md:h-24 md:w-24"
-              ringColor="var(--color-ink)"
-              badgeColor="var(--color-signal)"
-              badgeInk="var(--color-stage)"
-              showGlyph
-              strokeWidth={10}
             />
           </div>
         </div>

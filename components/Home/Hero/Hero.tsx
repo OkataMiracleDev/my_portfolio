@@ -1,115 +1,143 @@
 "use client";
-import Modal from "@/components/Helper/Modal";
+
 import Image from "next/image";
-import React, { useState, useEffect, useRef } from "react";
-import Contact from "../Contact/Contact";
-import HeroLightBeam from "@/components/Shared/HeroLightBeam";
-import { gsap } from "gsap";
+import Link from "next/link";
+import OkataRing from "@/components/Shared/brand/OkataRing";
+import { Meta, Tally } from "@/components/Shared/brand/Hud";
+import type { StackVersion } from "@/lib/stack-versions";
 
-const Hero = () => {
-  const [openModal, setOpenModal] = useState(false);
-  const heroRef = useRef<HTMLDivElement>(null);
-  const nameRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const descRef = useRef<HTMLParagraphElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLButtonElement>(null);
-  const decorRef1 = useRef<HTMLDivElement>(null);
-  const decorRef2 = useRef<HTMLDivElement>(null);
+/**
+ * The headline is three masked lines that wipe up on load -- the same
+ * construction as /animate's hero, so the two routes open the same way. Delays
+ * are 90ms apart: enough to read as a cascade, short enough that the whole
+ * headline has landed before anyone could have started reading it.
+ */
+const HEADLINE = ["Interfaces", "built on", "intention."];
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
-
-      tl.from(subtitleRef.current, { y: 30, opacity: 0, duration: 0.8, delay: 0.2 })
-        .from(nameRef.current?.children || [], { y: 100, opacity: 0, duration: 1.2, stagger: 0.1 }, "-=0.4")
-        .from(descRef.current, { y: 50, opacity: 0, duration: 1 }, "-=0.6")
-        .from(ctaRef.current, { y: 30, opacity: 0, duration: 0.8 }, "-=0.4")
-        .from(imageRef.current, { scale: 0.8, opacity: 0, rotation: 5, duration: 1.2 }, "-=1")
-        .from([decorRef1.current, decorRef2.current], { scale: 0, opacity: 0, duration: 1, stagger: 0.2 }, "-=0.8");
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, []);
-
+export default function Hero({ stack }: { stack: StackVersion[] }) {
   return (
-    <div ref={heroRef} className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden" id="home">
-      <HeroLightBeam accent="build" />
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center py-32">
-        <div className="space-y-8">
-          <div className="space-y-4">
-            <p
-              ref={subtitleRef}
-              className="text-sm uppercase tracking-[0.3em] font-[family-name:var(--font-jetbrains-mono)] text-accent-build"
-            >
-              Frontend Development
-            </p>
-            <h1
-              ref={nameRef}
-              className="font-[family-name:var(--font-cabinet-grotesk)] text-6xl md:text-8xl font-bold leading-[0.95] tracking-tight text-ink"
-            >
-              <span className="inline-block">OKATA</span>
-              <br />
-              <span className="inline-block">STUDIOS</span>
-            </h1>
+    <section className="okata-stage relative flex min-h-[100dvh] flex-col overflow-hidden">
+      {/* The mark, enormous and barely lit, turning once every 44 seconds.
+          Anchored off the right edge so it reads as a light source behind the
+          type rather than as a logo sitting on the page. */}
+      <OkataRing
+        className="okata-ring-drift pointer-events-none absolute -right-[30%] top-[6%] h-[38rem] w-[38rem] opacity-[0.055] md:-right-[12%] md:h-[52rem] md:w-[52rem]"
+      />
+      <div
+        className="pointer-events-none absolute -left-40 bottom-0 h-[30rem] w-[30rem] rounded-full bg-accent-build opacity-[0.13] blur-[120px]"
+        aria-hidden="true"
+      />
+
+      <div className="relative z-10 flex flex-1 flex-col justify-center px-6 pb-40 pt-32 md:px-12 md:pb-44">
+        <div className="mx-auto w-full max-w-[84rem]">
+          <div className="okata-rise mb-8 flex flex-wrap items-center gap-x-4 gap-y-2 md:mb-10">
+            <Tally tone="accent" className="text-accent-build">
+              Shipping
+            </Tally>
+            <Meta className="text-ink/40">Okata Studios &mdash; frontend</Meta>
+            <Meta className="hidden text-ink/40 sm:inline">Lagos, NG</Meta>
           </div>
 
-          <p ref={descRef} className="max-w-lg text-lg text-ink/70">
-            Interfaces built on{" "}
-            <span className="text-accent-build">
-              intention
-            </span>
-            , not decoration — precise interactions, deliberate motion, and code that holds up. Specializing in GSAP, React, and Next.js.
-          </p>
+          <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-[clamp(3.4rem,12vw,11rem)] font-bold leading-[0.84] tracking-[-0.035em] text-ink">
+            {HEADLINE.map((line, i) => (
+              <span key={line} className="okata-line">
+                <span style={{ animationDelay: `${i * 90}ms` }}>
+                  {i === HEADLINE.length - 1 ? (
+                    <>
+                      intention<span className="text-signal">.</span>
+                    </>
+                  ) : (
+                    line
+                  )}
+                </span>
+              </span>
+            ))}
+          </h1>
 
-          <button
-            ref={ctaRef}
-            onClick={() => setOpenModal(true)}
-            className="group inline-flex items-center gap-3 rounded-pill bg-accent-build px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97]"
-          >
-            <span>Let&apos;s Work Together</span>
-            <span className="group-hover:translate-x-1 transition-transform duration-200 ease-out">→</span>
-          </button>
-        </div>
+          <div className="mt-12 grid gap-10 md:mt-16 md:grid-cols-12 md:items-end md:gap-8">
+            <p
+              className="okata-rise max-w-md text-lg leading-relaxed text-ink/60 md:col-span-5"
+              style={{ animationDelay: "420ms" }}
+            >
+              I&apos;m Miracle. I build frontends that are fast, accessible and
+              genuinely finished &mdash; precise interactions, deliberate
+              motion, and code that still makes sense a year later.
+            </p>
 
-        <div ref={imageRef} className="relative">
-          <div className="relative aspect-square max-w-md mx-auto">
             <div
-              ref={decorRef1}
-              className="absolute -top-8 -left-8 h-32 w-32 rounded-full bg-accent-build opacity-30 blur-3xl"
-            />
-            <div
-              ref={decorRef2}
-              className="absolute -bottom-8 -right-8 h-40 w-40 rounded-full bg-accent-build opacity-20 blur-3xl"
-            />
+              className="okata-rise flex flex-wrap items-center gap-3 md:col-span-4"
+              style={{ animationDelay: "500ms" }}
+            >
+              <Link
+                href="#work"
+                className="group inline-flex items-center gap-2 rounded-pill bg-ink py-1.5 pl-5 pr-1.5 text-sm font-medium text-stage transition-transform duration-200 ease-out active:scale-[0.97]"
+              >
+                <span>See the work</span>
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-stage/10 transition-transform duration-200 ease-out group-hover:translate-y-0.5">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path
+                      d="M12 5v14M12 19l-6-6M12 19l6-6"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </Link>
+              <Link
+                href="#contact"
+                className="rounded-pill border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink/75 transition-colors duration-200 ease-out hover:border-ink/35 hover:text-ink"
+              >
+                Start a project
+              </Link>
+            </div>
 
-            <div className="relative z-10 rounded-card bg-base-raised p-4 transition-transform duration-500 ease-out hover:scale-[1.02]">
-              <div className="relative aspect-square overflow-hidden rounded-card">
+            {/* The operator chip -- same object as /animate's, so a visitor who
+                crosses between routes meets the same person. */}
+            <div
+              className="okata-rise flex items-center gap-3 md:col-span-3 md:justify-self-end"
+              style={{ animationDelay: "580ms" }}
+            >
+              <span className="relative block h-11 w-11 shrink-0 overflow-hidden rounded-full ring-1 ring-ink/15">
                 <Image
                   src="/images/Miracle_Okata.jpg"
-                  alt="Okata Miracle"
+                  alt="Miracle Okata"
                   fill
+                  sizes="44px"
                   quality={90}
                   className="object-cover"
                   priority
                 />
-              </div>
-            </div>
-
-            <div className="absolute -bottom-4 -right-4 z-20 rounded-card bg-base-raised px-6 py-4">
-              <p className="font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-build">
-                @mimi_codes
-              </p>
+              </span>
+              <span className="leading-tight">
+                <span className="block text-sm font-medium text-ink">Miracle Okata</span>
+                <Meta className="text-ink/40">Frontend developer</Meta>
+              </span>
             </div>
           </div>
         </div>
       </div>
 
-      <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
-        <Contact />
-      </Modal>
-    </div>
+      {/* The build slate. /animate's equivalent strip carries a running
+          timecode; this carries the versions actually in package.json, which
+          is the closest thing a frontend has to a frame rate. */}
+      <div className="relative z-10 border-t border-ink/10 px-6 py-4 md:px-12">
+        <div className="mx-auto flex w-full max-w-[84rem] flex-wrap items-center gap-x-5 gap-y-2">
+          <Meta className="text-accent-build">Stack</Meta>
+          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            {stack.map((entry) => (
+              <li key={entry.label}>
+                <Meta className="text-ink/30">
+                  {entry.label}
+                  <span className="text-ink/20">@</span>
+                  <span className="tabular-nums">{entry.version}</span>
+                </Meta>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
   );
-};
-
-export default Hero;
+}

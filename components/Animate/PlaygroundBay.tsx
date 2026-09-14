@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Meta } from "./brand/Hud";
+import { Meta } from "@/components/Shared/brand/Hud";
 import { usePlaygroundReveal } from "./Playground/PlaygroundRevealContext";
 import PlaygroundColorDial from "./Playground/PlaygroundColorDial";
 import PlaygroundConfettiButton from "./Playground/PlaygroundConfettiButton";

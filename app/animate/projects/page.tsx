@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import MotionProjectCard from "@/components/Animate/MotionProjectCard";
+import WorkCard from "@/components/Shared/WorkCard";
 import AnimateFooter from "@/components/Animate/AnimateFooter";
-import OkataRing from "@/components/Animate/brand/OkataRing";
-import { Meta, Tally } from "@/components/Animate/brand/Hud";
+import OkataRing from "@/components/Shared/brand/OkataRing";
+import { Meta, Tally } from "@/components/Shared/brand/Hud";
 import { getMotionProjects } from "@/lib/data/public";
 
 export const dynamic = "force-dynamic";
@@ -33,8 +33,6 @@ export default async function AnimateProjectsPage() {
       <header className="okata-stage relative overflow-hidden px-6 pb-16 pt-36 md:px-12 md:pb-24 md:pt-48">
         <OkataRing
           className="okata-ring-drift pointer-events-none absolute -right-40 -top-24 h-[30rem] w-[30rem] opacity-[0.06]"
-          ringColor="var(--color-ink)"
-          strokeWidth={7}
         />
         <div className="relative mx-auto max-w-[84rem]">
           <Meta className="okata-rise mb-6 flex items-center gap-3 text-ink/40">
@@ -70,8 +68,6 @@ export default async function AnimateProjectsPage() {
             <div className="flex flex-col items-center gap-5 rounded-[1.75rem] border border-ink/10 bg-frame/50 px-6 py-24 text-center">
               <OkataRing
                 className="h-14 w-14 opacity-60"
-                ringColor="var(--color-ink)"
-                strokeWidth={9}
               />
               <p className="font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold tracking-tight text-ink">
                 Nothing published yet
@@ -91,7 +87,16 @@ export default async function AnimateProjectsPage() {
             <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {motionProjects.map((project, i) => (
                 <li key={project.id}>
-                  <MotionProjectCard project={project} index={i} />
+                  <WorkCard
+                    href={project.href}
+                    image={project.thumbnail}
+                    title={project.title}
+                    description={project.description}
+                    index={i}
+                    eyebrow={project.tags[0]}
+                    tags={project.tools}
+                    accent="animate"
+                  />
                 </li>
               ))}
             </ul>

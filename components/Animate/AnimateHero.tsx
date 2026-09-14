@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import OkataRing from "./brand/OkataRing";
+import OkataRing from "@/components/Shared/brand/OkataRing";
 import Timecode from "./brand/Timecode";
-import { Meta, Tally } from "./brand/Hud";
+import { Meta, Tally } from "@/components/Shared/brand/Hud";
 import PlaygroundToggleButton from "./Playground/PlaygroundToggleButton";
 
 /**
@@ -46,9 +46,6 @@ export default function AnimateHero() {
           type rather than as a logo sitting on the page. */}
       <OkataRing
         className="okata-ring-drift pointer-events-none absolute -right-[30%] top-[6%] h-[38rem] w-[38rem] opacity-[0.055] md:-right-[12%] md:h-[52rem] md:w-[52rem]"
-        ringColor="var(--color-ink)"
-        badgeColor="var(--color-accent-animate)"
-        strokeWidth={7}
       />
       <div
         className="pointer-events-none absolute -left-40 bottom-0 h-[30rem] w-[30rem] rounded-full bg-accent-animate opacity-[0.13] blur-[120px]"

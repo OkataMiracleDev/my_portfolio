@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FrameTicks, Meta } from "./brand/Hud";
+import { FrameTicks, Meta } from "@/components/Shared/brand/Hud";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import type { MotionProjectContent } from "@/types/content";
 

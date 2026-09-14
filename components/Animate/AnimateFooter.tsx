@@ -1,6 +1,6 @@
 import Link from "next/link";
-import OkataRing from "./brand/OkataRing";
-import { Meta } from "./brand/Hud";
+import OkataRing from "@/components/Shared/brand/OkataRing";
+import { Meta } from "@/components/Shared/brand/Hud";
 
 const COLUMNS = [
   {
@@ -38,9 +38,6 @@ export default function AnimateFooter() {
             <Link href="/" className="inline-flex items-center gap-3">
               <OkataRing
                 className="h-8 w-8 shrink-0"
-                ringColor="var(--color-ink)"
-                badgeColor="var(--color-accent-animate)"
-                strokeWidth={11}
               />
               <span className="font-[family-name:var(--font-cabinet-grotesk)] text-xl font-bold tracking-tight text-ink">
                 Okata<span className="text-accent-animate">studios</span>

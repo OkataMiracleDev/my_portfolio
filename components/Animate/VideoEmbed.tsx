@@ -7,11 +7,21 @@ function extractYouTubeId(url: string): string | null {
   return match ? match[1] : null;
 }
 
-export default function VideoEmbed({ embedUrl, title }: { embedUrl: string; title: string }) {
+export default function VideoEmbed({
+  embedUrl,
+  title,
+  poster,
+}: {
+  embedUrl: string;
+  title: string;
+  /** Stands in for YouTube's branded idle thumbnail. Falls back to the
+   *  video's own thumbnail when a caller has no image of its own. */
+  poster?: string;
+}) {
   const videoId = extractYouTubeId(embedUrl);
 
   if (videoId) {
-    return <YouTubePlayer videoId={videoId} title={title} />;
+    return <YouTubePlayer videoId={videoId} title={title} poster={poster} />;
   }
 
   return (

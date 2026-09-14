@@ -19,7 +19,7 @@ export default function PluginCard({ plugin }: { plugin: StudioPluginContent }) 
         alt=""
         fill
         sizes="(min-width: 768px) 33vw, 90vw"
-        quality={90}
+        quality={75}
         className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.06]"
       />
       <div

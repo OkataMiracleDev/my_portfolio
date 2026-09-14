@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import type { ResourceContent, StudioPluginContent } from "@/types/content";
 import PluginCard from "./PluginCard";
-import { Meta } from "./brand/Hud";
+import { Meta } from "@/components/Shared/brand/Hud";
 
 gsap.registerPlugin(ScrollTrigger);
 

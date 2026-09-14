@@ -1,78 +1,50 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import PlaygroundShapeMorph from "@/components/Animate/Playground/PlaygroundShapeMorph";
-import { usePlaygroundReveal } from "@/components/Animate/Playground/PlaygroundRevealContext";
+import OkataRing from "@/components/Shared/brand/OkataRing";
+import { Meta, Tally } from "@/components/Shared/brand/Hud";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type ContactMode = "build" | "animate";
-
-const MODE_COPY: Record<ContactMode, { heading: string; body: string }> = {
-  build: {
-    heading: "Let's Work Together",
-    body: "Have a project in mind? I'm always open to discussing new opportunities and creative collaborations.",
-  },
-  animate: {
-    heading: "Let's Make Something Move",
-    body: "Motion, brand, or product work — tell me what you're building and I'll get back to you.",
-  },
-};
-
-const MODE_CLASSES: Record<ContactMode, { ring: string; button: string }> = {
-  build: {
-    ring: "focus:ring-accent-build",
-    button: "bg-accent-build",
-  },
-  animate: {
-    ring: "focus:ring-accent-animate",
-    button: "bg-accent-animate",
-  },
-};
-
-const Contact = ({ mode = "build" }: { mode?: ContactMode }) => {
+/**
+ * The /build enquiry form.
+ *
+ * This used to be shared with /animate behind a `mode` prop. /animate now has
+ * its own (components/Animate/AnimateContact.tsx) because the two contact
+ * surfaces diverged past the point where one component could serve both
+ * without every future change to either having to reason about the other.
+ * Both post the same shape to the same endpoint; only `mode` differs.
+ */
+export default function Contact() {
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-  const messageRef = useRef<HTMLTextAreaElement>(null);
-  const copy = MODE_COPY[mode];
-  const classes = MODE_CLASSES[mode];
-  const { revealed } = usePlaygroundReveal();
-
-  // When arriving from the rate card ("Start <plan>"), seed the message with
-  // the picked plan + price so the visitor can edit from there rather than
-  // starting on a blank field. Read from the URL directly to avoid pulling
-  // useSearchParams (and its Suspense requirement) into this page.
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const plan = params.get("plan");
-    if (!plan) return;
-
-    const price = params.get("price");
-    const billing = params.get("billing");
-    const pricePart = price ? ` (${price}${billing ? `, billed ${billing}` : ""})` : "";
-
-    setMessage(
-      `Hi Miracle — I'd like to get started on the ${plan} retainer${pricePart}.\n\nHere's a bit about what we need:\n`
-    );
-    messageRef.current?.focus({ preventScroll: true });
-  }, []);
+  const sectionRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    if (!sectionRef.current || !formRef.current) return;
+    if (prefersReducedMotion || !sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      gsap.from(formRef.current, {
-        scrollTrigger: { trigger: sectionRef.current, start: "top 70%" },
-        y: 80, opacity: 0, duration: 1, ease: "power4.out",
-      });
+      gsap.fromTo(
+        ".contact-reveal",
+        { y: 44, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.85,
+          ease: "power4.out",
+          stagger: 0.08,
+          scrollTrigger: { trigger: sectionRef.current, start: "top 72%" },
+        }
+      );
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [prefersReducedMotion]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -91,13 +63,12 @@ const Contact = ({ mode = "build" }: { mode?: ContactMode }) => {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullName, email, message, mode }),
+        body: JSON.stringify({ fullName, email, message, mode: "build" }),
       });
 
       if (res.ok) {
         toast.success("Message sent successfully!");
         form.reset();
-        setMessage("");
       } else {
         const data = await res.json();
         toast.error(data.error || "Something went wrong. Please try again.");
@@ -110,92 +81,158 @@ const Contact = ({ mode = "build" }: { mode?: ContactMode }) => {
     }
   };
 
+  const fieldClass =
+    "w-full rounded-xl border border-ink/12 bg-stage px-4 py-3 text-ink placeholder:text-ink/25 transition-colors duration-200 ease-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-accent-build";
+
+  const labelClass =
+    "mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/40";
+
   return (
-    <section id="contact" ref={sectionRef} className="section px-6">
-      <div className="max-w-4xl mx-auto">
-        <div className="rounded-card bg-base-raised p-8 md:p-12">
-          <div className="mb-10 text-center">
-            <h2 className="font-[family-name:var(--font-cabinet-grotesk)] text-3xl md:text-4xl font-bold text-ink mb-4">
-              {copy.heading}
-            </h2>
-            <p className="max-w-2xl mx-auto text-lg text-ink/70">
-              {copy.body}
-            </p>
-          </div>
+    <section
+      ref={sectionRef}
+      id="contact"
+      className="relative scroll-mt-24 overflow-hidden bg-frame px-6 py-24 md:px-12 md:py-36"
+    >
+      <div
+        className="pointer-events-none absolute -left-32 bottom-0 h-[32rem] w-[32rem] rounded-full bg-accent-build opacity-[0.11] blur-[130px]"
+        aria-hidden="true"
+      />
+      <OkataRing className="okata-ring-drift pointer-events-none absolute -right-32 -top-32 h-[28rem] w-[28rem] opacity-[0.05]" />
 
-          {mode === "animate" && revealed && (
-            <div className="mb-10 flex flex-col items-center gap-3">
-              <p className="font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.1em] text-ink/40">
-                One more thing
-              </p>
-              <PlaygroundShapeMorph />
+      <div className="relative mx-auto grid max-w-[84rem] gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-5">
+          <Meta className="contact-reveal mb-5 block text-ink/40">Next build</Meta>
+          <h2 className="contact-reveal font-[family-name:var(--font-cabinet-grotesk)] text-[clamp(2.6rem,7vw,5rem)] font-bold leading-[0.88] tracking-[-0.03em] text-ink">
+            Let&apos;s build
+            <br />
+            something good<span className="text-signal">.</span>
+          </h2>
+          <p className="contact-reveal mt-7 max-w-md text-lg leading-relaxed text-ink/55">
+            Tell me what you&apos;re building and roughly when you need it. If
+            it&apos;s not a fit I&apos;ll say so quickly, and point you at
+            someone it is.
+          </p>
+
+          <dl className="contact-reveal mt-10 space-y-5 border-t border-ink/10 pt-8">
+            <div className="flex items-baseline justify-between gap-4">
+              <dt>
+                <Meta className="text-ink/35">Availability</Meta>
+              </dt>
+              <dd>
+                <Tally tone="accent" className="text-ink/70">
+                  Open for work
+                </Tally>
+              </dd>
             </div>
-          )}
-
-          <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label htmlFor="fullName" className="block text-sm font-medium text-ink/70 mb-2">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  name="fullName"
-                  id="fullName"
-                  autoComplete="name"
-                  placeholder="Jane Doe"
-                  className={`w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink transition-colors duration-200 ease-out focus:outline-none focus:ring-2 ${classes.ring}`}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-ink/70 mb-2">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  autoComplete="email"
-                  placeholder="jane@example.com"
-                  className={`w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink transition-colors duration-200 ease-out focus:outline-none focus:ring-2 ${classes.ring}`}
-                />
-              </div>
+            <div className="flex items-baseline justify-between gap-4">
+              <dt>
+                <Meta className="text-ink/35">Based in</Meta>
+              </dt>
+              <dd className="text-sm text-ink/70">Lagos, Nigeria</dd>
             </div>
-
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-ink/70 mb-2">
-                Your Message
-              </label>
-              <textarea
-                ref={messageRef}
-                name="message"
-                id="message"
-                rows={6}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Tell me about your project..."
-                className={`w-full resize-none rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink transition-colors duration-200 ease-out focus:outline-none focus:ring-2 ${classes.ring}`}
-              />
+            <div className="flex items-baseline justify-between gap-4">
+              <dt>
+                <Meta className="text-ink/35">Elsewhere</Meta>
+              </dt>
+              <dd>
+                <a
+                  href="https://github.com/OkataMiracleDev"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-ink/70 underline decoration-ink/20 underline-offset-4 transition-colors duration-200 ease-out hover:text-ink hover:decoration-ink/50"
+                >
+                  github.com/OkataMiracleDev
+                </a>
+              </dd>
             </div>
+            <div className="flex items-baseline justify-between gap-4">
+              <dt>
+                <Meta className="text-ink/35">Also does</Meta>
+              </dt>
+              <dd>
+                <Link
+                  href="/animate"
+                  className="text-sm text-ink/70 underline decoration-ink/20 underline-offset-4 transition-colors duration-200 ease-out hover:text-ink hover:decoration-ink/50"
+                >
+                  Motion design
+                </Link>
+              </dd>
+            </div>
+          </dl>
+        </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className={`w-full rounded-pill ${classes.button} py-3 font-semibold text-ink transition-transform duration-200 ease-out active:scale-[0.97] ${
-                loading ? "opacity-50 cursor-not-allowed" : "hover:-translate-y-0.5"
-              }`}
+        <div className="contact-reveal lg:col-span-7">
+          <div className="rounded-[2rem] border border-ink/10 bg-stage/60 p-1.5">
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-5 rounded-[calc(2rem-0.375rem)] bg-base/40 p-7 md:p-10"
             >
-              <span className="flex items-center justify-center gap-2">
-                {loading ? "Sending..." : "Send Message"}
-                {!loading && <span>→</span>}
-              </span>
-            </button>
-          </form>
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                <div>
+                  <label htmlFor="build-name" className={labelClass}>
+                    Your name
+                  </label>
+                  <input
+                    type="text"
+                    name="fullName"
+                    id="build-name"
+                    autoComplete="name"
+                    placeholder="Jane Doe"
+                    className={fieldClass}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="build-email" className={labelClass}>
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="build-email"
+                    autoComplete="email"
+                    placeholder="jane@example.com"
+                    className={fieldClass}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="build-message" className={labelClass}>
+                  The brief
+                </label>
+                <textarea
+                  name="message"
+                  id="build-message"
+                  rows={7}
+                  placeholder="What are we building, who is it for, and when does it need to ship?"
+                  className={`${fieldClass} resize-none`}
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className={`group inline-flex w-full items-center justify-between rounded-pill bg-accent-build py-2 pl-6 pr-2 font-medium text-ink transition-transform duration-200 ease-out ${
+                  loading ? "cursor-not-allowed opacity-50" : "active:scale-[0.97]"
+                }`}
+              >
+                <span>{loading ? "Sending..." : "Send it"}</span>
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-ink/15 transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-px">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path
+                      d="M7 17L17 7M17 7H9M17 7V15"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default Contact;
+}

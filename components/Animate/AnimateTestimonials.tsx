@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import OkataRing from "./brand/OkataRing";
-import { Meta } from "./brand/Hud";
+import OkataRing from "@/components/Shared/brand/OkataRing";
+import { Meta } from "@/components/Shared/brand/Hud";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import type { TestimonialContent } from "@/types/content";
 
@@ -70,10 +70,7 @@ export default function AnimateTestimonials({
               <figure className="flex h-full flex-col justify-between gap-8 rounded-[1.75rem] border border-ink/10 bg-frame/50 p-7 transition-colors duration-300 ease-out hover:border-ink/20 md:p-9">
                 <div className="flex items-start gap-5">
                   <OkataRing
-                    className="mt-1 h-7 w-7 shrink-0 md:h-8 md:w-8"
-                    ringColor="var(--color-ink)"
-                    badgeColor="var(--color-accent-animate)"
-                    strokeWidth={12}
+                    className="mt-1 h-8 w-8 shrink-0 md:h-9 md:w-9"
                   />
                   <blockquote
                     className={`font-[family-name:var(--font-cabinet-grotesk)] font-bold leading-[1.18] tracking-tight text-ink ${

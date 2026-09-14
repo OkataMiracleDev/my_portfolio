@@ -2,6 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Meta } from "@/components/Shared/brand/Hud";
 import type { experienceEntries } from "@/lib/db/schema";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -116,13 +117,16 @@ const Experience = ({ entries }: { entries: ExperienceEntry[] }) => {
       ref={sectionRef}
       className="relative w-full flex flex-col bg-base py-16 md:h-screen md:overflow-hidden md:py-0"
     >
-      <div className="w-full md:pt-20">
-        <h2
-          ref={headingRef}
-          className="font-[family-name:var(--font-cabinet-grotesk)] text-3xl md:text-5xl font-bold text-ink text-center px-6"
-        >
-          Work Experience
-        </h2>
+      <div className="w-full px-6 md:px-12 md:pt-24">
+        <div className="mx-auto max-w-[84rem]">
+          <Meta className="mb-5 block text-ink/40">Track record</Meta>
+          <h2
+            ref={headingRef}
+            className="font-[family-name:var(--font-cabinet-grotesk)] text-[clamp(2.6rem,7vw,5.5rem)] font-bold leading-[0.88] tracking-[-0.03em] text-ink"
+          >
+            Where I&apos;ve been<span className="text-signal">.</span>
+          </h2>
+        </div>
       </div>
 
       <div
@@ -132,25 +136,21 @@ const Experience = ({ entries }: { entries: ExperienceEntry[] }) => {
         {entries.map((exp, index) => (
           <div
             key={exp.id}
-            className="experience-card w-[80vw] max-w-[350px] shrink-0 snap-center rounded-card bg-base-raised p-8 md:w-[450px] md:max-w-none md:shrink md:snap-align-none"
+            className="experience-card w-[80vw] max-w-[350px] shrink-0 snap-center rounded-[1.75rem] border border-ink/10 bg-frame/60 p-8 md:w-[450px] md:max-w-none md:shrink md:snap-align-none"
           >
-            <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-accent-build font-[family-name:var(--font-jetbrains-mono)] text-sm font-bold text-ink">
-              {String(index + 1).padStart(2, "0")}
+            <div className="flex items-center justify-between border-b border-ink/10 pb-5">
+              <Meta className="text-ink/30">
+                {String(index + 1).padStart(2, "0")}
+              </Meta>
+              <Meta className="text-accent-build">{exp.year}</Meta>
             </div>
 
-            <div className="mb-4 flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-accent-build" />
-              <span className="font-[family-name:var(--font-jetbrains-mono)] text-sm font-semibold text-accent-build">
-                {exp.year}
-              </span>
-            </div>
-
-            <h3 className="mb-2 font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold text-ink">
+            <h3 className="mt-7 font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold leading-tight tracking-tight text-ink md:text-3xl">
               {exp.role}
             </h3>
-            <p className="mb-6 font-semibold text-accent-build">{exp.company}</p>
+            <p className="mt-2 text-sm font-medium text-accent-build">{exp.company}</p>
 
-            <p className="mb-6 text-sm text-ink/70">{exp.description}</p>
+            <p className="mt-6 text-sm leading-relaxed text-ink/55">{exp.description}</p>
           </div>
         ))}
       </div>

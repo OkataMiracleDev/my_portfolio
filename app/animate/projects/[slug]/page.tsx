@@ -6,8 +6,8 @@ import StoryboardGallery from "@/components/Animate/StoryboardGallery";
 import VideoEmbed from "@/components/Animate/VideoEmbed";
 import AnimateFooter from "@/components/Animate/AnimateFooter";
 import JsonLd from "@/components/Shared/JsonLd";
-import OkataRing from "@/components/Animate/brand/OkataRing";
-import { FrameTicks, Meta, Tally } from "@/components/Animate/brand/Hud";
+import OkataRing from "@/components/Shared/brand/OkataRing";
+import { FrameTicks, Meta, Tally } from "@/components/Shared/brand/Hud";
 import { getMotionProjectBySlug, getMotionProjects } from "@/lib/data/public";
 
 export const dynamic = "force-dynamic";
@@ -56,8 +56,6 @@ export default async function AnimateProjectPage({ params }: Props) {
         <div className="flex min-h-[70vh] flex-col items-center justify-center gap-6 px-6 pt-32 text-center">
           <OkataRing
             className="h-16 w-16 opacity-60"
-            ringColor="var(--color-ink)"
-            strokeWidth={9}
           />
           <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold tracking-tight text-ink">
             No such take
@@ -104,8 +102,6 @@ export default async function AnimateProjectPage({ params }: Props) {
       <header className="okata-stage relative overflow-hidden px-6 pb-14 pt-36 md:px-12 md:pb-20 md:pt-48">
         <OkataRing
           className="okata-ring-drift pointer-events-none absolute -right-48 -top-32 h-[34rem] w-[34rem] opacity-[0.055]"
-          ringColor="var(--color-ink)"
-          strokeWidth={7}
         />
         <div className="relative mx-auto max-w-[84rem]">
           <Meta className="okata-rise mb-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-ink/40">
@@ -185,7 +181,11 @@ export default async function AnimateProjectPage({ params }: Props) {
               <div className="relative overflow-hidden rounded-[calc(2rem-0.375rem)] bg-stage md:rounded-[calc(2rem-0.5rem)]">
                 <div className="relative aspect-[16/9] w-full">
                   {project.videoEmbedUrl ? (
-                    <VideoEmbed embedUrl={project.videoEmbedUrl} title={project.title} />
+                    <VideoEmbed
+                      embedUrl={project.videoEmbedUrl}
+                      title={project.title}
+                      poster={project.thumbnail}
+                    />
                   ) : (
                     <>
                       <Image
@@ -202,8 +202,6 @@ export default async function AnimateProjectPage({ params }: Props) {
                       <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 px-6 text-center">
                         <OkataRing
                           className="okata-ring-drift h-14 w-14 opacity-70"
-                          ringColor="var(--color-ink)"
-                          strokeWidth={9}
                         />
                         <p className="font-[family-name:var(--font-cabinet-grotesk)] text-xl font-bold tracking-tight text-ink md:text-3xl">
                           Reel coming soon

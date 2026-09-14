@@ -3,19 +3,22 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import OkataRing from "./brand/OkataRing";
-import { Tally } from "./brand/Hud";
+import OkataRing from "@/components/Shared/brand/OkataRing";
+import { Tally } from "@/components/Shared/brand/Hud";
 
-const LINKS = [
-  { label: "Index", href: "/animate" },
-  { label: "Work", href: "/animate/projects" },
-  { label: "Resources", href: "/animate/resources" },
-  { label: "Rates", href: "/animate/rates" },
-];
+/**
+ * The floating nav for both studio routes.
+ *
+ * /animate and /build previously had two separate nav components that had
+ * already drifted apart -- different link shapes, different hit areas, one with
+ * icon-only links whose meaning you had to guess. They are the same object in
+ * two liveries, so this is one component taking a link list and an accent, and
+ * both routes render it.
+ */
 
-function isActive(pathname: string, href: string) {
-  if (href === "/animate") return pathname === "/animate";
-  return pathname.startsWith(href);
+export interface StudioNavLink {
+  label: string;
+  href: string;
 }
 
 function Arrow() {
@@ -32,11 +35,38 @@ function Arrow() {
   );
 }
 
-export default function AnimateNav() {
+export default function StudioNav({
+  links,
+  homeHref,
+  ctaHref,
+  ctaLabel = "Start a project",
+  accent,
+  ariaLabel,
+  statusLabel = "Open for work",
+}: {
+  links: StudioNavLink[];
+  /** The route's own index, used to decide which link is "current". */
+  homeHref: string;
+  ctaHref: string;
+  ctaLabel?: string;
+  accent: "animate" | "build";
+  ariaLabel: string;
+  statusLabel?: string;
+}) {
   const pathname = usePathname() ?? "";
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+
+  const accentBg = accent === "build" ? "bg-accent-build" : "bg-accent-animate";
+  const accentText = accent === "build" ? "text-accent-build" : "text-accent-animate";
+
+  function isActive(href: string) {
+    // The index would otherwise match every child route, since every one of
+    // them starts with it.
+    if (href === homeHref) return pathname === homeHref;
+    return pathname.startsWith(href);
+  }
 
   // Tapping a link inside the overlay navigates, but the overlay itself would
   // otherwise survive the transition and cover the page it just opened.
@@ -71,7 +101,7 @@ export default function AnimateNav() {
     <>
       <header className="pointer-events-none fixed inset-x-0 top-0 z-[10000] flex justify-center px-4 pt-5 md:pt-7">
         <nav
-          aria-label="Animate"
+          aria-label={ariaLabel}
           className="pointer-events-auto flex w-full max-w-3xl items-center gap-3 rounded-pill border border-ink/10 bg-frame/70 p-1.5 pl-2.5 backdrop-blur-xl md:gap-4 md:pl-4"
         >
           <Link
@@ -80,18 +110,16 @@ export default function AnimateNav() {
             className="flex shrink-0 items-center gap-2.5"
           >
             <OkataRing
-              className="okata-ring-drift h-6 w-6 shrink-0"
-              ringColor="var(--color-ink)"
-              strokeWidth={12}
+              className="okata-ring-drift h-8 w-8 shrink-0"
             />
             <span className="hidden font-[family-name:var(--font-cabinet-grotesk)] text-sm font-bold leading-none tracking-tight text-ink sm:inline">
-              Okata<span className="text-accent-animate">studios</span>
+              Okata<span className={accentText}>studios</span>
             </span>
           </Link>
 
           <ul className="hidden flex-1 items-center justify-center gap-0.5 md:flex">
-            {LINKS.map((link) => {
-              const active = isActive(pathname, link.href);
+            {links.map((link) => {
+              const active = isActive(link.href);
               return (
                 <li key={link.href}>
                   <Link
@@ -109,10 +137,10 @@ export default function AnimateNav() {
           </ul>
 
           <Link
-            href="/animate#contact"
-            className="group ml-auto hidden shrink-0 items-center gap-2 rounded-pill bg-accent-animate py-1.5 pl-4 pr-1.5 text-sm font-medium text-ink transition-transform duration-200 ease-out active:scale-[0.97] md:inline-flex"
+            href={ctaHref}
+            className={`group ml-auto hidden shrink-0 items-center gap-2 rounded-pill ${accentBg} py-1.5 pl-4 pr-1.5 text-sm font-medium text-ink transition-transform duration-200 ease-out active:scale-[0.97] md:inline-flex`}
           >
-            <span>Start a project</span>
+            <span>{ctaLabel}</span>
             {/* Button-in-button: the arrow sits in its own well, flush with the
                 pill's inner padding, and drifts diagonally on hover. */}
             <span className="flex h-7 w-7 items-center justify-center rounded-full bg-ink/15 transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-px">
@@ -125,7 +153,7 @@ export default function AnimateNav() {
             type="button"
             onClick={() => setOpen((current) => !current)}
             aria-expanded={open}
-            aria-controls="animate-menu"
+            aria-controls="studio-menu"
             aria-label={open ? "Close menu" : "Open menu"}
             className="ml-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink/10 transition-transform duration-200 ease-out active:scale-[0.94] md:hidden"
           >
@@ -149,7 +177,7 @@ export default function AnimateNav() {
       {/* Kept mounted rather than unmounted so the links can transition out as
           well as in. While closed it is click-through and untabbable. */}
       <div
-        id="animate-menu"
+        id="studio-menu"
         ref={panelRef}
         tabIndex={-1}
         aria-hidden={!open}
@@ -159,7 +187,7 @@ export default function AnimateNav() {
       >
         <div className="flex h-full flex-col justify-between px-6 pb-10 pt-28">
           <ul className="flex flex-col gap-1">
-            {LINKS.map((link, i) => (
+            {links.map((link, i) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
@@ -182,17 +210,17 @@ export default function AnimateNav() {
             }`}
           >
             <Link
-              href="/animate#contact"
+              href={ctaHref}
               tabIndex={open ? undefined : -1}
-              className="inline-flex w-full items-center justify-between rounded-pill bg-accent-animate py-2 pl-6 pr-2 font-medium text-ink transition-transform duration-200 ease-out active:scale-[0.97]"
+              className={`inline-flex w-full items-center justify-between rounded-pill ${accentBg} py-2 pl-6 pr-2 font-medium text-ink transition-transform duration-200 ease-out active:scale-[0.97]`}
             >
-              <span>Start a project</span>
+              <span>{ctaLabel}</span>
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ink/15">
                 <Arrow />
               </span>
             </Link>
             <div className="flex items-center justify-between">
-              <Tally className="text-ink/45">Open for work</Tally>
+              <Tally className="text-ink/45">{statusLabel}</Tally>
               <Link
                 href="/"
                 tabIndex={open ? undefined : -1}

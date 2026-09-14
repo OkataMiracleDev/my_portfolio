@@ -87,7 +87,11 @@ export default async function ClientPortalPage({ params }: { params: Promise<{ t
 
                   {update.videoEmbedUrl && (
                     <div className="relative mb-4 w-full overflow-hidden rounded-card bg-base-raised" style={{ paddingBottom: "56.25%" }}>
-                      <VideoEmbed embedUrl={update.videoEmbedUrl} title={update.title} />
+                      <VideoEmbed
+                        embedUrl={update.videoEmbedUrl}
+                        title={update.title}
+                        poster={update.images[0]}
+                      />
                     </div>
                   )}
 

@@ -157,6 +157,128 @@ body {
 
 
 /* ---------------------------------------------------------------------------
+   Article typography
+   ---------------------------------------------------------------------------
+   The blog post page and the admin post preview both used Tailwind's `prose`
+   class, but @tailwindcss/typography is not installed -- so `prose` matched
+   nothing and every rendered markdown post came out as undifferentiated
+   16px body text with no heading hierarchy, no list markers and no code
+   styling. This is the minimum that class was supposed to provide, written
+   against the brand's own tokens rather than pulling in the plugin.
+   --------------------------------------------------------------------------- */
+.okata-prose {
+  color: color-mix(in oklab, var(--color-ink) 68%, transparent);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+.okata-prose > * + * {
+  margin-top: 1.35em;
+}
+
+.okata-prose h2,
+.okata-prose h3,
+.okata-prose h4 {
+  font-family: var(--font-cabinet-grotesk), sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--color-ink);
+  margin-top: 2.2em;
+  margin-bottom: 0.6em;
+}
+
+.okata-prose h2 {
+  font-size: 1.9rem;
+}
+
+.okata-prose h3 {
+  font-size: 1.45rem;
+}
+
+.okata-prose h4 {
+  font-size: 1.15rem;
+}
+
+.okata-prose strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.okata-prose a {
+  color: var(--color-accent-build);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: color-mix(in oklab, var(--color-accent-build) 40%, transparent);
+}
+
+.okata-prose a:hover {
+  text-decoration-color: currentColor;
+}
+
+.okata-prose ul,
+.okata-prose ol {
+  padding-left: 1.4em;
+}
+
+.okata-prose ul {
+  list-style: disc;
+}
+
+.okata-prose ol {
+  list-style: decimal;
+}
+
+.okata-prose li::marker {
+  color: color-mix(in oklab, var(--color-ink) 35%, transparent);
+}
+
+.okata-prose li + li {
+  margin-top: 0.5em;
+}
+
+.okata-prose blockquote {
+  border-left: 2px solid color-mix(in oklab, var(--color-accent-build) 55%, transparent);
+  padding-left: 1.2em;
+  font-style: italic;
+  color: color-mix(in oklab, var(--color-ink) 78%, transparent);
+}
+
+.okata-prose code {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 0.875em;
+  background: color-mix(in oklab, var(--color-ink) 8%, transparent);
+  border-radius: 0.375rem;
+  padding: 0.15em 0.4em;
+}
+
+.okata-prose pre {
+  background: var(--color-stage);
+  border: 1px solid color-mix(in oklab, var(--color-ink) 10%, transparent);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  /* Long lines scroll inside the block instead of widening the page. */
+  overflow-x: auto;
+}
+
+.okata-prose pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.85em;
+}
+
+.okata-prose img {
+  border-radius: 1rem;
+}
+
+.okata-prose hr {
+  border: 0;
+  border-top: 1px solid color-mix(in oklab, var(--color-ink) 12%, transparent);
+  margin-top: 2.5em;
+  margin-bottom: 2.5em;
+}
+
+/* ---------------------------------------------------------------------------
    /animate "dark cinema" motion layer
    ---------------------------------------------------------------------------
    Everything below is scoped to the /animate route by class name. All of it
@@ -235,7 +357,12 @@ body {
 
 .okata-ring-drift {
   animation: okata-ring-drift 44s linear infinite;
-  transform-origin: 50% 50%;
+  /* Not 50% 50%. The mark's badge juts out past the ring on the right, so the
+     ring's centre sits at 46.64% of the asset's width, not the middle of its
+     box. Spinning about the box centre wobbles the ring; spinning about the
+     ring's own centre keeps it still and sends the badge round it, which is
+     the intended reading. Measured from public/okata-logomark.png. */
+  transform-origin: 46.64% 50%;
 }
 
 .okata-tally {

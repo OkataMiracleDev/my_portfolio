@@ -1,5 +1,12 @@
-import AnimateNav from "@/components/Animate/AnimateNav";
+import StudioNav from "@/components/Shared/StudioNav";
 import { recordVisit } from "@/lib/analytics/record-visit";
+
+const LINKS = [
+  { label: "Index", href: "/animate" },
+  { label: "Work", href: "/animate/projects" },
+  { label: "Resources", href: "/animate/resources" },
+  { label: "Rates", href: "/animate/rates" },
+];
 
 export default async function AnimateLayout({
   children,
@@ -15,7 +22,13 @@ export default async function AnimateLayout({
     // The logomark used to sit here as a second fixed element in the top-left;
     // it now lives inside the nav pill, so there is only one floating object.
     <div className="okata-grain relative min-h-screen bg-base font-[family-name:var(--font-general-sans)] text-ink">
-      <AnimateNav />
+      <StudioNav
+        links={LINKS}
+        homeHref="/animate"
+        ctaHref="/animate#contact"
+        accent="animate"
+        ariaLabel="Animate"
+      />
       {children}
     </div>
   );

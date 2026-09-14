@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import OkataRing from "./brand/OkataRing";
-import { Meta, Tally } from "./brand/Hud";
+import OkataRing from "@/components/Shared/brand/OkataRing";
+import { Meta, Tally } from "@/components/Shared/brand/Hud";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -119,9 +119,6 @@ export default function AnimateContact() {
       />
       <OkataRing
         className="okata-ring-drift pointer-events-none absolute -right-32 -top-32 h-[28rem] w-[28rem] opacity-[0.05]"
-        ringColor="var(--color-ink)"
-        badgeColor="var(--color-signal)"
-        strokeWidth={7}
       />
 
       <div className="relative mx-auto grid max-w-[84rem] gap-12 lg:grid-cols-12 lg:gap-16">

@@ -1,8 +1,9 @@
-import React from "react";
-import SectionHeading from "@/components/Helper/SectionHeading";
-import Image from "next/image";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { Metadata } from "next";
+import WorkCard from "@/components/Shared/WorkCard";
+import Footer from "@/components/Home/Footer/Footer";
+import OkataRing from "@/components/Shared/brand/OkataRing";
+import { Meta, Tally } from "@/components/Shared/brand/Hud";
 import { getDevProjects } from "@/lib/data/public";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +14,8 @@ export const metadata: Metadata = {
     "Frontend development case studies by Okata Studios — real client and product work built with React, Next.js, TypeScript, and Tailwind CSS.",
   openGraph: {
     title: "Dev Projects | Okata Studios",
-    description: "Frontend development case studies built with React, Next.js, TypeScript, and Tailwind CSS.",
+    description:
+      "Frontend development case studies built with React, Next.js, TypeScript, and Tailwind CSS.",
     url: "https://www.okata-miracle.site/build/projects",
     siteName: "Okata Studios",
     type: "website",
@@ -23,103 +25,98 @@ export const metadata: Metadata = {
   },
 };
 
-// Groups projects into pairs so they read as "spreads" (two facing pages
-// split by a spine), matching the picture-book layout used on the homepage
-// preview. A trailing odd project out just renders alone, undivided.
-function toSpreads<T>(items: T[]): T[][] {
-  const spreads: T[][] = [];
-  for (let i = 0; i < items.length; i += 2) {
-    spreads.push(items.slice(i, i + 2));
-  }
-  return spreads;
-}
-
-const ProjectsPage = async () => {
+export default async function ProjectsPage() {
   const projects = await getDevProjects();
-  const spreads = toSpreads(projects);
 
   return (
-    <div className="min-h-screen pt-32 pb-20 px-6">
-      <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-10">
-          <SectionHeading heading="All Projects" />
-          <p className="mt-3 text-lg text-ink/70">
-            A collection of my recent work and client projects
+    <>
+      <header className="okata-stage relative overflow-hidden px-6 pb-16 pt-36 md:px-12 md:pb-24 md:pt-48">
+        <OkataRing className="okata-ring-drift pointer-events-none absolute -right-40 -top-24 h-[30rem] w-[30rem] opacity-[0.06]" />
+        <div className="relative mx-auto max-w-[84rem]">
+          <Meta className="okata-rise mb-6 flex items-center gap-3 text-ink/40">
+            <span>Archive</span>
+            <span aria-hidden="true" className="h-px w-10 bg-ink/20" />
+            <span>{String(projects.length).padStart(2, "0")} builds</span>
+          </Meta>
+
+          <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-[clamp(3rem,10vw,8.5rem)] font-bold leading-[0.86] tracking-[-0.035em] text-ink">
+            <span className="okata-line">
+              <span>Everything</span>
+            </span>
+            <span className="okata-line">
+              <span style={{ animationDelay: "90ms" }}>
+                shipped<span className="text-signal">.</span>
+              </span>
+            </span>
+          </h1>
+
+          <p
+            className="okata-rise mt-8 max-w-lg text-lg leading-relaxed text-ink/55"
+            style={{ animationDelay: "380ms" }}
+          >
+            Client and product work. Each one opens into what it was, what it
+            was built with, and what it actually does.
           </p>
         </div>
+      </header>
 
-        <div className="space-y-6 mb-12">
-          {spreads.map((spread, spreadIndex) => (
-            <div
-              key={spreadIndex}
-              className={`grid grid-cols-1 gap-10 rounded-card bg-base-raised px-6 py-10 md:gap-0 md:px-4 md:py-12 ${
-                spread.length > 1 ? "md:grid-cols-2 md:divide-x md:divide-ink/10" : "md:grid-cols-1"
-              }`}
-            >
-              {spread.map((project, i) => {
-                const index = spreadIndex * 2 + i;
-                return (
-                  <Link
-                    key={project.id}
-                    href={`/build/projects/${project.slug}`}
-                    className="group flex flex-col items-center px-2 text-center md:px-10"
-                  >
-                    <div
-                      className={`relative h-36 w-36 overflow-hidden rounded-2xl bg-base shadow-[0_8px_24px_rgb(0_0_0_/_0.08)] transition-transform duration-300 ease-out group-hover:scale-[1.04] group-hover:rotate-0 md:h-44 md:w-44 ${
-                        index % 2 === 0 ? "-rotate-3" : "rotate-3"
-                      }`}
-                    >
-                      <Image
-                        src={project.image}
-                        alt={project.name}
-                        fill
-                        quality={90}
-                        className="object-cover"
-                      />
-                    </div>
-
-                    <span className="mt-5 font-[family-name:var(--font-jetbrains-mono)] text-xs text-accent-build">
-                      {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
-                    </span>
-                    <h3 className="mt-2 font-[family-name:var(--font-cabinet-grotesk)] text-lg font-bold text-ink">
-                      {project.name}
-                    </h3>
-                    <p className="mt-2 max-w-xs text-sm text-ink/70 line-clamp-2">
-                      {project.description}
-                    </p>
-                    <ul className="mt-4 flex flex-wrap justify-center gap-2">
-                      {project.technology.map((tech) => (
-                        <li
-                          key={tech}
-                          className="rounded-pill bg-ink/5 px-3 py-1 text-xs text-ink/70"
-                        >
-                          {tech}
-                        </li>
-                      ))}
-                    </ul>
-                    <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-accent-build">
-                      View Project
-                      <span className="transition-transform duration-200 ease-out group-hover:translate-x-1">→</span>
-                    </span>
-                  </Link>
-                );
-              })}
+      <main className="px-6 pb-24 md:px-12 md:pb-36">
+        <div className="mx-auto max-w-[84rem]">
+          {projects.length === 0 ? (
+            <div className="flex flex-col items-center gap-5 rounded-[1.75rem] border border-ink/10 bg-frame/50 px-6 py-24 text-center">
+              <OkataRing className="h-14 w-14 opacity-60" />
+              <p className="font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold tracking-tight text-ink">
+                Nothing published yet
+              </p>
+              <Link
+                href="/build#contact"
+                className="mt-2 rounded-pill bg-accent-build px-6 py-2.5 text-sm font-medium text-ink transition-transform duration-200 ease-out active:scale-[0.97]"
+              >
+                Get in touch
+              </Link>
             </div>
-          ))}
-        </div>
+          ) : (
+            <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {projects.map((project, i) => (
+                <li key={project.id}>
+                  <WorkCard
+                    href={`/build/projects/${project.slug}`}
+                    image={project.image}
+                    title={project.name}
+                    description={project.description}
+                    index={i}
+                    eyebrow={project.type ?? "Case study"}
+                    tags={project.technology}
+                    accent="build"
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
 
-        <div className="flex justify-center">
-          <Link
-            href="/build"
-            className="group inline-flex items-center gap-3 rounded-pill border border-ink/15 px-6 py-3 font-medium text-ink transition-colors duration-200 ease-out hover:bg-ink/5"
-          >
-            <span>←</span>
-            <span>Back to Home</span>
-          </Link>
+          <div className="mt-16 flex flex-col items-center gap-6 border-t border-ink/10 pt-12 sm:flex-row sm:justify-between">
+            <Tally tone="accent" className="text-ink/45">
+              Open for work
+            </Tally>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/build"
+                className="rounded-pill border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink/75 transition-colors duration-200 ease-out hover:border-ink/35 hover:text-ink"
+              >
+                Back to index
+              </Link>
+              <Link
+                href="/build#contact"
+                className="rounded-pill bg-accent-build px-5 py-2.5 text-sm font-medium text-ink transition-transform duration-200 ease-out active:scale-[0.97]"
+              >
+                Start a project
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </main>
+
+      <Footer />
+    </>
   );
-};
-
-export default ProjectsPage;
+}
