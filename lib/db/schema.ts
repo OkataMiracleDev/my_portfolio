@@ -283,3 +283,65 @@ export const pluginPurchases = sqliteTable("plugin_purchases", {
   downloadToken: text("download_token").unique(), // set only when status -> paid
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
 });
+
+// ---------------------------------------------------------------------------
+// Public /animate/rates page content.
+//
+// Distinct from `rateCards` above: that table holds per-client cards rendered
+// behind a portal token, one row per client. These four tables back the single
+// public rate card at /animate/rates, which was previously hardcoded as
+// SERVICES/ADDONS/TERMS consts in the page and a TIERS const in
+// components/Animate/RateCard/RetainerPricing.tsx. Split by section rather
+// than stuffed into one JSON blob so each row is individually editable and
+// reorderable in admin, matching how every other content table here works.
+//
+// lib/constants/rate-card-defaults.ts keeps the original hardcoded values as
+// the seed source and as a fallback for any section whose table is empty, so
+// the public page can never render a blank section.
+// ---------------------------------------------------------------------------
+
+// Track 01 — monthly retainer tiers.
+export const rateRetainerTiers = sqliteTable("rate_retainer_tiers", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  // Display code in the card's top-left ("R01"), not a sort key — sortOrder is.
+  code: text("code").notNull(),
+  name: text("name").notNull(),
+  tagline: text("tagline").notNull(),
+  // The only real number on this page: stored as an integer so the yearly
+  // price (x10 months) stays derivable. Everything else is free text.
+  monthly: integer("monthly").notNull(),
+  features: text("features", { mode: "json" }).$type<string[]>().notNull().default(sql`'[]'`),
+  // Drives the "Most chosen" badge and the raised dark treatment. Nothing
+  // enforces that only one row has it — that is the admin's call.
+  featured: integer("featured", { mode: "boolean" }).notNull().default(false),
+  sortOrder: integer("sort_order").notNull().default(0),
+});
+
+// Track 02 — one-off project work.
+export const rateServices = sqliteTable("rate_services", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  // The SMPTE-style label above each card ("00:00:01:00").
+  timecode: text("timecode").notNull(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  // Free text, not a number: these are ranges ("$300 - $800").
+  price: text("price").notNull(),
+  unit: text("unit").notNull(),
+  sortOrder: integer("sort_order").notNull().default(0),
+});
+
+// Track 03 — add-ons stacked onto any project.
+export const rateAddons = sqliteTable("rate_addons", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  name: text("name").notNull(),
+  // Free text so "+25%", "$150 / round" and "$100" all work.
+  value: text("value").notNull(),
+  sortOrder: integer("sort_order").notNull().default(0),
+});
+
+// "Terms, at a glance" — the numbered list at the foot of the page.
+export const rateTerms = sqliteTable("rate_terms", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  body: text("body").notNull(),
+  sortOrder: integer("sort_order").notNull().default(0),
+});

@@ -93,7 +93,7 @@ export default function AnimateTestimonials({
                       alt=""
                       fill
                       sizes="40px"
-                      quality={85}
+                      quality={75}
                       className="object-cover"
                     />
                   </span>

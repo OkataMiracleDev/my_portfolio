@@ -31,7 +31,7 @@ export default function MotionProjectCard({
             alt={project.title}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            quality={85}
+            quality={75}
             className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.23,1,0.32,1)] [@media(hover:hover)and(pointer:fine)]:group-hover:scale-[1.04]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-stage/85 via-transparent to-stage/25" />

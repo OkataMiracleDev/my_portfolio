@@ -5,63 +5,15 @@ import Link from "next/link";
 
 type Billing = "monthly" | "yearly";
 
-type Tier = {
+export type Tier = {
   id: string;
-  index: string;
+  code: string;
   name: string;
   tagline: string;
   monthly: number;
   features: string[];
-  featured?: boolean;
+  featured: boolean;
 };
-
-/* Ported from the old RETAINER_TIERS list, expanded with what each tier
-   actually includes so the cards can carry a real feature comparison
-   instead of a one-line description. */
-const TIERS: Tier[] = [
-  {
-    id: "starter",
-    index: "R01",
-    name: "Starter",
-    tagline: "For brands shipping a handful of things each month.",
-    monthly: 800,
-    features: [
-      "2–3 short deliverables per month",
-      "2 revision rounds per deliverable",
-      "5–10 business-day turnaround",
-      "Email support, next-day replies",
-    ],
-  },
-  {
-    id: "growth",
-    index: "R02",
-    name: "Growth",
-    tagline: "The steady-stream setup most teams settle on.",
-    monthly: 1500,
-    featured: true,
-    features: [
-      "4–6 deliverables per month",
-      "3 revision rounds per deliverable",
-      "Priority 3–5 day turnaround",
-      "Shared Slack channel",
-      "Editable source files included",
-    ],
-  },
-  {
-    id: "studio",
-    index: "R03",
-    name: "Studio",
-    tagline: "Reserved capacity — effectively an in-house motion team.",
-    monthly: 2500,
-    features: [
-      "Reserved weekly capacity",
-      "Unlimited revision rounds",
-      "48–72 hour turnaround",
-      "Direct line + weekly sync call",
-      "Source files + motion-system docs",
-    ],
-  },
-];
 
 const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
 
@@ -80,7 +32,7 @@ function Check({ className }: { className: string }) {
   );
 }
 
-export default function RetainerPricing() {
+export default function RetainerPricing({ tiers }: { tiers: Tier[] }) {
   const [billing, setBilling] = useState<Billing>("monthly");
   const isYearly = billing === "yearly";
 
@@ -137,8 +89,14 @@ export default function RetainerPricing() {
       </p>
 
       {/* Tiers */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        {TIERS.map((tier) => {
+      {/* Three tiers is the designed case, but the list is admin-editable now,
+          so the column count follows it instead of being pinned at three. */}
+      <div
+        className={`grid grid-cols-1 gap-4 ${
+          tiers.length === 1 ? "md:max-w-sm md:mx-auto" : tiers.length === 2 ? "md:grid-cols-2" : "md:grid-cols-3"
+        }`}
+      >
+        {tiers.map((tier) => {
           const yearlyTotal = tier.monthly * 10;
           const perMonth = Math.round(yearlyTotal / 12);
           const big = isYearly ? usd(perMonth) : usd(tier.monthly);
@@ -168,7 +126,7 @@ export default function RetainerPricing() {
                     featured ? "text-[var(--color-base)]/50" : "text-ink/40"
                   }`}
                 >
-                  {tier.index}
+                  {tier.code}
                 </span>
                 {featured && (
                   <span className="rounded-pill bg-accent-animate px-2.5 py-1 font-[family-name:var(--font-jetbrains-mono)] text-[0.625rem] uppercase tracking-[0.08em] text-ink">

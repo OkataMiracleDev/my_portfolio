@@ -1,53 +1,30 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import RetainerPricing from "@/components/Animate/RateCard/RetainerPricing";
+import {
+  getRetainerTiers,
+  getRateServices,
+  getRateAddons,
+  getRateTerms,
+} from "@/lib/data/public";
 
 export const metadata: Metadata = {
   title: "Rate Card | Okata Studios",
   description: "Project and retainer pricing for motion design work with Okata Studios.",
 };
 
-const SERVICES = [
-  {
-    number: "00:00:01:00",
-    title: "Brand Animation",
-    description: "Logo reveals, brand intros/outros, motion identity systems.",
-    price: "$300 – $800",
-    unit: "Per deliverable",
-  },
-  {
-    number: "00:00:02:00",
-    title: "UI Micro-interactions",
-    description: "Button states, transitions, loading sequences — priced per interaction set.",
-    price: "$250 – $600",
-    unit: "Per interaction set",
-  },
-  {
-    number: "00:00:03:00",
-    title: "Social & Explainer",
-    description: "Short-form video and explainer content, kinetic typography, up to 60–90 sec.",
-    price: "$400 – $1,000",
-    unit: "Per video",
-  },
-];
+// Prices are edited in /admin/rates and revalidatePath'd on save, but the page
+// also prints the current year, so it cannot be fully static anyway.
+export const dynamic = "force-dynamic";
 
-const ADDONS = [
-  { name: "Rush delivery (under 5 business days)", value: "+25%" },
-  { name: "Extra revision round (beyond included)", value: "$150 / round" },
-  { name: "Source file handoff (.aep, raw assets)", value: "$100" },
-  { name: "Voiceover / TTS integration", value: "$150" },
-];
-
-const TERMS = [
-  "50% deposit to start, balance due on final delivery.",
-  "2 rounds of revisions included per project — additional rounds billed as add-ons.",
-  "Project timelines confirmed after the scoping call, typically 5–10 business days depending on scope.",
-  "Retainer clients get priority scheduling over new project inquiries.",
-  "Usage rights: final files are for the agreed use case (social, web, ads, etc.) — broader licensing available on request.",
-];
-
-export default function RateCardPage() {
+export default async function RateCardPage() {
   const year = new Date().getFullYear();
+  const [tiers, services, addons, terms] = await Promise.all([
+    getRetainerTiers(),
+    getRateServices(),
+    getRateAddons(),
+    getRateTerms(),
+  ]);
 
   return (
     <div className="min-h-screen px-6 pb-24 pt-32 md:px-12">
@@ -79,7 +56,7 @@ export default function RateCardPage() {
           </div>
         </header>
 
-        <RetainerPricing />
+        <RetainerPricing tiers={tiers} />
 
         {/* Track 02 — one-off project work */}
         <section className="border-b border-ink/10 py-20 md:py-28">
@@ -94,11 +71,19 @@ export default function RateCardPage() {
             scope.
           </p>
 
-          <div className="grid grid-cols-1 gap-px overflow-hidden rounded-card bg-ink/10 md:grid-cols-3">
-            {SERVICES.map((service) => (
-              <div key={service.title} className="flex flex-col bg-base p-6 md:p-7">
+          <div
+            className={`grid grid-cols-1 gap-px overflow-hidden rounded-card bg-ink/10 ${
+              services.length === 1
+                ? ""
+                : services.length === 2
+                  ? "md:grid-cols-2"
+                  : "md:grid-cols-3"
+            }`}
+          >
+            {services.map((service) => (
+              <div key={service.id} className="flex flex-col bg-base p-6 md:p-7">
                 <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-xs text-accent-animate">
-                  {service.number}
+                  {service.timecode}
                 </p>
                 <h3 className="mb-2 font-[family-name:var(--font-cabinet-grotesk)] text-lg font-bold text-ink">
                   {service.title}
@@ -124,8 +109,8 @@ export default function RateCardPage() {
             Stack these onto any project
           </h2>
           <div className="divide-y divide-ink/10 border-y border-ink/10">
-            {ADDONS.map((addon) => (
-              <div key={addon.name} className="flex items-center justify-between gap-6 py-4">
+            {addons.map((addon) => (
+              <div key={addon.id} className="flex items-center justify-between gap-6 py-4">
                 <span className="text-sm text-ink/85">{addon.name}</span>
                 <span className="shrink-0 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate">
                   {addon.value}
@@ -141,12 +126,12 @@ export default function RateCardPage() {
             Terms, at a glance
           </h2>
           <ol className="mt-10 divide-y divide-ink/10 border-t border-ink/10">
-            {TERMS.map((term, i) => (
-              <li key={term} className="grid grid-cols-[auto_1fr] gap-5 py-5">
+            {terms.map((term, i) => (
+              <li key={term.id} className="grid grid-cols-[auto_1fr] gap-5 py-5">
                 <span className="font-[family-name:var(--font-jetbrains-mono)] text-xs tabular-nums text-ink/35">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="max-w-[65ch] text-sm leading-relaxed text-ink/65">{term}</span>
+                <span className="max-w-[65ch] text-sm leading-relaxed text-ink/65">{term.body}</span>
               </li>
             ))}
           </ol>

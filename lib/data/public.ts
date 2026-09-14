@@ -10,6 +10,10 @@ import {
   funFactCards,
   animateCredentials,
   studioPlugins,
+  rateRetainerTiers,
+  rateServices,
+  rateAddons,
+  rateTerms,
 } from "@/lib/db/schema";
 import type {
   ResourceContent,
@@ -18,6 +22,12 @@ import type {
   StudioPluginContent,
 } from "@/types/content";
 import { slugifyTag } from "@/lib/utils/slugify-tag";
+import {
+  DEFAULT_RETAINER_TIERS,
+  DEFAULT_SERVICES,
+  DEFAULT_ADDONS,
+  DEFAULT_TERMS,
+} from "@/lib/constants/rate-card-defaults";
 
 // Dev projects: consolidates data/data.ts's three overlapping arrays
 // (projectsData, homeprojectsData, projectsSliderData). Callers that
@@ -136,6 +146,58 @@ export async function getFunFactCards() {
 
 export async function getAnimateCredentials() {
   return db.select().from(animateCredentials).orderBy(asc(animateCredentials.sortOrder));
+}
+
+// --- Public /animate/rates content -----------------------------------------
+//
+// Each getter falls back to the hardcoded defaults when its table is empty, so
+// an unseeded database (or a section the admin cleared out) still renders the
+// page that was live before it became editable rather than a blank section.
+// The fallback rows are shaped like table rows -- synthetic ids, sortOrder
+// already in array order -- so callers never branch on where the data came
+// from. See lib/constants/rate-card-defaults.ts for the trade-off this makes.
+
+export async function getRetainerTiers() {
+  const rows = await db
+    .select()
+    .from(rateRetainerTiers)
+    .orderBy(asc(rateRetainerTiers.sortOrder));
+  if (rows.length > 0) return rows;
+  return DEFAULT_RETAINER_TIERS.map((tier, index) => ({
+    ...tier,
+    id: `default-tier-${index}`,
+    sortOrder: index,
+  }));
+}
+
+export async function getRateServices() {
+  const rows = await db.select().from(rateServices).orderBy(asc(rateServices.sortOrder));
+  if (rows.length > 0) return rows;
+  return DEFAULT_SERVICES.map((service, index) => ({
+    ...service,
+    id: `default-service-${index}`,
+    sortOrder: index,
+  }));
+}
+
+export async function getRateAddons() {
+  const rows = await db.select().from(rateAddons).orderBy(asc(rateAddons.sortOrder));
+  if (rows.length > 0) return rows;
+  return DEFAULT_ADDONS.map((addon, index) => ({
+    ...addon,
+    id: `default-addon-${index}`,
+    sortOrder: index,
+  }));
+}
+
+export async function getRateTerms() {
+  const rows = await db.select().from(rateTerms).orderBy(asc(rateTerms.sortOrder));
+  if (rows.length > 0) return rows;
+  return DEFAULT_TERMS.map((body, index) => ({
+    body,
+    id: `default-term-${index}`,
+    sortOrder: index,
+  }));
 }
 
 // Tags are free text entered per-project/resource in the admin, so the same

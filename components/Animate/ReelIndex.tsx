@@ -143,7 +143,7 @@ export default function ReelIndex({ projects }: { projects: MotionProjectContent
                             alt={project.title}
                             fill
                             sizes="100vw"
-                            quality={80}
+                            quality={75}
                             className="object-cover"
                           />
                         </div>
@@ -195,7 +195,7 @@ export default function ReelIndex({ projects }: { projects: MotionProjectContent
                         alt=""
                         fill
                         sizes="40vw"
-                        quality={85}
+                        quality={75}
                         className="object-cover"
                       />
                     ) : (
@@ -216,7 +216,7 @@ export default function ReelIndex({ projects }: { projects: MotionProjectContent
                             alt=""
                             fill
                             sizes="40vw"
-                            quality={85}
+                            quality={75}
                             className="object-cover"
                           />
                         </motion.div>

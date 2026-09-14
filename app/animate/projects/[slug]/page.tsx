@@ -193,7 +193,7 @@ export default async function AnimateProjectPage({ params }: Props) {
                         alt=""
                         fill
                         sizes="100vw"
-                        quality={80}
+                        quality={75}
                         priority
                         className="scale-105 object-cover opacity-30 blur-[2px]"
                         aria-hidden="true"

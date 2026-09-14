@@ -8,7 +8,11 @@ const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/analytics", label: "Analytics" },
   { href: "/admin/clients", label: "Clients" },
-  { href: "/admin/rate-cards", label: "Rate Cards" },
+  // Two different things, easy to confuse: "Rate Cards" are the per-client
+  // cards shown behind a portal link; "Rate Card Page" is the single public
+  // one at /animate/rates.
+  { href: "/admin/rate-cards", label: "Rate Cards (clients)" },
+  { href: "/admin/rates", label: "Rate Card Page" },
   { href: "/admin/links", label: "Shareable Links" },
   { href: "/admin/projects/dev", label: "Dev Projects" },
   { href: "/admin/projects/animate", label: "Motion Projects" },

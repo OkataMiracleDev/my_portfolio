@@ -99,7 +99,9 @@ export default function AnimateHero() {
                 href="#reel"
                 className="group inline-flex items-center gap-2 rounded-pill bg-ink py-1.5 pl-5 pr-1.5 text-sm font-medium text-stage transition-transform duration-200 ease-out active:scale-[0.97]"
               >
-                <span>Watch the reel</span>
+                {/* Not "watch the reel" -- this jumps to the featured
+                    project, and there is no showreel cut yet to watch. */}
+                <span>Watch the latest</span>
                 <span className="flex h-8 w-8 items-center justify-center rounded-full bg-stage/10 transition-transform duration-200 ease-out group-hover:translate-y-0.5">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <path
