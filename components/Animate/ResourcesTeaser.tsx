@@ -113,7 +113,7 @@ export default function ResourcesTeaser({
         {studioPlugins.length > 0 && (
           <div className="mb-14">
             <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-ink/50">
-              Mimi Studio
+              Okata Studio
             </p>
             <ul
               ref={pluginsListRef}

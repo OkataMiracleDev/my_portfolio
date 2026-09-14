@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import MimiLogo from "@/components/Shared/MimiLogo";
+import OkataLogo from "@/components/Shared/OkataLogo";
 
 const MODE_LINKS = [
   { id: "build", label: "Build", href: "/build#contact" },
@@ -35,7 +35,7 @@ export default function LandingHeader() {
 
   return (
     <header className="flex items-center justify-between px-6 py-6 md:px-12">
-      <MimiLogo />
+      <OkataLogo />
 
       <div ref={containerRef} className="relative">
         <button

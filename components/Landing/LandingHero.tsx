@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
-const MIMI_TEXT = "Mimi";
+const OKATA_TEXT = "Okata";
 const STUDIOS_TEXT = "Studios ";
 const MEANS_TEXT = "does motion.";
-const HEADING_LENGTH = MIMI_TEXT.length + STUDIOS_TEXT.length + MEANS_TEXT.length;
+const HEADING_LENGTH = OKATA_TEXT.length + STUDIOS_TEXT.length + MEANS_TEXT.length;
 
 function useTypewriter(length: number, enabled: boolean, speed = 45, startDelay = 300) {
   const [revealed, setRevealed] = useState(enabled ? 0 : length);
@@ -48,14 +48,14 @@ export default function LandingHero() {
   const prefersReducedMotion = usePrefersReducedMotion();
   const revealed = useTypewriter(HEADING_LENGTH, !prefersReducedMotion);
 
-  const mimiVisible = MIMI_TEXT.slice(0, Math.min(MIMI_TEXT.length, revealed));
-  const afterMimi = Math.max(0, revealed - MIMI_TEXT.length);
-  const studiosVisible = STUDIOS_TEXT.slice(0, Math.min(STUDIOS_TEXT.length, afterMimi));
-  const afterStudios = Math.max(0, afterMimi - STUDIOS_TEXT.length);
+  const okataVisible = OKATA_TEXT.slice(0, Math.min(OKATA_TEXT.length, revealed));
+  const afterOkata = Math.max(0, revealed - OKATA_TEXT.length);
+  const studiosVisible = STUDIOS_TEXT.slice(0, Math.min(STUDIOS_TEXT.length, afterOkata));
+  const afterStudios = Math.max(0, afterOkata - STUDIOS_TEXT.length);
   const meansVisible = MEANS_TEXT.slice(0, Math.min(MEANS_TEXT.length, afterStudios));
 
-  const mimiTyping = revealed > 0 && revealed <= MIMI_TEXT.length;
-  const studiosTyping = afterMimi > 0 && afterMimi <= STUDIOS_TEXT.length;
+  const okataTyping = revealed > 0 && revealed <= OKATA_TEXT.length;
+  const studiosTyping = afterOkata > 0 && afterOkata <= STUDIOS_TEXT.length;
   const meansTyping = afterStudios > 0 && afterStudios <= MEANS_TEXT.length;
 
   useEffect(() => {
@@ -95,12 +95,12 @@ export default function LandingHero() {
 
       <h1
         className="relative max-w-[18ch] font-[family-name:var(--font-cabinet-grotesk)] text-[clamp(3rem,9vw,7.5rem)] font-bold leading-[0.9] tracking-tight text-ink"
-        aria-label={`${MIMI_TEXT} ${STUDIOS_TEXT}${MEANS_TEXT}`}
+        aria-label={`${OKATA_TEXT} ${STUDIOS_TEXT}${MEANS_TEXT}`}
       >
         <span aria-hidden="true">
           <span className="block">
-            {mimiVisible}
-            {mimiTyping && <Caret />}
+            {okataVisible}
+            {okataTyping && <Caret />}
           </span>
           <span className="block">
             {studiosVisible}

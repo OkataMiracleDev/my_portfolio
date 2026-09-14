@@ -6,13 +6,13 @@ import { getMotionProjects } from "@/lib/data/public";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Motion Projects | Mimi Studios — Motion Design Case Studies",
+  title: "Motion Projects | Okata Studios — Motion Design Case Studies",
   description: "Motion design case studies — brand animation, UI micro-interactions, and short-form video.",
   openGraph: {
-    title: "Motion Projects | Mimi Studios",
+    title: "Motion Projects | Okata Studios",
     description: "Motion design case studies — brand animation, UI micro-interactions, and short-form video.",
     url: "https://www.okata-miracle.site/animate/projects",
-    siteName: "Mimi Studios",
+    siteName: "Okata Studios",
     type: "website",
   },
   alternates: {

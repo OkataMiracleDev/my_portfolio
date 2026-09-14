@@ -48,7 +48,7 @@ const Hero = () => {
               ref={nameRef}
               className="font-[family-name:var(--font-cabinet-grotesk)] text-6xl md:text-8xl font-bold leading-[0.95] tracking-tight text-ink"
             >
-              <span className="inline-block">MIMI</span>
+              <span className="inline-block">OKATA</span>
               <br />
               <span className="inline-block">STUDIOS</span>
             </h1>

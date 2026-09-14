@@ -47,7 +47,7 @@ export default function SplashScreen() {
     <div className="splash-screen fixed inset-0 z-[10003] flex items-center justify-center bg-base">
       <div className="splash-text opacity-0" style={{ transform: 'translateY(30px)' }}>
         <h1 className="text-center font-[family-name:var(--font-cabinet-grotesk)] text-6xl md:text-8xl font-bold text-ink">
-          MIMI<br />STUDIOS
+          OKATA<br />STUDIOS
         </h1>
         <p className="mt-4 text-center font-[family-name:var(--font-jetbrains-mono)] text-sm tracking-widest text-accent-build">
           MOTION &amp; FRONTEND

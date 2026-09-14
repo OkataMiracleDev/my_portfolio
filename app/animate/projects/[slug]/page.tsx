@@ -17,10 +17,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const project = await getMotionProjectBySlug(slug);
 
   if (!project) {
-    return { title: "Project not found | Mimi Studios" };
+    return { title: "Project not found | Okata Studios" };
   }
 
-  const title = `${project.title} | Mimi Studios`;
+  const title = `${project.title} | Okata Studios`;
   const url = `https://www.okata-miracle.site${project.href}`;
 
   return {

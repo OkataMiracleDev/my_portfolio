@@ -6,14 +6,14 @@ import { getPublishedPosts } from '@/lib/data/public'
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Blog | Mimi Studios — Software Development Notes",
+  title: "Blog | Okata Studios — Software Development Notes",
   description:
-    "Writing on software development, frontend engineering, and building products by Mimi Studios.",
+    "Writing on software development, frontend engineering, and building products by Okata Studios.",
   openGraph: {
-    title: "Blog | Mimi Studios",
+    title: "Blog | Okata Studios",
     description: "Writing on software development and frontend engineering.",
     url: "https://www.okata-miracle.site/build/blog",
-    siteName: "Mimi Studios",
+    siteName: "Okata Studios",
     type: "website",
   },
   alternates: {

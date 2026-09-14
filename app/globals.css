@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* Mimi Studios brand tokens (rebrand from the old light-minimal identity).
+  /* Okata Studios brand tokens (rebrand from the old light-minimal identity).
      "ink"/"base" keep their semantic ROLES from before — base = page
      background, ink = foreground text — but now point to dark values
      instead of light ones, since the new brand is dark-primary. Every
@@ -41,7 +41,7 @@
 }
 
 html {
-  /* Mimi Studios is dark-primary by design (no light theme exists). Without
+  /* Okata Studios is dark-primary by design (no light theme exists). Without
      this, browsers that auto-apply a dark-mode heuristic to web content
      (e.g. Edge/Chrome's "force dark mode for web content") can still
      selectively repaint form controls/scrollbars incorrectly against an

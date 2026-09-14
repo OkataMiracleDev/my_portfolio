@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getClientByShareToken } from "@/lib/actions/clients";
-import MimiLogo from "@/components/Shared/MimiLogo";
+import OkataLogo from "@/components/Shared/OkataLogo";
 import VideoEmbed from "@/components/Animate/VideoEmbed";
 import RateCardBlock from "@/components/Portal/RateCardBlock";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Project portal | Mimi Studios",
+  title: "Project portal | Okata Studios",
   robots: { index: false, follow: false },
 };
 
@@ -35,7 +35,7 @@ export default async function ClientPortalPage({ params }: { params: Promise<{ t
     <div className="min-h-screen px-6 pb-24 pt-12">
       <div className="mx-auto max-w-5xl">
         <div className="max-w-2xl">
-          <MimiLogo className="mb-14" />
+          <OkataLogo className="mb-14" />
 
           <header className="border-b border-ink/15 pb-8">
             <p className="mb-3 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-accent-animate">

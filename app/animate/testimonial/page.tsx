@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import TestimonialForm from "@/components/Animate/TestimonialForm";
 
 export const metadata: Metadata = {
-  title: "Share a testimonial | Mimi Studios",
-  description: "Worked with Mimi Studios? Share a quick testimonial about the project.",
+  title: "Share a testimonial | Okata Studios",
+  description: "Worked with Okata Studios? Share a quick testimonial about the project.",
 };
 
 export default function TestimonialSubmitPage() {

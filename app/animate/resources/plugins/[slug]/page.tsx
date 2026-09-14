@@ -13,9 +13,9 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const plugin = await getStudioPluginBySlug(slug);
-  if (!plugin) return { title: "Plugin not found | Mimi Studios" };
+  if (!plugin) return { title: "Plugin not found | Okata Studios" };
 
-  const title = `${plugin.title} | Mimi Studio`;
+  const title = `${plugin.title} | Okata Studio`;
   const url = `https://www.okata-miracle.site/animate/resources/plugins/${plugin.slug}`;
   return {
     title,
@@ -61,7 +61,7 @@ export default async function PluginDetailPage({ params }: Props) {
       <JsonLd data={jsonLd} />
       <div className="max-w-4xl mx-auto">
         <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-sm text-accent-animate">
-          Mimi Studio
+          Okata Studio
         </p>
         <h1 className="mb-4 font-[family-name:var(--font-cabinet-grotesk)] text-4xl md:text-5xl font-bold text-ink">
           {plugin.title}

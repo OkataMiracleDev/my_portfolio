@@ -153,7 +153,7 @@ export default function RateCardForm({ rateCard, clients, defaultClientId, actio
           name="ctaUrl"
           type="text"
           defaultValue={rateCard?.ctaUrl ?? ""}
-          placeholder="/mimi-studios-youtube-intro-brief.html"
+          placeholder="/okata-studios-youtube-intro-brief.html"
           className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
         />
         <p className="mt-1 text-xs text-ink/50">

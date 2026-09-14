@@ -8,7 +8,7 @@ import { getSiteUrl } from "@/lib/plugins/site-url";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = { title: "Order status | Mimi Studios" };
+export const metadata: Metadata = { title: "Order status | Okata Studios" };
 
 type Props = {
   params: Promise<{ slug: string }>;

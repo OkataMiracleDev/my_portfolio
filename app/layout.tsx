@@ -13,14 +13,16 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mimi Studios",
-  description: "Mimi Studios — motion design and frontend development, built on intention.",
+  title: "Okata Studios",
+  description: "Okata Studios — motion design and frontend development, built on intention.",
   authors: [{ name: "Okata Miracle" }],
   creator: "Okata Miracle",
-  publisher: "Mimi Studios",
+  publisher: "Okata Studios",
   metadataBase: new URL("https://www.okata-miracle.site"),
   icons: {
-    icon: "/favicon.svg",
+    icon: "/okata-favicon.png",
+    shortcut: "/okata-favicon.png",
+    apple: "/okata-icon.png",
   },
 };
 

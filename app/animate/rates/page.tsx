@@ -3,8 +3,8 @@ import Link from "next/link";
 import RetainerPricing from "@/components/Animate/RateCard/RetainerPricing";
 
 export const metadata: Metadata = {
-  title: "Rate Card | Mimi Studios",
-  description: "Project and retainer pricing for motion design work with Mimi Studios.",
+  title: "Rate Card | Okata Studios",
+  description: "Project and retainer pricing for motion design work with Okata Studios.",
 };
 
 const SERVICES = [
@@ -166,11 +166,11 @@ export default function RateCardPage() {
             className="inline-flex items-center gap-2 rounded-pill border border-ink/15 px-6 py-3 font-medium text-ink transition-colors duration-200 ease-out hover:bg-ink/5"
           >
             <span aria-hidden="true">←</span>
-            <span>Back to Mimi Studios</span>
+            <span>Back to Okata Studios</span>
           </Link>
         </div>
         <p className="mt-10 font-[family-name:var(--font-jetbrains-mono)] text-[0.7rem] uppercase tracking-[0.1em] text-ink/35">
-          Mimi Studios — rate card — valid for {year} — subject to change
+          Okata Studios — rate card — valid for {year} — subject to change
         </p>
       </div>
     </div>

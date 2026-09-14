@@ -1,6 +1,6 @@
 import { Space_Grotesk, Inter } from "next/font/google";
 
-// Mimi Studios rebrand: these two loaders keep their original CSS variable
+// Okata Studios rebrand: these two loaders keep their original CSS variable
 // names (--font-cabinet-grotesk, --font-general-sans) but now load the
 // brand guide's actual typefaces — Space Grotesk for display, Inter for
 // body — so every existing font-[family-name:var(--font-cabinet-grotesk)]

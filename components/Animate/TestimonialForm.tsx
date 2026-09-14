@@ -80,7 +80,7 @@ export default function TestimonialForm() {
       <label className="flex items-start gap-3 rounded-xl border border-ink/15 bg-base-raised p-4">
         <input type="checkbox" name="consent" defaultChecked className="mt-1" />
         <span className="text-sm text-ink/60">
-          It&apos;s okay to use my name, company, and these quotes publicly on the Mimi Studios site and social pages.
+          It&apos;s okay to use my name, company, and these quotes publicly on the Okata Studios site and social pages.
         </span>
       </label>
 

@@ -6,15 +6,15 @@ import { getResources, getStudioPlugins } from "@/lib/data/public";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Free Motion Design Resources | Mimi Studios",
+  title: "Free Motion Design Resources | Okata Studios",
   description:
     "Free downloads, tutorials, and tool recommendations for motion designers.",
   openGraph: {
-    title: "Free Motion Design Resources | Mimi Studios",
+    title: "Free Motion Design Resources | Okata Studios",
     description:
       "Free downloads, tutorials, and tool recommendations for motion designers.",
     url: "https://www.okata-miracle.site/animate/resources",
-    siteName: "Mimi Studios",
+    siteName: "Okata Studios",
     type: "website",
   },
   alternates: {
@@ -43,7 +43,7 @@ export default async function ResourcesPage() {
         {plugins.length > 0 && (
           <div className="mb-16">
             <h2 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold text-ink">
-              Mimi Studio
+              Okata Studio
             </h2>
             <StudioPluginsGrid plugins={plugins} />
           </div>

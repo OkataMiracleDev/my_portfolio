@@ -8,14 +8,14 @@ import { getDevProjects } from "@/lib/data/public";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Dev Projects | Mimi Studios — React & Next.js Portfolio",
+  title: "Dev Projects | Okata Studios — React & Next.js Portfolio",
   description:
-    "Frontend development case studies by Mimi Studios — real client and product work built with React, Next.js, TypeScript, and Tailwind CSS.",
+    "Frontend development case studies by Okata Studios — real client and product work built with React, Next.js, TypeScript, and Tailwind CSS.",
   openGraph: {
-    title: "Dev Projects | Mimi Studios",
+    title: "Dev Projects | Okata Studios",
     description: "Frontend development case studies built with React, Next.js, TypeScript, and Tailwind CSS.",
     url: "https://www.okata-miracle.site/build/projects",
-    siteName: "Mimi Studios",
+    siteName: "Okata Studios",
     type: "website",
   },
   alternates: {

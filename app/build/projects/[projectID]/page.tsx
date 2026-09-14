@@ -21,10 +21,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const project = await getDevProjectBySlug(resolvedParams.projectID);
 
   if (!project) {
-    return { title: "Project not found | Mimi Studios" };
+    return { title: "Project not found | Okata Studios" };
   }
 
-  const title = `${project.name} | Mimi Studios`;
+  const title = `${project.name} | Okata Studios`;
   const description = project.subhead || project.description;
   const url = `https://www.okata-miracle.site/build/projects/${project.slug}`;
 
