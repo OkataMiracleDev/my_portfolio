@@ -42,7 +42,7 @@ export default function UploadWidget({ label, value, onChange, kind = "image", o
 
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium text-ink/70">{label}</label>
+      <label className="mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">{label}</label>
       {value && kind === "image" && (
         <div className="relative mb-3 h-32 w-32 overflow-hidden rounded-xl">
           <Image src={value} alt="" fill quality={90} className="object-cover" />
@@ -59,7 +59,7 @@ export default function UploadWidget({ label, value, onChange, kind = "image", o
         className="block w-full text-sm text-ink/70 file:mr-4 file:rounded-pill file:border-0 file:bg-ink/10 file:px-4 file:py-2 file:text-sm file:font-medium file:text-ink"
       />
       {uploading && <p className="mt-2 text-sm text-ink/50">Uploading…</p>}
-      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-2 text-sm text-signal">{error}</p>}
     </div>
   );
 }

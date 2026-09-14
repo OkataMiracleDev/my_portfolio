@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getFunFact } from "@/lib/actions/fun-facts";
 import FunFactForm from "@/components/Admin/FunFacts/FunFactForm";
 import { updateFunFactAction } from "../actions";
+import { PageHeader, BackLink } from "@/components/Admin/ui/Shell";
 
 export default async function EditFunFactPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -12,9 +13,11 @@ export default async function EditFunFactPage({ params }: { params: Promise<{ id
 
   return (
     <div>
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-        Edit {fact.label}
-      </h1>
+      <PageHeader
+        eyebrow="Fun facts"
+        title={<>Edit {fact.label}</>}
+        action={<BackLink href="/admin/landing">All fun facts</BackLink>}
+      />
       <FunFactForm fact={fact} action={boundAction} />
     </div>
   );

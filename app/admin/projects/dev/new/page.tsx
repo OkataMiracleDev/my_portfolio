@@ -1,12 +1,15 @@
 import DevProjectForm from "@/components/Admin/DevProjects/DevProjectForm";
 import { createDevProjectAction } from "../actions";
+import { PageHeader, BackLink } from "@/components/Admin/ui/Shell";
 
 export default function NewDevProjectPage() {
   return (
     <div>
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-        New Dev Project
-      </h1>
+      <PageHeader
+        eyebrow="Dev projects"
+        title={<>New Dev Project</>}
+        action={<BackLink href="/admin/projects/dev">All dev projects</BackLink>}
+      />
       <DevProjectForm action={createDevProjectAction} />
     </div>
   );

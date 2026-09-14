@@ -1,49 +1,36 @@
-"use client";
-
-import { useState } from "react";
-import Link from "next/link";
+import DeleteButton from "@/components/Admin/ui/DeleteButton";
+import { DataList, Row, RowLink } from "@/components/Admin/ui/Shell";
 import { deleteRateCardAction } from "@/app/admin/rate-cards/actions";
 import type { rateCards } from "@/lib/db/schema";
 
 type RateCard = typeof rateCards.$inferSelect & { clientName?: string | null };
 
+/**
+ * No longer a client component. It held `useState` purely to support an
+ * optimistic delete whose result was never checked; DeleteButton owns the
+ * mutation now and refreshes the route, so this is just markup.
+ */
 export default function RateCardsList({ initialItems }: { initialItems: RateCard[] }) {
-  const [items, setItems] = useState(initialItems);
-
-  async function handleDelete(id: string, clientId: string | null) {
-    if (!confirm("Delete this rate card? This cannot be undone.")) return;
-    setItems((prev) => prev.filter((c) => c.id !== id));
-    await deleteRateCardAction(id, clientId);
-  }
-
-  if (items.length === 0) {
-    return <p className="text-ink/50">No rate cards yet.</p>;
-  }
-
   return (
-    <ul className="divide-y divide-ink/10 rounded-card bg-base-raised">
-      {items.map((card) => (
-        <li key={card.id} className="flex items-center justify-between gap-4 px-6 py-4">
-          <div className="flex-1">
-            <p className="font-semibold text-ink">{card.title}</p>
-            <p className="text-sm text-ink/50">
-              {card.clientName ? `Client: ${card.clientName}` : "Generic / template"} · {card.lineItems.length} items
-            </p>
-          </div>
-          <Link
-            href={`/admin/rate-cards/${card.id}`}
-            className="rounded-pill border border-ink/15 px-4 py-2 text-sm font-medium text-ink hover:bg-ink/5"
-          >
-            Edit
-          </Link>
-          <button
-            onClick={() => handleDelete(card.id, card.clientId)}
-            className="rounded-pill border border-red-600/30 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-600/5"
-          >
-            Delete
-          </button>
-        </li>
+    <DataList>
+      {initialItems.map((card) => (
+        <Row
+          key={card.id}
+          title={card.title}
+          meta={`${
+            card.clientName ? `Client: ${card.clientName}` : "Generic / template"
+          } \u00b7 ${card.lineItems.length} ${card.lineItems.length === 1 ? "item" : "items"}`}
+          actions={
+            <>
+              <RowLink href={`/admin/rate-cards/${card.id}`}>Edit</RowLink>
+              <DeleteButton
+                action={deleteRateCardAction.bind(null, card.id, card.clientId)}
+                label="rate card"
+              />
+            </>
+          }
+        />
       ))}
-    </ul>
+    </DataList>
   );
 }

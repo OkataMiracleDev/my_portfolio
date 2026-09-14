@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { listPlugins } from "@/lib/actions/plugins";
-import PluginsList from "@/components/Admin/Plugins/PluginsList";
+import { deletePluginAction, reorderPluginsAction } from "./actions";
+import SortableList from "@/components/Admin/ui/SortableList";
+import { PageHeader, NewButton, EmptyState } from "@/components/Admin/ui/Shell";
 
 export const dynamic = "force-dynamic";
 
@@ -9,16 +10,35 @@ export default async function PluginsAdminPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">Plugins</h1>
-        <Link
-          href="/admin/plugins/new"
-          className="rounded-pill bg-accent-animate px-5 py-2.5 text-sm font-semibold text-ink"
-        >
-          + New
-        </Link>
-      </div>
-      {items.length === 0 ? <p className="text-ink/50">No plugins yet.</p> : <PluginsList initialItems={items} />}
+      <PageHeader
+        eyebrow="Store"
+        title="Plugins"
+        description="Paid and pay-what-you-want downloads sold through /animate/resources."
+        action={<NewButton href="/admin/plugins/new">New plugin</NewButton>}
+      />
+
+      {items.length === 0 ? (
+        <EmptyState
+          title="No plugins yet"
+          description="Published plugins appear in the studio strip on /animate."
+          action={<NewButton href="/admin/plugins/new">New plugin</NewButton>}
+        />
+      ) : (
+        <SortableList
+          label="plugin"
+          deleteAction={deletePluginAction}
+          reorderAction={reorderPluginsAction}
+          rows={items.map((item) => ({
+            id: item.id,
+            title: item.title,
+            meta: `\u20a6${item.priceAmount.toLocaleString()}${item.pwywEnabled ? " (PWYW)" : ""} \u00b7 ${item.slug}`,
+            badge: item.published
+              ? { label: "Published", tone: "live" as const }
+              : { label: "Draft", tone: "muted" as const },
+            editHref: `/admin/plugins/${item.id}`,
+          }))}
+        />
+      )}
     </div>
   );
 }

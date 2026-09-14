@@ -6,6 +6,7 @@ import ClientForm from "@/components/Admin/Clients/ClientForm";
 import PortalLinkCard from "@/components/Admin/Clients/PortalLinkCard";
 import ClientUpdatesSection from "@/components/Admin/Clients/ClientUpdatesSection";
 import { updateClientAction } from "../actions";
+import { PageHeader, BackLink } from "@/components/Admin/ui/Shell";
 
 export const dynamic = "force-dynamic";
 
@@ -28,9 +29,11 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
         <Link href="/admin/clients" className="mb-4 inline-block text-sm text-ink/50 hover:text-ink">
           ← All clients
         </Link>
-        <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-          {client.name}
-        </h1>
+      <PageHeader
+        eyebrow="Clients"
+        title={<>{client.name}</>}
+        action={<BackLink href="/admin/clients">All clients</BackLink>}
+      />
         <ClientForm client={client} action={boundAction} />
       </div>
 
@@ -56,7 +59,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
               <li key={card.id}>
                 <Link
                   href={`/admin/rate-cards/${card.id}`}
-                  className="block rounded-xl border border-ink/10 bg-base-raised px-4 py-3 text-sm font-medium text-ink hover:bg-ink/5"
+                  className="block rounded-xl border border-ink/10 bg-frame px-4 py-3 text-sm font-medium text-ink hover:bg-ink/5"
                 >
                   {card.title}
                 </Link>

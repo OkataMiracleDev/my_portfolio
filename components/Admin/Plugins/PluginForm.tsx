@@ -5,6 +5,7 @@ import UploadWidget from "@/components/Admin/UploadWidget";
 import PluginFileWidget from "./PluginFileWidget";
 import type { studioPlugins } from "@/lib/db/schema";
 import SubmitButton from "@/components/Admin/SubmitButton";
+import { Field, TextArea, FormShell, Checkbox } from "@/components/Admin/ui/Fields";
 
 type Plugin = typeof studioPlugins.$inferSelect;
 
@@ -36,7 +37,7 @@ export default function PluginForm({ plugin, action }: PluginFormProps) {
   }
 
   return (
-    <form action={action} className="max-w-2xl space-y-5">
+    <FormShell action={action}>
       <input type="hidden" name="thumbnailUrl" value={thumbnailUrl} />
       <input type="hidden" name="fileUrl" value={fileUrl} />
       <input type="hidden" name="pwywEnabled" value={pwywEnabled ? "on" : ""} />
@@ -69,85 +70,23 @@ export default function PluginForm({ plugin, action }: PluginFormProps) {
         required
       />
 
-      <label className="flex items-center gap-2 text-sm font-medium text-ink/70">
-        <input
-          type="checkbox"
-          checked={pwywEnabled}
-          onChange={(e) => setPwywEnabled(e.target.checked)}
-          className="h-4 w-4 rounded border-ink/30"
-        />
-        Allow pay what you want (buyers can pay ₦0)
-      </label>
+      {/* No `name` on either: both values post through the hidden inputs
+          above, and naming these would submit each one twice. */}
+      <Checkbox
+        label="Allow pay what you want"
+        checked={pwywEnabled}
+        onChange={setPwywEnabled}
+        hint="Buyers can choose to pay ₦0."
+      />
 
-      <label className="flex items-center gap-2 text-sm font-medium text-ink/70">
-        <input
-          type="checkbox"
-          checked={published}
-          onChange={(e) => setPublished(e.target.checked)}
-          className="h-4 w-4 rounded border-ink/30"
-        />
-        Published (visible on the live site)
-      </label>
+      <Checkbox
+        label="Published"
+        checked={published}
+        onChange={setPublished}
+        hint="Visible in the studio strip on /animate."
+      />
 
       <SubmitButton accent="animate" />
-    </form>
-  );
-}
-
-function Field({
-  label,
-  name,
-  defaultValue,
-  required,
-  type = "text",
-  pattern,
-  patternTitle,
-}: {
-  label: string;
-  name: string;
-  defaultValue?: string | null;
-  required?: boolean;
-  type?: string;
-  pattern?: string;
-  patternTitle?: string;
-}) {
-  return (
-    <div>
-      <label className="mb-2 block text-sm font-medium text-ink/70">{label}</label>
-      <input
-        name={name}
-        type={type}
-        defaultValue={defaultValue ?? ""}
-        required={required}
-        pattern={pattern}
-        title={patternTitle}
-        className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
-      />
-    </div>
-  );
-}
-
-function TextArea({
-  label,
-  name,
-  defaultValue,
-  required,
-}: {
-  label: string;
-  name: string;
-  defaultValue?: string | null;
-  required?: boolean;
-}) {
-  return (
-    <div>
-      <label className="mb-2 block text-sm font-medium text-ink/70">{label}</label>
-      <textarea
-        name={name}
-        defaultValue={defaultValue ?? ""}
-        required={required}
-        rows={5}
-        className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
-      />
-    </div>
+    </FormShell>
   );
 }

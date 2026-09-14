@@ -1,12 +1,15 @@
 import ExperienceForm from "@/components/Admin/Experience/ExperienceForm";
 import { createExperienceAction } from "../actions";
+import { PageHeader, BackLink } from "@/components/Admin/ui/Shell";
 
 export default function NewExperiencePage() {
   return (
     <div>
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-        New Experience Entry
-      </h1>
+      <PageHeader
+        eyebrow="Experience"
+        title={<>New Experience Entry</>}
+        action={<BackLink href="/admin/experience">All experience</BackLink>}
+      />
       <ExperienceForm action={createExperienceAction} />
     </div>
   );

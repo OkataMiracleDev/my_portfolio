@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { deleteClientUpdateAction } from "@/app/admin/clients/actions";
 import type { clientUpdates } from "@/lib/db/schema";
+import ConfirmButton from "@/components/Admin/ui/ConfirmButton";
 
 type ClientUpdate = typeof clientUpdates.$inferSelect;
 
@@ -15,12 +16,6 @@ export default function ClientUpdatesFeed({
   items: ClientUpdate[];
   onDeleted: (id: string) => void;
 }) {
-  async function handleDelete(id: string) {
-    if (!confirm("Delete this update? The client will no longer see it on their portal.")) return;
-    onDeleted(id);
-    await deleteClientUpdateAction(id, clientId);
-  }
-
   if (items.length === 0) {
     return <p className="text-sm text-ink/50">No updates posted yet.</p>;
   }
@@ -28,7 +23,7 @@ export default function ClientUpdatesFeed({
   return (
     <ul className="space-y-4">
       {items.map((update) => (
-        <li key={update.id} className="rounded-card border border-ink/10 bg-base-raised p-5">
+        <li key={update.id} className="rounded-2xl border border-ink/10 bg-frame p-5">
           <div className="mb-2 flex items-start justify-between gap-4">
             <div>
               <p className="font-semibold text-ink">{update.title}</p>
@@ -36,12 +31,18 @@ export default function ClientUpdatesFeed({
                 {new Date(update.createdAt).toLocaleDateString()}
               </p>
             </div>
-            <button
-              onClick={() => handleDelete(update.id)}
-              className="text-xs font-medium text-red-600 hover:underline"
+            {/* Removes the row only once the server confirms, instead of
+                optimistically and never checking. */}
+            <ConfirmButton
+              onConfirm={async () => {
+                await deleteClientUpdateAction(update.id, clientId);
+                onDeleted(update.id);
+              }}
+              confirmLabel="Delete"
+              pendingLabel="Deleting"
             >
               Delete
-            </button>
+            </ConfirmButton>
           </div>
           {update.body && <p className="mb-3 text-sm text-ink/70">{update.body}</p>}
           {update.images.length > 0 && (

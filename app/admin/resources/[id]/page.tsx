@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getResource } from "@/lib/actions/resources";
 import ResourceForm from "@/components/Admin/Resources/ResourceForm";
 import { updateResourceAction } from "../actions";
+import { PageHeader, BackLink } from "@/components/Admin/ui/Shell";
 
 export default async function EditResourcePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -12,9 +13,11 @@ export default async function EditResourcePage({ params }: { params: Promise<{ i
 
   return (
     <div>
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-        Edit {resource.title}
-      </h1>
+      <PageHeader
+        eyebrow="Resources"
+        title={<>Edit {resource.title}</>}
+        action={<BackLink href="/admin/resources">All resources</BackLink>}
+      />
       <ResourceForm resource={resource} action={boundAction} />
     </div>
   );

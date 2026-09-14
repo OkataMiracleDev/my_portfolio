@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { listFunFacts } from "@/lib/actions/fun-facts";
-import FunFactsList from "@/components/Admin/FunFacts/FunFactsList";
+import { deleteFunFactAction, reorderFunFactsAction } from "./actions";
+import SortableList from "@/components/Admin/ui/SortableList";
+import { PageHeader, NewButton, EmptyState } from "@/components/Admin/ui/Shell";
 
 export const dynamic = "force-dynamic";
 
@@ -9,18 +10,32 @@ export default async function FunFactsAdminPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-          Landing Fun Facts
-        </h1>
-        <Link
-          href="/admin/landing/new"
-          className="rounded-pill bg-accent-build px-5 py-2.5 text-sm font-semibold text-ink"
-        >
-          + New
-        </Link>
-      </div>
-      {items.length === 0 ? <p className="text-ink/50">No fun facts yet.</p> : <FunFactsList initialItems={items} />}
+      <PageHeader
+        eyebrow="Site content"
+        title="Fun facts"
+        description="The small what-I-am-up-to cards on the landing page."
+        action={<NewButton href="/admin/landing/new">New fun fact</NewButton>}
+      />
+
+      {items.length === 0 ? (
+        <EmptyState
+          title="No fun facts yet"
+          description="Three or four keeps the landing page a teaser rather than a biography."
+          action={<NewButton href="/admin/landing/new">New fun fact</NewButton>}
+        />
+      ) : (
+        <SortableList
+          label="fun fact"
+          deleteAction={deleteFunFactAction}
+          reorderAction={reorderFunFactsAction}
+          rows={items.map((item) => ({
+            id: item.id,
+            title: item.label,
+            meta: item.value,
+            editHref: `/admin/landing/${item.id}`,
+          }))}
+        />
+      )}
     </div>
   );
 }

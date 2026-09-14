@@ -1,12 +1,15 @@
 import PostForm from "@/components/Admin/Posts/PostForm";
 import { createPostAction } from "../actions";
+import { PageHeader, BackLink } from "@/components/Admin/ui/Shell";
 
 export default function NewPostPage() {
   return (
     <div>
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-        New Post
-      </h1>
+      <PageHeader
+        eyebrow="Posts"
+        title={<>New Post</>}
+        action={<BackLink href="/admin/posts">All posts</BackLink>}
+      />
       <PostForm action={createPostAction} />
     </div>
   );

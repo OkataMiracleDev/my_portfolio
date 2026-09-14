@@ -1,6 +1,7 @@
 import TestimonialForm from "@/components/Admin/Testimonials/TestimonialForm";
 import { getTestimonialSubmission } from "@/lib/actions/testimonial-submissions";
 import { createTestimonialAction } from "../actions";
+import { PageHeader, BackLink } from "@/components/Admin/ui/Shell";
 
 export default async function NewTestimonialPage({
   searchParams,
@@ -12,9 +13,11 @@ export default async function NewTestimonialPage({
 
   return (
     <div>
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-        New Testimonial
-      </h1>
+      <PageHeader
+        eyebrow="Testimonials"
+        title={<>New Testimonial</>}
+        action={<BackLink href="/admin/testimonials">All testimonials</BackLink>}
+      />
       {submission && (
         <p className="mb-6 max-w-2xl rounded-xl border border-accent-build/30 bg-accent-build/[0.06] px-4 py-3 text-sm text-ink/70">
           Pre-filled from {submission.name}&apos;s submission — trim the quote and add an avatar before saving.

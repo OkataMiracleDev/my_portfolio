@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { listDevProjects } from "@/lib/actions/dev-projects";
-import DevProjectsList from "@/components/Admin/DevProjects/DevProjectsList";
+import { deleteDevProjectAction, reorderDevProjectsAction } from "./actions";
+import SortableList from "@/components/Admin/ui/SortableList";
+import { PageHeader, NewButton, EmptyState } from "@/components/Admin/ui/Shell";
 
 export const dynamic = "force-dynamic";
 
@@ -9,21 +10,34 @@ export default async function DevProjectsPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-          Dev Projects
-        </h1>
-        <Link
-          href="/admin/projects/dev/new"
-          className="rounded-pill bg-accent-build px-5 py-2.5 text-sm font-semibold text-ink"
-        >
-          + New
-        </Link>
-      </div>
+      <PageHeader
+        eyebrow="Work"
+        title="Dev projects"
+        description="Frontend case studies shown on /build. Drag the handle or use the arrows to change the order they appear in."
+        action={<NewButton href="/admin/projects/dev/new">New project</NewButton>}
+      />
+
       {items.length === 0 ? (
-        <p className="text-ink/50">No dev projects yet.</p>
+        <EmptyState
+          title="No dev projects yet"
+          description="Projects added here show up on /build and /build/projects."
+          action={<NewButton href="/admin/projects/dev/new">New project</NewButton>}
+        />
       ) : (
-        <DevProjectsList initialItems={items} />
+        <SortableList
+          label="project"
+          deleteAction={deleteDevProjectAction}
+          reorderAction={reorderDevProjectsAction}
+          rows={items.map((item) => ({
+            id: item.id,
+            title: item.name,
+            meta: item.slug,
+            badge: item.featuredOnHome
+              ? { label: "Featured", tone: "live" as const }
+              : undefined,
+            editHref: `/admin/projects/dev/${item.id}`,
+          }))}
+        />
       )}
     </div>
   );

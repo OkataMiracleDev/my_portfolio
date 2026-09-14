@@ -3,6 +3,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { rotateShareTokenAction } from "@/app/admin/clients/actions";
+import ConfirmButton from "@/components/Admin/ui/ConfirmButton";
 
 export default function PortalLinkCard({ clientId, shareToken }: { clientId: string; shareToken: string }) {
   const [token, setToken] = useState(shareToken);
@@ -19,7 +20,6 @@ export default function PortalLinkCard({ clientId, shareToken }: { clientId: str
   }
 
   async function rotate() {
-    if (!confirm("Rotate this link? The old portal URL will stop working immediately.")) return;
     setRotating(true);
     try {
       const newToken = await rotateShareTokenAction(clientId);
@@ -31,7 +31,7 @@ export default function PortalLinkCard({ clientId, shareToken }: { clientId: str
   }
 
   return (
-    <div className="rounded-card border border-accent-animate/30 bg-accent-animate/[0.06] p-5">
+    <div className="rounded-2xl border border-accent-animate/30 bg-accent-animate/[0.06] p-5">
       <p className="mb-2 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.08em] text-accent-animate">
         Client portal link
       </p>
@@ -43,13 +43,15 @@ export default function PortalLinkCard({ clientId, shareToken }: { clientId: str
         >
           Copy link
         </button>
-        <button
-          onClick={rotate}
-          disabled={rotating}
-          className="rounded-pill border border-ink/15 px-4 py-2 text-sm font-medium text-ink hover:bg-ink/5 disabled:opacity-50"
+        {/* Two-step rather than a native confirm(): rotating invalidates the
+            URL the client may already have bookmarked. */}
+        <ConfirmButton
+          onConfirm={rotate}
+          confirmLabel="Rotate anyway"
+          pendingLabel={rotating ? "Rotating" : "Working"}
         >
-          {rotating ? "Rotating…" : "Rotate link"}
-        </button>
+          Rotate link
+        </ConfirmButton>
       </div>
     </div>
   );

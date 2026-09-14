@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { listClients } from "@/lib/actions/clients";
 import ClientsList from "@/components/Admin/Clients/ClientsList";
+import { PageHeader, NewButton, EmptyState } from "@/components/Admin/ui/Shell";
 
 export const dynamic = "force-dynamic";
 
@@ -9,18 +9,22 @@ export default async function ClientsAdminPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-          Clients
-        </h1>
-        <Link
-          href="/admin/clients/new"
-          className="rounded-pill bg-accent-animate px-5 py-2.5 text-sm font-semibold text-ink"
-        >
-          + New
-        </Link>
-      </div>
-      <ClientsList initialItems={items} />
+      <PageHeader
+        eyebrow="Clients"
+        title="Clients"
+        description="The pipeline, grouped by stage. Open a client for their updates and portal link."
+        action={<NewButton href="/admin/clients/new">New client</NewButton>}
+      />
+
+      {items.length === 0 ? (
+        <EmptyState
+          title="No clients yet"
+          description="Add a client to track their stage and share a portal link with them."
+          action={<NewButton href="/admin/clients/new">New client</NewButton>}
+        />
+      ) : (
+        <ClientsList initialItems={items} />
+      )}
     </div>
   );
 }

@@ -43,7 +43,7 @@ export default function PluginFileWidget({ value, onChange }: PluginFileWidgetPr
 
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium text-ink/70">Plugin file (.zip)</label>
+      <label className="mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">Plugin file (.zip)</label>
       {value && <p className="mb-3 truncate text-sm text-ink/60">{value}</p>}
       <input
         type="file"
@@ -53,7 +53,7 @@ export default function PluginFileWidget({ value, onChange }: PluginFileWidgetPr
         className="block w-full text-sm text-ink/70 file:mr-4 file:rounded-pill file:border-0 file:bg-ink/10 file:px-4 file:py-2 file:text-sm file:font-medium file:text-ink"
       />
       {uploading && <p className="mt-2 text-sm text-ink/50">Uploading… {progress}%</p>}
-      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-2 text-sm text-signal">{error}</p>}
     </div>
   );
 }

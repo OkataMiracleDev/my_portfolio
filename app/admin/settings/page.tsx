@@ -1,10 +1,13 @@
+import { PageHeader } from "@/components/Admin/ui/Shell";
 export default function AdminSettingsPage() {
   return (
     <div className="max-w-2xl">
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-        Settings
-      </h1>
-      <div className="rounded-card bg-base-raised p-6">
+      <PageHeader
+        eyebrow="System"
+        title="Settings"
+        description="There is not much here on purpose."
+      />
+      <div className="rounded-2xl border border-ink/10 bg-frame p-6">
         <h2 className="mb-3 text-lg font-semibold">Changing the admin password</h2>
         <p className="mb-4 text-sm text-ink/70">
           The password hash is stored in an environment variable, not the database — this is

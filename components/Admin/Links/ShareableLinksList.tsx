@@ -95,7 +95,7 @@ export default function ShareableLinksList() {
   }
 
   return (
-    <ul className="divide-y divide-ink/10 rounded-card bg-base-raised">
+    <ul className="divide-y divide-ink/10 rounded-2xl border border-ink/10 bg-frame">
       {LINKS.map((link) => (
         <li key={link.path} className="flex flex-wrap items-center justify-between gap-4 px-6 py-5">
           <div className="flex-1">

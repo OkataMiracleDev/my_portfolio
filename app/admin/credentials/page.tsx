@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { listCredentials } from "@/lib/actions/animate-credentials";
-import CredentialsList from "@/components/Admin/Credentials/CredentialsList";
+import { deleteCredentialAction, reorderCredentialsAction } from "./actions";
+import SortableList from "@/components/Admin/ui/SortableList";
+import { PageHeader, NewButton, EmptyState } from "@/components/Admin/ui/Shell";
 
 export const dynamic = "force-dynamic";
 
@@ -9,21 +10,31 @@ export default async function CredentialsAdminPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-          Bragging Rights
-        </h1>
-        <Link
-          href="/admin/credentials/new"
-          className="rounded-pill bg-accent-animate px-5 py-2.5 text-sm font-semibold text-ink"
-        >
-          + New
-        </Link>
-      </div>
+      <PageHeader
+        eyebrow="Site content"
+        title="Bragging rights"
+        description="The stat readout on /animate. Four reads best, because the grid is built for four."
+        action={<NewButton href="/admin/credentials/new">New credential</NewButton>}
+      />
+
       {items.length === 0 ? (
-        <p className="text-ink/50">No credentials yet.</p>
+        <EmptyState
+          title="No credentials yet"
+          description="Numbers added here render as the spec sheet on /animate."
+          action={<NewButton href="/admin/credentials/new">New credential</NewButton>}
+        />
       ) : (
-        <CredentialsList initialItems={items} />
+        <SortableList
+          label="credential"
+          deleteAction={deleteCredentialAction}
+          reorderAction={reorderCredentialsAction}
+          rows={items.map((item) => ({
+            id: item.id,
+            title: item.label,
+            meta: item.value,
+            editHref: `/admin/credentials/${item.id}`,
+          }))}
+        />
       )}
     </div>
   );

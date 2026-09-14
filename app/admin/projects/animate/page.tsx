@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { listMotionProjects } from "@/lib/actions/motion-projects";
-import MotionProjectsList from "@/components/Admin/MotionProjects/MotionProjectsList";
+import { deleteMotionProjectAction, reorderMotionProjectsAction } from "./actions";
+import SortableList from "@/components/Admin/ui/SortableList";
+import { PageHeader, NewButton, EmptyState } from "@/components/Admin/ui/Shell";
 
 export const dynamic = "force-dynamic";
 
@@ -9,21 +10,34 @@ export default async function MotionProjectsPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-          Motion Projects
-        </h1>
-        <Link
-          href="/admin/projects/animate/new"
-          className="rounded-pill bg-accent-animate px-5 py-2.5 text-sm font-semibold text-ink"
-        >
-          + New
-        </Link>
-      </div>
+      <PageHeader
+        eyebrow="Work"
+        title="Motion projects"
+        description="Motion case studies shown on /animate. The first featured one takes the lead frame on the index."
+        action={<NewButton href="/admin/projects/animate/new">New project</NewButton>}
+      />
+
       {items.length === 0 ? (
-        <p className="text-ink/50">No motion projects yet.</p>
+        <EmptyState
+          title="No motion projects yet"
+          description="Projects added here show up on /animate and /animate/projects."
+          action={<NewButton href="/admin/projects/animate/new">New project</NewButton>}
+        />
       ) : (
-        <MotionProjectsList initialItems={items} />
+        <SortableList
+          label="project"
+          deleteAction={deleteMotionProjectAction}
+          reorderAction={reorderMotionProjectsAction}
+          rows={items.map((item) => ({
+            id: item.id,
+            title: item.title,
+            meta: item.slug,
+            badge: item.featuredOnHome
+              ? { label: "Featured", tone: "live" as const }
+              : undefined,
+            editHref: `/admin/projects/animate/${item.id}`,
+          }))}
+        />
       )}
     </div>
   );

@@ -48,22 +48,22 @@ export default function RateCardForm({ rateCard, clients, defaultClientId, actio
       ))}
 
       <div>
-        <label className="mb-2 block text-sm font-medium text-ink/70">Title</label>
+        <label className="mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">Title</label>
         <input
           name="title"
           defaultValue={rateCard?.title}
           required
           placeholder="e.g. Rate card — Acme Co."
-          className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+          className="w-full rounded-xl border border-ink/12 bg-stage px-4 py-2.5 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
         />
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-medium text-ink/70">Client (optional)</label>
+        <label className="mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">Client (optional)</label>
         <select
           name="clientId"
           defaultValue={rateCard?.clientId ?? defaultClientId ?? ""}
-          className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink"
+          className="w-full rounded-xl border border-ink/12 bg-stage px-4 py-2.5 text-ink"
         >
           <option value="">— Generic / template —</option>
           {clients.map((client) => (
@@ -79,11 +79,11 @@ export default function RateCardForm({ rateCard, clients, defaultClientId, actio
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="mb-2 block text-sm font-medium text-ink/70">Currency</label>
+          <label className="mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">Currency</label>
           <select
             name="currency"
             defaultValue={rateCard?.currency ?? "USD"}
-            className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink"
+            className="w-full rounded-xl border border-ink/12 bg-stage px-4 py-2.5 text-ink"
           >
             {CURRENCIES.map((c) => (
               <option key={c.code} value={c.code}>
@@ -98,7 +98,7 @@ export default function RateCardForm({ rateCard, clients, defaultClientId, actio
         </div>
 
         <div>
-          <label className="mb-2 block text-sm font-medium text-ink/70">Layout</label>
+          <label className="mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">Layout</label>
           <div className="flex gap-2">
             <button
               type="button"
@@ -131,23 +131,23 @@ export default function RateCardForm({ rateCard, clients, defaultClientId, actio
 
       <div>
         <LineItemsEditor items={lineItems} onChange={setLineItems} sectioned={layout === "sectioned"} />
-        {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+        {error && <p className="mt-2 text-sm text-signal">{error}</p>}
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-medium text-ink/70">Terms (public, one per line)</label>
+        <label className="mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">Terms (public, one per line)</label>
         <textarea
           name="terms"
           defaultValue={rateCard?.terms?.join("\n") ?? ""}
           rows={4}
           placeholder={"e.g. 50% deposit to start, balance due on final delivery\n2 rounds of revisions included per project"}
-          className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+          className="w-full rounded-xl border border-ink/12 bg-stage px-4 py-2.5 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
         />
         <p className="mt-1 text-xs text-ink/50">Shown as a bullet list under the rate card on the client portal.</p>
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-medium text-ink/70">
+        <label className="mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">
           &quot;Accept &amp; get started&quot; link (optional)
         </label>
         <input
@@ -155,7 +155,7 @@ export default function RateCardForm({ rateCard, clients, defaultClientId, actio
           type="text"
           defaultValue={rateCard?.ctaUrl ?? ""}
           placeholder="/okata-studios-youtube-intro-brief.html"
-          className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+          className="w-full rounded-xl border border-ink/12 bg-stage px-4 py-2.5 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
         />
         <p className="mt-1 text-xs text-ink/50">
           Where the client is sent after picking a package and hitting &quot;Accept &amp; get
@@ -165,12 +165,12 @@ export default function RateCardForm({ rateCard, clients, defaultClientId, actio
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-medium text-ink/70">Notes (internal, optional)</label>
+        <label className="mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">Notes (internal, optional)</label>
         <textarea
           name="notes"
           defaultValue={rateCard?.notes ?? ""}
           rows={3}
-          className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+          className="w-full rounded-xl border border-ink/12 bg-stage px-4 py-2.5 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
         />
       </div>
 

@@ -28,7 +28,7 @@ export default function SubmissionsList({ initialItems }: { initialItems: Submis
   return (
     <ul className="space-y-4">
       {items.map((submission) => (
-        <li key={submission.id} className="rounded-card border border-ink/10 bg-base-raised p-6">
+        <li key={submission.id} className="rounded-2xl border border-ink/10 bg-frame p-6">
           <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
             <div>
               <p className="font-semibold text-ink">

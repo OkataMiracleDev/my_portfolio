@@ -49,7 +49,7 @@ export default function BulkUploadWidget({ label, values, onChange, onUploadingC
 
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium text-ink/70">{label}</label>
+      <label className="mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">{label}</label>
 
       {values.length > 0 && (
         <div className="mb-3 grid grid-cols-4 gap-3 sm:grid-cols-6">
@@ -78,7 +78,7 @@ export default function BulkUploadWidget({ label, values, onChange, onUploadingC
         className="block w-full text-sm text-ink/70 file:mr-4 file:rounded-pill file:border-0 file:bg-ink/10 file:px-4 file:py-2 file:text-sm file:font-medium file:text-ink"
       />
       {uploading && <p className="mt-2 text-sm text-ink/50">Uploading…</p>}
-      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-2 text-sm text-signal">{error}</p>}
     </div>
   );
 }

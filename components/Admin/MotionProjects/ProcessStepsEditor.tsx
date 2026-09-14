@@ -25,7 +25,7 @@ export default function ProcessStepsEditor({ steps, onChange }: ProcessStepsEdit
 
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium text-ink/70">Process steps</label>
+      <label className="mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">Process steps</label>
 
       <div className="space-y-4">
         {steps.map((step, i) => (
@@ -37,7 +37,7 @@ export default function ProcessStepsEditor({ steps, onChange }: ProcessStepsEdit
               <button
                 type="button"
                 onClick={() => removeStep(i)}
-                className="text-xs font-medium text-red-600 hover:underline"
+                className="text-xs font-medium text-signal hover:underline"
               >
                 Remove
               </button>
@@ -46,14 +46,14 @@ export default function ProcessStepsEditor({ steps, onChange }: ProcessStepsEdit
               value={step.title}
               onChange={(e) => updateStep(i, "title", e.target.value)}
               placeholder="Step title (e.g. Concept & Brief)"
-              className="mb-2 w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+              className="mb-2 w-full rounded-xl border border-ink/12 bg-stage px-4 py-2.5 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
             />
             <textarea
               value={step.body}
               onChange={(e) => updateStep(i, "body", e.target.value)}
               placeholder="What happened in this step"
               rows={3}
-              className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+              className="w-full rounded-xl border border-ink/12 bg-stage px-4 py-2.5 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
             />
           </div>
         ))}

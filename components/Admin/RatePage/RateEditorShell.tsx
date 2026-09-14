@@ -27,7 +27,7 @@ export function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-card bg-base-raised p-6">
+    <section className="rounded-2xl border border-ink/10 bg-frame p-6">
       <p className="font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-accent-animate">
         {track}
       </p>
@@ -83,7 +83,7 @@ export function Row({
           <button
             type="button"
             onClick={() => onRemove(index)}
-            className="rounded-pill border border-red-600/30 px-3 py-1.5 text-xs font-medium text-red-600 transition-colors hover:bg-red-600/5"
+            className="rounded-pill border border-signal/30 px-3 py-1.5 text-xs font-medium text-signal transition-colors hover:bg-signal/5"
           >
             Remove
           </button>
@@ -141,7 +141,7 @@ export function SaveBar({ state }: { state: SaveState }) {
       <p
         role="status"
         aria-live="polite"
-        className={`text-sm ${state.status === "error" ? "text-red-600" : "text-ink/55"}`}
+        className={`text-sm ${state.status === "error" ? "text-signal" : "text-ink/55"}`}
       >
         {state.status === "saved" ? "Saved — the live page is updated." : state.message ?? ""}
       </p>
@@ -174,7 +174,7 @@ export function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-lg border border-ink/15 bg-base-raised px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+        className="w-full rounded-lg border border-ink/15 bg-frame px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
       />
       {hint && <p className="mt-1 text-xs text-ink/45">{hint}</p>}
     </div>
@@ -204,7 +204,7 @@ export function TextArea({
         onChange={(e) => onChange(e.target.value)}
         rows={rows}
         placeholder={placeholder}
-        className="w-full rounded-lg border border-ink/15 bg-base-raised px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+        className="w-full rounded-lg border border-ink/15 bg-frame px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
       />
     </div>
   );

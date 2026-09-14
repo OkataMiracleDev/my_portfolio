@@ -4,6 +4,7 @@ import { useState } from "react";
 import UploadWidget from "@/components/Admin/UploadWidget";
 import type { resources } from "@/lib/db/schema";
 import SubmitButton from "@/components/Admin/SubmitButton";
+import { Field, TextArea, FormShell, Select } from "@/components/Admin/ui/Fields";
 
 type Resource = typeof resources.$inferSelect;
 
@@ -17,22 +18,20 @@ export default function ResourceForm({ resource, action }: ResourceFormProps) {
   const [fileUrl, setFileUrl] = useState(resource?.fileUrl ?? "");
 
   return (
-    <form action={action} className="max-w-2xl space-y-5">
+    <FormShell action={action}>
       <input type="hidden" name="fileUrl" value={fileUrl ?? ""} />
 
-      <div>
-        <label className="mb-2 block text-sm font-medium text-ink/70">Type</label>
-        <select
-          name="type"
-          value={type}
-          onChange={(e) => setType(e.target.value as typeof type)}
-          className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink"
-        >
-          <option value="download">Download</option>
-          <option value="tutorial">Tutorial</option>
-          <option value="tool-link">Tool link</option>
-        </select>
-      </div>
+      <Select
+        label="Type"
+        name="type"
+        value={type}
+        onChange={(next) => setType(next as typeof type)}
+        options={[
+          { value: "download", label: "Download" },
+          { value: "tutorial", label: "Tutorial" },
+          { value: "tool-link", label: "Tool link" },
+        ]}
+      />
 
       <Field
         label="Slug"
@@ -61,64 +60,6 @@ export default function ResourceForm({ resource, action }: ResourceFormProps) {
       <Field label="Tags (comma-separated)" name="tags" defaultValue={resource?.tags.join(", ")} required />
 
       <SubmitButton accent="animate" />
-    </form>
-  );
-}
-
-function Field({
-  label,
-  name,
-  defaultValue,
-  required,
-  type = "text",
-  pattern,
-  patternTitle,
-}: {
-  label: string;
-  name: string;
-  defaultValue?: string | null;
-  required?: boolean;
-  type?: string;
-  pattern?: string;
-  patternTitle?: string;
-}) {
-  return (
-    <div>
-      <label className="mb-2 block text-sm font-medium text-ink/70">{label}</label>
-      <input
-        name={name}
-        type={type}
-        defaultValue={defaultValue ?? ""}
-        required={required}
-        pattern={pattern}
-        title={patternTitle}
-        className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
-      />
-    </div>
-  );
-}
-
-function TextArea({
-  label,
-  name,
-  defaultValue,
-  required,
-}: {
-  label: string;
-  name: string;
-  defaultValue?: string | null;
-  required?: boolean;
-}) {
-  return (
-    <div>
-      <label className="mb-2 block text-sm font-medium text-ink/70">{label}</label>
-      <textarea
-        name={name}
-        defaultValue={defaultValue ?? ""}
-        required={required}
-        rows={5}
-        className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
-      />
-    </div>
+    </FormShell>
   );
 }

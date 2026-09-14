@@ -1,6 +1,7 @@
 import RateCardForm from "@/components/Admin/RateCards/RateCardForm";
 import { listClients } from "@/lib/actions/clients";
 import { createRateCardAction } from "../actions";
+import { PageHeader, BackLink } from "@/components/Admin/ui/Shell";
 
 export default async function NewRateCardPage({
   searchParams,
@@ -11,9 +12,11 @@ export default async function NewRateCardPage({
 
   return (
     <div>
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-        New Rate Card
-      </h1>
+      <PageHeader
+        eyebrow="Rate cards"
+        title={<>New Rate Card</>}
+        action={<BackLink href="/admin/rate-cards">All rate cards</BackLink>}
+      />
       <RateCardForm
         clients={clients.map((c) => ({ id: c.id, name: c.name }))}
         defaultClientId={clientId}

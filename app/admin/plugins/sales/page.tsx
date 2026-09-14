@@ -2,6 +2,7 @@ import { desc, eq } from "drizzle-orm";
 import { db } from "@/lib/db/client";
 import { pluginPurchases, studioPlugins } from "@/lib/db/schema";
 import { requireSession } from "@/lib/auth/session";
+import { PageHeader, EmptyState } from "@/components/Admin/ui/Shell";
 
 export const dynamic = "force-dynamic";
 
@@ -23,11 +24,18 @@ export default async function PluginSalesPage() {
 
   return (
     <div>
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">Plugin Sales</h1>
+      <PageHeader
+        eyebrow="Store"
+        title="Plugin sales"
+        description="Every purchase that has reached Paystack, newest first."
+      />
       {rows.length === 0 ? (
-        <p className="text-ink/50">No sales yet.</p>
+        <EmptyState
+          title="No sales yet"
+          description="Purchases appear here the moment Paystack confirms them."
+        />
       ) : (
-        <div className="overflow-x-auto rounded-card bg-base-raised">
+        <div className="overflow-x-auto rounded-2xl border border-ink/10 bg-frame">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-ink/10 text-ink/50">
               <tr>

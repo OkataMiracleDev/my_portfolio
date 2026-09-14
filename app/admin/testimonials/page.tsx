@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { listTestimonials } from "@/lib/actions/testimonials";
-import TestimonialsList from "@/components/Admin/Testimonials/TestimonialsList";
+import { deleteTestimonialAction, reorderTestimonialsAction } from "./actions";
+import SortableList from "@/components/Admin/ui/SortableList";
+import { PageHeader, NewButton, EmptyState } from "@/components/Admin/ui/Shell";
 
 export const dynamic = "force-dynamic";
 
@@ -9,29 +10,38 @@ export default async function TestimonialsAdminPage() {
 
   return (
     <div>
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-          Testimonials
-        </h1>
-        <div className="flex gap-3">
-          <Link
-            href="/admin/testimonials/submissions"
-            className="rounded-pill border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink hover:bg-ink/5"
-          >
-            Submissions
-          </Link>
-          <Link
-            href="/admin/testimonials/new"
-            className="rounded-pill bg-accent-build px-5 py-2.5 text-sm font-semibold text-ink"
-          >
-            + New
-          </Link>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="Site content"
+        title="Testimonials"
+        description="Quotes shown on /build and /animate. Each one belongs to a single route."
+        action={<NewButton href="/admin/testimonials/new">New testimonial</NewButton>}
+      />
+
       {items.length === 0 ? (
-        <p className="text-ink/50">No testimonials yet.</p>
+        <EmptyState
+          title="No testimonials yet"
+          description="Check Submissions for quotes clients have sent in themselves."
+          action={<NewButton href="/admin/testimonials/new">New testimonial</NewButton>}
+        />
       ) : (
-        <TestimonialsList initialItems={items} />
+        <SortableList
+          label="testimonial"
+          deleteAction={deleteTestimonialAction}
+          reorderAction={reorderTestimonialsAction}
+          filters={[
+            { value: "all", label: "All" },
+            { value: "build", label: "Build" },
+            { value: "animate", label: "Animate" },
+          ]}
+          rows={items.map((item) => ({
+            id: item.id,
+            title: item.name,
+            meta: item.role || item.route,
+            badge: { label: item.route, tone: "neutral" as const },
+            editHref: `/admin/testimonials/${item.id}`,
+            filterValue: item.route,
+          }))}
+        />
       )}
     </div>
   );

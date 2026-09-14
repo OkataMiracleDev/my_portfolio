@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getMotionProject } from "@/lib/actions/motion-projects";
 import MotionProjectForm from "@/components/Admin/MotionProjects/MotionProjectForm";
 import { updateMotionProjectAction } from "../actions";
+import { PageHeader, BackLink } from "@/components/Admin/ui/Shell";
 
 export default async function EditMotionProjectPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -12,9 +13,11 @@ export default async function EditMotionProjectPage({ params }: { params: Promis
 
   return (
     <div>
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-        Edit {project.title}
-      </h1>
+      <PageHeader
+        eyebrow="Motion projects"
+        title={<>Edit {project.title}</>}
+        action={<BackLink href="/admin/projects/animate">All motion projects</BackLink>}
+      />
       <MotionProjectForm project={project} action={boundAction} />
     </div>
   );

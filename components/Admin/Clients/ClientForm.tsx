@@ -3,6 +3,7 @@
 import { CLIENT_STAGES } from "@/lib/constants/client-stages";
 import type { clients } from "@/lib/db/schema";
 import SubmitButton from "@/components/Admin/SubmitButton";
+import { Field, TextArea, Select, FormShell } from "@/components/Admin/ui/Fields";
 
 type Client = typeof clients.$inferSelect;
 
@@ -24,83 +25,23 @@ interface ClientFormProps {
 
 export default function ClientForm({ client, action }: ClientFormProps) {
   return (
-    <form action={action} className="max-w-2xl space-y-5">
+    <FormShell action={action}>
       <Field label="Name" name="name" defaultValue={client?.name} required />
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Field label="Email" name="email" type="email" defaultValue={client?.email ?? ""} />
         <Field label="Company" name="company" defaultValue={client?.company ?? ""} />
       </div>
 
-      <div>
-        <label htmlFor="stage" className="mb-2 block text-sm font-medium text-ink/70">
-          Stage
-        </label>
-        <select
-          id="stage"
-          name="stage"
-          defaultValue={client?.stage ?? "lead"}
-          className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink"
-        >
-          {CLIENT_STAGES.map((stage) => (
-            <option key={stage} value={stage}>
-              {STAGE_LABELS[stage]}
-            </option>
-          ))}
-        </select>
-      </div>
+      <Select
+        label="Stage"
+        name="stage"
+        defaultValue={client?.stage ?? "lead"}
+        options={CLIENT_STAGES.map((stage) => ({ value: stage, label: STAGE_LABELS[stage] }))}
+      />
 
       <TextArea label="Notes (internal only — never shown to the client)" name="notes" defaultValue={client?.notes ?? ""} />
 
       <SubmitButton accent="animate" />
-    </form>
-  );
-}
-
-function Field({
-  label,
-  name,
-  defaultValue,
-  required,
-  type = "text",
-}: {
-  label: string;
-  name: string;
-  defaultValue?: string | null;
-  required?: boolean;
-  type?: string;
-}) {
-  return (
-    <div>
-      <label className="mb-2 block text-sm font-medium text-ink/70">{label}</label>
-      <input
-        name={name}
-        type={type}
-        defaultValue={defaultValue ?? ""}
-        required={required}
-        className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
-      />
-    </div>
-  );
-}
-
-function TextArea({
-  label,
-  name,
-  defaultValue,
-}: {
-  label: string;
-  name: string;
-  defaultValue?: string | null;
-}) {
-  return (
-    <div>
-      <label className="mb-2 block text-sm font-medium text-ink/70">{label}</label>
-      <textarea
-        name={name}
-        defaultValue={defaultValue ?? ""}
-        rows={4}
-        className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
-      />
-    </div>
+    </FormShell>
   );
 }

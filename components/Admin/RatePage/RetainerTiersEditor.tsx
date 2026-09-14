@@ -121,7 +121,7 @@ export default function RetainerTiersEditor({
                 onChange={(e) => update(index, { features: e.target.value.split("\n") })}
                 rows={5}
                 placeholder={"4–6 deliverables per month\n3 revision rounds per deliverable"}
-                className="w-full rounded-lg border border-ink/15 bg-base-raised px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+                className="w-full rounded-lg border border-ink/15 bg-frame px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
               />
               <p className="mt-1 text-xs text-ink/45">
                 Each line gets a checkmark. Blank lines are dropped on save.

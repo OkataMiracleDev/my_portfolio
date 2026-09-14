@@ -1,12 +1,15 @@
 import MotionProjectForm from "@/components/Admin/MotionProjects/MotionProjectForm";
 import { createMotionProjectAction } from "../actions";
+import { PageHeader, BackLink } from "@/components/Admin/ui/Shell";
 
 export default function NewMotionProjectPage() {
   return (
     <div>
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-        New Motion Project
-      </h1>
+      <PageHeader
+        eyebrow="Motion projects"
+        title={<>New Motion Project</>}
+        action={<BackLink href="/admin/projects/animate">All motion projects</BackLink>}
+      />
       <MotionProjectForm action={createMotionProjectAction} />
     </div>
   );

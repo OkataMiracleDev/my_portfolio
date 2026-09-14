@@ -15,6 +15,7 @@ import RetainerTiersEditor from "@/components/Admin/RatePage/RetainerTiersEditor
 import ServicesEditor from "@/components/Admin/RatePage/ServicesEditor";
 import AddonsEditor from "@/components/Admin/RatePage/AddonsEditor";
 import TermsEditor from "@/components/Admin/RatePage/TermsEditor";
+import { PageHeader } from "@/components/Admin/ui/Shell";
 import {
   saveRetainerTiersAction,
   saveRateServicesAction,
@@ -69,27 +70,24 @@ export default async function RatesAdminPage() {
 
   return (
     <div className="max-w-4xl">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-            Rate Card Page
-          </h1>
-          <p className="mt-1 text-sm text-ink/55">
-            The public rate card at /animate/rates. Each section saves on its own and goes live
-            immediately.
-          </p>
-        </div>
-        <Link
-          href="/animate/rates"
-          target="_blank"
-          className="rounded-pill border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-ink/5"
-        >
-          View live page ↗
-        </Link>
-      </div>
+      <PageHeader
+        eyebrow="Site content"
+        title="Rate card page"
+        description="The public rate card at /animate/rates. Each section saves on its own and goes live immediately."
+        action={
+          <Link
+            href="/animate/rates"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-pill border border-ink/15 px-5 py-2 text-sm font-medium text-ink/70 transition-colors duration-200 ease-out hover:border-ink/35 hover:text-ink"
+          >
+            View live page &#8599;
+          </Link>
+        }
+      />
 
       {unsaved.length > 0 && (
-        <p className="mb-6 rounded-xl border border-ink/15 bg-base-raised px-4 py-3 text-sm text-ink/65">
+        <p className="mb-6 rounded-xl border border-ink/15 bg-frame px-4 py-3 text-sm text-ink/65">
           Never edited here: <span className="text-ink">{unsaved.join(", ")}</span>. Those sections
           are showing the values the page originally shipped with — they are filled in below, so
           saving keeps them exactly as they are now.

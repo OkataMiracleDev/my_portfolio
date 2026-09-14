@@ -5,6 +5,7 @@ import { getRateCard } from "@/lib/actions/rate-cards";
 import { getClient, listClients } from "@/lib/actions/clients";
 import PortalLinkCard from "@/components/Admin/Clients/PortalLinkCard";
 import { updateRateCardAction } from "../actions";
+import { PageHeader, BackLink } from "@/components/Admin/ui/Shell";
 
 export default async function EditRateCardPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -16,9 +17,11 @@ export default async function EditRateCardPage({ params }: { params: Promise<{ i
 
   return (
     <div>
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-        Edit {rateCard.title}
-      </h1>
+      <PageHeader
+        eyebrow="Rate cards"
+        title={<>Edit {rateCard.title}</>}
+        action={<BackLink href="/admin/rate-cards">All rate cards</BackLink>}
+      />
 
       {client ? (
         <div className="mb-6 max-w-2xl">
@@ -28,7 +31,7 @@ export default async function EditRateCardPage({ params }: { params: Promise<{ i
           <PortalLinkCard clientId={client.id} shareToken={client.shareToken} />
         </div>
       ) : (
-        <div className="mb-6 max-w-2xl rounded-card border border-ink/10 bg-base-raised p-5 text-sm text-ink/60">
+        <div className="mb-6 max-w-2xl rounded-2xl border border-ink/10 bg-frame p-5 text-sm text-ink/60">
           This is a generic/template rate card, so there&apos;s no shareable link for it yet. Assign it
           to a client below to get a portal link you can send them, or{" "}
           <Link href="/admin/clients" className="text-accent-animate hover:underline">

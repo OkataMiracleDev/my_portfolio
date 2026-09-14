@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getExperienceEntry } from "@/lib/actions/experience";
 import ExperienceForm from "@/components/Admin/Experience/ExperienceForm";
 import { updateExperienceAction } from "../actions";
+import { PageHeader, BackLink } from "@/components/Admin/ui/Shell";
 
 export default async function EditExperiencePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -12,9 +13,11 @@ export default async function EditExperiencePage({ params }: { params: Promise<{
 
   return (
     <div>
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-        Edit {entry.role}
-      </h1>
+      <PageHeader
+        eyebrow="Experience"
+        title={<>Edit {entry.role}</>}
+        action={<BackLink href="/admin/experience">All experience</BackLink>}
+      />
       <ExperienceForm entry={entry} action={boundAction} />
     </div>
   );

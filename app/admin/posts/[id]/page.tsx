@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getPost } from "@/lib/actions/posts";
 import PostForm from "@/components/Admin/Posts/PostForm";
 import { updatePostAction } from "../actions";
+import { PageHeader, BackLink } from "@/components/Admin/ui/Shell";
 
 export default async function EditPostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -12,9 +13,11 @@ export default async function EditPostPage({ params }: { params: Promise<{ id: s
 
   return (
     <div>
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-        Edit {post.title}
-      </h1>
+      <PageHeader
+        eyebrow="Posts"
+        title={<>Edit {post.title}</>}
+        action={<BackLink href="/admin/posts">All posts</BackLink>}
+      />
       <PostForm post={post} action={boundAction} />
     </div>
   );

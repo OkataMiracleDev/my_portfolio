@@ -6,6 +6,7 @@ import BulkUploadWidget from "@/components/Admin/BulkUploadWidget";
 import ProcessStepsEditor, { type ProcessStep } from "@/components/Admin/MotionProjects/ProcessStepsEditor";
 import SubmitButton from "@/components/Admin/SubmitButton";
 import type { motionProjects } from "@/lib/db/schema";
+import { Field, TextArea, Checkbox } from "@/components/Admin/ui/Fields";
 
 type MotionProject = typeof motionProjects.$inferSelect;
 
@@ -114,7 +115,7 @@ export default function MotionProjectForm({ project, action }: MotionProjectForm
             Use YouTube thumbnail
           </button>
         )}
-        {thumbnailError && <p className="mt-2 text-sm text-red-600">{thumbnailError}</p>}
+        {thumbnailError && <p className="mt-2 text-sm text-signal">{thumbnailError}</p>}
       </div>
 
       <Field label="Tags (comma-separated)" name="tags" defaultValue={project?.tags.join(", ")} required />
@@ -127,7 +128,7 @@ export default function MotionProjectForm({ project, action }: MotionProjectForm
       />
       <div>
         <ProcessStepsEditor steps={processSteps} onChange={setProcessSteps} />
-        {processStepsError && <p className="mt-2 text-sm text-red-600">{processStepsError}</p>}
+        {processStepsError && <p className="mt-2 text-sm text-signal">{processStepsError}</p>}
       </div>
       <Field label="Tools (comma-separated)" name="tools" defaultValue={project?.tools.join(", ")} required />
 
@@ -138,77 +139,14 @@ export default function MotionProjectForm({ project, action }: MotionProjectForm
         onUploadingChange={setStoryboardUploading}
       />
 
-      <label className="flex items-center gap-2 text-sm text-ink/70">
-        <input
-          type="checkbox"
-          name="featuredOnHome"
-          defaultChecked={project?.featuredOnHome ?? false}
-        />
-        Featured on /animate home
-      </label>
+      <Checkbox
+        label="Featured on the /animate home page"
+        name="featuredOnHome"
+        defaultChecked={project?.featuredOnHome ?? false}
+        hint="The first featured project takes the large lead frame on /animate."
+      />
 
       <SubmitButton accent="animate" disabled={anyUploading} disabledLabel="Uploading…" />
     </form>
-  );
-}
-
-function Field({
-  label,
-  name,
-  defaultValue,
-  required,
-  onChange,
-  type = "text",
-  pattern,
-  patternTitle,
-}: {
-  label: string;
-  name: string;
-  defaultValue?: string | null;
-  required?: boolean;
-  onChange?: (value: string) => void;
-  type?: string;
-  pattern?: string;
-  patternTitle?: string;
-}) {
-  return (
-    <div>
-      <label className="mb-2 block text-sm font-medium text-ink/70">{label}</label>
-      <input
-        name={name}
-        type={type}
-        defaultValue={defaultValue ?? ""}
-        required={required}
-        pattern={pattern}
-        title={patternTitle}
-        onChange={onChange ? (e) => onChange(e.target.value) : undefined}
-        className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
-      />
-    </div>
-  );
-}
-
-function TextArea({
-  label,
-  name,
-  defaultValue,
-  required,
-}: {
-  label: string;
-  name: string;
-  defaultValue?: string | null;
-  required?: boolean;
-}) {
-  return (
-    <div>
-      <label className="mb-2 block text-sm font-medium text-ink/70">{label}</label>
-      <textarea
-        name={name}
-        defaultValue={defaultValue ?? ""}
-        required={required}
-        rows={5}
-        className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
-      />
-    </div>
   );
 }

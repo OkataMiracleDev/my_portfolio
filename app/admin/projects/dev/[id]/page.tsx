@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getDevProject } from "@/lib/actions/dev-projects";
 import DevProjectForm from "@/components/Admin/DevProjects/DevProjectForm";
 import { updateDevProjectAction } from "../actions";
+import { PageHeader, BackLink } from "@/components/Admin/ui/Shell";
 
 export default async function EditDevProjectPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -12,9 +13,11 @@ export default async function EditDevProjectPage({ params }: { params: Promise<{
 
   return (
     <div>
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-        Edit {project.name}
-      </h1>
+      <PageHeader
+        eyebrow="Dev projects"
+        title={<>Edit {project.name}</>}
+        action={<BackLink href="/admin/projects/dev">All dev projects</BackLink>}
+      />
       <DevProjectForm project={project} action={boundAction} />
     </div>
   );

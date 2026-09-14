@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { listExperienceEntries } from "@/lib/actions/experience";
-import ExperienceList from "@/components/Admin/Experience/ExperienceList";
+import { deleteExperienceAction, reorderExperienceAction } from "./actions";
+import SortableList from "@/components/Admin/ui/SortableList";
+import { PageHeader, NewButton, EmptyState } from "@/components/Admin/ui/Shell";
 
 export const dynamic = "force-dynamic";
 
@@ -9,21 +10,31 @@ export default async function ExperienceAdminPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-          Experience
-        </h1>
-        <Link
-          href="/admin/experience/new"
-          className="rounded-pill bg-accent-build px-5 py-2.5 text-sm font-semibold text-ink"
-        >
-          + New
-        </Link>
-      </div>
+      <PageHeader
+        eyebrow="Site content"
+        title="Experience"
+        description="The card deck on /build. The order here is the order they are dealt."
+        action={<NewButton href="/admin/experience/new">New entry</NewButton>}
+      />
+
       {items.length === 0 ? (
-        <p className="text-ink/50">No experience entries yet.</p>
+        <EmptyState
+          title="No experience entries yet"
+          description="Entries added here render as the pinned card deck on /build."
+          action={<NewButton href="/admin/experience/new">New entry</NewButton>}
+        />
       ) : (
-        <ExperienceList initialItems={items} />
+        <SortableList
+          label="entry"
+          deleteAction={deleteExperienceAction}
+          reorderAction={reorderExperienceAction}
+          rows={items.map((item) => ({
+            id: item.id,
+            title: `${item.role} \u00b7 ${item.company}`,
+            meta: item.year,
+            editHref: `/admin/experience/${item.id}`,
+          }))}
+        />
       )}
     </div>
   );

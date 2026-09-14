@@ -34,38 +34,38 @@ export default function ClientUpdateForm({
   }
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 rounded-card border border-ink/10 bg-base-raised p-6">
+    <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-ink/10 bg-frame p-6">
       <input type="hidden" name="clientId" value={clientId} />
       {images.map((url, i) => (
         <input key={`${url}-${i}`} type="hidden" name="images" value={url} />
       ))}
 
       <div>
-        <label className="mb-2 block text-sm font-medium text-ink/70">Update title</label>
+        <label className="mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">Update title</label>
         <input
           name="title"
           required
           placeholder="e.g. First cut delivered"
-          className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+          className="w-full rounded-xl border border-ink/12 bg-stage px-4 py-2.5 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
         />
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-medium text-ink/70">Details (optional)</label>
+        <label className="mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">Details (optional)</label>
         <textarea
           name="body"
           rows={3}
-          className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+          className="w-full rounded-xl border border-ink/12 bg-stage px-4 py-2.5 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
         />
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-medium text-ink/70">Video embed URL (optional)</label>
+        <label className="mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">Video embed URL (optional)</label>
         <input
           name="videoEmbedUrl"
           type="url"
           placeholder="https://www.youtube.com/embed/..."
-          className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+          className="w-full rounded-xl border border-ink/12 bg-stage px-4 py-2.5 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
         />
       </div>
 

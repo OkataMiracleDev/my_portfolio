@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getCredential } from "@/lib/actions/animate-credentials";
 import CredentialForm from "@/components/Admin/Credentials/CredentialForm";
 import { updateCredentialAction } from "../actions";
+import { PageHeader, BackLink } from "@/components/Admin/ui/Shell";
 
 export default async function EditCredentialPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -12,9 +13,11 @@ export default async function EditCredentialPage({ params }: { params: Promise<{
 
   return (
     <div>
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-        Edit {credential.label}
-      </h1>
+      <PageHeader
+        eyebrow="Bragging rights"
+        title={<>Edit {credential.label}</>}
+        action={<BackLink href="/admin/credentials">All bragging rights</BackLink>}
+      />
       <CredentialForm credential={credential} action={boundAction} />
     </div>
   );

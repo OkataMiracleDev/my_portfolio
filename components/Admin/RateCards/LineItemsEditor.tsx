@@ -29,7 +29,7 @@ export default function LineItemsEditor({ items, onChange, sectioned = false }: 
 
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium text-ink/70">Line items</label>
+      <label className="mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">Line items</label>
 
       <div className="space-y-4">
         {items.map((item, i) => (
@@ -41,7 +41,7 @@ export default function LineItemsEditor({ items, onChange, sectioned = false }: 
               <button
                 type="button"
                 onClick={() => removeItem(i)}
-                className="text-xs font-medium text-red-600 hover:underline"
+                className="text-xs font-medium text-signal hover:underline"
               >
                 Remove
               </button>
@@ -58,27 +58,27 @@ export default function LineItemsEditor({ items, onChange, sectioned = false }: 
               value={item.title}
               onChange={(e) => updateItem(i, "title", e.target.value)}
               placeholder="Title (e.g. Brand Animation)"
-              className="mb-2 w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+              className="mb-2 w-full rounded-xl border border-ink/12 bg-stage px-4 py-2.5 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
             />
             <textarea
               value={item.description}
               onChange={(e) => updateItem(i, "description", e.target.value)}
               placeholder="What's included"
               rows={2}
-              className="mb-2 w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+              className="mb-2 w-full rounded-xl border border-ink/12 bg-stage px-4 py-2.5 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
             />
             <div className="grid grid-cols-2 gap-2">
               <input
                 value={item.price}
                 onChange={(e) => updateItem(i, "price", e.target.value)}
                 placeholder="Price (e.g. $800 – $1,500)"
-                className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+                className="w-full rounded-xl border border-ink/12 bg-stage px-4 py-2.5 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
               />
               <input
                 value={item.unit}
                 onChange={(e) => updateItem(i, "unit", e.target.value)}
                 placeholder="Unit (e.g. Per deliverable)"
-                className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
+                className="w-full rounded-xl border border-ink/12 bg-stage px-4 py-2.5 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
               />
             </div>
           </div>

@@ -2,6 +2,7 @@
 
 import type { animateCredentials } from "@/lib/db/schema";
 import SubmitButton from "@/components/Admin/SubmitButton";
+import { Field, FormShell } from "@/components/Admin/ui/Fields";
 
 type Credential = typeof animateCredentials.$inferSelect;
 
@@ -12,34 +13,10 @@ interface CredentialFormProps {
 
 export default function CredentialForm({ credential, action }: CredentialFormProps) {
   return (
-    <form action={action} className="max-w-lg space-y-5">
+    <FormShell action={action}>
       <Field label="Label" name="label" defaultValue={credential?.label} required />
       <Field label="Value" name="value" defaultValue={credential?.value} required />
       <SubmitButton accent="animate" />
-    </form>
-  );
-}
-
-function Field({
-  label,
-  name,
-  defaultValue,
-  required,
-}: {
-  label: string;
-  name: string;
-  defaultValue?: string | null;
-  required?: boolean;
-}) {
-  return (
-    <div>
-      <label className="mb-2 block text-sm font-medium text-ink/70">{label}</label>
-      <input
-        name={name}
-        defaultValue={defaultValue ?? ""}
-        required={required}
-        className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-animate"
-      />
-    </div>
+    </FormShell>
   );
 }

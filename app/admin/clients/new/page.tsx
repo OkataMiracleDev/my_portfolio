@@ -1,12 +1,15 @@
 import ClientForm from "@/components/Admin/Clients/ClientForm";
 import { createClientAction } from "../actions";
+import { PageHeader, BackLink } from "@/components/Admin/ui/Shell";
 
 export default function NewClientPage() {
   return (
     <div>
-      <h1 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-3xl font-bold">
-        New Client
-      </h1>
+      <PageHeader
+        eyebrow="Clients"
+        title={<>New Client</>}
+        action={<BackLink href="/admin/clients">All clients</BackLink>}
+      />
       <ClientForm action={createClientAction} />
     </div>
   );

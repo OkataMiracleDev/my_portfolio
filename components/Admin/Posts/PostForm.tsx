@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import UploadWidget from "@/components/Admin/UploadWidget";
 import type { posts } from "@/lib/db/schema";
 import SubmitButton from "@/components/Admin/SubmitButton";
+import { Field, FormShell, Select, Checkbox } from "@/components/Admin/ui/Fields";
 
 type Post = typeof posts.$inferSelect;
 
@@ -18,7 +19,7 @@ export default function PostForm({ post, action }: PostFormProps) {
   const [bodyMarkdown, setBodyMarkdown] = useState(post?.bodyMarkdown ?? "");
 
   return (
-    <form action={action} className="max-w-4xl space-y-5">
+    <FormShell action={action}>
       <input type="hidden" name="coverImage" value={coverImage ?? ""} />
 
       <Field
@@ -31,25 +32,24 @@ export default function PostForm({ post, action }: PostFormProps) {
       />
       <Field label="Title" name="title" defaultValue={post?.title} required />
 
-      <div>
-        <label className="mb-2 block text-sm font-medium text-ink/70">Route</label>
-        <select
-          name="route"
-          defaultValue={post?.route ?? "general"}
-          className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink"
-        >
-          <option value="build">Build</option>
-          <option value="animate">Animate</option>
-          <option value="general">General</option>
-        </select>
-      </div>
+      <Select
+        label="Route"
+        name="route"
+        defaultValue={post?.route ?? "general"}
+        options={[
+          { value: "build", label: "Build" },
+          { value: "animate", label: "Animate" },
+          { value: "general", label: "General" },
+        ]}
+        hint="Which blog index this shows up in. General appears on /build/blog too."
+      />
 
       <Field label="Excerpt (optional)" name="excerpt" defaultValue={post?.excerpt ?? ""} />
       <UploadWidget label="Cover image (optional)" value={coverImage} onChange={setCoverImage} />
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-          <label className="mb-2 block text-sm font-medium text-ink/70">Body (Markdown)</label>
+          <label className="mb-2 block font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">Body (Markdown)</label>
           <textarea
             name="bodyMarkdown"
             value={bodyMarkdown}
@@ -60,49 +60,21 @@ export default function PostForm({ post, action }: PostFormProps) {
           />
         </div>
         <div>
-          <p className="mb-2 text-sm font-medium text-ink/70">Preview</p>
-          <div className="prose prose-sm max-w-none rounded-xl border border-ink/15 bg-base-raised p-4">
+          <p className="mb-2 font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] uppercase tracking-[0.14em] text-ink/45">Preview</p>
+          <div className="prose prose-sm max-w-none rounded-xl border border-ink/15 bg-frame p-4">
             <ReactMarkdown>{bodyMarkdown || "*Nothing to preview yet.*"}</ReactMarkdown>
           </div>
         </div>
       </div>
 
-      <label className="flex items-center gap-2 text-sm text-ink/70">
-        <input type="checkbox" name="published" defaultChecked={post?.published ?? false} />
-        Published
-      </label>
+      <Checkbox
+        label="Published"
+        name="published"
+        defaultChecked={post?.published ?? false}
+        hint="Drafts stay invisible to the public site."
+      />
 
       <SubmitButton accent="build" />
-    </form>
-  );
-}
-
-function Field({
-  label,
-  name,
-  defaultValue,
-  required,
-  pattern,
-  patternTitle,
-}: {
-  label: string;
-  name: string;
-  defaultValue?: string | null;
-  required?: boolean;
-  pattern?: string;
-  patternTitle?: string;
-}) {
-  return (
-    <div>
-      <label className="mb-2 block text-sm font-medium text-ink/70">{label}</label>
-      <input
-        name={name}
-        defaultValue={defaultValue ?? ""}
-        required={required}
-        pattern={pattern}
-        title={patternTitle}
-        className="w-full rounded-xl border border-ink/15 bg-base px-4 py-3 text-ink focus:outline-none focus:ring-2 focus:ring-accent-build"
-      />
-    </div>
+    </FormShell>
   );
 }
