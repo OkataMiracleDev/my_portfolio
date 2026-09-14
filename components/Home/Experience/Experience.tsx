@@ -136,7 +136,7 @@ const Experience = ({ entries }: { entries: ExperienceEntry[] }) => {
         {entries.map((exp, index) => (
           <div
             key={exp.id}
-            className="experience-card w-[80vw] max-w-[350px] shrink-0 snap-center rounded-[1.75rem] border border-ink/10 bg-frame/60 p-8 md:w-[450px] md:max-w-none md:shrink md:snap-align-none"
+            className="experience-card w-[80vw] max-w-[350px] shrink-0 snap-center rounded-[1.75rem] border border-ink/12 bg-frame p-8 shadow-[0_24px_70px_-12px_rgb(0_0_0_/_0.75)] md:w-[450px] md:max-w-none md:shrink md:snap-align-none"
           >
             <div className="flex items-center justify-between border-b border-ink/10 pb-5">
               <Meta className="text-ink/30">

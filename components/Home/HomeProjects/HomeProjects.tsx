@@ -82,7 +82,20 @@ export default function HomeProjects({ projects }: { projects: DevProject[] }) {
           </Link>
         </div>
 
-        <ul className="featured-grid grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {/* The column count follows the number of featured projects rather
+            than always being three. With two projects a fixed three-column
+            grid left a whole empty column on desktop, which read as missing
+            content instead of as a deliberate two-up. Fewer projects get
+            wider cards and more gap, so the row fills either way. */}
+        <ul
+          className={`featured-grid grid grid-cols-1 ${
+            projects.length >= 3
+              ? "gap-5 sm:grid-cols-2 lg:grid-cols-3"
+              : projects.length === 2
+                ? "mx-auto max-w-6xl gap-8 sm:grid-cols-2 lg:gap-10"
+                : "mx-auto max-w-2xl"
+          }`}
+        >
           {projects.map((project, i) => (
             <li key={project.id} className="featured-card">
               <WorkCard

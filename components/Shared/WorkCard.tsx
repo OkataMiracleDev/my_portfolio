@@ -42,7 +42,7 @@ export default function WorkCard({
     accent === "build" ? "focus-visible:outline-accent-build" : "focus-visible:outline-accent-animate";
 
   const body = (
-    <article className="h-full rounded-[1.75rem] border border-ink/10 bg-frame/50 p-1.5 transition-colors duration-300 ease-out group-hover:border-ink/25">
+    <article className="h-full rounded-[1.75rem] border border-ink/10 bg-frame p-1.5 shadow-[0_20px_60px_-16px_rgb(0_0_0_/_0.7)] transition-colors duration-300 ease-out group-hover:border-ink/25">
       <div className="relative aspect-[4/3] overflow-hidden rounded-[calc(1.75rem-0.375rem)] bg-stage">
         <Image
           src={image}
