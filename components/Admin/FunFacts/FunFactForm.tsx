@@ -1,6 +1,7 @@
 "use client";
 
 import type { funFactCards } from "@/lib/db/schema";
+import SubmitButton from "@/components/Admin/SubmitButton";
 
 type FunFactCard = typeof funFactCards.$inferSelect;
 
@@ -14,12 +15,7 @@ export default function FunFactForm({ fact, action }: FunFactFormProps) {
     <form action={action} className="max-w-lg space-y-5">
       <Field label="Label" name="label" defaultValue={fact?.label} required />
       <Field label="Value" name="value" defaultValue={fact?.value} required />
-      <button
-        type="submit"
-        className="rounded-pill bg-accent-build px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out active:scale-[0.97]"
-      >
-        Save
-      </button>
+      <SubmitButton accent="build" />
     </form>
   );
 }

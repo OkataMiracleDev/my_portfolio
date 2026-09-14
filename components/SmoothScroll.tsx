@@ -17,6 +17,12 @@ export default function SmoothScroll() {
     const lenis = new Lenis({
       duration: 1.1,
       easing: (t: number) => 1 - Math.pow(1 - t, 3),
+      // Let Lenis own in-page anchor jumps. Without this the browser performs
+      // its own scroll for an href="#id" click while Lenis keeps animating
+      // toward where it thought it was going, and the two fight for the
+      // scroll position. Paired with the removal of `scroll-behavior: smooth`
+      // in globals.css, which was the third party to that argument.
+      anchors: true,
     });
 
     // Drive Lenis from GSAP's own ticker (instead of a separate rAF loop) and

@@ -32,6 +32,15 @@ function NavContent({ onNavigate }: { onNavigate?: () => void }) {
             key={item.href}
             href={item.href}
             onClick={onNavigate}
+            // All sixteen of these are on screen at once, and every target is
+            // an authenticated force-dynamic page with no loading.tsx
+            // boundary -- so the default prefetch fetches sixteen complete RSC
+            // payloads on every single admin page load, for pages whose data
+            // is stale the moment it arrives. It is wasted bandwidth on a good
+            // connection, and on a bad one it is sixteen simultaneous failures
+            // filling the console with ERR_CONNECTION_RESET while the page
+            // itself is working fine.
+            prefetch={false}
             className="rounded-lg px-3 py-2 text-sm font-medium text-ink/70 transition-colors duration-150 hover:bg-ink/5 hover:text-ink"
           >
             {item.label}

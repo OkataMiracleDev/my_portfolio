@@ -4,6 +4,7 @@ import { useState } from "react";
 import UploadWidget from "@/components/Admin/UploadWidget";
 import PluginFileWidget from "./PluginFileWidget";
 import type { studioPlugins } from "@/lib/db/schema";
+import SubmitButton from "@/components/Admin/SubmitButton";
 
 type Plugin = typeof studioPlugins.$inferSelect;
 
@@ -88,12 +89,7 @@ export default function PluginForm({ plugin, action }: PluginFormProps) {
         Published (visible on the live site)
       </label>
 
-      <button
-        type="submit"
-        className="rounded-pill bg-accent-animate px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out active:scale-[0.97]"
-      >
-        Save
-      </button>
+      <SubmitButton accent="animate" />
     </form>
   );
 }

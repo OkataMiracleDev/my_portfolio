@@ -17,6 +17,16 @@
   --color-nav-dark: #1e1e22;
   --color-ease: #ff5a36; /* sparse emphasis only, never a primary accent */
 
+  /* /animate "dark cinema" layer. The route reads as a cutting room: a
+     near-black stage, one blue signal, and the brand's orange-red reserved
+     for genuinely live states (the REC dot, "available"). `signal` is the
+     semantic name for that orange-red -- `--color-ease` above is the same
+     value under its original, less obvious name, kept because
+     RetainerPricing still references `text-ease`. */
+  --color-signal: #ff5a36;
+  --color-stage: #08080a; /* deeper than --color-base: the cinema stage */
+  --color-frame: #17171b; /* footage frame / letterbox surround */
+
   --radius-card: 1.25rem;
   --radius-pill: 999px;
 
@@ -47,7 +57,12 @@ html {
      selectively repaint form controls/scrollbars incorrectly against an
      already-dark page. */
   color-scheme: dark;
-  scroll-behavior: smooth;
+  /* No `scroll-behavior: smooth` here on purpose. Lenis (components/
+     SmoothScroll.tsx) is the page's scroll smoother, and it handles anchor
+     jumps itself via its `anchors` option. Native smooth scrolling on top of
+     that gives an href="#id" click two animators racing for one scroll
+     position. Under prefers-reduced-motion Lenis does not initialise at all,
+     so anchor jumps become instant -- which is the correct behaviour there. */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
@@ -138,6 +153,154 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: color-mix(in oklab, var(--color-ink) 40%, transparent);
+}
+
+
+/* ---------------------------------------------------------------------------
+   /animate "dark cinema" motion layer
+   ---------------------------------------------------------------------------
+   Everything below is scoped to the /animate route by class name. All of it
+   animates transform/opacity only (plus clip-path, which the compositor also
+   handles), so nothing here triggers layout or paint on tick.
+   --------------------------------------------------------------------------- */
+
+/* Service marquee. The track renders its items twice; translating by exactly
+   -50% lands the second copy where the first began, so the loop is seamless.
+   linear is correct here -- constant motion, not an entrance. */
+@keyframes okata-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* The brand ring, idling. Deliberately slow: it should read as ambient
+   presence, not as a spinner. */
+@keyframes okata-ring-drift {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* REC indicator. Opacity only -- a real camera tally light does not move. */
+@keyframes okata-tally {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  55%,
+  100% {
+    opacity: 0.22;
+  }
+}
+
+/* Headline reveal: each line wipes up from behind its own mask. Used by the
+   hero, where the animation plays exactly once per visit, so keyframes (not
+   transitions) are the right tool -- nothing can interrupt it mid-flight. */
+@keyframes okata-line-rise {
+  from {
+    transform: translate3d(0, 110%, 0) rotate(2deg);
+  }
+  to {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+@keyframes okata-fade-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.okata-marquee-track {
+  animation: okata-marquee 38s linear infinite;
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .okata-marquee:hover .okata-marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+.okata-ring-drift {
+  animation: okata-ring-drift 44s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+.okata-tally {
+  animation: okata-tally 1.8s steps(1, end) infinite;
+}
+
+/* Mask + inner span. The mask clips; the span is what actually travels. */
+.okata-line {
+  display: block;
+  overflow: hidden;
+  /* Descenders would otherwise be shaved off by the mask. */
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.okata-line > span {
+  display: block;
+  animation: okata-line-rise 1.05s var(--ease-out) both;
+}
+
+.okata-rise {
+  animation: okata-fade-rise 0.7s var(--ease-out) both;
+}
+
+/* Film grain. Fixed and pointer-events-none, per the performance rule that
+   noise must never ride on a scrolling container -- attached to a scroller it
+   repaints every frame. */
+.okata-grain::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+/* Letterboxing: a hairline top and bottom edge on the stage, the way a 2.39:1
+   crop sits inside a 16:9 frame. */
+.okata-stage {
+  background:
+    radial-gradient(
+      120% 80% at 50% -10%,
+      color-mix(in oklab, var(--color-accent-animate) 12%, transparent) 0%,
+      transparent 60%
+    ),
+    var(--color-stage);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The global reduce block below collapses durations to ~0, which would leave
+     a masked headline parked at translateY(110%) -- i.e. invisible. Cancel the
+     transform outright instead of merely speeding it up. */
+  .okata-line > span,
+  .okata-rise {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .okata-marquee-track,
+  .okata-ring-drift,
+  .okata-tally {
+    animation: none !important;
+  }
 }
 
 /* Reduced Motion */

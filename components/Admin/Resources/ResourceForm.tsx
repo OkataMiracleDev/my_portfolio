@@ -3,6 +3,7 @@
 import { useState } from "react";
 import UploadWidget from "@/components/Admin/UploadWidget";
 import type { resources } from "@/lib/db/schema";
+import SubmitButton from "@/components/Admin/SubmitButton";
 
 type Resource = typeof resources.$inferSelect;
 
@@ -59,12 +60,7 @@ export default function ResourceForm({ resource, action }: ResourceFormProps) {
 
       <Field label="Tags (comma-separated)" name="tags" defaultValue={resource?.tags.join(", ")} required />
 
-      <button
-        type="submit"
-        className="rounded-pill bg-accent-animate px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out active:scale-[0.97]"
-      >
-        Save
-      </button>
+      <SubmitButton accent="animate" />
     </form>
   );
 }

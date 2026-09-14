@@ -4,6 +4,7 @@ import { useState } from "react";
 import UploadWidget from "@/components/Admin/UploadWidget";
 import BulkUploadWidget from "@/components/Admin/BulkUploadWidget";
 import ProcessStepsEditor, { type ProcessStep } from "@/components/Admin/MotionProjects/ProcessStepsEditor";
+import SubmitButton from "@/components/Admin/SubmitButton";
 import type { motionProjects } from "@/lib/db/schema";
 
 type MotionProject = typeof motionProjects.$inferSelect;
@@ -146,15 +147,7 @@ export default function MotionProjectForm({ project, action }: MotionProjectForm
         Featured on /animate home
       </label>
 
-      <button
-        type="submit"
-        disabled={anyUploading}
-        className={`rounded-pill bg-accent-animate px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out active:scale-[0.97] ${
-          anyUploading ? "opacity-50 cursor-not-allowed" : ""
-        }`}
-      >
-        {anyUploading ? "Uploading…" : "Save"}
-      </button>
+      <SubmitButton accent="animate" disabled={anyUploading} disabledLabel="Uploading…" />
     </form>
   );
 }

@@ -1,13 +1,23 @@
 import type { Metadata } from "next";
 import AnimateHero from "@/components/Animate/AnimateHero";
+import PlaygroundBay from "@/components/Animate/PlaygroundBay";
 import { PlaygroundRevealProvider } from "@/components/Animate/Playground/PlaygroundRevealContext";
-import CapabilitiesStrip from "@/components/Animate/CapabilitiesStrip";
-import FeaturedWork from "@/components/Animate/FeaturedWork";
+import ReelFrame from "@/components/Animate/ReelFrame";
+import ServicesBoard from "@/components/Animate/ServicesBoard";
+import ReelIndex from "@/components/Animate/ReelIndex";
+import SpecSheet from "@/components/Animate/SpecSheet";
+import OperatorSection from "@/components/Animate/OperatorSection";
 import AnimateTestimonials from "@/components/Animate/AnimateTestimonials";
 import ResourcesTeaser from "@/components/Animate/ResourcesTeaser";
-import Contact from "@/components/Home/Contact/Contact";
+import AnimateContact from "@/components/Animate/AnimateContact";
 import AnimateFooter from "@/components/Animate/AnimateFooter";
-import { getFeaturedMotionProjects, getTestimonials, getResources, getAnimateCredentials, getStudioPlugins } from "@/lib/data/public";
+import {
+  getFeaturedMotionProjects,
+  getTestimonials,
+  getResources,
+  getAnimateCredentials,
+  getStudioPlugins,
+} from "@/lib/data/public";
 
 export const dynamic = "force-dynamic";
 
@@ -35,22 +45,31 @@ export const metadata: Metadata = {
 };
 
 export default async function AnimatePage() {
-  const [featuredMotionProjects, testimonials, resources, credentials, studioPlugins] = await Promise.all([
-    getFeaturedMotionProjects(),
-    getTestimonials("animate"),
-    getResources(),
-    getAnimateCredentials(),
-    getStudioPlugins(),
-  ]);
+  const [featuredMotionProjects, testimonials, resources, credentials, studioPlugins] =
+    await Promise.all([
+      getFeaturedMotionProjects(),
+      getTestimonials("animate"),
+      getResources(),
+      getAnimateCredentials(),
+      getStudioPlugins(),
+    ]);
 
   return (
     <PlaygroundRevealProvider>
       <AnimateHero />
-      <CapabilitiesStrip />
-      <FeaturedWork projects={featuredMotionProjects} credentials={credentials} />
+      {/* Collapsed to zero height until the hero's toggle is pressed. It sits
+          here, directly under that control, so flipping the switch produces a
+          visible result on the same screen rather than somewhere below the
+          fold. */}
+      <PlaygroundBay />
+      <ReelFrame featured={featuredMotionProjects[0]} />
+      <ServicesBoard />
+      <ReelIndex projects={featuredMotionProjects} />
+      <SpecSheet credentials={credentials} />
+      <OperatorSection />
       <AnimateTestimonials testimonials={testimonials} />
       <ResourcesTeaser resources={resources} studioPlugins={studioPlugins} />
-      <Contact mode="animate" />
+      <AnimateContact />
       <AnimateFooter />
     </PlaygroundRevealProvider>
   );

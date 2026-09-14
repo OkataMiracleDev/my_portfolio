@@ -4,6 +4,7 @@ import { useState } from "react";
 import LineItemsEditor, { type LineItem } from "./LineItemsEditor";
 import { CURRENCIES } from "@/lib/constants/currencies";
 import type { rateCards } from "@/lib/db/schema";
+import SubmitButton from "@/components/Admin/SubmitButton";
 
 type RateCard = typeof rateCards.$inferSelect;
 
@@ -173,12 +174,7 @@ export default function RateCardForm({ rateCard, clients, defaultClientId, actio
         />
       </div>
 
-      <button
-        type="submit"
-        className="rounded-pill bg-accent-animate px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out active:scale-[0.97]"
-      >
-        Save
-      </button>
+      <SubmitButton accent="animate" />
     </form>
   );
 }

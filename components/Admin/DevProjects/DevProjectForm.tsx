@@ -3,6 +3,7 @@
 import { useState } from "react";
 import UploadWidget from "@/components/Admin/UploadWidget";
 import type { devProjects } from "@/lib/db/schema";
+import SubmitButton from "@/components/Admin/SubmitButton";
 
 type DevProject = typeof devProjects.$inferSelect;
 
@@ -56,12 +57,7 @@ export default function DevProjectForm({ project, action }: DevProjectFormProps)
         Featured on /build home
       </label>
 
-      <button
-        type="submit"
-        className="rounded-pill bg-accent-build px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out active:scale-[0.97]"
-      >
-        Save
-      </button>
+      <SubmitButton accent="build" />
     </form>
   );
 }

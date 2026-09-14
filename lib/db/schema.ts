@@ -115,7 +115,7 @@ export const funFactCards = sqliteTable("fun_fact_cards", {
   sortOrder: integer("sort_order").notNull().default(0),
 });
 
-// "Bragging rights" stat cards on /animate (components/Animate/CredentialsBlock.tsx)
+// Stat readout on /animate (components/Animate/SpecSheet.tsx)
 // — same label/value shape as funFactCards but scoped to the animate route,
 // kept as its own table rather than overloading fun_fact_cards with a route
 // column since the two are unrelated content on different routes.

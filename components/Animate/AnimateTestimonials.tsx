@@ -4,36 +4,35 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import OkataRing from "./brand/OkataRing";
+import { Meta } from "./brand/Hud";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import type { TestimonialContent } from "@/types/content";
-import PlaygroundOrbit from "./Playground/PlaygroundOrbit";
-import { usePlaygroundReveal } from "./Playground/PlaygroundRevealContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function AnimateTestimonials({ testimonials }: { testimonials: TestimonialContent[] }) {
+export default function AnimateTestimonials({
+  testimonials,
+}: {
+  testimonials: TestimonialContent[];
+}) {
   const sectionRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
-  const { revealed } = usePlaygroundReveal();
 
   useEffect(() => {
     if (prefersReducedMotion || !sectionRef.current) return;
 
-    const quotes = sectionRef.current.querySelectorAll(".testimonial-quote");
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        quotes,
+        ".field-note",
         { y: 40, opacity: 0 },
         {
           y: 0,
           opacity: 1,
           duration: 0.8,
           ease: "power4.out",
-          stagger: 0.15,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 65%",
-          },
+          stagger: 0.1,
+          scrollTrigger: { trigger: ".field-notes", start: "top 80%" },
         }
       );
     }, sectionRef);
@@ -41,61 +40,76 @@ export default function AnimateTestimonials({ testimonials }: { testimonials: Te
     return () => ctx.revert();
   }, [prefersReducedMotion]);
 
-  return (
-    <section ref={sectionRef} className="section relative px-6 md:px-12">
-      <div
-        className={`absolute left-4 top-10 rotate-12 transition-all duration-500 ease-out md:left-10 ${
-          revealed ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
-        }`}
-      >
-        <PlaygroundOrbit />
-      </div>
-      <div className="mx-auto max-w-4xl">
-        <p className="mb-4 font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.14em] text-ink/50">
-          Word on the street
-        </p>
-        <h2 className="mb-16 max-w-xl font-[family-name:var(--font-cabinet-grotesk)] text-4xl font-bold leading-[0.95] text-ink md:text-6xl">
-          What clients{" "}
-          <span className="text-accent-animate">
-            say.
-          </span>
-        </h2>
+  if (testimonials.length === 0) return null;
 
-        <div className="space-y-16">
+  return (
+    <section ref={sectionRef} className="section px-6 md:px-12">
+      <div className="mx-auto max-w-[84rem]">
+        <div className="mb-14 flex flex-col gap-6 md:mb-20 md:flex-row md:items-end md:justify-between">
+          <div>
+            <Meta className="mb-5 block text-ink/40">Field notes</Meta>
+            <h2 className="font-[family-name:var(--font-cabinet-grotesk)] text-[clamp(2.6rem,7vw,5.5rem)] font-bold leading-[0.88] tracking-[-0.03em] text-ink">
+              What it&apos;s like
+              <br />
+              to work with me<span className="text-signal">.</span>
+            </h2>
+          </div>
+        </div>
+
+        <ul className="field-notes grid gap-4 md:grid-cols-2 lg:gap-5">
           {testimonials.map((testimonial, i) => (
-            <div
+            <li
               key={testimonial.id}
-              className={`testimonial-quote flex flex-col gap-6 md:flex-row md:items-start md:gap-10 ${
-                i % 2 === 1 ? "md:flex-row-reverse md:text-right" : ""
+              className={`field-note ${
+                // First note gets the full width and a larger setting, so the
+                // grid has a clear entry point instead of reading as a wall of
+                // equal-weight boxes.
+                i === 0 && testimonials.length > 1 ? "md:col-span-2" : ""
               }`}
             >
-              <span
-                aria-hidden="true"
-                className="shrink-0 font-[family-name:var(--font-cabinet-grotesk)] text-7xl leading-none text-accent-animate/25 md:text-8xl"
-              >
-                &rdquo;
-              </span>
-              <div className={i % 2 === 1 ? "md:ml-auto" : ""}>
-                <p className="max-w-xl font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold leading-snug text-ink md:text-3xl">
-                  {testimonial.quote}
-                </p>
-                <div
-                  className={`mt-6 flex items-center gap-3 ${i % 2 === 1 ? "md:flex-row-reverse" : ""}`}
-                >
-                  <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full">
-                    <Image src={testimonial.avatar} alt={testimonial.name} fill quality={90} className="object-cover" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-ink">{testimonial.name}</p>
-                    <p className="font-[family-name:var(--font-jetbrains-mono)] text-xs uppercase tracking-[0.06em] text-ink/50">
-                      {testimonial.role}
-                    </p>
-                  </div>
+              <figure className="flex h-full flex-col justify-between gap-8 rounded-[1.75rem] border border-ink/10 bg-frame/50 p-7 transition-colors duration-300 ease-out hover:border-ink/20 md:p-9">
+                <div className="flex items-start gap-5">
+                  <OkataRing
+                    className="mt-1 h-7 w-7 shrink-0 md:h-8 md:w-8"
+                    ringColor="var(--color-ink)"
+                    badgeColor="var(--color-accent-animate)"
+                    strokeWidth={12}
+                  />
+                  <blockquote
+                    className={`font-[family-name:var(--font-cabinet-grotesk)] font-bold leading-[1.18] tracking-tight text-ink ${
+                      i === 0 && testimonials.length > 1
+                        ? "text-2xl md:text-4xl"
+                        : "text-xl md:text-2xl"
+                    }`}
+                  >
+                    {testimonial.quote}
+                  </blockquote>
                 </div>
-              </div>
-            </div>
+
+                <figcaption className="flex items-center gap-3 border-t border-ink/10 pt-6">
+                  <span className="relative block h-10 w-10 shrink-0 overflow-hidden rounded-full ring-1 ring-ink/10">
+                    <Image
+                      src={testimonial.avatar}
+                      alt=""
+                      fill
+                      sizes="40px"
+                      quality={85}
+                      className="object-cover"
+                    />
+                  </span>
+                  <span className="leading-tight">
+                    <span className="block text-sm font-medium text-ink">
+                      {testimonial.name}
+                    </span>
+                    {testimonial.role && (
+                      <Meta className="text-ink/35">{testimonial.role}</Meta>
+                    )}
+                  </span>
+                </figcaption>
+              </figure>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

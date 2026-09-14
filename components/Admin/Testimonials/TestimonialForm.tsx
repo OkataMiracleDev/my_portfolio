@@ -3,6 +3,7 @@
 import { useState } from "react";
 import UploadWidget from "@/components/Admin/UploadWidget";
 import type { testimonials } from "@/lib/db/schema";
+import SubmitButton from "@/components/Admin/SubmitButton";
 
 type Testimonial = typeof testimonials.$inferSelect;
 
@@ -39,12 +40,7 @@ export default function TestimonialForm({ testimonial, defaultValues, action }: 
       <TextArea label="Quote" name="quote" defaultValue={testimonial?.quote ?? defaultValues?.quote} required />
       <UploadWidget label="Avatar" value={avatar} onChange={setAvatar} />
 
-      <button
-        type="submit"
-        className="rounded-pill bg-accent-build px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out active:scale-[0.97]"
-      >
-        Save
-      </button>
+      <SubmitButton accent="build" />
     </form>
   );
 }

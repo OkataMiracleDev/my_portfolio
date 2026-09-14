@@ -1,6 +1,7 @@
 "use client";
 
 import type { experienceEntries } from "@/lib/db/schema";
+import SubmitButton from "@/components/Admin/SubmitButton";
 
 type ExperienceEntry = typeof experienceEntries.$inferSelect;
 
@@ -22,12 +23,7 @@ export default function ExperienceForm({ entry, action }: ExperienceFormProps) {
         defaultValue={entry?.technologies.join(", ")}
         required
       />
-      <button
-        type="submit"
-        className="rounded-pill bg-accent-build px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out active:scale-[0.97]"
-      >
-        Save
-      </button>
+      <SubmitButton accent="build" />
     </form>
   );
 }

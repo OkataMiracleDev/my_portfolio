@@ -4,6 +4,7 @@ import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import UploadWidget from "@/components/Admin/UploadWidget";
 import type { posts } from "@/lib/db/schema";
+import SubmitButton from "@/components/Admin/SubmitButton";
 
 type Post = typeof posts.$inferSelect;
 
@@ -71,12 +72,7 @@ export default function PostForm({ post, action }: PostFormProps) {
         Published
       </label>
 
-      <button
-        type="submit"
-        className="rounded-pill bg-accent-build px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out active:scale-[0.97]"
-      >
-        Save
-      </button>
+      <SubmitButton accent="build" />
     </form>
   );
 }

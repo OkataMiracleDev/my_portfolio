@@ -2,6 +2,7 @@
 
 import { CLIENT_STAGES } from "@/lib/constants/client-stages";
 import type { clients } from "@/lib/db/schema";
+import SubmitButton from "@/components/Admin/SubmitButton";
 
 type Client = typeof clients.$inferSelect;
 
@@ -50,12 +51,7 @@ export default function ClientForm({ client, action }: ClientFormProps) {
 
       <TextArea label="Notes (internal only — never shown to the client)" name="notes" defaultValue={client?.notes ?? ""} />
 
-      <button
-        type="submit"
-        className="rounded-pill bg-accent-animate px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out active:scale-[0.97]"
-      >
-        Save
-      </button>
+      <SubmitButton accent="animate" />
     </form>
   );
 }
