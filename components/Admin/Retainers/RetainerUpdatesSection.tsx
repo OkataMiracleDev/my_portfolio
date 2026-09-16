@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -40,14 +40,26 @@ export default function RetainerUpdatesSection({
   initialItems: Update[];
 }) {
   const formRef = useRef<HTMLFormElement>(null);
+  // A ref, not the `pending` state: state updates are not synchronous, so two
+  // clicks landing in the same tick both see pending === false and both fire.
+  const submittingRef = useRef(false);
   const router = useRouter();
   const [items, setItems] = useState(initialItems);
   const [images, setImages] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
   const [pending, setPending] = useState(false);
 
+  // router.refresh() re-runs the server component and sends a fresh list;
+  // adopt it rather than keeping the optimistically prepended copy, which
+  // would otherwise show the new update twice.
+  useEffect(() => {
+    setItems(initialItems);
+  }, [initialItems]);
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (submittingRef.current) return;
+    submittingRef.current = true;
     const formData = new FormData(event.currentTarget);
     setPending(true);
     try {
@@ -63,6 +75,7 @@ export default function RetainerUpdatesSection({
       console.error(error);
       toast.error("Could not post that update.");
     } finally {
+      submittingRef.current = false;
       setPending(false);
     }
   }

@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import { eq, asc, desc, inArray } from "drizzle-orm";
+import { eq, and, gte, asc, desc, inArray } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db/client";
 import { retainerClients, retainerProjects, retainerUpdates } from "@/lib/db/schema";
@@ -210,6 +210,35 @@ export async function listRetainerUpdates(retainerProjectId: string) {
 export async function createRetainerUpdate(input: RetainerUpdateInput) {
   await requireSession();
   const data = updateSchema.parse(input);
+
+  // Duplicate guard.
+  //
+  // A real duplicate showed up on a live portal: two identical updates on the
+  // same project, sixteen seconds apart. That gap is far too wide for a
+  // double-click -- it is the shape of a post that appeared to fail (this
+  // deployment has a history of dropped connections mid-request), so it was
+  // sent again, while the first one had in fact already committed.
+  //
+  // Disabling the button cannot fix that: by the time the visitor retries, the
+  // button has long since re-enabled. So the server refuses to write a second
+  // identical update to the same project inside a two-minute window, and
+  // returns the one that already exists. The retry then looks like it worked,
+  // because it did.
+  const DEDUPE_WINDOW_MS = 2 * 60 * 1000;
+  const recent = await db
+    .select()
+    .from(retainerUpdates)
+    .where(
+      and(
+        eq(retainerUpdates.retainerProjectId, data.retainerProjectId),
+        eq(retainerUpdates.title, data.title),
+        eq(retainerUpdates.phase, data.phase),
+        gte(retainerUpdates.createdAt, new Date(Date.now() - DEDUPE_WINDOW_MS))
+      )
+    );
+
+  if (recent.length > 0) return recent[0];
+
   const [row] = await db.insert(retainerUpdates).values(data).returning();
 
   const [project] = await db

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import ExpandableText from "@/components/Shared/ExpandableText";
-import StoryboardGallery from "@/components/Animate/StoryboardGallery";
+import ImageGallery from "@/components/Shared/ImageGallery";
 import VideoEmbed from "@/components/Animate/VideoEmbed";
 import AnimateFooter from "@/components/Animate/AnimateFooter";
 import JsonLd from "@/components/Shared/JsonLd";
@@ -254,7 +254,16 @@ export default async function AnimateProjectPage({ params }: Props) {
           <section className="px-6 pb-20 md:px-12 md:pb-28">
             <div className="mx-auto max-w-[84rem]">
               <Meta className="mb-8 block text-ink/35">Storyboard</Meta>
-              <StoryboardGallery images={project.storyboardImages} altPrefix={project.title} />
+              <ImageGallery
+                images={project.storyboardImages}
+                altPrefix={`${project.title} frame`}
+                // Storyboards are wide; a square crop would hide the sides of
+                // every board.
+                fit="contain"
+                aspect="video"
+                sizes="(min-width: 1024px) 420px, (min-width: 640px) 33vw, 50vw"
+                allowOriginal
+              />
             </div>
           </section>
         )}
