@@ -345,3 +345,89 @@ export const rateTerms = sqliteTable("rate_terms", {
   body: text("body").notNull(),
   sortOrder: integer("sort_order").notNull().default(0),
 });
+
+// --- Retainer clients ----------------------------------------------------
+// A separate pipeline from `clients` above, not a flag on it. A prospect
+// moves through a sales funnel (lead -> proposal -> deposit) and has one
+// engagement; a retainer client is already signed and has many concurrent
+// named projects, each moving independently through a production pipeline.
+// Sharing one table would mean every row carrying the other's columns as
+// dead weight and every query filtering on a discriminator.
+//
+// Deliberately no rate cards here: the commercial terms of a retainer are
+// settled before the retainer starts, so the portal is purely a progress
+// surface.
+export const retainerClients = sqliteTable("retainer_clients", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  name: text("name").notNull(),
+  email: text("email"),
+  company: text("company"),
+  notes: text("notes"), // internal only -- never rendered on the public portal
+  status: text("status", { enum: ["active", "paused", "ended"] })
+    .notNull()
+    .default("active"),
+  shareToken: text("share_token")
+    .notNull()
+    .unique()
+    .$defaultFn(() => crypto.randomBytes(16).toString("hex")),
+  sortOrder: integer("sort_order").notNull().default(0),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+});
+
+// One named piece of work for a retainer client. `phase` is where it is right
+// now; the ordered list lives in lib/constants/retainer-phases.ts.
+export const retainerProjects = sqliteTable("retainer_projects", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  retainerClientId: text("retainer_client_id").notNull(),
+  name: text("name").notNull(),
+  description: text("description"),
+  phase: text("phase", {
+    enum: [
+      "scripting",
+      "storyboarding",
+      "editing",
+      "compositing",
+      "sfx_voiceover",
+      "color",
+      "rendering",
+      "delivered",
+    ],
+  })
+    .notNull()
+    .default("scripting"),
+  sortOrder: integer("sort_order").notNull().default(0),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+});
+
+// Progress entries hang off a project, not off the client, because the whole
+// point of a retainer portal is per-project progress.
+//
+// `phase` is a snapshot of which phase the update is reporting on, stored
+// rather than read from the parent project. The project's phase moves on; the
+// update is a record of what was true when it was posted, and a timeline that
+// silently relabels its own history is worse than no timeline.
+export const retainerUpdates = sqliteTable("retainer_updates", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  retainerProjectId: text("retainer_project_id").notNull(),
+  phase: text("phase", {
+    enum: [
+      "scripting",
+      "storyboarding",
+      "editing",
+      "compositing",
+      "sfx_voiceover",
+      "color",
+      "rendering",
+      "delivered",
+    ],
+  }).notNull(),
+  title: text("title").notNull(),
+  body: text("body"),
+  // Vercel Blob URLs, same convention as client_updates.
+  images: text("images", { mode: "json" }).$type<string[]>().notNull().default(sql`'[]'`),
+  // YouTube embed URL. Rendered through the shared VideoEmbed component.
+  videoEmbedUrl: text("video_embed_url"),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+});

@@ -39,6 +39,10 @@ const NAV_GROUPS: Array<{ heading: string; items: Array<{ href: string; label: s
     heading: "Clients",
     items: [
       { href: "/admin/clients", label: "Clients" },
+      // Two separate pipelines on purpose: Clients is the sales funnel
+      // (lead -> proposal -> deposit); Retainers are already-signed clients
+      // with named projects moving through production.
+      { href: "/admin/retainers", label: "Retainers" },
       // Two different things, easy to confuse: "Rate cards" are the per-client
       // cards behind a portal link; "Rate card page" is the single public one
       // at /animate/rates.
