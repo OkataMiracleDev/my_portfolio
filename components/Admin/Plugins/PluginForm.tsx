@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import UploadWidget from "@/components/Admin/UploadWidget";
 import PluginFileWidget from "./PluginFileWidget";
 import type { studioPlugins } from "@/lib/db/schema";
+import type { PluginFormState } from "@/app/admin/plugins/actions";
 import SubmitButton from "@/components/Admin/SubmitButton";
 import { Field, TextArea, FormShell, Checkbox } from "@/components/Admin/ui/Fields";
 
@@ -11,15 +12,22 @@ type Plugin = typeof studioPlugins.$inferSelect;
 
 interface PluginFormProps {
   plugin?: Plugin;
-  action: (formData: FormData) => void;
+  action: (state: PluginFormState, formData: FormData) => Promise<PluginFormState>;
 }
 
+const IDLE: PluginFormState = {};
+
 export default function PluginForm({ plugin, action }: PluginFormProps) {
+  const [state, formAction] = useActionState(action, IDLE);
   const [thumbnailUrl, setThumbnailUrl] = useState(plugin?.thumbnailUrl ?? "");
   const [fileUrl, setFileUrl] = useState(plugin?.fileUrl ?? "");
   const [pwywEnabled, setPwywEnabled] = useState(plugin?.pwywEnabled ?? false);
   const [published, setPublished] = useState(plugin?.published ?? false);
   const [thumbnailWarning, setThumbnailWarning] = useState<string | null>(null);
+  const [thumbnailUploading, setThumbnailUploading] = useState(false);
+  const [fileUploading, setFileUploading] = useState(false);
+
+  const uploading = thumbnailUploading || fileUploading;
 
   // UploadWidget is shared with resources/testimonials/etc, so the 1:1
   // check lives here rather than inside it — a non-blocking warning only,
@@ -37,7 +45,7 @@ export default function PluginForm({ plugin, action }: PluginFormProps) {
   }
 
   return (
-    <FormShell action={action}>
+    <FormShell action={formAction}>
       <input type="hidden" name="thumbnailUrl" value={thumbnailUrl} />
       <input type="hidden" name="fileUrl" value={fileUrl} />
       <input type="hidden" name="pwywEnabled" value={pwywEnabled ? "on" : ""} />
@@ -56,11 +64,17 @@ export default function PluginForm({ plugin, action }: PluginFormProps) {
       <Field label="Tags (comma-separated)" name="tags" defaultValue={plugin?.tags.join(", ")} required />
 
       <div>
-        <UploadWidget label="Thumbnail (1:1)" value={thumbnailUrl} onChange={handleThumbnailChange} kind="image" />
+        <UploadWidget
+          label="Thumbnail (1:1)"
+          value={thumbnailUrl}
+          onChange={handleThumbnailChange}
+          kind="image"
+          onUploadingChange={setThumbnailUploading}
+        />
         {thumbnailWarning && <p className="mt-2 text-sm text-amber-600">{thumbnailWarning}</p>}
       </div>
 
-      <PluginFileWidget value={fileUrl} onChange={setFileUrl} />
+      <PluginFileWidget value={fileUrl} onChange={setFileUrl} onUploadingChange={setFileUploading} />
 
       <Field
         label="Price (₦)"
@@ -86,7 +100,22 @@ export default function PluginForm({ plugin, action }: PluginFormProps) {
         hint="Visible in the studio strip on /animate."
       />
 
-      <SubmitButton accent="animate" />
+      {/* The save used to throw on an empty thumbnail or file URL and take
+          the whole page down with it. Both are now reported here, and the
+          button is held while an upload is still running so the common way
+          of hitting that state — Save before the .zip finishes — can't
+          happen in the first place. */}
+      {state.error && (
+        <p role="alert" className="text-sm text-signal">
+          {state.error}
+        </p>
+      )}
+
+      <SubmitButton
+        accent="animate"
+        disabled={uploading}
+        disabledLabel="Uploading..."
+      />
     </FormShell>
   );
 }

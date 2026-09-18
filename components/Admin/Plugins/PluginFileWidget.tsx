@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { upload } from "@vercel/blob/client";
+import { uploadFile } from "@/lib/blob-client";
+import { UPLOAD_KINDS } from "@/lib/blob-kinds";
 
 interface PluginFileWidgetProps {
   value: string | null | undefined;
   onChange: (url: string) => void;
+  onUploadingChange?: (uploading: boolean) => void;
 }
 
-export default function PluginFileWidget({ value, onChange }: PluginFileWidgetProps) {
+export default function PluginFileWidget({ value, onChange, onUploadingChange }: PluginFileWidgetProps) {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
@@ -24,20 +26,16 @@ export default function PluginFileWidget({ value, onChange }: PluginFileWidgetPr
 
     setUploading(true);
     setProgress(0);
+    onUploadingChange?.(true);
     setError(null);
 
     try {
-      const safeName = file.name.replace(/[^\w.-]+/g, "-");
-      const blob = await upload(`plugin-files/${safeName}`, file, {
-        access: "public",
-        handleUploadUrl: "/api/admin/plugins/blob-upload",
-        onUploadProgress: (event) => setProgress(Math.round(event.percentage)),
-      });
-      onChange(blob.url);
+      onChange(await uploadFile(file, "plugin-file", setProgress));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
     } finally {
       setUploading(false);
+      onUploadingChange?.(false);
     }
   }
 
@@ -47,7 +45,7 @@ export default function PluginFileWidget({ value, onChange }: PluginFileWidgetPr
       {value && <p className="mb-3 truncate text-sm text-ink/60">{value}</p>}
       <input
         type="file"
-        accept=".zip,application/zip,application/x-zip-compressed"
+        accept={UPLOAD_KINDS["plugin-file"].accept}
         onChange={handleFileChange}
         disabled={uploading}
         className="block w-full text-sm text-ink/70 file:mr-4 file:rounded-pill file:border-0 file:bg-ink/10 file:px-4 file:py-2 file:text-sm file:font-medium file:text-ink"

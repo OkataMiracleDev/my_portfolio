@@ -2,17 +2,20 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { uploadFile } from "@/lib/blob-client";
+import { UPLOAD_KINDS, type UploadKind } from "@/lib/blob-kinds";
 
 interface UploadWidgetProps {
   label: string;
   value: string | null | undefined;
   onChange: (url: string) => void;
-  kind?: "image" | "download";
+  kind?: UploadKind;
   onUploadingChange?: (uploading: boolean) => void;
 }
 
 export default function UploadWidget({ label, value, onChange, kind = "image", onUploadingChange }: UploadWidgetProps) {
   const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -20,18 +23,12 @@ export default function UploadWidget({ label, value, onChange, kind = "image", o
     if (!file) return;
 
     setUploading(true);
+    setProgress(0);
     onUploadingChange?.(true);
     setError(null);
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("kind", kind);
-
     try {
-      const response = await fetch("/api/admin/upload", { method: "POST", body: formData });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error ?? "Upload failed");
-      onChange(data.url);
+      onChange(await uploadFile(file, kind, setProgress));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
     } finally {
@@ -48,17 +45,17 @@ export default function UploadWidget({ label, value, onChange, kind = "image", o
           <Image src={value} alt="" fill quality={90} className="object-cover" />
         </div>
       )}
-      {value && kind === "download" && (
+      {value && kind !== "image" && (
         <p className="mb-3 truncate text-sm text-ink/60">{value}</p>
       )}
       <input
         type="file"
-        accept={kind === "image" ? "image/jpeg,image/png,image/webp,image/avif" : "application/pdf,application/zip"}
+        accept={UPLOAD_KINDS[kind].accept}
         onChange={handleFileChange}
         disabled={uploading}
         className="block w-full text-sm text-ink/70 file:mr-4 file:rounded-pill file:border-0 file:bg-ink/10 file:px-4 file:py-2 file:text-sm file:font-medium file:text-ink"
       />
-      {uploading && <p className="mt-2 text-sm text-ink/50">Uploading…</p>}
+      {uploading && <p className="mt-2 text-sm text-ink/50">Uploading… {progress}%</p>}
       {error && <p className="mt-2 text-sm text-signal">{error}</p>}
     </div>
   );

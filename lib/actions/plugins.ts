@@ -1,25 +1,11 @@
 "use server";
 
-import { z } from "zod";
 import { eq, asc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db/client";
 import { studioPlugins } from "@/lib/db/schema";
 import { requireSession } from "@/lib/auth/session";
-
-const pluginSchema = z.object({
-  slug: z.string().min(1).max(120).regex(/^[a-z0-9-]+$/, "Lowercase letters, numbers, and hyphens only"),
-  title: z.string().min(1).max(200),
-  description: z.string().min(1),
-  tags: z.array(z.string().min(1)).min(1),
-  thumbnailUrl: z.string().url("Upload a thumbnail before saving."),
-  fileUrl: z.string().url("Upload a plugin file before saving."),
-  priceAmount: z.number().int().min(0),
-  pwywEnabled: z.boolean(),
-  published: z.boolean(),
-});
-
-export type PluginInput = z.infer<typeof pluginSchema>;
+import { pluginSchema, type PluginInput } from "@/lib/schemas/plugin";
 
 function revalidatePluginPaths() {
   revalidatePath("/animate/resources");

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { uploadFile } from "@/lib/blob-client";
+import { UPLOAD_KINDS } from "@/lib/blob-kinds";
 
 interface BulkUploadWidgetProps {
   label: string;
@@ -12,31 +14,38 @@ interface BulkUploadWidgetProps {
 
 export default function BulkUploadWidget({ label, values, onChange, onUploadingChange }: BulkUploadWidgetProps) {
   const [uploading, setUploading] = useState(false);
+  const [done, setDone] = useState(0);
+  const [total, setTotal] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
   async function handleFilesChange(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
     if (files.length === 0) return;
+    setTotal(files.length);
 
     setUploading(true);
+    setDone(0);
     onUploadingChange?.(true);
     setError(null);
 
+    // Whatever succeeded is kept even if a later file fails: those images
+    // are already in Blob storage, and dropping them would both orphan them
+    // and make the admin re-pick the whole batch over one bad file.
+    const uploaded: string[] = [];
     try {
-      const uploaded: string[] = [];
       for (const file of files) {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("kind", "image");
-        const response = await fetch("/api/admin/upload", { method: "POST", body: formData });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error ?? `Upload failed for ${file.name}`);
-        uploaded.push(data.url);
+        try {
+          uploaded.push(await uploadFile(file, "image"));
+        } catch (err) {
+          const why = err instanceof Error ? err.message : "upload failed";
+          throw new Error(`${file.name}: ${why}`);
+        }
+        setDone(uploaded.length);
       }
-      onChange([...values, ...uploaded]);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
     } finally {
+      if (uploaded.length > 0) onChange([...values, ...uploaded]);
       setUploading(false);
       onUploadingChange?.(false);
       e.target.value = "";
@@ -71,13 +80,17 @@ export default function BulkUploadWidget({ label, values, onChange, onUploadingC
 
       <input
         type="file"
-        accept="image/jpeg,image/png,image/webp,image/avif"
+        accept={UPLOAD_KINDS.image.accept}
         multiple
         onChange={handleFilesChange}
         disabled={uploading}
         className="block w-full text-sm text-ink/70 file:mr-4 file:rounded-pill file:border-0 file:bg-ink/10 file:px-4 file:py-2 file:text-sm file:font-medium file:text-ink"
       />
-      {uploading && <p className="mt-2 text-sm text-ink/50">Uploading…</p>}
+      {uploading && (
+        <p className="mt-2 text-sm text-ink/50">
+          Uploading… {done} of {total}
+        </p>
+      )}
       {error && <p className="mt-2 text-sm text-signal">{error}</p>}
     </div>
   );
