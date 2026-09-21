@@ -47,6 +47,21 @@ export const UPLOAD_KINDS: Record<UploadKind, UploadRules> = {
   },
 };
 
+/**
+ * A Blob pathname the admin is allowed to write to: one known prefix, one
+ * path segment, and nothing in the name that needs escaping.
+ *
+ * Deliberately a static regex literal compared against a split pathname
+ * rather than a pattern built with `new RegExp(`...${prefix}...`)`. The
+ * template-literal version of this shipped broken: `\w` is not a valid
+ * template-literal escape, so it silently collapsed to the bare letter `w`
+ * and the class became [w.-], which rejects essentially every real filename.
+ * The route then returned 400 and the Blob SDK reported it as the useless
+ * "Failed to retrieve the client token". A regex literal cannot lose an
+ * escape that way.
+ */
+const FILENAME = /^[\w.-]+$/;
+
 /** Reverse lookup used by the token route to turn a pathname into its rules. */
 export function kindForPathname(pathname: string): UploadKind | null {
   const prefix = pathname.split("/")[0];
@@ -54,6 +69,22 @@ export function kindForPathname(pathname: string): UploadKind | null {
     ([, rules]) => rules.prefix === prefix
   );
   return entry ? entry[0] : null;
+}
+
+/** Validates a full pathname and returns the kind it belongs to, or null. */
+export function resolveUploadPathname(
+  pathname: string
+): { kind: UploadKind; rules: UploadRules } | null {
+  const segments = pathname.split("/");
+  if (segments.length !== 2) return null;
+
+  const [prefix, filename] = segments;
+  if (!FILENAME.test(filename)) return null;
+
+  const kind = kindForPathname(pathname);
+  if (!kind || UPLOAD_KINDS[kind].prefix !== prefix) return null;
+
+  return { kind, rules: UPLOAD_KINDS[kind] };
 }
 
 /** Strips anything that would make a Blob pathname awkward or ambiguous. */
