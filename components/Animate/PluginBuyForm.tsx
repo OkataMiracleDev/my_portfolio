@@ -22,7 +22,9 @@ export default function PluginBuyForm({ plugin }: { plugin: StudioPluginContent 
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error ?? "Could not start checkout");
-      window.location.href = data.authorizationUrl;
+      // Paystack's hosted checkout for a paid order; our own success page,
+      // download already issued, for a free one.
+      window.location.href = data.redirectUrl;
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not start checkout");
       setLoading(false);
@@ -65,7 +67,13 @@ export default function PluginBuyForm({ plugin }: { plugin: StudioPluginContent 
         disabled={loading}
         className="w-full rounded-pill bg-accent-animate px-6 py-3 font-semibold text-ink transition-transform duration-200 ease-out active:scale-[0.97] disabled:opacity-60"
       >
-        {loading ? "Redirecting to checkout…" : amount === 0 ? "Get it free" : "Buy"}
+        {loading
+          ? amount === 0
+            ? "Getting your download…"
+            : "Redirecting to checkout…"
+          : amount === 0
+            ? "Get it free"
+            : "Buy"}
       </button>
       {error && <p className="text-sm text-red-600">{error}</p>}
     </form>

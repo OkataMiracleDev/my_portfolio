@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { verifyWebhookSignature } from "@/lib/plugins/paystack";
-import { markPurchasePaid, markPurchaseCancelled, getPurchaseByReference, getPluginById } from "@/lib/plugins/repo";
-import { sendPluginReceiptEmail } from "@/lib/plugins/email";
+import { markPurchasePaid, markPurchaseCancelled, getPurchaseByReference } from "@/lib/plugins/repo";
+import { sendReceiptForPurchase } from "@/lib/plugins/receipt";
 
 export async function POST(request: Request) {
   const rawBody = await request.text();
@@ -24,21 +24,8 @@ export async function POST(request: Request) {
     const amountPaid = Math.round((event.data.amount as number) / 100);
 
     const { purchase, justPaid } = await markPurchasePaid(reference, amountPaid);
-    if (purchase && justPaid && purchase.downloadToken) {
-      const plugin = await getPluginById(purchase.pluginId);
-      if (plugin) {
-        const origin = new URL(request.url).origin;
-        try {
-          await sendPluginReceiptEmail({
-            toEmail: purchase.email,
-            pluginTitle: plugin.title,
-            amountPaid: purchase.amountPaid,
-            downloadUrl: `${origin}/api/plugins/download/${purchase.downloadToken}`,
-          });
-        } catch (emailError) {
-          console.error("Plugin receipt email failed (purchase was still marked paid):", emailError);
-        }
-      }
+    if (purchase && justPaid) {
+      await sendReceiptForPurchase(purchase);
     }
   }
 

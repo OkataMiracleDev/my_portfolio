@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getStudioPluginBySlug } from "@/lib/data/public";
 import { verifyTransaction } from "@/lib/plugins/paystack";
-import { markPurchasePaid, getPluginById } from "@/lib/plugins/repo";
-import { sendPluginReceiptEmail } from "@/lib/plugins/email";
-import { getSiteUrl } from "@/lib/plugins/site-url";
+import { markPurchasePaid, getPurchaseByReference } from "@/lib/plugins/repo";
+import { sendReceiptForPurchase } from "@/lib/plugins/receipt";
 
 export const dynamic = "force-dynamic";
 
@@ -26,34 +25,33 @@ export default async function PluginSuccessPage({ params, searchParams }: Props)
   let downloadToken: string | null = null;
   let failed = false;
 
-  try {
-    const verified = await verifyTransaction(reference);
-    if (verified.status === "success") {
-      const { purchase, justPaid } = await markPurchasePaid(reference, Math.round(verified.amountKobo / 100));
-      if (purchase?.downloadToken) {
-        downloadToken = purchase.downloadToken;
-        if (justPaid) {
-          const fullPlugin = await getPluginById(purchase.pluginId);
-          if (fullPlugin) {
-            try {
-              await sendPluginReceiptEmail({
-                toEmail: purchase.email,
-                pluginTitle: fullPlugin.title,
-                amountPaid: purchase.amountPaid,
-                downloadUrl: `${getSiteUrl()}/api/plugins/download/${purchase.downloadToken}`,
-              });
-            } catch (emailError) {
-              console.error("Plugin receipt email failed (purchase was still marked paid):", emailError);
-            }
-          }
+  const existing = await getPurchaseByReference(reference);
+
+  // Settled already? Then there is nothing to ask Paystack about. This is
+  // the only path a free (₦0) order ever takes -- it was fulfilled at init
+  // and Paystack has never heard of the reference, so verifying it would
+  // fail and tell the buyer their payment didn't go through. It also saves
+  // a redundant round trip when the webhook won the race on a paid order.
+  if (existing?.status === "paid" && existing.downloadToken) {
+    downloadToken = existing.downloadToken;
+  } else if (!existing) {
+    failed = true;
+  } else {
+    try {
+      const verified = await verifyTransaction(reference);
+      if (verified.status === "success") {
+        const { purchase, justPaid } = await markPurchasePaid(reference, Math.round(verified.amountKobo / 100));
+        if (purchase?.downloadToken) {
+          downloadToken = purchase.downloadToken;
+          if (justPaid) await sendReceiptForPurchase(purchase);
         }
+      } else {
+        failed = true;
       }
-    } else {
+    } catch (err) {
+      console.error("Plugin success page verification failed:", err);
       failed = true;
     }
-  } catch (err) {
-    console.error("Plugin success page verification failed:", err);
-    failed = true;
   }
 
   if (failed || !downloadToken) {

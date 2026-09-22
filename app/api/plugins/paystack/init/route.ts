@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import { getPluginById, createPendingPurchase } from "@/lib/plugins/repo";
-import { validateAmount } from "@/lib/plugins/pricing";
+import { getPluginById, createPendingPurchase, markPurchasePaid } from "@/lib/plugins/repo";
+import { validateAmount, isFreeOrder } from "@/lib/plugins/pricing";
 import { initializeTransaction } from "@/lib/plugins/paystack";
+import { sendReceiptForPurchase } from "@/lib/plugins/receipt";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -35,8 +36,22 @@ export async function POST(request: Request) {
   }
 
   const reference = await createPendingPurchase({ pluginId: plugin.id, email, amountPaid: amount });
-
   const origin = new URL(request.url).origin;
+  const successUrl = `${origin}/animate/resources/plugins/${plugin.slug}/success?reference=${reference}`;
+
+  // A free order has nothing for Paystack to charge — sending it anyway is
+  // what produced "Invalid Amount Sent". Fulfil it here instead, then hand
+  // the buyer to the same success page a paid order lands on, which finds
+  // the purchase already paid and shows the download.
+  if (isFreeOrder(amount)) {
+    const { purchase } = await markPurchasePaid(reference, 0);
+    if (!purchase?.downloadToken) {
+      return NextResponse.json({ error: "Could not prepare your download" }, { status: 500 });
+    }
+    await sendReceiptForPurchase(purchase);
+    return NextResponse.json({ redirectUrl: successUrl });
+  }
+
   const callbackUrl = `${origin}/animate/resources/plugins/${plugin.slug}/success`;
 
   try {
@@ -46,7 +61,7 @@ export async function POST(request: Request) {
       reference,
       callbackUrl,
     });
-    return NextResponse.json({ authorizationUrl });
+    return NextResponse.json({ redirectUrl: authorizationUrl });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Could not start checkout";
     return NextResponse.json({ error: message }, { status: 502 });

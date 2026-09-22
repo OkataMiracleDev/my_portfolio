@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { validateAmount } from "../pricing";
+import { validateAmount, isFreeOrder } from "../pricing";
 
 describe("validateAmount", () => {
   const fixedPlugin = { priceAmount: 5000, pwywEnabled: false };
@@ -36,5 +36,37 @@ describe("validateAmount", () => {
       ok: false,
       error: "amount must be a whole number",
     });
+  });
+});
+
+/**
+ * validateAmount has always accepted ₦0 for a pay-what-you-want plugin
+ * (see above) -- the order then went to Paystack anyway, which refuses a
+ * zero-amount charge with "Invalid Amount Sent". This predicate is what
+ * routes those orders around Paystack instead, so the boundary matters.
+ */
+describe("isFreeOrder", () => {
+  it("treats ₦0 as free", () => {
+    expect(isFreeOrder(0)).toBe(true);
+  });
+
+  it("treats the smallest real charge as not free", () => {
+    expect(isFreeOrder(1)).toBe(false);
+  });
+
+  it("treats a normal price as not free", () => {
+    expect(isFreeOrder(1000)).toBe(false);
+  });
+
+  it("agrees with validateAmount on a pwyw plugin priced at ₦0 by the buyer", () => {
+    const plugin = { priceAmount: 1000, pwywEnabled: true };
+    expect(validateAmount(plugin, 0)).toEqual({ ok: true });
+    expect(isFreeOrder(0)).toBe(true);
+  });
+
+  it("covers a plugin whose list price is ₦0 with pwyw off", () => {
+    const plugin = { priceAmount: 0, pwywEnabled: false };
+    expect(validateAmount(plugin, 0)).toEqual({ ok: true });
+    expect(isFreeOrder(0)).toBe(true);
   });
 });
