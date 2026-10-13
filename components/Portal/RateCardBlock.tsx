@@ -4,6 +4,7 @@ import { useState } from "react";
 import PrintButton from "./PrintButton";
 import { parseInclusions, type Inclusion } from "./parseInclusions";
 import { currencyBadgeLabel, prefixCurrency } from "@/lib/constants/currencies";
+import { defaultSelectedIndex } from "./defaultSelectedIndex";
 import type { rateCards } from "@/lib/db/schema";
 
 type RateCard = typeof rateCards.$inferSelect;
@@ -127,10 +128,23 @@ function InclusionList({
   );
 }
 
-export default function RateCardBlock({ card }: { card: RateCard }) {
+export default function RateCardBlock({ card, portalToken }: { card: RateCard; portalToken: string }) {
   const sections = groupBySection(card.lineItems);
-  const selectable = card.lineItems.length > 1;
-  const [selected, setSelected] = useState(0);
+
+  // Once sealed the card is a record of what was agreed, not a chooser.
+  const sealedIndex = card.sealedAt
+    ? card.lineItems.findIndex((item) => item.title === card.sealedSelection)
+    : -1;
+  const sealed = Boolean(card.sealedAt);
+  const multi = card.lineItems.length > 1;
+  // `multi` drives how a card *looks*; `selectable` drives whether it can be
+  // clicked. A sealed card still shows its chosen package highlighted — it
+  // just can't be changed.
+  const selectable = multi && !sealed;
+
+  const [selected, setSelected] = useState(
+    sealedIndex >= 0 ? sealedIndex : defaultSelectedIndex(card.lineItems.length)
+  );
   const selectedItem = card.lineItems[selected];
 
   function handleAccept() {
@@ -140,6 +154,9 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
         url.searchParams.set("package", selectedItem.title);
         url.searchParams.set("price", prefixCurrency(selectedItem.price, card.currency));
       }
+      // Lets the brief seal this exact card when the client finishes it.
+      url.searchParams.set("portal", portalToken);
+      url.searchParams.set("card", card.id);
       window.location.href = url.toString();
       return;
     }
@@ -172,6 +189,19 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
         </p>
       )}
 
+      {sealed && (
+        <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-card border border-accent-animate/25 bg-accent-animate/5 px-4 py-3">
+          <span className="font-[family-name:var(--font-jetbrains-mono)] text-[0.65rem] uppercase tracking-[0.14em] text-accent-animate">
+            Locked in
+          </span>
+          <p className="text-sm text-ink/60">
+            {card.sealedSelection
+              ? <>You confirmed <span className="font-medium text-ink">{card.sealedSelection}</span> when you sent your brief. This is the agreed scope.</>
+              : <>This rate card was confirmed when you sent your brief.</>}
+          </p>
+        </div>
+      )}
+
       {sections.map((group, gi) => {
         let runningIndex = 0;
         for (let s = 0; s < gi; s++) runningIndex += sections[s].items.length;
@@ -191,7 +221,10 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
             >
               {group.items.map((item, i) => {
                 const index = runningIndex + i;
-                const isSelected = selectable && selected === index;
+                const isSelected = multi && selected === index;
+                // A sealed card dims the roads not taken rather than hiding
+                // them, so the client can still see what they chose between.
+                const isPassedOver = sealed && !isSelected;
 
                 return (
                   <button
@@ -206,7 +239,7 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
                         ? "bg-ink text-[var(--color-base)] shadow-[0_28px_70px_-30px_rgb(79_91_255_/_0.5)]"
                         : selectable
                           ? "cursor-pointer border border-ink/12 bg-base-raised hover:border-ink/30"
-                          : "border border-ink/12 bg-base-raised"
+                          : `border border-ink/12 bg-base-raised ${isPassedOver ? "opacity-45" : ""}`
                     }`}
                   >
                     <div className="mb-5 flex items-center justify-between gap-3">
@@ -219,7 +252,7 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
                       </span>
                       {isSelected && (
                         <span className="rounded-pill bg-accent-animate px-2.5 py-1 font-[family-name:var(--font-jetbrains-mono)] text-[0.6rem] uppercase tracking-[0.08em] text-ink">
-                          Selected
+                          {sealed ? "Locked in" : "Selected"}
                         </span>
                       )}
                     </div>
@@ -259,20 +292,28 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
                         <InclusionList
                           items={parseInclusions(item.description)}
                           selected={isSelected}
-                          collapsed={selectable && !isSelected}
+                          collapsed={multi && !isSelected}
                         />
                       </>
                     )}
 
-                    {selectable && (
+                    {multi && (
                       <span
                         className={`mt-auto inline-flex w-fit items-center gap-1.5 rounded-pill px-4 py-2 text-xs font-semibold transition-colors duration-200 ${
                           isSelected
                             ? "bg-[var(--color-base)] text-ink"
-                            : "bg-accent-animate/12 text-accent-animate group-hover:bg-accent-animate group-hover:text-ink"
+                            : sealed
+                              ? "border border-ink/15 text-ink/40"
+                              : "bg-accent-animate/12 text-accent-animate group-hover:bg-accent-animate group-hover:text-ink"
                         }`}
                       >
-                        {isSelected ? "Selected ✓" : "Select this package"}
+                        {isSelected
+                          ? sealed
+                            ? "Confirmed ✓"
+                            : "Selected ✓"
+                          : sealed
+                            ? "Not selected"
+                            : "Select this package"}
                       </span>
                     )}
                   </button>
@@ -302,10 +343,10 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
       )}
 
       <div className="mt-10 border-t border-ink/15 pt-6">
-        {selectable && selectedItem && (
+        {multi && selectedItem && (
           <div className="mb-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
             <p className="text-sm text-ink/55">
-              Selected — <span className="font-medium text-ink">{selectedItem.title}</span>
+              {sealed ? "Confirmed" : "Selected"} — <span className="font-medium text-ink">{selectedItem.title}</span>
             </p>
             <p className="font-[family-name:var(--font-cabinet-grotesk)] text-xl font-bold text-ink">
               {prefixCurrency(selectedItem.price, card.currency)}
@@ -319,13 +360,23 @@ export default function RateCardBlock({ card }: { card: RateCard }) {
         )}
 
         <div className="flex flex-wrap gap-3">
-          <button
-            type="button"
-            onClick={handleAccept}
-            className="inline-flex items-center gap-2 rounded-pill bg-accent-animate px-5 py-2.5 text-sm font-semibold text-ink transition-transform duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97]"
-          >
-            Accept &amp; get started <span aria-hidden="true">→</span>
-          </button>
+          {/* Sealed means the brief is already in. Re-running "Accept & get
+              started" would only send the client back to a form they have
+              finished, so the card becomes a receipt instead. */}
+          {sealed ? (
+            <p className="text-sm text-ink/55">
+              Your brief is in — nothing more to do here. Progress updates appear below as
+              the work moves.
+            </p>
+          ) : (
+            <button
+              type="button"
+              onClick={handleAccept}
+              className="inline-flex items-center gap-2 rounded-pill bg-accent-animate px-5 py-2.5 text-sm font-semibold text-ink transition-transform duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97]"
+            >
+              Accept &amp; get started <span aria-hidden="true">→</span>
+            </button>
+          )}
           <PrintButton className="rounded-pill border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink transition-colors duration-200 ease-out hover:bg-ink/5" />
         </div>
       </div>

@@ -225,6 +225,17 @@ export const rateCards = sqliteTable("rate_cards", {
   // Null falls back to a mailto link.
   ctaUrl: text("cta_url"),
   notes: text("notes"),
+  // Set once the client has committed to a package — by sending their brief
+  // back, or by printing it to PDF. From then on the portal shows the choice
+  // as locked rather than as a live radio group, so re-opening the link to
+  // track progress can't silently change what was agreed.
+  //
+  // sealedSelection stores the line item's *title* rather than its index:
+  // titles are what the client saw, what the brief carried in its `package`
+  // query param, and what the email says — an index would quietly point at
+  // the wrong package the moment a line item is reordered or removed.
+  sealedAt: integer("sealed_at", { mode: "timestamp" }),
+  sealedSelection: text("sealed_selection"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
 });

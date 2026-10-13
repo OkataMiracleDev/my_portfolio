@@ -54,7 +54,7 @@ export default async function ClientPortalPage({ params }: { params: Promise<{ t
               Rate card
             </h2>
             {rateCards.map((card) => (
-              <RateCardBlock key={card.id} card={card} />
+              <RateCardBlock key={card.id} card={card} portalToken={token} />
             ))}
           </section>
         )}

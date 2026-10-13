@@ -1,24 +1,32 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import {
+  renderBriefEmail,
+  renderBriefText,
+  fallback,
+  type BriefAnswer,
+} from "@/lib/briefs/email";
 
-interface BriefAnswer {
-  question: string;
-  answer: string;
-}
+const BRIEF_LABEL = "Showcase brief";
 
 export async function POST(request: Request) {
   try {
-    const { productName, answers } = (await request.json()) as {
+    const payload = (await request.json()) as {
+      subjectName?: string;
       productName?: string;
       answers?: BriefAnswer[];
+      selectedPackage?: string | null;
+      selectedPrice?: string | null;
     };
+    const { answers, selectedPackage, selectedPrice } = payload;
 
     if (!Array.isArray(answers) || answers.length === 0) {
       return NextResponse.json({ error: "Missing answers" }, { status: 400 });
     }
 
-    const fallback = (value: unknown) => (typeof value === "string" && value.trim() ? value.trim() : "(not given)");
-    const subjectName = fallback(productName);
+    // subjectName is what the brief sends now; the legacy per-brief key is
+    // still read so a cached copy of the old page keeps working.
+    const subjectName = fallback(payload.subjectName ?? payload.productName);
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -28,20 +36,14 @@ export async function POST(request: Request) {
       },
     });
 
+    const brief = { briefLabel: BRIEF_LABEL, subjectName, answers, selectedPackage, selectedPrice };
+
     await transporter.sendMail({
       to: "okatamiracle.dev@gmail.com",
       from: process.env.EMAIL_USER,
-      subject: `Showcase brief — ${subjectName}`,
-      text: answers.map(({ question, answer }) => `${question}\n${fallback(answer)}`).join("\n\n"),
-      html: `
-        <h2>Showcase brief — ${subjectName}</h2>
-        ${answers
-          .map(
-            ({ question, answer }) =>
-              `<p><strong>${question}</strong><br>${fallback(answer).replace(/\n/g, "<br>")}</p>`
-          )
-          .join("\n")}
-      `,
+      subject: `${BRIEF_LABEL} — ${subjectName}`,
+      text: renderBriefText(brief),
+      html: renderBriefEmail(brief),
     });
 
     return NextResponse.json({ success: "Brief sent successfully!" });

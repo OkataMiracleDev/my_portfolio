@@ -97,23 +97,46 @@
     .wrap{padding:0 20px;}
   }
 
+  /* Print / Save-as-PDF.
+     The exported PDF keeps the studio's dark look rather than flipping to
+     white paper. The previous light-mode block only re-coloured a handful
+     of selectors, so everything it missed -- .meta-strip b, .howto p,
+     .signoff b, all of them var(--paper) -- printed near-white on white and
+     vanished. Rather than chase every selector, nothing is re-coloured at
+     all: the dark palette is simply forced to render.
+     print-color-adjust:exact is what stops the browser from helpfully
+     dropping the backgrounds (without it the dark fills disappear and the
+     light text lands on white again). */
   @media print{
+    html, body{
+      background:var(--ink) !important;
+      -webkit-print-color-adjust:exact !important;
+      print-color-adjust:exact !important;
+    }
+    *{
+      -webkit-print-color-adjust:exact !important;
+      print-color-adjust:exact !important;
+    }
+    @page{ margin:14mm; }
     .print-btn{display:none;}
     .send-row{display:none;}
-    body{background:#fff; color:#0D0D10;}
-    section{padding:32px 0; page-break-inside:avoid;}
-    .q input[type="text"], .q textarea{background:#fff; border:1px solid #bbb; color:#0D0D10;}
-    .howto, .signoff, .check-item{background:#fff !important;}
-    .checklist{background:#ddd;}
-    .check-box{border-color:#666;}
-    .q .ask, .ci-title, h1, h2{color:#0D0D10;}
-    .pill{background:#f4f3ef; color:#333; border-color:#ccc;}
+    section{padding:28px 0; page-break-inside:avoid; break-inside:avoid;}
+    .hero{padding-top:0;}
+    /* An empty answer box prints as a blank ruled field to write into;
+       a filled one has to show the text the client actually typed. */
+    .q input[type="text"], .q textarea{
+      background:var(--surface) !important;
+      border:1px solid var(--line) !important;
+      color:var(--paper) !important;
+    }
+    .q textarea{min-height:64px;}
+    a{color:var(--signal) !important;}
   }
 </style>
 </head>
 <body>
 
-<button class="print-btn" onclick="window.print()">Save / Print as PDF</button>
+<button class="print-btn" id="printBtn">Save / Print as PDF</button>
 
 <div class="wrap">
 
@@ -528,48 +551,142 @@
 </div>
 
 <script>
-function collectAnswers(){
-  var answers = [];
-  document.querySelectorAll('.q').forEach(function(q){
-    var askEl = q.querySelector('.ask');
-    var numEl = q.querySelector('.num');
-    var label = askEl ? askEl.textContent.trim() : (numEl ? numEl.textContent.trim() : '');
-    var field = q.querySelector('input[type="text"], textarea');
-    if(!label || !field) return;
-    answers.push({ question: label, answer: field.value });
-  });
-  return answers;
-}
+(function(){
+  var PARAMS  = new URLSearchParams(window.location.search);
+  var PORTAL  = PARAMS.get('portal');
+  var CARD    = PARAMS.get('card');
+  var PACKAGE = PARAMS.get('package');
+  var PRICE   = PARAMS.get('price');
 
-document.getElementById('sendBtn').addEventListener('click', function(){
-  var btn = this;
-  var statusEl = document.getElementById('sendStatus');
-  var answers = collectAnswers();
-  var titleField = document.querySelector('.q input[type="text"]');
-  var videoTitle = titleField ? titleField.value : '';
-
-  btn.disabled = true;
-  btn.textContent = 'Sending…';
-  statusEl.textContent = '';
-
-  fetch('/api/long-form-video-brief', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ videoTitle: videoTitle, answers: answers })
-  })
-    .then(function(res){
-      if(!res.ok) throw new Error('failed');
-      statusEl.textContent = "Sent! We've received your brief and will be in touch.";
-      statusEl.style.color = 'var(--signal)';
-      btn.textContent = 'Sent ✓';
-    })
-    .catch(function(){
-      statusEl.textContent = "Couldn't send — check your connection and try again, or email okatamiracle.dev@gmail.com directly.";
-      statusEl.style.color = 'var(--ease)';
-      btn.disabled = false;
-      btn.textContent = 'Send brief to Okata Studios →';
+  function collectAnswers(){
+    var answers = [];
+    document.querySelectorAll('.q').forEach(function(q){
+      var askEl = q.querySelector('.ask');
+      var numEl = q.querySelector('.num');
+      var label = askEl ? askEl.textContent.trim() : (numEl ? numEl.textContent.trim() : '');
+      var field = q.querySelector('input[type="text"], textarea');
+      if(!label || !field) return;
+      answers.push({ question: label, answer: field.value });
     });
-});
+    return answers;
+  }
+
+  function answeredCount(){
+    return collectAnswers().filter(function(a){ return a.answer && a.answer.trim(); }).length;
+  }
+
+  /* ---- Portal seal -------------------------------------------------------
+     When this brief was opened from a client portal, the portal token and
+     rate-card id ride along in the query string. Telling the server the
+     brief is done locks the package the client picked, so re-opening the
+     portal later to watch progress can't quietly change the agreed scope.
+     Fire-and-forget: sealing must never block or fail the actual send. */
+  var sealSent = false;
+  function sealPortalCard(){
+    if(!PORTAL || !CARD || sealSent) return;
+    sealSent = true;
+    try{
+      fetch('/api/portal/seal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ portal: PORTAL, card: CARD, selection: PACKAGE }),
+        keepalive: true
+      }).catch(function(){ sealSent = false; });
+    }catch(e){ sealSent = false; }
+  }
+
+  /* ---- Chosen package banner --------------------------------------------
+     Shows the client which package this brief is against, and carries it
+     into the email so the brief and the quote can't drift apart. */
+  if(PACKAGE){
+    var howto = document.querySelector('.howto');
+    if(howto){
+      var banner = document.createElement('div');
+      banner.className = 'howto';
+      banner.style.marginTop = '16px';
+      banner.style.borderColor = 'var(--signal)';
+      banner.innerHTML =
+        '<div class="lbl">Your selected package</div>' +
+        '<p><b>' + PACKAGE.replace(/[<>&]/g, '') + '</b>' +
+        (PRICE ? ' — ' + PRICE.replace(/[<>&]/g, '') : '') + '</p>' +
+        '<p>Confirmed when you send this brief back.</p>';
+      howto.parentNode.insertBefore(banner, howto.nextSibling);
+    }
+  }
+
+  /* ---- Print ------------------------------------------------------------
+     A textarea doesn't grow to fit its content, so a long answer prints
+     clipped to the box. Expand them for the duration of the print, then put
+     them back. */
+  var grown = [];
+  function growForPrint(){
+    grown = [];
+    document.querySelectorAll('.q textarea').forEach(function(t){
+      grown.push([t, t.style.height]);
+      t.style.height = 'auto';
+      t.style.height = Math.max(t.scrollHeight, 64) + 'px';
+    });
+  }
+  function restoreAfterPrint(){
+    grown.forEach(function(pair){ pair[0].style.height = pair[1]; });
+    grown = [];
+  }
+
+  window.addEventListener('beforeprint', function(){
+    growForPrint();
+    /* Printing a brief the client has actually filled in counts as
+       committing to it. Printing a near-empty one is someone taking a
+       paper copy away to fill in by hand -- sealing there would lock a
+       client out of a decision they haven't made yet, so it waits for
+       real content. */
+    if(answeredCount() >= 5) sealPortalCard();
+  });
+  window.addEventListener('afterprint', restoreAfterPrint);
+
+  var printBtn = document.getElementById('printBtn');
+  if(printBtn) printBtn.addEventListener('click', function(){ window.print(); });
+
+  /* ---- Send -------------------------------------------------------------- */
+  document.getElementById('sendBtn').addEventListener('click', function(){
+    var btn = this;
+    var statusEl = document.getElementById('sendStatus');
+    var answers = collectAnswers();
+    var nameField = document.querySelector('.q input[type="text"]');
+    var subjectName = nameField ? nameField.value : '';
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    statusEl.textContent = '';
+
+    fetch('/api/long-form-video-brief', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        /* subjectName is the shared key every brief now sends; the legacy
+           per-brief key goes along with it so an older cached copy of this
+           page keeps working against the same route. */
+        subjectName: subjectName,
+        videoTitle: subjectName,
+        answers: answers,
+        selectedPackage: PACKAGE,
+        selectedPrice: PRICE
+      })
+    })
+      .then(function(res){
+        if(!res.ok) throw new Error('failed');
+        statusEl.textContent = "Sent! We've received your brief and will be in touch.";
+        statusEl.style.color = 'var(--signal)';
+        btn.textContent = 'Sent ✓';
+        sealPortalCard();
+      })
+      .catch(function(){
+        statusEl.textContent = "Couldn't send — check your connection and try again, or email okatamiracle.dev@gmail.com directly.";
+        statusEl.style.color = 'var(--ease)';
+        btn.disabled = false;
+        btn.textContent = 'Send brief to Okata Studios →';
+      });
+  });
+})();
 </script>
 </body>
 </html>
