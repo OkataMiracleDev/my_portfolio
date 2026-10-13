@@ -136,7 +136,12 @@ export default function RateCardBlock({ card, portalToken }: { card: RateCard; p
     ? card.lineItems.findIndex((item) => item.title === card.sealedSelection)
     : -1;
   const sealed = Boolean(card.sealedAt);
-  const multi = card.lineItems.length > 1;
+  // A sealed card whose stored title no longer matches any line item — the
+  // package was renamed or removed after the client committed. Highlighting
+  // a card would then claim they chose something they didn't, so nothing is
+  // highlighted and the banner reports the recorded name as-is.
+  const sealedUnmatched = sealed && sealedIndex < 0;
+  const multi = card.lineItems.length > 1 && !sealedUnmatched;
   // `multi` drives how a card *looks*; `selectable` drives whether it can be
   // clicked. A sealed card still shows its chosen package highlighted — it
   // just can't be changed.
