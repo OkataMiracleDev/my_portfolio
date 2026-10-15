@@ -3,30 +3,33 @@ import { Metadata } from 'next';
 import React from 'react'
 import { getDevProjects, getFeaturedDevProjects, getExperienceEntries, getTestimonials } from '@/lib/data/public'
 import { getStackVersions } from '@/lib/stack-versions'
+import { absoluteUrl } from "@/lib/site";
+import JsonLd from "@/components/Shared/JsonLd";
+import { breadcrumbNode, graph, personNode, studioNode, websiteNode } from "@/lib/seo/structured-data";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Okata Studios | Frontend Developer — React, Next.js, TypeScript",
+  title: "Frontend Developer in Nigeria | Okata Studios",
   description:
-    "Okata Studios is a frontend development & motion design studio building fast, accessible interfaces with React, Next.js, TypeScript, and Tailwind CSS. Explore projects, experience, and client work.",
+    "Frontend developer in Port Harcourt, Nigeria building fast, accessible React, Next.js and TypeScript interfaces for teams across Africa and worldwide.",
   openGraph: {
-    title: "Okata Studios | Frontend Developer — React, Next.js, TypeScript",
+    title: "Frontend Developer in Nigeria | Okata Studios",
     description:
-      "Frontend developer building fast, accessible interfaces with React, Next.js, TypeScript, and Tailwind CSS.",
-    url: "https://www.okata-miracle.site/build",
+      "React, Next.js and TypeScript interfaces — built in Port Harcourt for teams across Africa and worldwide.",
+    url: absoluteUrl("/build"),
     siteName: "Okata Studios",
-    images: [{ url: "https://www.okata-miracle.site/og-image.png", width: 1200, height: 630 }],
-    locale: "en_US",
+    images: [{ url: absoluteUrl("/og-image.png"), width: 1200, height: 630 }],
+    locale: "en_NG",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Okata Studios | Frontend Developer",
-    description: "React, Next.js, TypeScript, and Tailwind CSS developer.",
+    title: "Frontend Developer in Nigeria | Okata Studios",
+    description: "React, Next.js, TypeScript and Tailwind CSS developer in Port Harcourt, Nigeria.",
   },
   alternates: {
-    canonical: "https://www.okata-miracle.site/build",
+    canonical: absoluteUrl("/build"),
   },
 };
 
@@ -42,13 +45,26 @@ const HomePage = async () => {
   const stack = getStackVersions()
 
   return (
-    <Home
-      allDevProjects={allDevProjects}
-      featuredDevProjects={featuredDevProjects}
-      experienceEntries={experienceEntries}
-      testimonials={testimonials}
-      stack={stack}
-    />
+    <>
+      <JsonLd
+        data={graph(
+          studioNode(),
+          personNode(),
+          websiteNode(),
+          breadcrumbNode([
+            { name: "Okata Studios", path: "/" },
+            { name: "Frontend development", path: "/build" },
+          ])
+        )}
+      />
+      <Home
+        allDevProjects={allDevProjects}
+        featuredDevProjects={featuredDevProjects}
+        experienceEntries={experienceEntries}
+        testimonials={testimonials}
+        stack={stack}
+      />
+    </>
   )
 }
 

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { createTestimonialSubmission } from "@/lib/actions/testimonial-submissions";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 export async function POST(request: Request) {
   try {
@@ -27,7 +28,7 @@ export async function POST(request: Request) {
       });
 
       await transporter.sendMail({
-        to: "okatamiracle.dev@gmail.com",
+        to: CONTACT_EMAIL,
         from: process.env.EMAIL_USER,
         subject: `New testimonial — ${fallback(name)}`,
         text: [

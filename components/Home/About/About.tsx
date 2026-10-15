@@ -124,7 +124,7 @@ export default function About() {
 
             <div className="about-reveal mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
               <Tally tone="accent" className="text-ink/45">
-                Lagos, Nigeria &mdash; working anywhere
+                Port Harcourt, Nigeria &mdash; working anywhere
               </Tally>
               <Link
                 href="/animate"

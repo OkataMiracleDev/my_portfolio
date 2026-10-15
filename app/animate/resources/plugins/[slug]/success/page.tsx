@@ -7,7 +7,12 @@ import { sendReceiptForPurchase } from "@/lib/plugins/receipt";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = { title: "Order status | Okata Studios" };
+// Per-order receipt pages (?reference=...) — every one is unique and
+// private, so none of them belong in an index.
+export const metadata: Metadata = {
+  title: "Order status | Okata Studios",
+  robots: { index: false, follow: false },
+};
 
 type Props = {
   params: Promise<{ slug: string }>;

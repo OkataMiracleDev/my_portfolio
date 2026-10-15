@@ -9,6 +9,9 @@ import JsonLd from "@/components/Shared/JsonLd";
 import OkataRing from "@/components/Shared/brand/OkataRing";
 import { FrameTicks, Meta, Tally } from "@/components/Shared/brand/Hud";
 import { getMotionProjectBySlug, getMotionProjects } from "@/lib/data/public";
+import { SITE_URL, STUDIO_LOCATION } from "@/lib/site";
+import { metaDescription } from "@/lib/seo/meta-description";
+import { PERSON_ID, STUDIO_ID, breadcrumbNode, graph } from "@/lib/seo/structured-data";
 
 export const dynamic = "force-dynamic";
 
@@ -24,16 +27,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "Project not found | Okata Studios" };
   }
 
-  const title = `${project.title} | Okata Studios`;
-  const url = `https://www.okata-miracle.site${project.href}`;
+  const title = `${project.title} — Motion Design | Okata Studios`;
+  const url = `${SITE_URL}${project.href}`;
+
+  const description = metaDescription(project.description);
 
   return {
     title,
-    description: project.description,
+    description,
     keywords: [...project.tags, ...project.tools],
     openGraph: {
       title,
-      description: project.description,
+      description,
       url,
       type: "article",
       images: [{ url: project.thumbnail }],
@@ -80,20 +85,51 @@ export default async function AnimateProjectPage({ params }: Props) {
   const next = projects[(index + 1) % projects.length];
   const hasNeighbours = projects.length > 1;
 
-  const projectJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    name: project.title,
-    description: project.description,
-    image: project.thumbnail,
-    keywords: [...project.tags, ...project.tools].join(", "),
-    creator: {
-      "@type": "Person",
-      name: "Okata Miracle",
-      url: "https://www.okata-miracle.site",
+  const projectUrl = `${SITE_URL}${project.href}`;
+  const youTubeId = project.videoEmbedUrl?.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/)?.[1];
+
+  const projectJsonLd = graph(
+    {
+      "@type": "CreativeWork",
+      "@id": `${projectUrl}#work`,
+      name: project.title,
+      description: project.description,
+      image: project.thumbnail,
+      keywords: [...project.tags, ...project.tools].join(", "),
+      genre: "Motion design",
+      // Points at the shared studio/person nodes rather than redeclaring a
+      // bare Person, so every case study adds to the same entity.
+      creator: { "@id": PERSON_ID },
+      publisher: { "@id": STUDIO_ID },
+      locationCreated: { "@type": "Place", name: `${STUDIO_LOCATION.locality}, ${STUDIO_LOCATION.country}` },
+      url: projectUrl,
+      ...(project.createdAt ? { dateCreated: project.createdAt.toISOString() } : {}),
+      ...(project.updatedAt ? { dateModified: project.updatedAt.toISOString() } : {}),
     },
-    url: `https://www.okata-miracle.site${project.href}`,
-  };
+    // Only a real video earns VideoObject markup, and Google requires an
+    // upload date for video results, so both have to be present.
+    ...(project.videoEmbedUrl && project.createdAt
+      ? [
+          {
+            "@type": "VideoObject",
+            name: project.title,
+            description: project.description,
+            thumbnailUrl: [project.thumbnail],
+            uploadDate: project.createdAt.toISOString(),
+            embedUrl: project.videoEmbedUrl,
+            ...(youTubeId ? { contentUrl: `https://www.youtube.com/watch?v=${youTubeId}` } : {}),
+            creator: { "@id": PERSON_ID },
+            publisher: { "@id": STUDIO_ID },
+          },
+        ]
+      : []),
+    breadcrumbNode([
+      { name: "Okata Studios", path: "/" },
+      { name: "Motion design", path: "/animate" },
+      { name: "Projects", path: "/animate/projects" },
+      { name: project.title, path: project.href },
+    ])
+  );
 
   return (
     <>

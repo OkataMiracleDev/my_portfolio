@@ -44,7 +44,7 @@ export default function AnimateFooter() {
               </span>
             </Link>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-ink/45">
-              Motion design and frontend, out of Lagos. Built on intention, not
+              Motion design and frontend, out of Port Harcourt. Built on intention, not
               decoration.
             </p>
           </div>

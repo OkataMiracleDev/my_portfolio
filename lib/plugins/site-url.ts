@@ -1,3 +1,5 @@
+import { SITE_URL } from "@/lib/site";
+
 // Resolves the base URL to use for links that must point at wherever this
 // app is actually running right now (plugin download links sent by email)
 // — unlike SEO/canonical URLs (JSON-LD, <link rel="canonical">) elsewhere
@@ -17,5 +19,5 @@ export function getSiteUrl(): string {
   if (process.env.SITE_URL) return process.env.SITE_URL;
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
   if (process.env.NODE_ENV === "development") return "http://localhost:3000";
-  return "https://www.okata-miracle.site";
+  return SITE_URL;
 }

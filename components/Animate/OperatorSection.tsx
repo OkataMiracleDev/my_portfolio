@@ -13,7 +13,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 /**
  * COPY REVIEW: every sentence in PARAGRAPHS below is first-person and written
- * on Miracle's behalf from what the repo already asserts (Lagos, the dual
+ * on Miracle's behalf from what the repo already asserts (Port Harcourt, the dual
  * motion + frontend practice, the tool list on the motion projects). None of it
  * claims a client, a number, or a year that is not already published elsewhere
  * on this site -- but it is still someone else's voice putting words in their
@@ -128,7 +128,7 @@ export default function OperatorSection() {
           </div>
 
           <div className="operator-reveal mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
-            <Tally className="text-ink/45">Lagos, Nigeria &mdash; working anywhere</Tally>
+            <Tally className="text-ink/45">Port Harcourt, Nigeria &mdash; working across Africa &amp; worldwide</Tally>
             <Link
               href="/build"
               className="group inline-flex items-center gap-1.5 text-sm font-medium text-ink/70 underline decoration-ink/20 underline-offset-4 transition-colors duration-200 ease-out hover:text-ink hover:decoration-ink/50"

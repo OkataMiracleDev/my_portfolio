@@ -1,64 +1,44 @@
 import type { Metadata } from "next";
 import Landing from "@/components/Landing/Landing";
 import JsonLd from "@/components/Shared/JsonLd";
+import { graph, personNode, studioNode, websiteNode } from "@/lib/seo/structured-data";
 import { getFunFactCards } from "@/lib/data/public";
 import { recordVisit } from "@/lib/analytics/record-visit";
+import { SITE_URL, absoluteUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Okata Studios | Frontend Developer & Motion Designer",
+  title: "Okata Studios | Motion Designer & Developer in Nigeria",
   description:
-    "Okata Studios builds interfaces as a frontend developer and brings them to life as a motion designer. Explore dev work, motion reels, and free resources.",
+    "Motion designer and frontend developer in Port Harcourt, Nigeria — brand animation, explainer videos and web interfaces for teams across Africa and worldwide.",
   openGraph: {
-    title: "Okata Studios | Frontend Developer & Motion Designer",
+    title: "Okata Studios | Motion Designer & Developer in Nigeria",
     description:
-      "Frontend developer and motion designer. Explore dev work, motion reels, and free resources.",
-    url: "https://www.okata-miracle.site",
+      "Motion designer and frontend developer in Port Harcourt, Nigeria. Explore motion reels, dev work and free resources.",
+    url: SITE_URL,
     siteName: "Okata Studios",
     images: [
       {
-        url: "https://www.okata-miracle.site/og-image.png",
+        url: absoluteUrl("/og-image.png"),
         width: 1200,
         height: 630,
-        alt: "Okata Studios - Frontend Developer & Motion Designer",
+        alt: "Okata Studios — motion designer and frontend developer in Port Harcourt, Nigeria",
       },
     ],
-    locale: "en_US",
+    locale: "en_NG",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Okata Studios | Frontend Developer & Motion Designer",
-    description: "Frontend developer and motion designer.",
+    title: "Okata Studios | Motion Designer & Developer in Nigeria",
+    description: "Motion designer and frontend developer in Port Harcourt, Nigeria.",
     creator: "@mimi_codes",
-    images: ["https://www.okata-miracle.site/og-image.png"],
+    images: [absoluteUrl("/og-image.png")],
   },
   alternates: {
-    canonical: "https://www.okata-miracle.site",
+    canonical: SITE_URL,
   },
-};
-
-const founderJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Okata Miracle",
-  jobTitle: ["Frontend Developer", "Motion Designer"],
-  url: "https://www.okata-miracle.site",
-  sameAs: [
-    "https://github.com/OkataMiracleDev",
-    "https://twitter.com/mimi_codes",
-  ],
-};
-
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Okata Studios",
-  url: "https://www.okata-miracle.site",
-  logo: "https://www.okata-miracle.site/okata-logo.png",
-  description: "Okata Studios — motion design and frontend development, built on intention, not decoration.",
-  founder: { "@type": "Person", name: "Okata Miracle" },
 };
 
 export default async function LandingPage() {
@@ -67,8 +47,9 @@ export default async function LandingPage() {
 
   return (
     <>
-      <JsonLd data={organizationJsonLd} />
-      <JsonLd data={founderJsonLd} />
+      {/* The studio, Miracle and the site as one linked graph — see
+          lib/seo/structured-data.ts for why they share stable @ids. */}
+      <JsonLd data={graph(studioNode(), personNode(), websiteNode())} />
       <Landing funFactCards={funFactCards} />
     </>
   );

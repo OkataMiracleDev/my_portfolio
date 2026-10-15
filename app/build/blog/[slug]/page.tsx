@@ -7,6 +7,10 @@ import Footer from "@/components/Home/Footer/Footer";
 import OkataRing from "@/components/Shared/brand/OkataRing";
 import { Meta } from "@/components/Shared/brand/Hud";
 import { getPostBySlug } from "@/lib/data/public";
+import { SITE_URL } from "@/lib/site";
+import { metaDescription } from "@/lib/seo/meta-description";
+import JsonLd from "@/components/Shared/JsonLd";
+import { PERSON_ID, STUDIO_ID, breadcrumbNode, graph } from "@/lib/seo/structured-data";
 
 export const dynamic = "force-dynamic";
 
@@ -24,8 +28,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return { title: "Post not found | Okata Studios" };
 
   const title = `${post.title} | Okata Studios`;
-  const description = post.excerpt ?? undefined;
-  const url = `https://www.okata-miracle.site/build/blog/${post.slug}`;
+  const description = metaDescription(post.excerpt);
+  const url = `${SITE_URL}/build/blog/${post.slug}`;
 
   return {
     title,
@@ -46,8 +50,32 @@ export default async function BlogPostPage({ params }: Props) {
   const post = await getPostBySlug(slug);
   if (!post) notFound();
 
+  const postUrl = `${SITE_URL}/build/blog/${post.slug}`;
+  const postJsonLd = graph(
+    {
+      "@type": "BlogPosting",
+      "@id": `${postUrl}#post`,
+      headline: post.title,
+      ...(post.excerpt ? { description: post.excerpt } : {}),
+      ...(post.coverImage ? { image: [post.coverImage] } : {}),
+      ...(post.publishedAt ? { datePublished: new Date(post.publishedAt).toISOString() } : {}),
+      ...(post.updatedAt ? { dateModified: new Date(post.updatedAt).toISOString() } : {}),
+      author: { "@id": PERSON_ID },
+      publisher: { "@id": STUDIO_ID },
+      mainEntityOfPage: postUrl,
+      inLanguage: "en",
+    },
+    breadcrumbNode([
+      { name: "Okata Studios", path: "/" },
+      { name: "Frontend development", path: "/build" },
+      { name: "Writing", path: "/build/blog" },
+      { name: post.title, path: `/build/blog/${post.slug}` },
+    ])
+  );
+
   return (
     <>
+      <JsonLd data={postJsonLd} />
       <header className="okata-stage relative overflow-hidden px-6 pb-12 pt-36 md:px-12 md:pb-16 md:pt-48">
         <OkataRing className="okata-ring-drift pointer-events-none absolute -right-40 -top-28 h-[28rem] w-[28rem] opacity-[0.055]" />
         <div className="relative mx-auto max-w-3xl">

@@ -42,7 +42,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-ink/45">
-              Frontend development and motion design, out of Lagos. Built on
+              Frontend development and motion design, out of Port Harcourt. Built on
               intention, not decoration.
             </p>
           </div>

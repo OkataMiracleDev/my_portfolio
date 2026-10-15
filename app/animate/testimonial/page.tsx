@@ -4,6 +4,8 @@ import TestimonialForm from "@/components/Animate/TestimonialForm";
 export const metadata: Metadata = {
   title: "Share a testimonial | Okata Studios",
   description: "Worked with Okata Studios? Share a quick testimonial about the project.",
+  // A form sent to past clients, not a page anyone searches for.
+  robots: { index: false, follow: true },
 };
 
 export default function TestimonialSubmitPage() {

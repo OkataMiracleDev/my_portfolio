@@ -1,13 +1,16 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL, absoluteUrl } from "@/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin", "/portal"],
+      // /retainer/* is a private client page like /portal; /api/* is
+      // machine-to-machine and has nothing to index.
+      disallow: ["/admin", "/portal", "/retainer", "/api/"],
     },
-    sitemap: "https://www.okata-miracle.site/sitemap.xml",
-    host: "https://www.okata-miracle.site",
+    sitemap: absoluteUrl("/sitemap.xml"),
+    host: SITE_URL,
   };
 }

@@ -4,22 +4,23 @@ import Footer from "@/components/Home/Footer/Footer";
 import OkataRing from "@/components/Shared/brand/OkataRing";
 import { Meta } from "@/components/Shared/brand/Hud";
 import { getPublishedPosts } from "@/lib/data/public";
+import { absoluteUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Blog | Okata Studios — Software Development Notes",
   description:
-    "Writing on software development, frontend engineering, and building products by Okata Studios.",
+    "Writing on software development, frontend engineering and building products, by Okata Miracle — a developer and motion designer in Port Harcourt, Nigeria.",
   openGraph: {
     title: "Blog | Okata Studios",
     description: "Writing on software development and frontend engineering.",
-    url: "https://www.okata-miracle.site/build/blog",
+    url: absoluteUrl("/build/blog"),
     siteName: "Okata Studios",
     type: "website",
   },
   alternates: {
-    canonical: "https://www.okata-miracle.site/build/blog",
+    canonical: absoluteUrl("/build/blog"),
   },
 };
 

@@ -6,7 +6,7 @@
 
 **One person, two crafts.** A dual-mode portfolio — `/build` for frontend development work, `/animate` for motion design work — backed by a self-built admin CMS.
 
-[![Live Site](https://img.shields.io/badge/live-okata--miracle.site-8b5cf6?style=flat-square)](https://www.okata-miracle.site)
+[![Live Site](https://img.shields.io/badge/live-okata.space-8b5cf6?style=flat-square)](https://www.okata.space)
 [![Next.js](https://img.shields.io/badge/Next.js-15.5-000000?style=flat-square&logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38BDF8?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
@@ -31,7 +31,7 @@
 
 ## What this is
 
-This repo powers **[okata-miracle.site](https://www.okata-miracle.site)**, a portfolio site with two distinct front doors sharing one codebase and one database:
+This repo powers **[okata.space](https://www.okata.space)**, a portfolio site with two distinct front doors sharing one codebase and one database:
 
 | Route | Audience | Focus |
 | :--- | :--- | :--- |
@@ -194,6 +194,6 @@ All Rights Reserved — see [`LICENSE`](./LICENSE). This repository is public fo
 
 <div align="center">
 
-Built by **[Okata Miracle](https://www.okata-miracle.site)**
+Built by **[Okata Miracle](https://www.okata.space)**
 
 </div>

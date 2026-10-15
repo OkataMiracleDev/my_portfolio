@@ -5,6 +5,7 @@ import { getStudioPluginBySlug } from "@/lib/data/public";
 import PluginBuyForm from "@/components/Animate/PluginBuyForm";
 import ExpandableText from "@/components/Shared/ExpandableText";
 import JsonLd from "@/components/Shared/JsonLd";
+import { SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!plugin) return { title: "Plugin not found | Okata Studios" };
 
   const title = `${plugin.title} | Okata Studio`;
-  const url = `https://www.okata-miracle.site/animate/resources/plugins/${plugin.slug}`;
+  const url = `${SITE_URL}/animate/resources/plugins/${plugin.slug}`;
   return {
     title,
     description: plugin.description,
@@ -53,7 +54,7 @@ export default async function PluginDetailPage({ params }: Props) {
     description: plugin.description,
     image: plugin.thumbnailUrl,
     offers: { "@type": "Offer", price: plugin.priceAmount, priceCurrency: "NGN" },
-    creator: { "@type": "Person", name: "Okata Miracle", url: "https://www.okata-miracle.site" },
+    creator: { "@type": "Person", name: "Okata Miracle", url: SITE_URL },
   };
 
   return (

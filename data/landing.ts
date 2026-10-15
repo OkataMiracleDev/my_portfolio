@@ -9,7 +9,7 @@ export interface FunFactCard {
 export const funFactCards: FunFactCard[] = [
   { id: "building", label: "Currently building", value: "This very site" },
   { id: "editing", label: "Currently editing", value: "A motion reel for a client brand" },
-  { id: "based", label: "Based in", value: "Lagos, Nigeria" },
+  { id: "based", label: "Based in", value: "Port Harcourt, Nigeria" },
   { id: "status", label: "Status", value: "Open to new work" },
 ];
 

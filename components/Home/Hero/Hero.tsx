@@ -35,7 +35,7 @@ export default function Hero({ stack }: { stack: StackVersion[] }) {
               Shipping
             </Tally>
             <Meta className="text-ink/40">Okata Studios &mdash; frontend</Meta>
-            <Meta className="hidden text-ink/40 sm:inline">Lagos, NG</Meta>
+            <Meta className="hidden text-ink/40 sm:inline">Port Harcourt, NG</Meta>
           </div>
 
           <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-[clamp(3.4rem,12vw,11rem)] font-bold leading-[0.84] tracking-[-0.035em] text-ink">

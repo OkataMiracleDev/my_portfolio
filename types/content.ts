@@ -30,6 +30,10 @@ export interface TestimonialContent {
 
 export interface MotionProjectContent extends ProjectContent {
   videoEmbedUrl?: string;
+  // Present at runtime already (getMotionProjects spreads the whole row);
+  // declared so the sitemap and VideoObject markup can use them.
+  createdAt?: Date;
+  updatedAt?: Date;
   processSteps?: { title: string; body: string }[];
   tools: string[];
   storyboardImages?: string[];

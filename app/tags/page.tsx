@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllTags } from "@/lib/data/public";
+import { absoluteUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
   description:
     "Browse Okata Studios' frontend development and motion design work by skill, tool, and topic — React, Next.js, GSAP, After Effects, and more.",
   alternates: {
-    canonical: "https://www.okata-miracle.site/tags",
+    canonical: absoluteUrl("/tags"),
   },
 };
 

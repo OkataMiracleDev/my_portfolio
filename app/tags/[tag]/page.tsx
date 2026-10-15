@@ -4,6 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getContentByTagSlug } from "@/lib/data/public";
 import JsonLd from "@/components/Shared/JsonLd";
+import { SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -24,8 +25,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
-    openGraph: { title, description, url: `https://www.okata-miracle.site/tags/${tag}`, type: "website" },
-    alternates: { canonical: `https://www.okata-miracle.site/tags/${tag}` },
+    openGraph: { title, description, url: `${SITE_URL}/tags/${tag}`, type: "website" },
+    alternates: { canonical: `${SITE_URL}/tags/${tag}` },
   };
 }
 
@@ -41,7 +42,7 @@ export default async function TagPage({ params }: Props) {
     "@type": "CollectionPage",
     name: `${label} — Okata Studios`,
     description: `Frontend development and motion design work tagged "${label}".`,
-    url: `https://www.okata-miracle.site/tags/${tag}`,
+    url: `${SITE_URL}/tags/${tag}`,
   };
 
   return (

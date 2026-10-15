@@ -7,6 +7,9 @@ import Footer from "@/components/Home/Footer/Footer";
 import OkataRing from "@/components/Shared/brand/OkataRing";
 import { FrameTicks, Meta, Tally } from "@/components/Shared/brand/Hud";
 import { getDevProjectBySlug, getDevProjects } from "@/lib/data/public";
+import { SITE_URL } from "@/lib/site";
+import { metaDescription } from "@/lib/seo/meta-description";
+import { PERSON_ID, STUDIO_ID, breadcrumbNode, graph } from "@/lib/seo/structured-data";
 
 export const dynamic = "force-dynamic";
 
@@ -21,8 +24,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const title = `${project.name} | Okata Studios`;
-  const description = project.subhead || project.description;
-  const url = `https://www.okata-miracle.site/build/projects/${project.slug}`;
+  const description = metaDescription(project.subhead || project.description);
+  const url = `${SITE_URL}/build/projects/${project.slug}`;
 
   return {
     title,
@@ -85,20 +88,27 @@ export default async function ProjectDisplayPage({ params }: Props) {
     { label: "Date", value: project.date },
   ].filter((fact) => Boolean(fact.value));
 
-  const projectJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    name: project.name,
-    description: project.subhead || project.description,
-    image: project.image,
-    keywords: project.technology.join(", "),
-    creator: {
-      "@type": "Person",
-      name: "Okata Miracle",
-      url: "https://www.okata-miracle.site",
+  const projectUrl = `${SITE_URL}/build/projects/${project.slug}`;
+  const projectJsonLd = graph(
+    {
+      "@type": "CreativeWork",
+      "@id": `${projectUrl}#work`,
+      name: project.name,
+      description: project.subhead || project.description,
+      image: project.image,
+      keywords: project.technology.join(", "),
+      genre: "Web development",
+      creator: { "@id": PERSON_ID },
+      publisher: { "@id": STUDIO_ID },
+      url: projectUrl,
     },
-    url: `https://www.okata-miracle.site/build/projects/${project.slug}`,
-  };
+    breadcrumbNode([
+      { name: "Okata Studios", path: "/" },
+      { name: "Frontend development", path: "/build" },
+      { name: "Projects", path: "/build/projects" },
+      { name: project.name, path: `/build/projects/${project.slug}` },
+    ])
+  );
 
   return (
     <>

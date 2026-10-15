@@ -15,7 +15,7 @@ interface Credential {
 
 /**
  * Splits "40+" into a countable 40 and a literal "+". Values that do not start
- * with digits ("Lagos, NG") are returned whole and simply never animate.
+ * with digits ("Port Harcourt, NG") are returned whole and simply never animate.
  */
 function parseValue(value: string) {
   const match = value.match(/^(\d+)(.*)$/);

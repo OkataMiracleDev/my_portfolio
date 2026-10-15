@@ -17,18 +17,20 @@ import PlaygroundToggleButton from "./Playground/PlaygroundToggleButton";
 const HEADLINE = ["Motion", "that means", "something."];
 
 export default function AnimateHero() {
-  const [lagosTime, setLagosTime] = useState("");
+  const [localTime, setLocalTime] = useState("");
 
   useEffect(() => {
     // Rendered only after mount: the server has no idea what time it is in
-    // Lagos relative to the visitor, and formatting on both sides would
+    // Port Harcourt relative to the visitor, and formatting on both sides would
     // guarantee a hydration mismatch.
     const update = () => {
-      setLagosTime(
+      setLocalTime(
         new Intl.DateTimeFormat("en-GB", {
           hour: "2-digit",
           minute: "2-digit",
           hour12: false,
+          // "Africa/Lagos" is the IANA zone for all of Nigeria (WAT), not
+          // a claim about the city.
           timeZone: "Africa/Lagos",
         }).format(new Date())
       );
@@ -59,7 +61,7 @@ export default function AnimateHero() {
             <Meta className="text-ink/40">
               Okata Studios &mdash; motion design
             </Meta>
-            <Meta className="hidden text-ink/40 sm:inline">Lagos, NG</Meta>
+            <Meta className="hidden text-ink/40 sm:inline">Port Harcourt, NG</Meta>
           </div>
 
           <h1 className="font-[family-name:var(--font-cabinet-grotesk)] text-[clamp(3.4rem,12vw,11rem)] font-bold leading-[0.84] tracking-[-0.035em] text-ink">
@@ -83,9 +85,9 @@ export default function AnimateHero() {
               className="okata-rise max-w-md text-lg leading-relaxed text-ink/60 md:col-span-5"
               style={{ animationDelay: "420ms" }}
             >
-              I&apos;m Miracle. I animate brands, interfaces and short-form video
-              &mdash; the kind that earns the second the viewer gives it, then
-              keeps the next five.
+              I&apos;m Miracle, a motion designer in Port Harcourt, Nigeria. I animate
+              brands, interfaces and short-form video &mdash; the kind that earns
+              the second the viewer gives it, then keeps the next five.
             </p>
 
             <div
@@ -154,7 +156,7 @@ export default function AnimateHero() {
           <Timecode className="font-[family-name:var(--font-jetbrains-mono)] text-[0.6875rem] tracking-[0.14em] text-accent-animate" />
           <Meta className="hidden text-ink/30 sm:inline">24 fps</Meta>
           <Meta className="hidden text-ink/30 md:inline">
-            Lagos {lagosTime || "--:--"}
+            PH {localTime || "--:--"}
           </Meta>
           <div className="ml-auto">
             <PlaygroundToggleButton />

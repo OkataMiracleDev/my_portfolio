@@ -148,7 +148,7 @@ export default function AnimateContact() {
               <dt>
                 <Meta className="text-ink/35">Based in</Meta>
               </dt>
-              <dd className="text-sm text-ink/70">Lagos, Nigeria</dd>
+              <dd className="text-sm text-ink/70">Port Harcourt, Nigeria</dd>
             </div>
             <div className="flex items-baseline justify-between gap-4">
               <dt>

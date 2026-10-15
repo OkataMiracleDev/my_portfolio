@@ -5,23 +5,24 @@ import Footer from "@/components/Home/Footer/Footer";
 import OkataRing from "@/components/Shared/brand/OkataRing";
 import { Meta, Tally } from "@/components/Shared/brand/Hud";
 import { getDevProjects } from "@/lib/data/public";
+import { absoluteUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Dev Projects | Okata Studios — React & Next.js Portfolio",
+  title: "Frontend Development Portfolio — Nigeria | Okata Studios",
   description:
-    "Frontend development case studies by Okata Studios — real client and product work built with React, Next.js, TypeScript, and Tailwind CSS.",
+    "Frontend development case studies from Okata Studios in Port Harcourt, Nigeria — real client and product work built with React, Next.js, TypeScript and Tailwind CSS.",
   openGraph: {
     title: "Dev Projects | Okata Studios",
     description:
       "Frontend development case studies built with React, Next.js, TypeScript, and Tailwind CSS.",
-    url: "https://www.okata-miracle.site/build/projects",
+    url: absoluteUrl("/build/projects"),
     siteName: "Okata Studios",
     type: "website",
   },
   alternates: {
-    canonical: "https://www.okata-miracle.site/build/projects",
+    canonical: absoluteUrl("/build/projects"),
   },
 };
 

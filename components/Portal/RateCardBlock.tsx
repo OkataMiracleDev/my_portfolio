@@ -6,6 +6,7 @@ import { parseInclusions, type Inclusion } from "./parseInclusions";
 import { currencyBadgeLabel, prefixCurrency } from "@/lib/constants/currencies";
 import { defaultSelectedIndex } from "./defaultSelectedIndex";
 import type { rateCards } from "@/lib/db/schema";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 type RateCard = typeof rateCards.$inferSelect;
 type LineItem = RateCard["lineItems"][number];
@@ -168,7 +169,7 @@ export default function RateCardBlock({ card, portalToken }: { card: RateCard; p
     const subject = selectedItem
       ? `Ready to move forward — ${card.title} (${selectedItem.title})`
       : `Ready to move forward — ${card.title}`;
-    window.location.href = `mailto:okatamiracle.dev@gmail.com?subject=${encodeURIComponent(subject)}`;
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`;
   }
 
   return (

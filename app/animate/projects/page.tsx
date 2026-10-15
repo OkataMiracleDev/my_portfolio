@@ -5,23 +5,24 @@ import AnimateFooter from "@/components/Animate/AnimateFooter";
 import OkataRing from "@/components/Shared/brand/OkataRing";
 import { Meta, Tally } from "@/components/Shared/brand/Hud";
 import { getMotionProjects } from "@/lib/data/public";
+import { absoluteUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Motion Projects | Okata Studios — Motion Design Case Studies",
+  title: "Motion Design Portfolio — Nigeria | Okata Studios",
   description:
-    "Motion design case studies — brand animation, UI micro-interactions, and short-form video.",
+    "Motion design case studies from Okata Studios in Port Harcourt, Nigeria — brand animation, SaaS ads, UI motion and short-form video for clients across Africa and beyond.",
   openGraph: {
-    title: "Motion Projects | Okata Studios",
+    title: "Motion Design Portfolio | Okata Studios",
     description:
-      "Motion design case studies — brand animation, UI micro-interactions, and short-form video.",
-    url: "https://www.okata-miracle.site/animate/projects",
+      "Brand animation, SaaS ads, UI motion and short-form video — case studies from a Nigerian motion studio.",
+    url: absoluteUrl("/animate/projects"),
     siteName: "Okata Studios",
     type: "website",
   },
   alternates: {
-    canonical: "https://www.okata-miracle.site/animate/projects",
+    canonical: absoluteUrl("/animate/projects"),
   },
 };
 

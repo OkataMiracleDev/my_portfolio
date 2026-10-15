@@ -7,10 +7,23 @@ import {
   getRateAddons,
   getRateTerms,
 } from "@/lib/data/public";
+import { absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Rate Card | Okata Studios",
-  description: "Project and retainer pricing for motion design work with Okata Studios.",
+  title: "Motion Design Rates & Pricing in Nigeria | Okata Studios",
+  description:
+    "Pricing for brand animation, UI motion, explainer and short-form video, plus monthly motion retainers — from a Port Harcourt, Nigeria studio working worldwide.",
+  openGraph: {
+    title: "Motion Design Rates & Pricing | Okata Studios",
+    description:
+      "Project and retainer pricing for motion design — brand animation, explainers, short-form video.",
+    url: absoluteUrl("/animate/rates"),
+    siteName: "Okata Studios",
+    type: "website",
+  },
+  alternates: {
+    canonical: absoluteUrl("/animate/rates"),
+  },
 };
 
 // Prices are edited in /admin/rates and revalidatePath'd on save, but the page

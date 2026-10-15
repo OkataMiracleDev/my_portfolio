@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 const VALID_MODES = ["build", "animate"] as const;
 type ContactMode = (typeof VALID_MODES)[number];
@@ -31,7 +32,7 @@ export async function POST(request: Request) {
     // Compose the email
     await transporter.sendMail({
       from: email,
-      to: "okatamiracle.dev@gmail.com",
+      to: CONTACT_EMAIL,
       subject: `New Contact Form Submission from ${fullName} (via ${modeLabel})`,
       text: message,
       html: `

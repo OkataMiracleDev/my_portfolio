@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getResourceBySlug } from "@/lib/data/public";
 import JsonLd from "@/components/Shared/JsonLd";
+import { SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const title = `${resource.title} | Okata Studios`;
-  const url = `https://www.okata-miracle.site/animate/resources/${resource.slug}`;
+  const url = `${SITE_URL}/animate/resources/${resource.slug}`;
 
   return {
     title,
@@ -51,8 +52,8 @@ const ResourceDetailPage = async ({ params }: Props) => {
     name: resource.title,
     description: resource.description,
     keywords: resource.tags.join(", "),
-    creator: { "@type": "Person", name: "Okata Miracle", url: "https://www.okata-miracle.site" },
-    url: `https://www.okata-miracle.site/animate/resources/${resource.slug}`,
+    creator: { "@type": "Person", name: "Okata Miracle", url: SITE_URL },
+    url: `${SITE_URL}/animate/resources/${resource.slug}`,
   };
 
   return (

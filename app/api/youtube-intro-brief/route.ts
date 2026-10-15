@@ -6,6 +6,7 @@ import {
   fallback,
   type BriefAnswer,
 } from "@/lib/briefs/email";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 const BRIEF_LABEL = "YouTube intro brief";
 
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
     const brief = { briefLabel: BRIEF_LABEL, subjectName, answers, selectedPackage, selectedPrice };
 
     await transporter.sendMail({
-      to: "okatamiracle.dev@gmail.com",
+      to: CONTACT_EMAIL,
       from: process.env.EMAIL_USER,
       subject: `${BRIEF_LABEL} — ${subjectName}`,
       text: renderBriefText(brief),

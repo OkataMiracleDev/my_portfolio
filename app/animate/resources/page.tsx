@@ -2,23 +2,24 @@ import type { Metadata } from "next";
 import ResourceFilter from "@/components/Animate/ResourceFilter";
 import StudioPluginsGrid from "@/components/Animate/StudioPluginsGrid";
 import { getResources, getStudioPlugins } from "@/lib/data/public";
+import { absoluteUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Free Motion Design Resources | Okata Studios",
   description:
-    "Free downloads, tutorials, and tool recommendations for motion designers.",
+    "Free downloads, tutorials, plugins and tool recommendations for motion designers, from Okata Studios in Port Harcourt, Nigeria.",
   openGraph: {
     title: "Free Motion Design Resources | Okata Studios",
     description:
       "Free downloads, tutorials, and tool recommendations for motion designers.",
-    url: "https://www.okata-miracle.site/animate/resources",
+    url: absoluteUrl("/animate/resources"),
     siteName: "Okata Studios",
     type: "website",
   },
   alternates: {
-    canonical: "https://www.okata-miracle.site/animate/resources",
+    canonical: absoluteUrl("/animate/resources"),
   },
 };
 

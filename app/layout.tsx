@@ -5,6 +5,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import { Toaster } from "react-hot-toast";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SITE_URL } from "@/lib/site";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -13,12 +14,13 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Okata Studios",
-  description: "Okata Studios — motion design and frontend development, built on intention.",
+  title: "Okata Studios — Motion Designer in Nigeria",
+  description:
+    "Okata Studios is a motion design studio in Port Harcourt, Nigeria — brand animation, explainer and SaaS ads, and short-form video for teams across Africa and worldwide.",
   authors: [{ name: "Okata Miracle" }],
   creator: "Okata Miracle",
   publisher: "Okata Studios",
-  metadataBase: new URL("https://www.okata-miracle.site"),
+  metadataBase: new URL(SITE_URL),
   icons: {
     icon: "/okata-favicon.png",
     shortcut: "/okata-favicon.png",

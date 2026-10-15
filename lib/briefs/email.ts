@@ -135,7 +135,7 @@ export function renderBriefEmail(input: BriefEmailInput): string {
 
       <tr><td style="padding:20px 0 0 0;border-top:1px solid ${LINE};">
         <div style="font-family:${mono};font-size:11px;letter-spacing:0.05em;color:${MUTED};">
-          Submitted via okata-miracle.site
+          Submitted via okata.space
         </div>
       </td></tr>
 
