@@ -8,6 +8,7 @@ import {
   resources,
   testimonials,
   testimonialSubmissions,
+  briefSubmissions,
   posts,
   experienceEntries,
   funFactCards,
@@ -56,7 +57,7 @@ const QUICK_ACTIONS = [
 ];
 
 export default async function AdminDashboardPage() {
-  const [counts, visits, newSubmissions] = await Promise.all([
+  const [counts, visits, newSubmissions, newBriefs] = await Promise.all([
     Promise.all(CONTENT.map((entry) => countRows(entry.table))),
     getVisitSummary(),
     db
@@ -64,7 +65,25 @@ export default async function AdminDashboardPage() {
       .from(testimonialSubmissions)
       .where(eq(testimonialSubmissions.status, "new"))
       .then(([row]) => row?.value ?? 0),
+    db
+      .select({ value: count() })
+      .from(briefSubmissions)
+      .where(eq(briefSubmissions.status, "new"))
+      .then(([row]) => row?.value ?? 0),
   ]);
+
+  const needsReview = [
+    {
+      count: newBriefs,
+      href: "/admin/briefs",
+      text: `${newBriefs} new ${newBriefs === 1 ? "brief" : "briefs"} from clients`,
+    },
+    {
+      count: newSubmissions,
+      href: "/admin/testimonials/submissions",
+      text: `${newSubmissions} testimonial ${newSubmissions === 1 ? "submission" : "submissions"} waiting`,
+    },
+  ].filter((item) => item.count > 0);
 
   const traffic = [
     { label: "Visits today", value: visits.today.total },
@@ -82,25 +101,27 @@ export default async function AdminDashboardPage() {
 
       {/* Anything genuinely waiting on a decision goes at the very top, and
           only renders when there is actually something to do. */}
-      {newSubmissions > 0 && (
-        <Link
-          href="/admin/testimonials/submissions"
-          className="group mb-8 flex items-center justify-between gap-4 rounded-2xl border border-signal/30 bg-signal/[0.06] px-6 py-4 transition-colors duration-200 ease-out hover:border-signal/50"
-        >
-          <div>
-            <Meta className="text-signal">Needs review</Meta>
-            <p className="mt-1.5 text-sm text-ink">
-              {newSubmissions} testimonial {newSubmissions === 1 ? "submission" : "submissions"}{" "}
-              waiting
-            </p>
-          </div>
-          <span
-            aria-hidden="true"
-            className="text-ink/30 transition-transform duration-200 ease-out group-hover:translate-x-1"
-          >
-            &rarr;
-          </span>
-        </Link>
+      {needsReview.length > 0 && (
+        <div className="mb-8 space-y-3">
+          {needsReview.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="group flex items-center justify-between gap-4 rounded-2xl border border-signal/30 bg-signal/[0.06] px-6 py-4 transition-colors duration-200 ease-out hover:border-signal/50"
+            >
+              <div>
+                <Meta className="text-signal">Needs review</Meta>
+                <p className="mt-1.5 text-sm text-ink">{item.text}</p>
+              </div>
+              <span
+                aria-hidden="true"
+                className="text-ink/30 transition-transform duration-200 ease-out group-hover:translate-x-1"
+              >
+                &rarr;
+              </span>
+            </Link>
+          ))}
+        </div>
       )}
 
       <section className="mb-10">

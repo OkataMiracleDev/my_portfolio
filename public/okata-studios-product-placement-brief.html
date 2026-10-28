@@ -514,7 +514,9 @@
       var label = askEl ? askEl.textContent.trim() : (numEl ? numEl.textContent.trim() : '');
       var field = q.querySelector('input[type="text"], textarea');
       if(!label || !field) return;
-      answers.push({ question: label, answer: field.value });
+      var sectionEl = q.closest('section');
+      var headingEl = sectionEl ? sectionEl.querySelector('h2') : null;
+      answers.push({ question: label, answer: field.value, section: headingEl ? headingEl.textContent.trim() : '' });
     });
     return answers;
   }

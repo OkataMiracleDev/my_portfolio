@@ -39,6 +39,7 @@ const NAV_GROUPS: Array<{ heading: string; items: Array<{ href: string; label: s
     heading: "Clients",
     items: [
       { href: "/admin/clients", label: "Clients" },
+      { href: "/admin/briefs", label: "Briefs" },
       // Two separate pipelines on purpose: Clients is the sales funnel
       // (lead -> proposal -> deposit); Retainers are already-signed clients
       // with named projects moving through production.

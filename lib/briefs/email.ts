@@ -1,6 +1,8 @@
 export interface BriefAnswer {
   question: string;
   answer: string;
+  /** The brief's section heading ("The product"). Older cached briefs omit it. */
+  section?: string;
 }
 
 export interface BriefEmailInput {

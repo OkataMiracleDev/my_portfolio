@@ -257,6 +257,24 @@ export const testimonialSubmissions = sqliteTable("testimonial_submissions", {
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
 });
 
+// Every brief sent from the public/okata-studios-*-brief.html pages. The email
+// is the notification; this row is the record, so a brief survives a Gmail
+// hiccup and can be read in /admin/briefs without opening a mail client.
+// `answers` is stored exactly as the page sent it, in form order.
+export const briefSubmissions = sqliteTable("brief_submissions", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  briefType: text("brief_type").notNull(),
+  briefLabel: text("brief_label").notNull(),
+  subjectName: text("subject_name").notNull(),
+  answers: text("answers", { mode: "json" })
+    .$type<Array<{ question: string; answer: string; section?: string }>>()
+    .notNull(),
+  selectedPackage: text("selected_package"),
+  selectedPrice: text("selected_price"),
+  status: text("status", { enum: ["new", "read", "archived"] }).notNull().default("new"),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+});
+
 // ============================================================================
 // Studio Plugin Store — Gumroad-style storefront for self-made plugins,
 // separate from the `resources` table above (which stays reserved for
