@@ -1,17 +1,10 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
-import { cabinetGrotesk, generalSans } from "@/lib/fonts";
+import { cabinetGrotesk, generalSans, jetbrainsMono } from "@/lib/fonts";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import { Toaster } from "react-hot-toast";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { SITE_URL } from "@/lib/site";
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Okata Studios — Motion Designer in Nigeria",
