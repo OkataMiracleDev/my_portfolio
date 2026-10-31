@@ -127,6 +127,13 @@
       "when": 1793153605908,
       "tag": "0017_giant_absorbing_man",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "6",
+      "when": 1793413042452,
+      "tag": "0018_living_ultron",
+      "breakpoints": true
     }
   ]
 }

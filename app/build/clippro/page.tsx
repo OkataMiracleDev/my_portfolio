@@ -8,6 +8,7 @@ import OkataRing from "@/components/Shared/brand/OkataRing";
 import { FrameTicks, Meta, Tally } from "@/components/Shared/brand/Hud";
 import { SourceLink } from "@/components/Shared/ClipPro/ClipProButtons";
 import DownloadMenu from "@/components/Shared/ClipPro/DownloadMenu";
+import ClipProPageTracker from "@/components/Shared/ClipPro/ClipProPageTracker";
 import { CLIPPRO, allReleases, formatReleaseDate, formatSize, getClipProReleases } from "@/lib/clippro";
 import { SITE_URL } from "@/lib/site";
 import { PERSON_ID, STUDIO_ID, breadcrumbNode, graph } from "@/lib/seo/structured-data";
@@ -74,6 +75,7 @@ export default async function ClipProPage() {
   return (
     <>
       <JsonLd data={jsonLd} />
+      <ClipProPageTracker />
 
       <header className="okata-stage relative overflow-hidden px-6 pb-14 pt-36 md:px-12 md:pb-20 md:pt-48">
         <OkataRing className="okata-ring-drift pointer-events-none absolute -right-48 -top-32 h-[34rem] w-[34rem] opacity-[0.055]" />
@@ -128,8 +130,8 @@ export default async function ClipProPage() {
           </div>
 
           <div className="okata-rise mt-10 flex flex-wrap items-center gap-3" style={{ animationDelay: "420ms" }}>
-            <DownloadMenu releases={allReleases(releases)} accent="build" />
-            <SourceLink />
+            <DownloadMenu releases={allReleases(releases)} accent="build" surface="page" />
+            <SourceLink surface="page" />
             {latest?.portable && (
               <a href={latest.portable.url} className="px-2 text-sm font-medium text-ink/55 transition-colors duration-200 ease-out hover:text-ink">
                 Portable ZIP ({formatSize(latest.portable.size)})

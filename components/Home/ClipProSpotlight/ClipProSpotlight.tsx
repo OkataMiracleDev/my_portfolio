@@ -9,6 +9,7 @@ import { FrameTicks, Meta, Tally } from "@/components/Shared/brand/Hud";
 import { SourceLink, releaseLine } from "@/components/Shared/ClipPro/ClipProButtons";
 import DownloadMenu from "@/components/Shared/ClipPro/DownloadMenu";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { track, useImpression } from "@/lib/clippro-track";
 import { CLIPPRO, formatReleaseDate, type ClipProRelease } from "@/lib/clippro";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -33,6 +34,7 @@ export default function ClipProSpotlight({ releases, unavailable = false }: { re
   const release = releases[0] ?? null;
   const sectionRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  useImpression(sectionRef, "build");
 
   useEffect(() => {
     if (prefersReducedMotion || !sectionRef.current) return;
@@ -87,12 +89,13 @@ export default function ClipProSpotlight({ releases, unavailable = false }: { re
           </ul>
 
           <div className="clippro-reveal mt-10 flex flex-wrap items-center gap-3">
-            <DownloadMenu releases={releases} accent="build" />
-            <SourceLink />
+            <DownloadMenu releases={releases} accent="build" surface="build" />
+            <SourceLink surface="build" />
           </div>
           <div className="clippro-reveal mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
             <Link
               href={CLIPPRO.pagePath}
+              onClick={() => track("click", "build", "page")}
               className="group inline-flex items-center gap-1.5 text-sm font-medium text-ink/70 transition-colors duration-200 ease-out hover:text-ink"
             >
               Screens and release notes

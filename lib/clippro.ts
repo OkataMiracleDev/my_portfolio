@@ -44,6 +44,8 @@ export interface ClipProRelease {
   url: string;
   installer: ClipProAsset | null;
   portable: ClipProAsset | null;
+  /** GitHub's download count for this version's installers and ZIPs (everywhere, updates included). */
+  downloads: number;
 }
 
 export interface ClipProReleases {
@@ -58,6 +60,7 @@ interface GitHubAsset {
   name: string;
   size: number;
   browser_download_url: string;
+  download_count?: number;
 }
 
 interface GitHubRelease {
@@ -91,6 +94,7 @@ export function parseReleases(raw: unknown): ClipProReleases {
         // The versioned installer, not the fixed-name copy (same file).
         installer: asset((n) => /^ClipPro_.*_x64-setup\.exe$/.test(n)),
         portable: asset((n) => /^ClipPro_.*_x64-portable\.zip$/.test(n)),
+        downloads: r.assets.filter((a) => /\.(exe|zip)$/i.test(a.name)).reduce((sum, a) => sum + (a.download_count ?? 0), 0),
       };
     });
   return { latest: releases[0] ?? null, earlier: releases.slice(1, 25), unavailable: false };

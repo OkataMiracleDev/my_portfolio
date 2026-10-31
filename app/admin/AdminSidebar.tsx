@@ -17,6 +17,7 @@ const NAV_GROUPS: Array<{ heading: string; items: Array<{ href: string; label: s
     items: [
       { href: "/admin", label: "Dashboard" },
       { href: "/admin/analytics", label: "Analytics" },
+      { href: "/admin/clippro", label: "ClipPro" },
     ],
   },
   {

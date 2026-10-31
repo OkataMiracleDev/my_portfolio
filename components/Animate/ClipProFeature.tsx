@@ -1,5 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useRef } from "react";
+import { track, useImpression } from "@/lib/clippro-track";
 import { FrameTicks, Meta } from "@/components/Shared/brand/Hud";
 import { releaseLine } from "@/components/Shared/ClipPro/ClipProButtons";
 import DownloadMenu from "@/components/Shared/ClipPro/DownloadMenu";
@@ -13,10 +17,21 @@ import { CLIPPRO, formatReleaseDate, type ClipProRelease } from "@/lib/clippro";
  * Written for editors and shooters, not developers: what it does to a card of footage, not what
  * it is built with. The /build page carries the technical pitch.
  */
-export default function ClipProFeature({ releases, unavailable = false }: { releases: ClipProRelease[]; unavailable?: boolean }) {
+export default function ClipProFeature({
+  releases,
+  unavailable = false,
+  surface = "animate",
+}: {
+  releases: ClipProRelease[];
+  unavailable?: boolean;
+  /** animate (the /animate teaser) or resources (/animate/resources), for the analytics. */
+  surface?: "animate" | "resources";
+}) {
   const release = releases[0] ?? null;
+  const ref = useRef<HTMLElement>(null);
+  useImpression(ref, surface);
   return (
-    <article className="relative grid overflow-hidden rounded-card border border-ink/10 bg-base-raised md:grid-cols-12">
+    <article ref={ref} className="relative grid overflow-hidden rounded-card border border-ink/10 bg-base-raised md:grid-cols-12">
       <div className="relative aspect-[16/10] md:col-span-7 md:aspect-auto md:min-h-[22rem]">
         <Image
           src={CLIPPRO.shots[0].src}
@@ -54,9 +69,10 @@ export default function ClipProFeature({ releases, unavailable = false }: { rele
           ))}
         </ul>
         <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-3">
-          <DownloadMenu releases={releases} accent="animate" />
+          <DownloadMenu releases={releases} accent="animate" surface={surface} />
           <Link
             href={CLIPPRO.pagePath}
+            onClick={() => track("click", surface, "page")}
             className="text-sm font-medium text-ink/60 transition-colors duration-200 ease-out hover:text-ink"
           >
             Screens and notes

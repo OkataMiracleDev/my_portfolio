@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Meta } from "@/components/Shared/brand/Hud";
-import { CLIPPRO, downloadUrl, formatReleaseDate, formatSize, type ClipProRelease } from "@/lib/clippro";
+import { CLIPPRO, formatReleaseDate, formatSize, type ClipProRelease } from "@/lib/clippro";
+import { downloadHref, track, type Surface } from "@/lib/clippro-track";
 
 const DOWNLOAD_ICON = "M12 4v12M12 16l-5-5M12 16l5-5M5 20h14";
 
@@ -20,10 +21,13 @@ const DOWNLOAD_ICON = "M12 4v12M12 16l-5-5M12 16l5-5M5 20h14";
 export default function DownloadMenu({
   releases,
   accent,
+  surface,
 }: {
   /** Published releases, newest first (may be empty before the first one). */
   releases: ClipProRelease[];
   accent: "build" | "animate";
+  /** Where on the site this button is, for the download counts. */
+  surface: Surface;
 }) {
   const latest = releases[0] ?? null;
   const hasMenu = releases.length > 0;
@@ -96,14 +100,19 @@ export default function DownloadMenu({
     };
   }, [open, close]);
 
-  const mainHref = downloadUrl(latest, true);
+  // The counting redirect (/api/clippro/download). The session id is added on click, so the
+  // server-rendered href and the hydrated one match.
+  const mainHref = `/api/clippro/download?v=latest&from=${surface}`;
+  const withSession = (e: React.MouseEvent<HTMLAnchorElement>, version: string) => {
+    e.currentTarget.href = downloadHref(version, surface);
+  };
   const label = latest ? `Download ClipPro ${latest.version} for Windows` : "Download ClipPro for Windows";
 
   return (
     <div ref={anchorRef} className="inline-flex items-stretch">
       <a
         href={mainHref}
-        download
+        onClick={(e) => withSession(e, "latest")}
         aria-label={label}
         className={`group inline-flex items-center gap-2 py-2 pl-6 font-medium text-ink transition-transform duration-200 ease-out active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-4 ${ring} ${fill} ${hasMenu ? "rounded-l-pill pr-3" : "rounded-pill pr-2"}`}
       >
@@ -124,6 +133,7 @@ export default function DownloadMenu({
           aria-label="Choose a version to download"
           onClick={(e) => {
             viaKeyboard.current = e.detail === 0;
+            if (!open) track("click", surface, "versions");
             setOpen((v) => !v);
           }}
           className={`relative flex items-center rounded-r-pill pl-2.5 pr-3.5 text-ink transition-colors duration-200 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 ${ring} ${fill} hover:brightness-110`}
@@ -159,9 +169,11 @@ export default function DownloadMenu({
                 <li key={r.version}>
                   <a
                     role="menuitem"
-                    href={r.installer?.url ?? r.url}
-                    {...(r.installer ? { download: true } : { target: "_blank", rel: "noopener noreferrer" })}
-                    onClick={() => close()}
+                    href={`/api/clippro/download?v=${r.version}&from=${surface}`}
+                    onClick={(e) => {
+                      withSession(e, r.version);
+                      close();
+                    }}
                     className="flex items-center gap-3 rounded-[0.9rem] px-3.5 py-2.5 outline-none transition-colors duration-150 ease-out hover:bg-ink/[0.06] focus-visible:bg-ink/[0.08]"
                   >
                     <span className="min-w-0 flex-1">
@@ -190,7 +202,10 @@ export default function DownloadMenu({
               href={CLIPPRO.releasesUrl}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => close()}
+              onClick={() => {
+                track("click", surface, "all-releases");
+                close();
+              }}
               className="mt-1 flex items-center justify-between rounded-[0.9rem] border-t border-ink/10 px-3.5 py-2.5 text-sm text-ink/60 outline-none transition-colors duration-150 ease-out hover:text-ink focus-visible:bg-ink/[0.08]"
             >
               Release notes and portable ZIPs

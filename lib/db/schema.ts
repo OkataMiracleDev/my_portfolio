@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer, uniqueIndex } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, uniqueIndex, index } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
 import crypto from "node:crypto";
 
@@ -157,6 +157,44 @@ export const siteVisits = sqliteTable(
     createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   },
   (table) => [uniqueIndex("site_visits_unique_visit").on(table.visitDate, table.route, table.ipHash)]
+);
+
+// --- ClipPro analytics ----------------------------------------------------
+// What visitors do with ClipPro on the site: views of its page, the spotlight
+// and resource cards coming into view (and for how long), scroll depth, clicks
+// and downloads. No cookies: a visitor is a hash of IP + browser + the day, so
+// the same person is one visitor within a day and unlinkable across days.
+// `surface` is where it happened: build (the /build spotlight), animate (the
+// /animate resources teaser), resources (/animate/resources), page
+// (/build/clippro). Downloads are recorded server-side by the redirect in
+// /api/clippro/download, so ad-blockers don't hide them.
+export const clipproEvents = sqliteTable(
+  "clippro_events",
+  {
+    id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+    day: text("day").notNull(), // "YYYY-MM-DD", UTC
+    type: text("type", {
+      enum: ["view", "impression", "dwell", "scroll", "time", "click", "download"],
+    }).notNull(),
+    surface: text("surface", { enum: ["build", "animate", "resources", "page"] }).notNull(),
+    /** Version for downloads, depth for scroll ("25".."100"), target for clicks. */
+    label: text("label"),
+    /** Milliseconds for dwell/time. */
+    value: integer("value"),
+    sessionId: text("session_id").notNull(),
+    visitorHash: text("visitor_hash").notNull(),
+    path: text("path"),
+    referrer: text("referrer"), // host only
+    utmSource: text("utm_source"),
+    utmMedium: text("utm_medium"),
+    utmCampaign: text("utm_campaign"),
+    country: text("country"),
+    device: text("device"), // mobile | tablet | desktop
+    browser: text("browser"),
+    os: text("os"),
+    createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
+  },
+  (table) => [index("clippro_events_day").on(table.day), index("clippro_events_type_day").on(table.type, table.day)]
 );
 
 // --- Client pipeline / CRM ---------------------------------------------

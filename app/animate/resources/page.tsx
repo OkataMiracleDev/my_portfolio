@@ -48,7 +48,7 @@ export default async function ResourcesPage() {
           <h2 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold text-ink">
             Software
           </h2>
-          <ClipProFeature releases={allReleases(clipPro)} unavailable={clipPro.unavailable} />
+          <ClipProFeature releases={allReleases(clipPro)} unavailable={clipPro.unavailable} surface="resources" />
         </div>
 
         {plugins.length > 0 && (
