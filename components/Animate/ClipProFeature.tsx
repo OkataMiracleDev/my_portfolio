@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FrameTicks, Meta } from "@/components/Shared/brand/Hud";
-import { DownloadButton, releaseLine } from "@/components/Shared/ClipPro/ClipProButtons";
+import { releaseLine } from "@/components/Shared/ClipPro/ClipProButtons";
+import DownloadMenu from "@/components/Shared/ClipPro/DownloadMenu";
 import { CLIPPRO, formatReleaseDate, type ClipProRelease } from "@/lib/clippro";
 
 /**
@@ -12,7 +13,8 @@ import { CLIPPRO, formatReleaseDate, type ClipProRelease } from "@/lib/clippro";
  * Written for editors and shooters, not developers: what it does to a card of footage, not what
  * it is built with. The /build page carries the technical pitch.
  */
-export default function ClipProFeature({ release }: { release: ClipProRelease | null }) {
+export default function ClipProFeature({ releases, unavailable = false }: { releases: ClipProRelease[]; unavailable?: boolean }) {
+  const release = releases[0] ?? null;
   return (
     <article className="relative grid overflow-hidden rounded-card border border-ink/10 bg-base-raised md:grid-cols-12">
       <div className="relative aspect-[16/10] md:col-span-7 md:aspect-auto md:min-h-[22rem]">
@@ -52,7 +54,7 @@ export default function ClipProFeature({ release }: { release: ClipProRelease | 
           ))}
         </ul>
         <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-3">
-          <DownloadButton release={release} accent="animate" />
+          <DownloadMenu releases={releases} accent="animate" />
           <Link
             href={CLIPPRO.pagePath}
             className="text-sm font-medium text-ink/60 transition-colors duration-200 ease-out hover:text-ink"
@@ -60,7 +62,7 @@ export default function ClipProFeature({ release }: { release: ClipProRelease | 
             Screens and notes
           </Link>
         </div>
-        <Meta className="text-ink/30">{releaseLine(release, formatReleaseDate)}</Meta>
+        <Meta className="text-ink/30">{releaseLine(release, formatReleaseDate, unavailable)}</Meta>
       </div>
     </article>
   );

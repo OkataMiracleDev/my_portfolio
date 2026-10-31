@@ -6,8 +6,9 @@ import JsonLd from "@/components/Shared/JsonLd";
 import Footer from "@/components/Home/Footer/Footer";
 import OkataRing from "@/components/Shared/brand/OkataRing";
 import { FrameTicks, Meta, Tally } from "@/components/Shared/brand/Hud";
-import { DownloadButton, SourceLink } from "@/components/Shared/ClipPro/ClipProButtons";
-import { CLIPPRO, formatReleaseDate, formatSize, getClipProReleases } from "@/lib/clippro";
+import { SourceLink } from "@/components/Shared/ClipPro/ClipProButtons";
+import DownloadMenu from "@/components/Shared/ClipPro/DownloadMenu";
+import { CLIPPRO, allReleases, formatReleaseDate, formatSize, getClipProReleases } from "@/lib/clippro";
 import { SITE_URL } from "@/lib/site";
 import { PERSON_ID, STUDIO_ID, breadcrumbNode, graph } from "@/lib/seo/structured-data";
 
@@ -35,13 +36,14 @@ export const metadata: Metadata = {
  * download where the live link would be, plus the release notes, read live from GitHub.
  */
 export default async function ClipProPage() {
-  const { latest, earlier } = await getClipProReleases();
+  const releases = await getClipProReleases();
+  const { latest, earlier, unavailable } = releases;
 
   const facts = [
     { label: "Type", value: "Desktop app" },
     { label: "Platform", value: CLIPPRO.platform },
     { label: "Licence", value: CLIPPRO.licence },
-    { label: "Latest", value: latest ? `v${latest.version}` : "Coming soon" },
+    { label: "Latest", value: latest ? `v${latest.version}` : unavailable ? "See GitHub" : "Coming soon" },
     ...(latest ? [{ label: "Released", value: formatReleaseDate(latest.date) }] : []),
   ];
 
@@ -126,7 +128,7 @@ export default async function ClipProPage() {
           </div>
 
           <div className="okata-rise mt-10 flex flex-wrap items-center gap-3" style={{ animationDelay: "420ms" }}>
-            <DownloadButton release={latest} accent="build" />
+            <DownloadMenu releases={allReleases(releases)} accent="build" />
             <SourceLink />
             {latest?.portable && (
               <a href={latest.portable.url} className="px-2 text-sm font-medium text-ink/55 transition-colors duration-200 ease-out hover:text-ink">
@@ -136,7 +138,7 @@ export default async function ClipProPage() {
           </div>
           <p className="okata-rise mt-4" style={{ animationDelay: "460ms" }}>
             <Meta className="text-ink/30">
-              {latest ? "Free · open source · installs per user, no admin needed · updates itself" : "The first release is on its way"}
+              {latest || unavailable ? "Free · open source · installs per user, no admin needed · updates itself" : "The first release is on its way"}
             </Meta>
           </p>
         </div>
@@ -226,7 +228,7 @@ export default async function ClipProPage() {
                 </div>
               ) : (
                 <p className="text-ink/50">
-                  The first release is on its way. Follow{" "}
+                  {unavailable ? "The release notes live on GitHub. Read them in" : "The first release is on its way. Follow"}{" "}
                   <a href={CLIPPRO.releasesUrl} target="_blank" rel="noopener noreferrer" className="text-accent-build">
                     the releases on GitHub
                   </a>

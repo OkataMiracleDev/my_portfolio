@@ -22,7 +22,7 @@ import {
   getStudioPlugins,
 } from "@/lib/data/public";
 import { absoluteUrl } from "@/lib/site";
-import { getClipProReleases } from "@/lib/clippro";
+import { allReleases, getClipProReleases } from "@/lib/clippro";
 
 export const dynamic = "force-dynamic";
 
@@ -94,7 +94,7 @@ export default async function AnimatePage() {
       <SpecSheet credentials={credentials} />
       <OperatorSection />
       <AnimateTestimonials testimonials={testimonials} />
-      <ResourcesTeaser resources={resources} studioPlugins={studioPlugins} clipPro={clipPro.latest} showClipPro />
+      <ResourcesTeaser resources={resources} studioPlugins={studioPlugins} clipPro={allReleases(clipPro)} clipProUnavailable={clipPro.unavailable} showClipPro />
       <AnimateFaq />
       <AnimateContact />
       <AnimateFooter />

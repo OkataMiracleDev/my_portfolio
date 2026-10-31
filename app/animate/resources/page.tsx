@@ -3,7 +3,7 @@ import ResourceFilter from "@/components/Animate/ResourceFilter";
 import StudioPluginsGrid from "@/components/Animate/StudioPluginsGrid";
 import { getResources, getStudioPlugins } from "@/lib/data/public";
 import { absoluteUrl } from "@/lib/site";
-import { getClipProReleases } from "@/lib/clippro";
+import { allReleases, getClipProReleases } from "@/lib/clippro";
 import ClipProFeature from "@/components/Animate/ClipProFeature";
 
 export const dynamic = "force-dynamic";
@@ -48,7 +48,7 @@ export default async function ResourcesPage() {
           <h2 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold text-ink">
             Software
           </h2>
-          <ClipProFeature release={clipPro.latest} />
+          <ClipProFeature releases={allReleases(clipPro)} unavailable={clipPro.unavailable} />
         </div>
 
         {plugins.length > 0 && (

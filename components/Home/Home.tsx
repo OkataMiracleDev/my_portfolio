@@ -24,8 +24,9 @@ interface HomeProps {
   experienceEntries: ExperienceEntry[];
   testimonials: TestimonialContent[];
   stack: StackVersion[];
-  /** Latest published ClipPro release; null before the first one or when GitHub is unreachable. */
-  clipPro: ClipProRelease | null;
+  /** Published ClipPro releases, newest first; empty before the first one or when GitHub is unreachable. */
+  clipPro: ClipProRelease[];
+  clipProUnavailable?: boolean;
 }
 
 /**
@@ -41,11 +42,12 @@ export default function Home({
   testimonials,
   stack,
   clipPro,
+  clipProUnavailable = false,
 }: HomeProps) {
   return (
     <div className="overflow-x-hidden">
       <Hero stack={stack} />
-      <ClipProSpotlight release={clipPro} />
+      <ClipProSpotlight releases={clipPro} unavailable={clipProUnavailable} />
       <Projects projects={allDevProjects} />
       <HomeProjects projects={featuredDevProjects} />
       <Stack />

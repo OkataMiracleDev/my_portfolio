@@ -49,6 +49,9 @@ export interface ClipProRelease {
 export interface ClipProReleases {
   latest: ClipProRelease | null;
   earlier: ClipProRelease[];
+  /** GitHub couldn't be asked (offline, rate-limited): there may well be a release, so the
+   *  page must not say "coming soon"; it links to the always-current installer instead. */
+  unavailable: boolean;
 }
 
 interface GitHubAsset {
@@ -70,7 +73,7 @@ interface GitHubRelease {
 
 /** Turns GitHub's release list into ClipPro's: published, not pre-release, newest first. */
 export function parseReleases(raw: unknown): ClipProReleases {
-  if (!Array.isArray(raw)) return { latest: null, earlier: [] };
+  if (!Array.isArray(raw)) return { latest: null, earlier: [], unavailable: true };
   const releases = (raw as GitHubRelease[])
     .filter((r) => r && !r.draft && !r.prerelease && r.published_at && /^v?\d+\.\d+\.\d+$/.test(r.tag_name))
     .sort((a, b) => Date.parse(b.published_at!) - Date.parse(a.published_at!))
@@ -90,7 +93,7 @@ export function parseReleases(raw: unknown): ClipProReleases {
         portable: asset((n) => /^ClipPro_.*_x64-portable\.zip$/.test(n)),
       };
     });
-  return { latest: releases[0] ?? null, earlier: releases.slice(1, 6) };
+  return { latest: releases[0] ?? null, earlier: releases.slice(1, 25), unavailable: false };
 }
 
 /** ClipPro's releases from GitHub; never throws. */
@@ -99,21 +102,28 @@ export async function getClipProReleases(): Promise<ClipProReleases> {
     const headers: Record<string, string> = { Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
     // Optional: lifts GitHub's 60-requests-an-hour limit for unauthenticated calls.
     if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-    const res = await fetch(`https://api.github.com/repos/${CLIPPRO.repo}/releases?per_page=12`, {
+    const res = await fetch(`https://api.github.com/repos/${CLIPPRO.repo}/releases?per_page=30`, {
       headers,
       next: { revalidate: 600 },
       signal: AbortSignal.timeout(4000),
     });
-    if (!res.ok) return { latest: null, earlier: [] };
+    if (!res.ok) return { latest: null, earlier: [], unavailable: true };
     return parseReleases(await res.json());
   } catch {
-    return { latest: null, earlier: [] };
+    return { latest: null, earlier: [], unavailable: true };
   }
 }
 
-/** Where the main download button points: the exact installer when known, else the stable link. */
-export function downloadUrl(latest: ClipProRelease | null): string {
-  return latest?.installer?.url ?? (latest ? CLIPPRO.latestInstallerUrl : CLIPPRO.releasesUrl);
+/** Every published release, newest first (the download menu lists them all). */
+export function allReleases(r: ClipProReleases): ClipProRelease[] {
+  return r.latest ? [r.latest, ...r.earlier] : [];
+}
+
+/** Where the main download button points: the exact installer when known, the stable link when
+ *  GitHub couldn't be asked, and the releases page before the first release. */
+export function downloadUrl(latest: ClipProRelease | null, unavailable = false): string {
+  if (latest) return latest.installer?.url ?? CLIPPRO.latestInstallerUrl;
+  return unavailable ? CLIPPRO.latestInstallerUrl : CLIPPRO.releasesUrl;
 }
 
 export function formatSize(bytes: number): string {

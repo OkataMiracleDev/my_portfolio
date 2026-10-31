@@ -35,7 +35,11 @@ describe("ClipPro releases", () => {
   });
 
   it("falls back to links that always resolve", () => {
-    expect(parseReleases("not a list")).toEqual({ latest: null, earlier: [] });
+    // GitHub couldn't be asked: never "coming soon", always the current installer.
+    expect(parseReleases("not a list")).toEqual({ latest: null, earlier: [], unavailable: true });
+    expect(downloadUrl(null, true)).toBe(CLIPPRO.latestInstallerUrl);
+    // Asked, and nothing is published yet.
+    expect(parseReleases([])).toEqual({ latest: null, earlier: [], unavailable: false });
     expect(downloadUrl(null)).toBe(CLIPPRO.releasesUrl);
     const noAsset = parseReleases([release("v1.0.0", "2026-10-31T10:00:00Z", { assets: [] })]).latest;
     expect(downloadUrl(noAsset)).toBe(CLIPPRO.latestInstallerUrl);

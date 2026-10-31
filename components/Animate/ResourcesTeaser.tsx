@@ -18,13 +18,15 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export default function ResourcesTeaser({
   resources,
   studioPlugins,
-  clipPro = null,
+  clipPro = [],
+  clipProUnavailable = false,
   showClipPro = false,
 }: {
   resources: ResourceContent[];
   studioPlugins: StudioPluginContent[];
-  /** Latest published ClipPro release (null before the first, or if GitHub is unreachable). */
-  clipPro?: ClipProRelease | null;
+  /** Published ClipPro releases, newest first (empty before the first, or if GitHub is unreachable). */
+  clipPro?: ClipProRelease[];
+  clipProUnavailable?: boolean;
   showClipPro?: boolean;
 }) {
   const [email, setEmail] = useState("");
@@ -89,7 +91,7 @@ export default function ResourcesTeaser({
         {showClipPro && (
           <div className="mb-16">
             <Meta className="mb-5 block text-ink/35">Free software</Meta>
-            <ClipProFeature release={clipPro} />
+            <ClipProFeature releases={clipPro} unavailable={clipProUnavailable} />
           </div>
         )}
 

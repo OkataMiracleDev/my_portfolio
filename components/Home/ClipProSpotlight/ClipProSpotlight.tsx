@@ -6,7 +6,8 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FrameTicks, Meta, Tally } from "@/components/Shared/brand/Hud";
-import { DownloadButton, SourceLink, releaseLine } from "@/components/Shared/ClipPro/ClipProButtons";
+import { SourceLink, releaseLine } from "@/components/Shared/ClipPro/ClipProButtons";
+import DownloadMenu from "@/components/Shared/ClipPro/DownloadMenu";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { CLIPPRO, formatReleaseDate, type ClipProRelease } from "@/lib/clippro";
 
@@ -28,7 +29,8 @@ const POINTS = [
  * screen drifts slower than the front one -- a few dozen pixels, enough to feel layered, not
  * enough to look like a gimmick.
  */
-export default function ClipProSpotlight({ release }: { release: ClipProRelease | null }) {
+export default function ClipProSpotlight({ releases, unavailable = false }: { releases: ClipProRelease[]; unavailable?: boolean }) {
+  const release = releases[0] ?? null;
   const sectionRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -63,7 +65,7 @@ export default function ClipProSpotlight({ release }: { release: ClipProRelease 
             <Tally tone="accent" className="text-accent-build">
               Free download
             </Tally>
-            <Meta className="text-ink/40">{releaseLine(release, formatReleaseDate)}</Meta>
+            <Meta className="text-ink/40">{releaseLine(release, formatReleaseDate, unavailable)}</Meta>
           </div>
 
           <h2 className="clippro-reveal font-[family-name:var(--font-cabinet-grotesk)] text-[clamp(2.6rem,7vw,5.5rem)] font-bold leading-[0.88] tracking-[-0.03em] text-ink">
@@ -85,7 +87,7 @@ export default function ClipProSpotlight({ release }: { release: ClipProRelease 
           </ul>
 
           <div className="clippro-reveal mt-10 flex flex-wrap items-center gap-3">
-            <DownloadButton release={release} accent="build" />
+            <DownloadMenu releases={releases} accent="build" />
             <SourceLink />
           </div>
           <div className="clippro-reveal mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">

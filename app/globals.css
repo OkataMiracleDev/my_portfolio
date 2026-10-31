@@ -450,3 +450,16 @@ body {
     font-size: 16px !important;
   }
 }
+
+/* ClipPro download menu (components/Shared/ClipPro/DownloadMenu.tsx): a short drop-in, skipped
+   under reduced motion by the component's motion-safe: variant. */
+@keyframes okata-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

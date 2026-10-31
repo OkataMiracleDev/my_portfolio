@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import React from 'react'
 import { getDevProjects, getFeaturedDevProjects, getExperienceEntries, getTestimonials } from '@/lib/data/public'
 import { getStackVersions } from '@/lib/stack-versions'
-import { getClipProReleases } from '@/lib/clippro'
+import { allReleases, getClipProReleases } from '@/lib/clippro'
 import { absoluteUrl } from "@/lib/site";
 import JsonLd from "@/components/Shared/JsonLd";
 import { breadcrumbNode, graph, personNode, studioNode, websiteNode } from "@/lib/seo/structured-data";
@@ -65,7 +65,8 @@ const HomePage = async () => {
         experienceEntries={experienceEntries}
         testimonials={testimonials}
         stack={stack}
-        clipPro={clipPro.latest}
+        clipPro={allReleases(clipPro)}
+        clipProUnavailable={clipPro.unavailable}
       />
     </>
   )
