@@ -22,6 +22,7 @@ import {
   getStudioPlugins,
 } from "@/lib/data/public";
 import { absoluteUrl } from "@/lib/site";
+import { getClipProReleases } from "@/lib/clippro";
 
 export const dynamic = "force-dynamic";
 
@@ -55,13 +56,14 @@ export const metadata: Metadata = {
 };
 
 export default async function AnimatePage() {
-  const [featuredMotionProjects, testimonials, resources, credentials, studioPlugins] =
+  const [featuredMotionProjects, testimonials, resources, credentials, studioPlugins, clipPro] =
     await Promise.all([
       getFeaturedMotionProjects(),
       getTestimonials("animate"),
       getResources(),
       getAnimateCredentials(),
       getStudioPlugins(),
+      getClipProReleases(),
     ]);
 
   return (
@@ -92,7 +94,7 @@ export default async function AnimatePage() {
       <SpecSheet credentials={credentials} />
       <OperatorSection />
       <AnimateTestimonials testimonials={testimonials} />
-      <ResourcesTeaser resources={resources} studioPlugins={studioPlugins} />
+      <ResourcesTeaser resources={resources} studioPlugins={studioPlugins} clipPro={clipPro.latest} showClipPro />
       <AnimateFaq />
       <AnimateContact />
       <AnimateFooter />

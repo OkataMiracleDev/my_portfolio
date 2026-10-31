@@ -3,6 +3,8 @@ import ResourceFilter from "@/components/Animate/ResourceFilter";
 import StudioPluginsGrid from "@/components/Animate/StudioPluginsGrid";
 import { getResources, getStudioPlugins } from "@/lib/data/public";
 import { absoluteUrl } from "@/lib/site";
+import { getClipProReleases } from "@/lib/clippro";
+import ClipProFeature from "@/components/Animate/ClipProFeature";
 
 export const dynamic = "force-dynamic";
 
@@ -24,9 +26,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ResourcesPage() {
-  const [resources, plugins] = await Promise.all([
+  const [resources, plugins, clipPro] = await Promise.all([
     getResources(),
     getStudioPlugins(),
+    getClipProReleases(),
   ]);
 
   return (
@@ -39,6 +42,13 @@ export default async function ResourcesPage() {
           <p className="mt-4 text-lg text-ink/70">
             Free for the community — email required for downloads.
           </p>
+        </div>
+
+        <div className="mb-16">
+          <h2 className="mb-6 font-[family-name:var(--font-cabinet-grotesk)] text-2xl font-bold text-ink">
+            Software
+          </h2>
+          <ClipProFeature release={clipPro.latest} />
         </div>
 
         {plugins.length > 0 && (

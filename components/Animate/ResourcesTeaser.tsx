@@ -7,6 +7,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import type { ResourceContent, StudioPluginContent } from "@/types/content";
 import PluginCard from "./PluginCard";
+import ClipProFeature from "./ClipProFeature";
+import type { ClipProRelease } from "@/lib/clippro";
 import { Meta } from "@/components/Shared/brand/Hud";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,9 +18,14 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export default function ResourcesTeaser({
   resources,
   studioPlugins,
+  clipPro = null,
+  showClipPro = false,
 }: {
   resources: ResourceContent[];
   studioPlugins: StudioPluginContent[];
+  /** Latest published ClipPro release (null before the first, or if GitHub is unreachable). */
+  clipPro?: ClipProRelease | null;
+  showClipPro?: boolean;
 }) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -78,6 +85,13 @@ export default function ResourcesTeaser({
             I learned this way too.
           </p>
         </div>
+
+        {showClipPro && (
+          <div className="mb-16">
+            <Meta className="mb-5 block text-ink/35">Free software</Meta>
+            <ClipProFeature release={clipPro} />
+          </div>
+        )}
 
         {studioPlugins.length > 0 && (
           <div className="mb-16">

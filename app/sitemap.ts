@@ -25,6 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: BASE_URL, changeFrequency: "monthly", priority: 1 },
     { url: `${BASE_URL}/build`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE_URL}/build/projects`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE_URL}/build/clippro`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${BASE_URL}/build/blog`, changeFrequency: "weekly", priority: 0.6 },
     { url: `${BASE_URL}/animate`, changeFrequency: "weekly", priority: 1 },
     { url: `${BASE_URL}/animate/projects`, changeFrequency: "weekly", priority: 0.9 },

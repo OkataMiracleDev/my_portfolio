@@ -1,6 +1,7 @@
 "use client";
 
 import Hero from "./Hero/Hero";
+import ClipProSpotlight from "./ClipProSpotlight/ClipProSpotlight";
 import Projects from "./Projects/Projects";
 import HomeProjects from "./HomeProjects/HomeProjects";
 import Stack from "./Stack/Stack";
@@ -12,6 +13,7 @@ import Footer from "./Footer/Footer";
 import type { devProjects, experienceEntries } from "@/lib/db/schema";
 import type { TestimonialContent } from "@/types/content";
 import type { StackVersion } from "@/lib/stack-versions";
+import type { ClipProRelease } from "@/lib/clippro";
 
 type DevProject = typeof devProjects.$inferSelect;
 type ExperienceEntry = typeof experienceEntries.$inferSelect;
@@ -22,6 +24,8 @@ interface HomeProps {
   experienceEntries: ExperienceEntry[];
   testimonials: TestimonialContent[];
   stack: StackVersion[];
+  /** Latest published ClipPro release; null before the first one or when GitHub is unreachable. */
+  clipPro: ClipProRelease | null;
 }
 
 /**
@@ -36,10 +40,12 @@ export default function Home({
   experienceEntries,
   testimonials,
   stack,
+  clipPro,
 }: HomeProps) {
   return (
     <div className="overflow-x-hidden">
       <Hero stack={stack} />
+      <ClipProSpotlight release={clipPro} />
       <Projects projects={allDevProjects} />
       <HomeProjects projects={featuredDevProjects} />
       <Stack />

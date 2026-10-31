@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import React from 'react'
 import { getDevProjects, getFeaturedDevProjects, getExperienceEntries, getTestimonials } from '@/lib/data/public'
 import { getStackVersions } from '@/lib/stack-versions'
+import { getClipProReleases } from '@/lib/clippro'
 import { absoluteUrl } from "@/lib/site";
 import JsonLd from "@/components/Shared/JsonLd";
 import { breadcrumbNode, graph, personNode, studioNode, websiteNode } from "@/lib/seo/structured-data";
@@ -34,11 +35,12 @@ export const metadata: Metadata = {
 };
 
 const HomePage = async () => {
-  const [allDevProjects, featuredDevProjects, experienceEntries, testimonials] = await Promise.all([
+  const [allDevProjects, featuredDevProjects, experienceEntries, testimonials, clipPro] = await Promise.all([
     getDevProjects(),
     getFeaturedDevProjects(),
     getExperienceEntries(),
     getTestimonials("build"),
+    getClipProReleases(),
   ]);
 
   // Read on the server so package.json never reaches the client bundle.
@@ -63,6 +65,7 @@ const HomePage = async () => {
         experienceEntries={experienceEntries}
         testimonials={testimonials}
         stack={stack}
+        clipPro={clipPro.latest}
       />
     </>
   )
